@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/content/bootstrap/css")
+    @Styles.Render("~/content/css")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                @Html.ActionLink("ENode Community", "Index", "Home", new { @class = "brand" })
+                <div class="pull-right">
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span2">
+                <div class="well sidebar-nav">
+                    <ul class="nav nav-list">
+                        <li class="nav-header">Sidebar</li>
+                        <li class="active"><a href="#">Link</a></li>
+                        <li><a href="#">Link</a></li>
+                        <li><a href="#">Link</a></li>
+                        <li><a href="#">Link</a></li>
+                        <li class="nav-header">Sidebar</li>
+                        <li><a href="#">Link</a></li>
+                        <li><a href="#">Link</a></li>
+                        <li><a href="#">Link</a></li>
+                        <li><a href="#">Link</a></li>
+                        <li><a href="#">Link</a></li>
+                        <li><a href="#">Link</a></li>
+                        <li class="nav-header">Sidebar</li>
+                        <li><a href="#">Link</a></li>
+                        <li><a href="#">Link</a></li>
+                        <li><a href="#">Link</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="span10">
+                @RenderSection("featured", required: false)
+                @RenderBody()
+            </div>
+        </div>
+        <hr>
+        <footer class="text-center">
+            <p>Powered by enode framework.</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/content/jquery")
+    @Scripts.Render("~/content/bootstrap/js")
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

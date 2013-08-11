@@ -1,0 +1,27 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 40px;
+}
+.sidebar-nav {
+    padding: 9px 0;
+}
+
+.profile {
+    color:#999;
+}
+.profile form a {
+    color:#999;
+    text-decoration: none;
+}
+.profile form a:hover,
+.profile form a:focus {
+  text-decoration: none;
+  color: #eeeeee;
+}
+.profile li a {
+  display: inline-block;
+  padding:10px 0 0 20px !important;
+}
+.profile li a.username {
+  padding:10px 0 0 0 !important;
+}

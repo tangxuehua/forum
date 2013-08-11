@@ -1,0 +1,17 @@
+﻿@if (Request.IsAuthenticated) {
+    <ul class="nav profile">
+        <li>您好，@Html.ActionLink(User.Identity.Name, "manage", "account", routeValues: null, htmlAttributes: new { title = "管理", @class = "username" })!</li>
+        <li>
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
+                @Html.AntiForgeryToken()
+                <a href="javascript:document.getElementById('logoutForm').submit()">注销</a>
+            }
+        </li>
+    </ul>
+}
+else {
+    <ul class="nav">
+        <li>@Html.ActionLink("注册", "register", "account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("登录", "login", "account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}
