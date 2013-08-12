@@ -36,7 +36,7 @@ namespace Forum.Web
                 Assembly.Load("Forum.Repository"),
                 Assembly.Load("Forum.Application"),
                 Assembly.Load("Forum.Denormalizer"),
-                Assembly.Load("Forum.QueryService"),
+                Assembly.Load("Forum.Query"),
                 Assembly.GetExecutingAssembly()
             };
             Configuration

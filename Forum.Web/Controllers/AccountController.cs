@@ -24,6 +24,7 @@ namespace Forum.Web.Controllers {
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -45,16 +46,19 @@ namespace Forum.Web.Controllers {
 
             return View(model);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff() {
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
+
         [AllowAnonymous]
         public ActionResult Register() {
             return View();
         }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -82,13 +86,8 @@ namespace Forum.Web.Controllers {
             return View(model);
         }
 
-        public ActionResult Manage() {
+        public ActionResult ControlPanel() {
             return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Manage(LocalPasswordModel model) {
-            return View(model);
         }
 
         private ActionResult RedirectToLocal(string returnUrl) {

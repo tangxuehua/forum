@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Dapper;
 using ENode.Infrastructure;
 
-namespace Forum.QueryService {
+namespace Forum.Query {
     [Component]
     public class QueryService {
         protected ISqlQueryDbConnectionFactory ConnectionFactory { get; private set; }

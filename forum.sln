@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Domain.Test", "Forum.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Denormalizer", "Forum.Denormalizer\Forum.Denormalizer.csproj", "{433DD072-0748-4440-BA1B-4A0D6E507D3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.QueryService", "Forum.QueryService\Forum.QueryService.csproj", "{FDF791C3-0AAA-4E06-8DD6-3130B79739E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Query", "Forum.QueryService\Forum.Query.csproj", "{FDF791C3-0AAA-4E06-8DD6-3130B79739E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Web", "Forum.Web\Forum.Web.csproj", "{C0E1AA79-E513-478A-8F18-90747EE794A3}"
 EndProject

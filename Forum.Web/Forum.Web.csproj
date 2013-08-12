@@ -314,16 +314,10 @@
     <Content Include="Content\jquery\_references.js" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Account\_RemoveExternalLoginsPartial.cshtml" />
     <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Manage.cshtml" />
+    <Content Include="Views\Account\ControlPanel.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
@@ -350,9 +344,9 @@
       <Project>{5a4055c3-89bc-4149-8a6d-06ce985080c9}</Project>
       <Name>Forum.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Forum.QueryService\Forum.QueryService.csproj">
+    <ProjectReference Include="..\Forum.QueryService\Forum.Query.csproj">
       <Project>{fdf791c3-0aaa-4e06-8dd6-3130b79739e2}</Project>
-      <Name>Forum.QueryService</Name>
+      <Name>Forum.Query</Name>
     </ProjectReference>
     <ProjectReference Include="..\Forum.Repositories\Forum.Repository.csproj">
       <Project>{a9f81ed0-ec51-4653-85e8-3bc677742f4f}</Project>

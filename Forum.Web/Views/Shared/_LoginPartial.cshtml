@@ -1,6 +1,6 @@
 ﻿@if (Request.IsAuthenticated) {
     <ul class="nav profile">
-        <li>您好，@Html.ActionLink(User.Identity.Name, "manage", "account", routeValues: null, htmlAttributes: new { title = "管理", @class = "username" })!</li>
+        <li>您好，@Html.ActionLink(User.Identity.Name, "controlpanel", "account", routeValues: null, htmlAttributes: new { title = "我的控制面板", @class = "username" })!</li>
         <li>
             @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
                 @Html.AntiForgeryToken()
