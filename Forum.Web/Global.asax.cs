@@ -29,9 +29,6 @@ namespace Forum.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
 
-            var containerBuilder = new ContainerBuilder();
-            containerBuilder.RegisterControllers(typeof(MvcApplication).Assembly);
-
             var eventdbConnectionString = "mongodb://localhost/ForumEventDB";
             var querydbConnectionString = "Data Source=.;Initial Catalog=EventDB;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
             var assemblies = new Assembly[] {
@@ -44,9 +41,8 @@ namespace Forum.Web
             };
             Configuration
                 .Create()
-                .UseAutofac(containerBuilder)
+                .UseAutofac()
                 .RegisterFrameworkComponents()
-                .Register<IAccountRepository, AccountRepository>()
                 .RegisterBusinessComponents(assemblies)
                 .UseLog4Net()
                 .UseJsonNet()
@@ -56,7 +52,15 @@ namespace Forum.Web
                 .Initialize(assemblies)
                 .Start();
 
-            DependencyResolver.SetResolver(new AutofacDependencyResolver((ObjectContainer.Current as AutofacObjectContainer).Container));
+            var container = (ObjectContainer.Current as AutofacObjectContainer).Container;
+            RegisterControllers(container);
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+        }
+
+        private void RegisterControllers(IContainer container) {
+            var containerBuilder = new ContainerBuilder();
+            containerBuilder.RegisterControllers(typeof(MvcApplication).Assembly);
+            containerBuilder.Update(container);
         }
     }
 }
