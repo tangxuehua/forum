@@ -3,6 +3,7 @@ using System.Web.Security;
 using ENode.Commanding;
 using Forum.Application.Commands;
 using Forum.Domain;
+using Forum.Repository;
 using Forum.Web.Filters;
 using Forum.Web.Models;
 
@@ -59,16 +60,23 @@ namespace Forum.Web.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model) {
             if (ModelState.IsValid) {
-                var result = _commandService.Execute(new CreateAccount { Name = model.UserName, Password = model.Password, MillisecondsTimeout = 100000 });
-                if (result.IsCompleted && !result.HasError) {
-                    FormsAuthentication.SetAuthCookie(model.UserName, false);
-                    return RedirectToAction("Index", "Home");
+                try {
+                    var result = _commandService.Execute(new CreateAccount { Name = model.UserName, Password = model.Password, MillisecondsTimeout = 100000 });
+                    if (result.IsCompleted && !result.HasError) {
+                        FormsAuthentication.SetAuthCookie(model.UserName, false);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else if (result.HasError) {
+                        ModelState.AddModelError("", result.ErrorMessage);
+                    }
+                    else if (!result.IsCompleted) {
+                        ModelState.AddModelError("", "用户注册处理超时。");
+                    }
                 }
-                else if (result.HasError) {
-                    ModelState.AddModelError("", result.ErrorMessage);
-                }
-                else if (!result.IsCompleted) {
-                    ModelState.AddModelError("", "命令执行超时。");
+                catch (CommandExecuteException ex) {
+                    if (ex.InnerException != null && ex.InnerException is DuplicateAccountNameException) {
+                        ModelState.AddModelError("", "该用户已被注册，请用其他账号注册。");
+                    }
                 }
             }
             return View(model);

@@ -21,12 +21,18 @@ namespace Forum.Repository {
         }
 
         public void AddAccount(Guid accountId, string name) {
-            GetAccountCollection().Insert(new BsonDocument
-            {
-                { "_id", accountId.ToString() },
-                { "Name", name },
-                { "Status", 1 }
-            });
+            try {
+                GetAccountCollection().Insert(new BsonDocument {
+                    { "_id", accountId.ToString() },
+                    { "Name", name },
+                    { "Status", 1 }
+                });
+            }
+            catch (WriteConcernException ex) {
+                if (ex.CommandResult != null && ex.CommandResult.Code != null && ex.CommandResult.Code.Value == 11000) {
+                    throw new DuplicateAccountNameException(name, ex);
+                }
+            }
         }
         public void ConfirmAccount(Guid accountId) {
             var accountCollection = GetAccountCollection();
