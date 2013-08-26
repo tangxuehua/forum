@@ -1,6 +1,8 @@
 ﻿using System;
+using ENode.Infrastructure;
 using Forum.Application.Commands;
 using Forum.Domain.Model.Account;
+using Forum.Domain.Services;
 using NUnit.Framework;
 
 namespace Forum.Domain.Test
@@ -18,7 +20,7 @@ namespace Forum.Domain.Test
             ResetWaiters();
             Account account = null;
 
-            CommandService.Send(new CreateAccount { Name = name, Password = password }, (result) =>
+            CommandService.Send(new CreateAccount { Name = name, Password = password }, result =>
             {
                 Assert.IsNull(result.ErrorInfo);
                 EventHandlerWaiter.WaitOne();
@@ -28,6 +30,13 @@ namespace Forum.Domain.Test
 
             TestThreadWaiter.WaitOne(500);
             Assert.NotNull(account);
+            Assert.AreEqual(AccountId, account.Id);
+            Assert.AreEqual(name, account.Name);
+            Assert.AreEqual(password, account.Password);
+
+            account = ObjectContainer.Resolve<IAccountService>().GetAccount(name);
+            Assert.IsNotNull(account);
+            Assert.AreEqual(AccountId, account.Id);
             Assert.AreEqual(name, account.Name);
             Assert.AreEqual(password, account.Password);
         }

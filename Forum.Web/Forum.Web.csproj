@@ -20,6 +20,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,25 +47,6 @@
     </Reference>
     <Reference Include="Autofac.Integration.Mvc">
       <HintPath>..\packages\Autofac.Mvc4.3.1.0\lib\net40\Autofac.Integration.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="ENode, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\enode.1.2.6\lib\net40\ENode.dll</HintPath>
-    </Reference>
-    <Reference Include="ENode.Autofac">
-      <HintPath>..\packages\enode.autofac.1.0.1\lib\net40\ENode.Autofac.dll</HintPath>
-    </Reference>
-    <Reference Include="ENode.JsonNet">
-      <HintPath>..\packages\enode.jsonnet.1.0.1\lib\net40\ENode.JsonNet.dll</HintPath>
-    </Reference>
-    <Reference Include="ENode.Log4Net">
-      <HintPath>..\packages\enode.log4net.1.0.1\lib\net40\ENode.Log4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="ENode.Mongo">
-      <HintPath>..\packages\enode.mongo.1.0.1\lib\net40\ENode.Mongo.dll</HintPath>
-    </Reference>
-    <Reference Include="ENode.Redis">
-      <HintPath>..\packages\enode.redis.1.0.1\lib\net40\ENode.Redis.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
@@ -334,25 +317,45 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ENodeFramework\ENode\ENode.csproj">
+      <Project>{f884f01a-ed67-4f21-8576-fd2588491b24}</Project>
+      <Name>ENode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ENodeFramework\Extensions\ENode.Autofac\ENode.Autofac.csproj">
+      <Project>{b4258b15-71b1-4b3b-960a-6a1c75ca2004}</Project>
+      <Name>ENode.Autofac</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ENodeFramework\Extensions\ENode.JsonNet\ENode.JsonNet.csproj">
+      <Project>{92b95148-23f9-4aa8-b5dd-fcbde0e0eb88}</Project>
+      <Name>ENode.JsonNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ENodeFramework\Extensions\ENode.Log4Net\ENode.Log4Net.csproj">
+      <Project>{0f063898-fb02-47d9-b6c6-7a4cfe4b6c51}</Project>
+      <Name>ENode.Log4Net</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ENodeFramework\Extensions\ENode.Mongo\ENode.Mongo.csproj">
+      <Project>{25dda9f0-dc61-4446-9364-b29376215155}</Project>
+      <Name>ENode.Mongo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ENodeFramework\Extensions\ENode.Redis\ENode.Redis.csproj">
+      <Project>{6c201374-2f02-4134-8098-9d7d8dfce31a}</Project>
+      <Name>ENode.Redis</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Forum.Application\Forum.Application.csproj">
       <Project>{6e455941-9a2f-42d9-82a7-153432be5743}</Project>
       <Name>Forum.Application</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Forum.Denormalizer\Forum.Denormalizer.csproj">
+    <ProjectReference Include="..\Forum.Denormalizers\Forum.Denormalizers.csproj">
       <Project>{433dd072-0748-4440-ba1b-4a0d6e507d3b}</Project>
-      <Name>Forum.Denormalizer</Name>
+      <Name>Forum.Denormalizers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.Domain.Repositories\Forum.Domain.Repositories.csproj">
+      <Project>{a9f81ed0-ec51-4653-85e8-3bc677742f4f}</Project>
+      <Name>Forum.Domain.Repositories</Name>
     </ProjectReference>
     <ProjectReference Include="..\Forum.Domain\Forum.Domain.csproj">
       <Project>{5a4055c3-89bc-4149-8a6d-06ce985080c9}</Project>
       <Name>Forum.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Forum.QueryService\Forum.Query.csproj">
-      <Project>{fdf791c3-0aaa-4e06-8dd6-3130b79739e2}</Project>
-      <Name>Forum.Query</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Forum.Repositories\Forum.Repository.csproj">
-      <Project>{a9f81ed0-ec51-4653-85e8-3bc677742f4f}</Project>
-      <Name>Forum.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -383,6 +386,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

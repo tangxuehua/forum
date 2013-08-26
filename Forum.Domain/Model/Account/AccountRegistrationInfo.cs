@@ -4,6 +4,7 @@ namespace Forum.Domain.Model.Account
 {
     /// <summary>账号注册信息
     /// </summary>
+    [Serializable]
     public class AccountRegistrationInfo
     {
         /// <summary>账号ID
@@ -17,10 +18,12 @@ namespace Forum.Domain.Model.Account
         public AccountRegistrationStatus RegistrationStatus { get; private set; }
 
         public AccountRegistrationInfo(Guid accountId, string accountName)
+            : this(accountId, accountName, AccountRegistrationStatus.Created) { }
+        public AccountRegistrationInfo(Guid accountId, string accountName, AccountRegistrationStatus registrationStatus)
         {
             AccountId = accountId;
             AccountName = accountName;
-            RegistrationStatus = AccountRegistrationStatus.Created;
+            RegistrationStatus = registrationStatus;
         }
 
         /// <summary>确认账号注册信息，状态修改为已确认

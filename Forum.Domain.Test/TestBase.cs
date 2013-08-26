@@ -17,20 +17,24 @@ namespace Forum.Domain.Test
     [TestFixture]
     public class TestBase
     {
-        private const string QuerydbConnectionString = "Data Source=.;Initial Catalog=EventDB;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
         public static ManualResetEvent EventHandlerWaiter;
         public static ManualResetEvent TestThreadWaiter;
         protected static Random Random = new Random();
         protected ICommandService CommandService;
         protected IMemoryCache MemoryCache;
         private static bool _initialized;
- 
+
         [TestFixtureSetUp]
         public void SetUp()
         {
             if (!_initialized)
             {
-               var assemblies = new[] { Assembly.Load("Forum.Domain"), Assembly.Load("Forum.Application"), Assembly.Load("Forum.Denormalizer"), Assembly.GetExecutingAssembly() };
+                var assemblies = new[]
+                {
+                    Assembly.Load("Forum.Domain"),
+                    Assembly.Load("Forum.Application"),
+                    Assembly.Load("Forum.Domain.Test")
+                };
                 Configuration
                     .Create()
                     .UseAutofac()
@@ -38,7 +42,6 @@ namespace Forum.Domain.Test
                     .RegisterBusinessComponents(assemblies)
                     .UseLog4Net()
                     .UseJsonNet()
-                    .UseDefaultSqlQueryDbConnectionFactory(QuerydbConnectionString)
                     .CreateAllDefaultProcessors()
                     .Initialize(assemblies)
                     .Start();
@@ -65,26 +68,31 @@ namespace Forum.Domain.Test
         IEventHandler<SectionCreated>,
         IEventHandler<SectionNameChanged>,
         IEventHandler<PostCreated>,
-        IEventHandler<PostBodyChanged> {
-
-        public void Handle(AccountCreated evnt) {
+        IEventHandler<PostBodyChanged>
+    {
+        public void Handle(AccountCreated evnt)
+        {
             AccountTest.AccountId = evnt.AccountId;
             TestBase.EventHandlerWaiter.Set();
         }
 
-        public void Handle(SectionCreated evnt) {
+        public void Handle(SectionCreated evnt)
+        {
             SectionTest.SectionId = evnt.SectionId;
             TestBase.EventHandlerWaiter.Set();
         }
-        public void Handle(SectionNameChanged evnt) {
+        public void Handle(SectionNameChanged evnt)
+        {
             TestBase.EventHandlerWaiter.Set();
         }
 
-        public void Handle(PostCreated evnt) {
+        public void Handle(PostCreated evnt)
+        {
             PostTest.PostId = evnt.PostId;
             TestBase.EventHandlerWaiter.Set();
         }
-        public void Handle(PostBodyChanged evnt) {
+        public void Handle(PostBodyChanged evnt)
+        {
             TestBase.EventHandlerWaiter.Set();
         }
     }

@@ -30,10 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ENode, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\enode.1.2.6\lib\net40\ENode.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -45,6 +41,7 @@
     <Compile Include="Events\SectionCreated.cs" />
     <Compile Include="Events\SectionNameChanged.cs" />
     <Compile Include="Events\AccountCreated.cs" />
+    <Compile Include="Repositories\DuplicateAccountNameException.cs" />
     <Compile Include="Repositories\IAccountRegistrationInfoRepository.cs" />
     <Compile Include="Model\Account\AccountRegistrationStatus.cs" />
     <Compile Include="Model\Account\AccountRegistrationInfo.cs" />
@@ -58,7 +55,10 @@
     <Compile Include="Services\AccountService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\ENodeFramework\ENode\ENode.csproj">
+      <Project>{f884f01a-ed67-4f21-8576-fd2588491b24}</Project>
+      <Name>ENode</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

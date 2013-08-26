@@ -1,6 +1,6 @@
 ﻿using ENode;
 using Forum.Domain.Repositories;
-using Forum.Repository;
+using Forum.Domain.Repositories.MongoDB;
 
 namespace Forum.Web.Extensions
 {
@@ -8,8 +8,8 @@ namespace Forum.Web.Extensions
     {
         public static Configuration MongoAccountRegistrationInfoRepository(this Configuration configuration, string connectionString, string accountCollectionName)
         {
-            configuration.SetDefault<IAccountRegistrationInfoRepository, MongoAccountRegistrationInfoRepository>(
-                new MongoAccountRegistrationInfoRepository(connectionString, accountCollectionName));
+            configuration.SetDefault<IAccountRegistrationInfoRepository, AccountRegistrationInfoRepository>(
+                new AccountRegistrationInfoRepository(connectionString, accountCollectionName));
             return configuration;
         }
     }

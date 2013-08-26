@@ -4,7 +4,7 @@ namespace Forum.Domain.Services
 {
     public interface IAccountService
     {
-        /// <summary>根据用户名获取账号
+        /// <summary>根据账号名获取账号
         /// </summary>
         /// <param name="accountName"></param>
         /// <returns></returns>

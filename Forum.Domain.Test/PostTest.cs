@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
-using ENode.Eventing;
-using ENode.Infrastructure;
 using Forum.Application.Commands;
-using Forum.Domain.Events;
 using Forum.Domain.Model;
 using NUnit.Framework;
 
@@ -90,7 +86,8 @@ namespace Forum.Domain.Test
             Assert.AreEqual(body, post.Body);
         }
 
-        private Guid CreateAccountId() {
+        private Guid CreateAccountId()
+        {
             ResetWaiters();
             Guid? authorId = null;
 

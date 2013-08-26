@@ -20,8 +20,8 @@ namespace Forum.Web
     {
         private const string CommandSideConnectionString = "mongodb://localhost/ForumDB";
         private const string AccountRegistrationInfoCollectionName = "AccountRegistrationInfoCollection";
-        private const string QuerydbConnectionString = "Data Source=.;Initial Catalog=EventDB;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
-  
+        private const string QuerySideConnectionString = "Data Source=.;Initial Catalog=ForumDB;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -32,12 +32,12 @@ namespace Forum.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
 
-            var assemblies = new[] {
+            var assemblies = new[]
+            {
                 Assembly.Load("Forum.Domain"),
-                Assembly.Load("Forum.Repository"),
+                Assembly.Load("Forum.Domain.Repositories"),
                 Assembly.Load("Forum.Application"),
-                Assembly.Load("Forum.Denormalizer"),
-                Assembly.Load("Forum.Query"),
+                Assembly.Load("Forum.Denormalizers"),
                 Assembly.Load("Forum.Web")
             };
             Configuration
@@ -48,18 +48,19 @@ namespace Forum.Web
                 .UseLog4Net()
                 .UseJsonNet()
                 .UseMongo(CommandSideConnectionString)
-                .UseDefaultSqlQueryDbConnectionFactory(QuerydbConnectionString)
+                .UseDefaultSqlQueryDbConnectionFactory(QuerySideConnectionString)
                 .MongoAccountRegistrationInfoRepository(CommandSideConnectionString, AccountRegistrationInfoCollectionName)
                 .CreateAllDefaultProcessors()
                 .Initialize(assemblies)
                 .Start();
 
-            var container = ((AutofacObjectContainer) ObjectContainer.Current).Container;
+            var container = ((AutofacObjectContainer)ObjectContainer.Current).Container;
             RegisterControllers(container);
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
 
-        private static void RegisterControllers(IContainer container) {
+        private static void RegisterControllers(IContainer container)
+        {
             var containerBuilder = new ContainerBuilder();
             containerBuilder.RegisterControllers(typeof(MvcApplication).Assembly);
             containerBuilder.Update(container);
