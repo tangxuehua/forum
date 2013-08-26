@@ -16,11 +16,11 @@ namespace Forum.Domain.Model.Account
         /// </summary>
         public AccountRegistrationStatus RegistrationStatus { get; private set; }
 
-        public AccountRegistrationInfo(Guid accountId, string accountName, AccountRegistrationStatus registrationStatus)
+        public AccountRegistrationInfo(Guid accountId, string accountName)
         {
             AccountId = accountId;
             AccountName = accountName;
-            RegistrationStatus = registrationStatus;
+            RegistrationStatus = AccountRegistrationStatus.Created;
         }
 
         /// <summary>确认账号注册信息，状态修改为已确认

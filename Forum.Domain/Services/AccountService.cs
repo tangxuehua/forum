@@ -32,7 +32,7 @@ namespace Forum.Domain.Services
 
         void IEventPersistenceSynchronizer<AccountCreated>.OnBeforePersisting(AccountCreated evnt)
         {
-            _accountRegistrationInfoRepository.Add(new AccountRegistrationInfo(evnt.AccountId, evnt.Name, AccountRegistrationStatus.Created));
+            _accountRegistrationInfoRepository.Add(new AccountRegistrationInfo(evnt.AccountId, evnt.Name));
         }
         void IEventPersistenceSynchronizer<AccountCreated>.OnAfterPersisted(AccountCreated evnt)
         {
