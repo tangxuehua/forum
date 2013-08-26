@@ -1,5 +1,4 @@
 ﻿using System;
-using ENode.Domain;
 
 namespace Forum.Domain.Model
 {
@@ -19,7 +18,8 @@ namespace Forum.Domain.Model
             {
                 throw new Exception("帖子标题不能为空");
             }
-            if (parentId != null && rootId == null) {
+            if (parentId != null && rootId == null)
+            {
                 throw new Exception("帖子ID不能为空.");
             }
             Subject = subject;

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Threading;
-using ENode.Eventing;
-using ENode.Infrastructure;
 using Forum.Application.Commands;
-using Forum.Domain.Events;
 using Forum.Domain.Model;
 using NUnit.Framework;
 
@@ -21,11 +17,11 @@ namespace Forum.Domain.Test
             ResetWaiters();
             Section section = null;
 
-            _commandService.Send(new CreateSection { SectionName = sectionName }, (result) =>
+            CommandService.Send(new CreateSection { SectionName = sectionName }, (result) =>
             {
-                Assert.IsFalse(result.HasError);
+                Assert.IsNull(result.ErrorInfo);
                 EventHandlerWaiter.WaitOne();
-                section = _memoryCache.Get<Section>(SectionId.ToString());
+                section = MemoryCache.Get<Section>(SectionId.ToString());
                 TestThreadWaiter.Set();
             });
 
@@ -41,11 +37,11 @@ namespace Forum.Domain.Test
 
             ResetWaiters();
             var newSectionName = RandomString();
-            _commandService.Send(new ChangeSectionName { SectionId = SectionId, SectionName = newSectionName }, (result) =>
+            CommandService.Send(new ChangeSectionName { SectionId = SectionId, SectionName = newSectionName }, (result) =>
             {
-                Assert.IsFalse(result.HasError);
+                Assert.IsNull(result.ErrorInfo);
                 EventHandlerWaiter.WaitOne();
-                section = _memoryCache.Get<Section>(SectionId.ToString());
+                section = MemoryCache.Get<Section>(SectionId.ToString());
                 TestThreadWaiter.Set();
             });
             TestThreadWaiter.WaitOne(500);

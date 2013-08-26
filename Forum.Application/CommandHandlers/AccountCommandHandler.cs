@@ -1,7 +1,7 @@
 ﻿using ENode.Commanding;
 using ENode.Infrastructure;
 using Forum.Application.Commands;
-using Forum.Domain.Model;
+using Forum.Domain.Model.Account;
 
 namespace Forum.Application.CommandHandlers
 {

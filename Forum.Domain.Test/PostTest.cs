@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using ENode.Eventing;
 using ENode.Infrastructure;
 using Forum.Application.Commands;
@@ -22,11 +23,11 @@ namespace Forum.Domain.Test
             ResetWaiters();
             Post post = null;
 
-            _commandService.Send(new CreatePost { PostInfo = postInfo }, (result) =>
+            CommandService.Send(new CreatePost { PostInfo = postInfo }, (result) =>
             {
-                Assert.IsFalse(result.HasError);
+                Assert.IsNull(result.ErrorInfo);
                 EventHandlerWaiter.WaitOne();
-                post = _memoryCache.Get<Post>(PostId.ToString());
+                post = MemoryCache.Get<Post>(PostId.ToString());
                 TestThreadWaiter.Set();
             });
 
@@ -49,11 +50,11 @@ namespace Forum.Domain.Test
             PostId = Guid.Empty;
             Post post = null;
 
-            _commandService.Send(new CreatePost { PostInfo = postInfo }, (result) =>
+            CommandService.Send(new CreatePost { PostInfo = postInfo }, (result) =>
             {
-                Assert.IsFalse(result.HasError);
+                Assert.IsNull(result.ErrorInfo);
                 EventHandlerWaiter.WaitOne();
-                post = _memoryCache.Get<Post>(PostId.ToString());
+                post = MemoryCache.Get<Post>(PostId.ToString());
                 TestThreadWaiter.Set();
             });
 
@@ -65,6 +66,7 @@ namespace Forum.Domain.Test
             Assert.AreEqual(postInfo.AuthorId, post.AuthorId);
             Assert.AreEqual(postInfo.SectionId, post.SectionId);
             Assert.AreEqual(postInfo.ParentId, post.ParentId);
+            Assert.NotNull(postInfo.RootId);
             Assert.AreEqual(postInfo.RootId.Value, post.RootId);
         }
         [Test]
@@ -73,14 +75,14 @@ namespace Forum.Domain.Test
             CreateTopPostTest();
 
             ResetWaiters();
-            var post = _memoryCache.Get<Post>(PostId.ToString());
+            var post = MemoryCache.Get<Post>(PostId.ToString());
             var body = RandomString();
 
-            _commandService.Send(new ChangePostBody { PostId = PostId, Body = body }, (result) =>
+            CommandService.Send(new ChangePostBody { PostId = PostId, Body = body }, (result) =>
             {
-                Assert.IsFalse(result.HasError);
+                Assert.IsNull(result.ErrorInfo);
                 EventHandlerWaiter.WaitOne();
-                post = _memoryCache.Get<Post>(PostId.ToString());
+                post = MemoryCache.Get<Post>(PostId.ToString());
                 TestThreadWaiter.Set();
             });
 
@@ -92,8 +94,9 @@ namespace Forum.Domain.Test
             ResetWaiters();
             Guid? authorId = null;
 
-            _commandService.Send(new CreateAccount { Name = RandomString(), Password = RandomString() }, (result) => {
-                Assert.IsFalse(result.HasError);
+            CommandService.Send(new CreateAccount { Name = RandomString(), Password = RandomString() }, (result) =>
+            {
+                Assert.IsNull(result.ErrorInfo);
                 EventHandlerWaiter.WaitOne();
                 authorId = AccountTest.AccountId;
                 TestThreadWaiter.Set();

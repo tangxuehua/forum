@@ -17,20 +17,20 @@ namespace Forum.Domain.Test
     [TestFixture]
     public class TestBase
     {
+        private const string QuerydbConnectionString = "Data Source=.;Initial Catalog=EventDB;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
         public static ManualResetEvent EventHandlerWaiter;
         public static ManualResetEvent TestThreadWaiter;
-        protected static Random _random = new Random();
-        protected ICommandService _commandService;
-        protected IMemoryCache _memoryCache;
-        private static bool _initialized = false;
-
+        protected static Random Random = new Random();
+        protected ICommandService CommandService;
+        protected IMemoryCache MemoryCache;
+        private static bool _initialized;
+ 
         [TestFixtureSetUp]
         public void SetUp()
         {
             if (!_initialized)
             {
-                var querydbConnectionString = "Data Source=.;Initial Catalog=EventDB;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
-                var assemblies = new Assembly[] { Assembly.Load("Forum.Domain"), Assembly.Load("Forum.Application"), Assembly.Load("Forum.Denormalizer"), Assembly.GetExecutingAssembly() };
+               var assemblies = new[] { Assembly.Load("Forum.Domain"), Assembly.Load("Forum.Application"), Assembly.Load("Forum.Denormalizer"), Assembly.GetExecutingAssembly() };
                 Configuration
                     .Create()
                     .UseAutofac()
@@ -38,14 +38,14 @@ namespace Forum.Domain.Test
                     .RegisterBusinessComponents(assemblies)
                     .UseLog4Net()
                     .UseJsonNet()
-                    .UseDefaultSqlQueryDbConnectionFactory(querydbConnectionString)
+                    .UseDefaultSqlQueryDbConnectionFactory(QuerydbConnectionString)
                     .CreateAllDefaultProcessors()
                     .Initialize(assemblies)
                     .Start();
                 _initialized = true;
             }
-            _commandService = ObjectContainer.Resolve<ICommandService>();
-            _memoryCache = ObjectContainer.Resolve<IMemoryCache>();
+            CommandService = ObjectContainer.Resolve<ICommandService>();
+            MemoryCache = ObjectContainer.Resolve<IMemoryCache>();
         }
 
         protected void ResetWaiters()
@@ -55,7 +55,7 @@ namespace Forum.Domain.Test
         }
         protected string RandomString()
         {
-            return DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Ticks + _random.Next(100);
+            return DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Ticks + Random.Next(100);
         }
     }
 

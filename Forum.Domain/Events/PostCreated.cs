@@ -1,6 +1,5 @@
 ﻿using System;
 using ENode.Eventing;
-using Forum.Domain.Model;
 
 namespace Forum.Domain.Events
 {

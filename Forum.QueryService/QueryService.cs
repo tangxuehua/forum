@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using Dapper;
 using ENode.Infrastructure;
+using ENode.Infrastructure.Dapper;
+using ENode.Infrastructure.Sql;
 
-namespace Forum.Query {
+namespace Forum.Query
+{
     [Component]
-    public class QueryService {
+    public class QueryService
+    {
         protected ISqlQueryDbConnectionFactory ConnectionFactory { get; private set; }
 
-        public QueryService(ISqlQueryDbConnectionFactory connectionFactory) {
+        public QueryService(ISqlQueryDbConnectionFactory connectionFactory)
+        {
             ConnectionFactory = connectionFactory;
         }
 
-        IEnumerable<dynamic> QueryThreads(Guid sectionId) {
-            return ConnectionFactory.CreateConnection().TryExecute((connection) => {
-                return connection.Query(new { Section = sectionId }, "tb_Thread");
-            });
+        IEnumerable<dynamic> QueryThreads(Guid sectionId)
+        {
+            return ConnectionFactory.CreateConnection().TryExecute(connection => connection.Query(new { Section = sectionId }, "tb_Thread"));
         }
     }
 }

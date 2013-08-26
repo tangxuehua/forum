@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Threading;
-using ENode.Eventing;
-using ENode.Infrastructure;
 using Forum.Application.Commands;
-using Forum.Domain.Events;
-using Forum.Domain.Model;
+using Forum.Domain.Model.Account;
 using NUnit.Framework;
 
 namespace Forum.Domain.Test
@@ -22,11 +18,11 @@ namespace Forum.Domain.Test
             ResetWaiters();
             Account account = null;
 
-            _commandService.Send(new CreateAccount { Name = name, Password = password }, (result) =>
+            CommandService.Send(new CreateAccount { Name = name, Password = password }, (result) =>
             {
-                Assert.IsFalse(result.HasError);
+                Assert.IsNull(result.ErrorInfo);
                 EventHandlerWaiter.WaitOne();
-                account = _memoryCache.Get<Account>(AccountId.ToString());
+                account = MemoryCache.Get<Account>(AccountId.ToString());
                 TestThreadWaiter.Set();
             });
 
