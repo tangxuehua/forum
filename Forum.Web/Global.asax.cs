@@ -20,8 +20,8 @@ namespace Forum.Web
     {
         private const string CommandSideConnectionString = "mongodb://localhost/ForumDB";
         private const string AccountRegistrationInfoCollectionName = "AccountRegistrationInfoCollection";
-        private const string QuerySideConnectionString = "Data Source=.;Initial Catalog=ForumDB;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
-
+        //private const string QuerySideConnectionString = "Data Source=.;Initial Catalog=ForumDB;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
+        private const string QuerySideConnectionString = @"Data Source=(LocalDb)\v11.0;AttachDbFilename=D:\gitProjects\forum\Forum.Web\App_Data\aspnet-Forum.Web-20130807210933.mdf;Initial Catalog=aspnet-Forum.Web-20130807210933;Integrated Security=True";
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
