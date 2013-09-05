@@ -21,17 +21,21 @@ namespace Forum.Domain.Model
         public DateTime CreatedOn { get; private set; }
 
         public Post() { }
-        public Post(PostInfo info)
-            : base(Guid.NewGuid())
+        public Post(string subject, string body, Post parent, Post root, Guid sectionId, Guid authorId) : base(Guid.NewGuid())
         {
-            if (info.ParentId == null)
+            Assert.IsNotNullOrWhiteSpace("帖子内容", body);
+
+            if (parent != null || root != null)
             {
-                RaiseEvent(new PostCreated(Id, info.ParentId, Id, info.Subject, info.Body, info.SectionId, info.AuthorId, DateTime.Now));
+                Assert.IsNotNull("回复帖子的父帖子", parent);
+                Assert.IsNotNull("回复帖子的根帖子", root);
+                Assert.AreEqual(parent.RootId, root.Id, "父帖子的根帖子ID {0} 与根帖子ID {1} 不同");
+                RaiseEvent(new PostCreated(Id, parent.Id, root.Id, subject, body, sectionId, authorId, DateTime.Now));
             }
             else
             {
-                Assert.IsNotNull("info.RootId", info.RootId);
-                RaiseEvent(new PostCreated(Id, info.ParentId, info.RootId.Value, info.Subject, info.Body, info.SectionId, info.AuthorId, DateTime.Now));
+                Assert.IsNotNullOrWhiteSpace("帖子标题", subject);
+                RaiseEvent(new PostCreated(Id, null, Id, subject, body, sectionId, authorId, DateTime.Now));
             }
         }
 

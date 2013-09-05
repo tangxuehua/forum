@@ -41,12 +41,12 @@
     <Compile Include="Events\SectionCreated.cs" />
     <Compile Include="Events\SectionNameChanged.cs" />
     <Compile Include="Events\AccountCreated.cs" />
+    <Compile Include="DomainException.cs" />
     <Compile Include="Repositories\DuplicateAccountNameException.cs" />
     <Compile Include="Repositories\IAccountRegistrationInfoRepository.cs" />
     <Compile Include="Model\Account\AccountRegistrationStatus.cs" />
     <Compile Include="Model\Account\AccountRegistrationInfo.cs" />
     <Compile Include="Model\Post.cs" />
-    <Compile Include="Model\PostInfo.cs" />
     <Compile Include="Model\Assert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Account\Account.cs" />

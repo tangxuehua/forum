@@ -41,9 +41,10 @@
     <Compile Include="CommandHandlers\AccountCommandHandler.cs" />
     <Compile Include="Commands\ChangePostBody.cs" />
     <Compile Include="Commands\ChangeSectionName.cs" />
-    <Compile Include="Commands\CreatePost.cs" />
+    <Compile Include="Commands\CreateTopPost.cs" />
     <Compile Include="Commands\CreateSection.cs" />
     <Compile Include="Commands\CreateAccount.cs" />
+    <Compile Include="Commands\CreateReplyPost.cs" />
     <Compile Include="DTOs\Thread.cs" />
     <Compile Include="DTOs\Post.cs" />
     <Compile Include="DTOs\ThreadQueryOption.cs" />
