@@ -19,7 +19,6 @@ namespace Forum.Domain.Model
         public Guid SectionId { get; private set; }
         public Guid AuthorId { get; private set; }
         public DateTime CreatedOn { get; private set; }
-        public DateTime UpdatedOn { get; private set; }
 
         public Post() { }
         public Post(PostInfo info)
@@ -40,7 +39,7 @@ namespace Forum.Domain.Model
         {
             if (Body != body)
             {
-                RaiseEvent(new PostBodyChanged(Id, ParentId, RootId, body, DateTime.Now));
+                RaiseEvent(new PostBodyChanged(Id, ParentId, RootId, body));
             }
         }
 
@@ -53,12 +52,10 @@ namespace Forum.Domain.Model
             SectionId = evnt.SectionId;
             AuthorId = evnt.AuthorId;
             CreatedOn = evnt.CreatedOn;
-            UpdatedOn = evnt.CreatedOn;
         }
         void IEventHandler<PostBodyChanged>.Handle(PostBodyChanged evnt)
         {
             Body = evnt.Body;
-            UpdatedOn = evnt.UpdatedOn;
         }
     }
 }

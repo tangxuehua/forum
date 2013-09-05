@@ -25,12 +25,12 @@ CREATE TABLE [tb_Post](
     [Id] [uniqueidentifier] NOT NULL,
     [ParentId] [uniqueidentifier] NULL,
     [RootId] [uniqueidentifier] NOT NULL,
-    [Subject] [varchar](256) NULL,
-    [Body] [ntext] NULL,
+    [Subject] [varchar](256) NOT NULL,
+    [Body] [ntext] NOT NULL,
     [SectionId] [uniqueidentifier] NOT NULL,
     [AuthorId] [uniqueidentifier] NOT NULL,
+    [FloorIndex] [int] NOT NULL,
     [CreatedOn] [datetime] NOT NULL,
-    [UpdatedOn] [datetime] NOT NULL,
  CONSTRAINT [PK_tb_Post] PRIMARY KEY CLUSTERED 
 (
     [Id] ASC
@@ -44,10 +44,10 @@ CREATE TABLE [tb_Thread](
     [AuthorName] [varchar](128) NOT NULL,
     [SectionId] [uniqueidentifier] NOT NULL,
     [ReplyCount] [int] NOT NULL,
+    [CreatedOn] [datetime] NOT NULL,
     [MostRecentReplierId] [uniqueidentifier] NULL,
     [MostRecentReplierName] [varchar](128) NULL,
-    [CreatedOn] [datetime] NOT NULL,
-    [UpdatedOn] [datetime] NOT NULL,
+    [MostRecentReplyCreatedOn] [datetime] NULL,
  CONSTRAINT [PK_tb_Thread] PRIMARY KEY CLUSTERED 
 (
     [Id] ASC

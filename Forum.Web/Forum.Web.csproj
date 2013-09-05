@@ -228,7 +228,6 @@
     <Content Include="Content\jquery\jquery.validate.min.js" />
     <Content Include="Content\jquery\jquery.validate.unobtrusive.js" />
     <Content Include="Content\jquery\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Content\knockout\_references.js" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -285,8 +284,6 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Content\knockout\knockout-2.1.0.debug.js" />
-    <Content Include="Content\knockout\knockout-2.1.0.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -345,13 +342,13 @@
       <Project>{6e455941-9a2f-42d9-82a7-153432be5743}</Project>
       <Name>Forum.Application</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Forum.Denormalizers\Forum.Denormalizers.csproj">
+    <ProjectReference Include="..\Extensions\Forum.Denormalizers.Dapper\Forum.Denormalizers.Dapper.csproj">
       <Project>{433dd072-0748-4440-ba1b-4a0d6e507d3b}</Project>
-      <Name>Forum.Denormalizers</Name>
+      <Name>Forum.Denormalizers.Dapper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Forum.Domain.Repositories\Forum.Domain.Repositories.csproj">
+    <ProjectReference Include="..\Extensions\Forum.Domain.Repositories.MongoDB\Forum.Domain.Repositories.MongoDB.csproj">
       <Project>{a9f81ed0-ec51-4653-85e8-3bc677742f4f}</Project>
-      <Name>Forum.Domain.Repositories</Name>
+      <Name>Forum.Domain.Repositories.MongoDB</Name>
     </ProjectReference>
     <ProjectReference Include="..\Forum.Domain\Forum.Domain.csproj">
       <Project>{5a4055c3-89bc-4149-8a6d-06ce985080c9}</Project>

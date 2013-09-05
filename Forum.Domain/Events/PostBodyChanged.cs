@@ -10,15 +10,13 @@ namespace Forum.Domain.Events
         public Guid? ParentId { get; private set; }
         public Guid RootId { get; private set; }
         public string Body { get; private set; }
-        public DateTime UpdatedOn { get; private set; }
 
-        public PostBodyChanged(Guid postId, Guid? parentId, Guid rootId, string body, DateTime updatedOn)
+        public PostBodyChanged(Guid postId, Guid? parentId, Guid rootId, string body)
         {
             PostId = postId;
             ParentId = parentId;
             RootId = rootId;
             Body = body;
-            UpdatedOn = updatedOn;
         }
     }
 }

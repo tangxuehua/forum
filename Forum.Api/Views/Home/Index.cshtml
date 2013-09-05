@@ -1,0 +1,53 @@
+﻿<header>
+    <div class="content-wrapper">
+        <div class="float-left">
+            <p class="site-title">
+                <a href="~/">ASP.NET Web API</a></p>
+        </div>
+    </div>
+</header>
+<div id="body">
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>欢迎使用 ASP.NET Web API!</h1>
+                <h2>修改此模板中的代码以快速开始您的 ASP.NET Web API 开发。</h2>
+            </hgroup>
+            <p>
+                使用 ASP.NET Web API 可以直接通过 HTTP 向
+                Web 公开你的应用程序、数据和服务。
+            </p>
+            <p>
+                若要了解有关 ASP.NET Web API 的详细信息，请访问
+                <a href="http://go.microsoft.com/fwlink/?LinkID=238195" title="ASP.NET Web API Website">http://asp.net/web-api</a>。
+                该页提供 <mark>视频、教程和示例</mark> 以帮助你充分利用 ASP.NET Web API。
+                如果你对 ASP.NET Web API 有任何疑问，请访问
+                <a href="http://go.microsoft.com/fwlink/?LinkID=238196" title="ASP.NET Web API Forum">我们的论坛</a>。
+            </p>
+        </div>
+    </section>
+    <section class="content-wrapper main-content clear-fix">
+        <h3>下面是我们建议的步骤:</h3>
+        <ol class="round">
+            <li class="one">
+                <h5>开始使用</h5>
+                ASP.NET Web API  是一个框架，您可以通过该框架轻松生成可访问
+                多种客户端(包括浏览器和移动设备)的 HTTP 服务。ASP.NET Web API
+                是一个用于在 .NET Framework 之上生成 REST 样式的应用程序的理想平台。
+                <a href="http://go.microsoft.com/fwlink/?LinkId=245160">了解详细信息...</a>
+            </li>
+
+            <li class="two">
+                <h5>添加 NuGet 程序包并快速开始编码</h5>
+                通过 NuGet，可以轻松地安装和更新免费的库和工具。
+            <a href="http://go.microsoft.com/fwlink/?LinkId=245161">了解详细信息...</a>
+            </li>
+            <li class="three">
+                <h5>查找 Web 宿主</h5>
+                你可以轻松找到所提供的功能和价格
+      都适合你应用程序的 Web 宿主公司。
+            <a href="http://go.microsoft.com/fwlink/?LinkId=245164">了解详细信息...</a>
+            </li>
+        </ol>
+    </section>
+</div>

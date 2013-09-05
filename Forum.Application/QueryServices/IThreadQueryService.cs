@@ -1,16 +1,16 @@
-using System;
 using System.Collections.Generic;
+using Forum.Application.DTOs;
 
 namespace Forum.Application.QueryServices
 {
-    /// <summary>帖子列表查询服务
+    /// <summary>主题列表查询服务
     /// </summary>
     public interface IThreadQueryService
     {
-        /// <summary>根据板块ID查询帖子列表
+        /// <summary>查询主题列表
         /// </summary>
-        /// <param name="sectionId"></param>
+        /// <param name="option"></param>
         /// <returns></returns>
-        IEnumerable<dynamic> QueryThreads(Guid sectionId);
+        IEnumerable<Thread> QueryThreads(ThreadQueryOption option);
     }
 }

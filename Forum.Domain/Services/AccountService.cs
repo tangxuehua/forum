@@ -8,7 +8,7 @@ using Forum.Domain.Repositories;
 namespace Forum.Domain.Services
 {
     [Component]
-    public class AccountService : IAccountService, IEventPersistenceSynchronizer<AccountCreated>
+    public class AccountService : IAccountService, IEventSynchronizer<AccountCreated>
     {
         private readonly IRepository _repository;
         private readonly IAccountRegistrationInfoRepository _accountRegistrationInfoRepository;
@@ -30,11 +30,11 @@ namespace Forum.Domain.Services
             return null;
         }
 
-        void IEventPersistenceSynchronizer<AccountCreated>.OnBeforePersisting(AccountCreated evnt)
+        void IEventSynchronizer<AccountCreated>.OnBeforePersisting(AccountCreated evnt)
         {
             _accountRegistrationInfoRepository.Add(new AccountRegistrationInfo(evnt.AccountId, evnt.Name));
         }
-        void IEventPersistenceSynchronizer<AccountCreated>.OnAfterPersisted(AccountCreated evnt)
+        void IEventSynchronizer<AccountCreated>.OnAfterPersisted(AccountCreated evnt)
         {
             var registrationInfo = _accountRegistrationInfoRepository.Get(evnt.Name);
             registrationInfo.ConfirmStatus();

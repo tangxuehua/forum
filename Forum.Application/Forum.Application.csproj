@@ -44,10 +44,11 @@
     <Compile Include="Commands\CreatePost.cs" />
     <Compile Include="Commands\CreateSection.cs" />
     <Compile Include="Commands\CreateAccount.cs" />
+    <Compile Include="DTOs\Thread.cs" />
+    <Compile Include="DTOs\Post.cs" />
+    <Compile Include="DTOs\ThreadQueryOption.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueryServices\Impl\BaseQueryService.cs" />
     <Compile Include="QueryServices\IThreadQueryService.cs" />
-    <Compile Include="QueryServices\Impl\ThreadQueryService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ENodeFramework\ENode\ENode.csproj">
