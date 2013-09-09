@@ -60,6 +60,7 @@
     <Compile Include="TestBase.cs" />
     <Compile Include="SectionTest.cs" />
     <Compile Include="PostTest.cs" />
+    <Compile Include="ReplyTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ENodeFramework\ENode\ENode.csproj">

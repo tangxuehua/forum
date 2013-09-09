@@ -1,8 +1,8 @@
 ﻿using System;
 using ENode.Infrastructure;
-using Forum.Application.Commands;
-using Forum.Domain.Model.Account;
-using Forum.Domain.Services;
+using Forum.Application.Commands.Account;
+using Forum.Domain.Accounts.Model;
+using Forum.Domain.Accounts.Services;
 using NUnit.Framework;
 
 namespace Forum.Domain.Test

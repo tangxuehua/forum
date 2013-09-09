@@ -41,6 +41,7 @@
     <Compile Include="BaseEventHandler.cs" />
     <Compile Include="AccountEventHandler.cs" />
     <Compile Include="PostEventHandler.cs" />
+    <Compile Include="ReplyEventHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ENodeFramework\ENode\ENode.csproj">

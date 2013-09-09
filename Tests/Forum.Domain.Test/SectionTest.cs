@@ -1,6 +1,6 @@
 ﻿using System;
-using Forum.Application.Commands;
-using Forum.Domain.Model;
+using Forum.Application.Commands.Section;
+using Forum.Domain.Sections.Model;
 using NUnit.Framework;
 
 namespace Forum.Domain.Test

@@ -1,12 +1,12 @@
 ﻿using ENode.Commanding;
 using ENode.Infrastructure;
-using Forum.Application.Commands;
-using Forum.Domain.Model;
+using Forum.Application.Commands.Section;
+using Forum.Domain.Sections.Model;
 
 namespace Forum.Application.CommandHandlers
 {
     [Component]
-    public class SectionCommandHandler :
+    internal sealed class SectionCommandHandler :
         ICommandHandler<CreateSection>,
         ICommandHandler<ChangeSectionName>
     {

@@ -1,29 +1,22 @@
 ﻿using ENode.Commanding;
 using ENode.Infrastructure;
-using Forum.Application.Commands;
-using Forum.Domain.Model;
+using Forum.Application.Commands.Post;
+using Forum.Domain.Posts.Model;
 
 namespace Forum.Application.CommandHandlers
 {
     [Component]
-    public class PostCommandHandler :
-        ICommandHandler<CreateTopPost>,
-        ICommandHandler<CreateReplyPost>,
-        ICommandHandler<ChangePostBody>
+    internal sealed class PostCommandHandler :
+        ICommandHandler<CreatePost>,
+        ICommandHandler<ChangePostSubjectAndBody>
     {
-        public void Handle(ICommandContext context, CreateTopPost command)
+        public void Handle(ICommandContext context, CreatePost command)
         {
-            context.Add(new Post(command.Subject, command.Body, null, null, command.SectionId, command.AuthorId));
+            context.Add(new Post(command.Subject, command.Body, command.SectionId, command.AuthorId));
         }
-        public void Handle(ICommandContext context, CreateReplyPost command)
+        public void Handle(ICommandContext context, ChangePostSubjectAndBody command)
         {
-            var parent = context.Get<Post>(command.ParentId);
-            var root = context.Get<Post>(command.RootId);
-            context.Add(new Post(null, command.Body, parent, root, command.SectionId, command.AuthorId));
-        }
-        public void Handle(ICommandContext context, ChangePostBody command)
-        {
-            context.Get<Post>(command.PostId).ChangeBody(command.Body);
+            context.Get<Post>(command.PostId).ChangeSubjectAndBody(command.Subject, command.Body);
         }
     }
 }

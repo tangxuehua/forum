@@ -2,7 +2,7 @@
 using ENode.Infrastructure;
 using ENode.Infrastructure.Dapper;
 using ENode.Infrastructure.Sql;
-using Forum.Domain.Events;
+using Forum.Domain.Sections.Events;
 
 namespace Forum.Denormalizers.Dapper
 {

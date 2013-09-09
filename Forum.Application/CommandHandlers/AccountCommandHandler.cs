@@ -1,12 +1,12 @@
 ﻿using ENode.Commanding;
 using ENode.Infrastructure;
-using Forum.Application.Commands;
-using Forum.Domain.Model.Account;
+using Forum.Application.Commands.Account;
+using Forum.Domain.Accounts.Model;
 
 namespace Forum.Application.CommandHandlers
 {
     [Component]
-    public class AccountCommandHandler : ICommandHandler<CreateAccount>
+    internal sealed class AccountCommandHandler : ICommandHandler<CreateAccount>
     {
         public void Handle(ICommandContext context, CreateAccount command)
         {

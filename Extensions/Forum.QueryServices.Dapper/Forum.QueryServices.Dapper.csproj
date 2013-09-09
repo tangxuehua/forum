@@ -38,7 +38,7 @@
   <ItemGroup>
     <Compile Include="BaseQueryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ThreadQueryService.cs" />
+    <Compile Include="PostQueryService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ENodeFramework\ENode\ENode.csproj">

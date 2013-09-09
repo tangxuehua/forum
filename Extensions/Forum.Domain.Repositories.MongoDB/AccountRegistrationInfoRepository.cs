@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using ENode.Infrastructure;
-using Forum.Domain.Model.Account;
+using Forum.Domain.Accounts.Model;
+using Forum.Domain.Accounts.Repositories;
 using MongoDB.Bson;
 using MongoDB.Driver;
 

@@ -9,7 +9,10 @@ using ENode.Eventing;
 using ENode.Infrastructure;
 using ENode.JsonNet;
 using ENode.Log4Net;
-using Forum.Domain.Events;
+using Forum.Domain.Accounts.Events;
+using Forum.Domain.Posts.Events;
+using Forum.Domain.Replies.Events;
+using Forum.Domain.Sections.Events;
 using NUnit.Framework;
 
 namespace Forum.Domain.Test
@@ -68,7 +71,9 @@ namespace Forum.Domain.Test
         IEventHandler<SectionCreated>,
         IEventHandler<SectionNameChanged>,
         IEventHandler<PostCreated>,
-        IEventHandler<PostBodyChanged>
+        IEventHandler<PostSubjectAndBodyChanged>,
+        IEventHandler<PostReplied>,
+        IEventHandler<ReplyBodyChanged>
     {
         public void Handle(AccountCreated evnt)
         {
@@ -91,7 +96,16 @@ namespace Forum.Domain.Test
             PostTest.PostId = evnt.PostId;
             TestBase.EventHandlerWaiter.Set();
         }
-        public void Handle(PostBodyChanged evnt)
+        public void Handle(PostSubjectAndBodyChanged evnt)
+        {
+            TestBase.EventHandlerWaiter.Set();
+        }
+        void IEventHandler<PostReplied>.Handle(PostReplied evnt)
+        {
+            ReplyTest.ReplyId = evnt.ReplyId;
+            TestBase.EventHandlerWaiter.Set();
+        }
+        void IEventHandler<ReplyBodyChanged>.Handle(ReplyBodyChanged evnt)
         {
             TestBase.EventHandlerWaiter.Set();
         }

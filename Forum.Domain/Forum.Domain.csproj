@@ -36,23 +36,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\PostCreated.cs" />
-    <Compile Include="Events\PostBodyChanged.cs" />
-    <Compile Include="Events\SectionCreated.cs" />
-    <Compile Include="Events\SectionNameChanged.cs" />
-    <Compile Include="Events\AccountCreated.cs" />
+    <Compile Include="Posts\Events\PostSubjectAndBodyChanged.cs" />
+    <Compile Include="Posts\Events\PostCreated.cs" />
+    <Compile Include="Sections\Events\SectionCreated.cs" />
+    <Compile Include="Sections\Events\SectionNameChanged.cs" />
+    <Compile Include="Accounts\Events\AccountCreated.cs" />
     <Compile Include="DomainException.cs" />
-    <Compile Include="Repositories\DuplicateAccountNameException.cs" />
-    <Compile Include="Repositories\IAccountRegistrationInfoRepository.cs" />
-    <Compile Include="Model\Account\AccountRegistrationStatus.cs" />
-    <Compile Include="Model\Account\AccountRegistrationInfo.cs" />
-    <Compile Include="Model\Post.cs" />
-    <Compile Include="Model\Assert.cs" />
+    <Compile Include="Replies\Events\PostReplied.cs" />
+    <Compile Include="Replies\Events\ReplyReplied.cs" />
+    <Compile Include="Replies\Events\ReplyBodyChanged.cs" />
+    <Compile Include="Replies\Model\Reply.cs" />
+    <Compile Include="Accounts\Repositories\DuplicateAccountNameException.cs" />
+    <Compile Include="Accounts\Repositories\IAccountRegistrationInfoRepository.cs" />
+    <Compile Include="Accounts\Model\AccountRegistrationStatus.cs" />
+    <Compile Include="Accounts\Model\AccountRegistrationInfo.cs" />
+    <Compile Include="Posts\Model\Post.cs" />
+    <Compile Include="Assert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Model\Account\Account.cs" />
-    <Compile Include="Model\Section.cs" />
-    <Compile Include="Services\IAccountService.cs" />
-    <Compile Include="Services\AccountService.cs" />
+    <Compile Include="Accounts\Model\Account.cs" />
+    <Compile Include="Sections\Model\Section.cs" />
+    <Compile Include="Accounts\Services\IAccountService.cs" />
+    <Compile Include="Accounts\Services\AccountService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ENodeFramework\ENode\ENode.csproj">
@@ -60,6 +64,7 @@
       <Name>ENode</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

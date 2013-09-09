@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using ENode.Infrastructure;
 using ENode.Infrastructure.Serializing;
-using Forum.Domain.Model.Account;
-using Forum.Domain.Repositories;
+using Forum.Domain.Accounts.Model;
+using Forum.Domain.Accounts.Repositories;
 
 namespace Forum.Domain.Test.Stubs
 {

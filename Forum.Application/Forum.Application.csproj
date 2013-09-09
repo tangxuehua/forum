@@ -39,17 +39,20 @@
     <Compile Include="CommandHandlers\PostCommandHandler.cs" />
     <Compile Include="CommandHandlers\SectionCommandHandler.cs" />
     <Compile Include="CommandHandlers\AccountCommandHandler.cs" />
-    <Compile Include="Commands\ChangePostBody.cs" />
-    <Compile Include="Commands\ChangeSectionName.cs" />
-    <Compile Include="Commands\CreateTopPost.cs" />
-    <Compile Include="Commands\CreateSection.cs" />
-    <Compile Include="Commands\CreateAccount.cs" />
-    <Compile Include="Commands\CreateReplyPost.cs" />
-    <Compile Include="DTOs\Thread.cs" />
+    <Compile Include="CommandHandlers\ReplyCommandHandler.cs" />
+    <Compile Include="Commands\Post\ChangePostSubjectAndBody.cs" />
+    <Compile Include="Commands\Section\ChangeSectionName.cs" />
+    <Compile Include="Commands\Post\CreatePost.cs" />
+    <Compile Include="Commands\Section\CreateSection.cs" />
+    <Compile Include="Commands\Account\CreateAccount.cs" />
+    <Compile Include="Commands\Reply\ChangeReplyBody.cs" />
+    <Compile Include="Commands\Reply\CreateReply.cs" />
     <Compile Include="DTOs\Post.cs" />
-    <Compile Include="DTOs\ThreadQueryOption.cs" />
+    <Compile Include="DTOs\PostInfo.cs" />
+    <Compile Include="DTOs\PostQueryOption.cs" />
+    <Compile Include="DTOs\ReplyInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueryServices\IThreadQueryService.cs" />
+    <Compile Include="QueryServices\IPostQueryService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ENodeFramework\ENode\ENode.csproj">
@@ -61,6 +64,7 @@
       <Name>Forum.Domain</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
