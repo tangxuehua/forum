@@ -100,12 +100,13 @@ namespace Forum.Domain.Test
         {
             TestBase.EventHandlerWaiter.Set();
         }
-        void IEventHandler<PostReplied>.Handle(PostReplied evnt)
+
+        public void Handle(PostReplied evnt)
         {
             ReplyTest.ReplyId = evnt.ReplyId;
             TestBase.EventHandlerWaiter.Set();
         }
-        void IEventHandler<ReplyBodyChanged>.Handle(ReplyBodyChanged evnt)
+        public void Handle(ReplyBodyChanged evnt)
         {
             TestBase.EventHandlerWaiter.Set();
         }

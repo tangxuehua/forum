@@ -35,7 +35,7 @@ namespace Forum.Domain.Test
             Assert.AreEqual(postId, reply.PostId);
         }
         [Test]
-        public void ChangePostBodyTest()
+        public void ChangeReplyBodyTest()
         {
             CreatePostReplyTest();
 
