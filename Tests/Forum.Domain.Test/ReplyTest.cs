@@ -16,11 +16,10 @@ namespace Forum.Domain.Test
             CreatePostTest();
             var body = RandomString();
             var authorId = CreateAccountId();
-            var postId = PostId;
             ResetWaiters();
             Reply reply = null;
 
-            CommandService.Send(new CreateReply { Body = body, PostId = postId, AuthorId = authorId }, result =>
+            CommandService.Send(new CreateReply { Body = body, PostId = PostId, AuthorId = authorId }, result =>
             {
                 Assert.IsNull(result.ErrorInfo);
                 EventHandlerWaiter.WaitOne();
@@ -32,7 +31,32 @@ namespace Forum.Domain.Test
             Assert.NotNull(reply);
             Assert.AreEqual(body, reply.Body);
             Assert.AreEqual(authorId, reply.AuthorId);
-            Assert.AreEqual(postId, reply.PostId);
+            Assert.AreEqual(PostId, reply.PostId);
+        }
+        [Test]
+        public void CreateReplyReplyTest()
+        {
+            CreatePostReplyTest();
+            var body = RandomString();
+            var authorId = CreateAccountId();
+            var parentId = ReplyId;
+            ResetWaiters();
+            Reply reply = null;
+
+            CommandService.Send(new CreateReply { Body = body, ParentId = parentId, PostId = PostId, AuthorId = authorId }, result =>
+            {
+                Assert.IsNull(result.ErrorInfo);
+                EventHandlerWaiter.WaitOne();
+                reply = MemoryCache.Get<Reply>(ReplyId);
+                TestThreadWaiter.Set();
+            });
+
+            TestThreadWaiter.WaitOne(500);
+            Assert.NotNull(reply);
+            Assert.AreEqual(body, reply.Body);
+            Assert.AreEqual(authorId, reply.AuthorId);
+            Assert.AreEqual(PostId, reply.PostId);
+            Assert.AreEqual(parentId, reply.ParentId);
         }
         [Test]
         public void ChangeReplyBodyTest()

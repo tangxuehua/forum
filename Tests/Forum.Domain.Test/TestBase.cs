@@ -73,6 +73,7 @@ namespace Forum.Domain.Test
         IEventHandler<PostCreated>,
         IEventHandler<PostSubjectAndBodyChanged>,
         IEventHandler<PostReplied>,
+        IEventHandler<ReplyReplied>,
         IEventHandler<ReplyBodyChanged>
     {
         public void Handle(AccountCreated evnt)
@@ -108,6 +109,11 @@ namespace Forum.Domain.Test
         }
         public void Handle(ReplyBodyChanged evnt)
         {
+            TestBase.EventHandlerWaiter.Set();
+        }
+        public void Handle(ReplyReplied evnt)
+        {
+            ReplyTest.ReplyId = evnt.ReplyId;
             TestBase.EventHandlerWaiter.Set();
         }
     }
