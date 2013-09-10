@@ -1,6 +1,5 @@
 ﻿using ENode;
-using Forum.Domain.Accounts.Repositories;
-using Forum.Domain.Repositories;
+using Forum.Domain.Accounts;
 using Forum.Domain.Repositories.MongoDB;
 
 namespace Forum.Web.Extensions

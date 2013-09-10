@@ -338,21 +338,25 @@
       <Project>{6c201374-2f02-4134-8098-9d7d8dfce31a}</Project>
       <Name>ENode.Redis</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Forum.Application\Forum.Application.csproj">
-      <Project>{6e455941-9a2f-42d9-82a7-153432be5743}</Project>
-      <Name>Forum.Application</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Extensions\Forum.Denormalizers.Dapper\Forum.Denormalizers.Dapper.csproj">
+    <ProjectReference Include="..\Forum.Denormalizers.Dapper\Forum.Denormalizers.Dapper.csproj">
       <Project>{433dd072-0748-4440-ba1b-4a0d6e507d3b}</Project>
       <Name>Forum.Denormalizers.Dapper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Extensions\Forum.Domain.Repositories.MongoDB\Forum.Domain.Repositories.MongoDB.csproj">
-      <Project>{a9f81ed0-ec51-4653-85e8-3bc677742f4f}</Project>
+    <ProjectReference Include="..\Forum.Commands\Forum.Commands.csproj">
+      <Project>{7787ec6c-9cf3-401c-803a-b4da2b0ca9ef}</Project>
+      <Name>Forum.Commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.Domain.Repositories.MongoDB\Forum.Domain.Repositories.MongoDB.csproj">
+      <Project>{f53755fd-a603-4d08-abab-b766d20deb3b}</Project>
       <Name>Forum.Domain.Repositories.MongoDB</Name>
     </ProjectReference>
     <ProjectReference Include="..\Forum.Domain\Forum.Domain.csproj">
       <Project>{5a4055c3-89bc-4149-8a6d-06ce985080c9}</Project>
       <Name>Forum.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.QueryServices\Forum.QueryServices.csproj">
+      <Project>{a0bc4ae4-1cab-4cbf-9bfb-5365f04c60ce}</Project>
+      <Name>Forum.QueryServices</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -35,9 +35,10 @@ namespace Forum.Web
             var assemblies = new[]
             {
                 Assembly.Load("Forum.Domain"),
-                Assembly.Load("Forum.Domain.Repositories"),
-                Assembly.Load("Forum.Application"),
-                Assembly.Load("Forum.Denormalizers"),
+                Assembly.Load("Forum.Domain.Repositories.MongoDB"),
+                Assembly.Load("Forum.CommandHandlers"),
+                Assembly.Load("Forum.Denormalizers.Dapper"),
+                Assembly.Load("Forum.QueryServices.Dapper"),
                 Assembly.Load("Forum.Web")
             };
             Configuration

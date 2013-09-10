@@ -1,11 +1,8 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
 using ENode.Commanding;
-using Forum.Application.Commands;
-using Forum.Application.Commands.Account;
-using Forum.Domain.Accounts.Repositories;
-using Forum.Domain.Accounts.Services;
-using Forum.Domain.Repositories;
+using Forum.Commands.Account;
+using Forum.Domain.Accounts;
 using Forum.Web.Models;
 
 namespace Forum.Web.Controllers

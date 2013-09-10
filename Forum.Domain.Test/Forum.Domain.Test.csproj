@@ -4,13 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5A4055C3-89BC-4149-8A6D-06CE985080C9}</ProjectGuid>
+    <ProjectGuid>{8ACE1B35-380C-448F-970E-1D0722BD6090}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Forum.Domain</RootNamespace>
-    <AssemblyName>Forum.Domain</AssemblyName>
+    <RootNamespace>Forum.Domain.Test</RootNamespace>
+    <AssemblyName>Forum.Domain.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,38 +32,67 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.1.1\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Posts\Post.cs" />
-    <Compile Include="DomainException.cs" />
-    <Compile Include="Replies\Reply.cs" />
-    <Compile Include="Accounts\DuplicateAccountNameException.cs" />
-    <Compile Include="Accounts\IAccountRegistrationInfoRepository.cs" />
-    <Compile Include="Accounts\AccountRegistrationStatus.cs" />
-    <Compile Include="Accounts\AccountRegistrationInfo.cs" />
-    <Compile Include="Assert.cs" />
+    <Compile Include="AccountTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Accounts\Account.cs" />
-    <Compile Include="Sections\Section.cs" />
-    <Compile Include="Accounts\IAccountService.cs" />
-    <Compile Include="Accounts\AccountService.cs" />
+    <Compile Include="Stubs\AccountRegistrationInfoRepository.cs" />
+    <Compile Include="TestBase.cs" />
+    <Compile Include="SectionTest.cs" />
+    <Compile Include="PostTest.cs" />
+    <Compile Include="ReplyTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ENodeFramework\ENode\ENode.csproj">
       <Project>{f884f01a-ed67-4f21-8576-fd2588491b24}</Project>
       <Name>ENode</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ENodeFramework\Extensions\ENode.Autofac\ENode.Autofac.csproj">
+      <Project>{b4258b15-71b1-4b3b-960a-6a1c75ca2004}</Project>
+      <Name>ENode.Autofac</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ENodeFramework\Extensions\ENode.JsonNet\ENode.JsonNet.csproj">
+      <Project>{92b95148-23f9-4aa8-b5dd-fcbde0e0eb88}</Project>
+      <Name>ENode.JsonNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ENodeFramework\Extensions\ENode.Log4Net\ENode.Log4Net.csproj">
+      <Project>{0f063898-fb02-47d9-b6c6-7a4cfe4b6c51}</Project>
+      <Name>ENode.Log4Net</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.Commands\Forum.Commands.csproj">
+      <Project>{7787ec6c-9cf3-401c-803a-b4da2b0ca9ef}</Project>
+      <Name>Forum.Commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.Domain\Forum.Domain.csproj">
+      <Project>{5a4055c3-89bc-4149-8a6d-06ce985080c9}</Project>
+      <Name>Forum.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Forum.Events\Forum.Events.csproj">
       <Project>{20fea974-92f2-4147-a597-7e88dc1562db}</Project>
       <Name>Forum.Events</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
