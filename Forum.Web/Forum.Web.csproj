@@ -338,6 +338,14 @@
       <Project>{6c201374-2f02-4134-8098-9d7d8dfce31a}</Project>
       <Name>ENode.Redis</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Forum.CommandHandlers\Forum.CommandHandlers.csproj">
+      <Project>{985e2001-f607-44bf-a84b-31e9b7d89d0c}</Project>
+      <Name>Forum.CommandHandlers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.CommandRouters\Forum.CommandRouters.csproj">
+      <Project>{a1f0cfc7-d08f-4b0b-a2ef-9c466903bc5c}</Project>
+      <Name>Forum.CommandRouters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Forum.Denormalizers.Dapper\Forum.Denormalizers.Dapper.csproj">
       <Project>{433dd072-0748-4440-ba1b-4a0d6e507d3b}</Project>
       <Name>Forum.Denormalizers.Dapper</Name>
@@ -353,6 +361,22 @@
     <ProjectReference Include="..\Forum.Domain\Forum.Domain.csproj">
       <Project>{5a4055c3-89bc-4149-8a6d-06ce985080c9}</Project>
       <Name>Forum.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.EventHandlers\Forum.EventHandlers.csproj">
+      <Project>{ad486a96-f0e6-4b26-9ae5-54ae78080f38}</Project>
+      <Name>Forum.EventHandlers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.Events\Forum.Events.csproj">
+      <Project>{20fea974-92f2-4147-a597-7e88dc1562db}</Project>
+      <Name>Forum.Events</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.Infrastructure\Forum.Infrastructure.csproj">
+      <Project>{86985782-8588-48da-81ab-ffd3b855c73c}</Project>
+      <Name>Forum.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.QueryServices.Dapper\Forum.QueryServices.Dapper.csproj">
+      <Project>{228e2c43-cd92-4b49-817d-3fbfbb9c50c4}</Project>
+      <Name>Forum.QueryServices.Dapper</Name>
     </ProjectReference>
     <ProjectReference Include="..\Forum.QueryServices\Forum.QueryServices.csproj">
       <Project>{a0bc4ae4-1cab-4cbf-9bfb-5365f04c60ce}</Project>
