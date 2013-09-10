@@ -12,7 +12,7 @@ namespace Forum.Domain.Sections
     {
         public string Name { get; private set; }
 
-        public Section() : base() { }
+        public Section() { }
         public Section(string name) : base(Guid.NewGuid())
         {
             RaiseEvent(new SectionCreated(Id, name));

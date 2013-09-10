@@ -2,7 +2,6 @@
 using ENode.Infrastructure;
 using ENode.Infrastructure.Dapper;
 using ENode.Infrastructure.Sql;
-using Forum.QueryServices;
 using Forum.QueryServices.DTOs;
 
 namespace Forum.QueryServices.Dapper
