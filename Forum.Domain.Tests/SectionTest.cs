@@ -3,7 +3,7 @@ using Forum.Commands.Section;
 using Forum.Domain.Sections;
 using NUnit.Framework;
 
-namespace Forum.Domain.Test
+namespace Forum.Domain.Tests
 {
     [TestFixture]
     public class SectionTest : TestBase

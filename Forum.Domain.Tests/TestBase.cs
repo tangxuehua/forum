@@ -15,7 +15,7 @@ using Forum.Events.Reply;
 using Forum.Events.Section;
 using NUnit.Framework;
 
-namespace Forum.Domain.Test
+namespace Forum.Domain.Tests
 {
     [TestFixture]
     public class TestBase
@@ -35,8 +35,8 @@ namespace Forum.Domain.Test
                 var assemblies = new[]
                 {
                     Assembly.Load("Forum.Domain"),
-                    Assembly.Load("Forum.Application"),
-                    Assembly.Load("Forum.Domain.Test")
+                    Assembly.Load("Forum.CommandHandlers"),
+                    Assembly.Load("Forum.Domain.Tests")
                 };
                 Configuration
                     .Create()

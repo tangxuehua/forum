@@ -4,7 +4,7 @@ using Forum.Commands.Account;
 using Forum.Domain.Accounts;
 using NUnit.Framework;
 
-namespace Forum.Domain.Test
+namespace Forum.Domain.Tests
 {
     [TestFixture]
     public class AccountTest : TestBase

@@ -7,8 +7,8 @@
     <ProjectGuid>{8ACE1B35-380C-448F-970E-1D0722BD6090}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Forum.Domain.Test</RootNamespace>
-    <AssemblyName>Forum.Domain.Test</AssemblyName>
+    <RootNamespace>Forum.Domain.Tests</RootNamespace>
+    <AssemblyName>Forum.Domain.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -74,6 +74,10 @@
     <ProjectReference Include="..\ENodeFramework\Extensions\ENode.Log4Net\ENode.Log4Net.csproj">
       <Project>{0f063898-fb02-47d9-b6c6-7a4cfe4b6c51}</Project>
       <Name>ENode.Log4Net</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.CommandHandlers\Forum.CommandHandlers.csproj">
+      <Project>{985e2001-f607-44bf-a84b-31e9b7d89d0c}</Project>
+      <Name>Forum.CommandHandlers</Name>
     </ProjectReference>
     <ProjectReference Include="..\Forum.Commands\Forum.Commands.csproj">
       <Project>{7787ec6c-9cf3-401c-803a-b4da2b0ca9ef}</Project>

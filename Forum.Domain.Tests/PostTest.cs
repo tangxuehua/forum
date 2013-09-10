@@ -4,7 +4,7 @@ using Forum.Commands.Post;
 using Forum.Domain.Posts;
 using NUnit.Framework;
 
-namespace Forum.Domain.Test
+namespace Forum.Domain.Tests
 {
     [TestFixture]
     public class PostTest : TestBase

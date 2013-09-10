@@ -3,7 +3,7 @@ using Forum.Commands.Reply;
 using Forum.Domain.Replies;
 using NUnit.Framework;
 
-namespace Forum.Domain.Test
+namespace Forum.Domain.Tests
 {
     [TestFixture]
     public class ReplyTest : PostTest
