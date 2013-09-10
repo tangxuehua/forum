@@ -27,7 +27,7 @@ namespace Forum.Domain.Tests
                 TestThreadWaiter.Set();
             });
 
-            TestThreadWaiter.WaitOne(500);
+            TestThreadWaiter.WaitOne();
             Assert.NotNull(reply);
             Assert.AreEqual(body, reply.Body);
             Assert.AreEqual(authorId, reply.AuthorId);
@@ -51,7 +51,7 @@ namespace Forum.Domain.Tests
                 TestThreadWaiter.Set();
             });
 
-            TestThreadWaiter.WaitOne(500);
+            TestThreadWaiter.WaitOne();
             Assert.NotNull(reply);
             Assert.AreEqual(body, reply.Body);
             Assert.AreEqual(authorId, reply.AuthorId);
@@ -75,7 +75,7 @@ namespace Forum.Domain.Tests
                 TestThreadWaiter.Set();
             });
 
-            TestThreadWaiter.WaitOne(5000000);
+            TestThreadWaiter.WaitOne();
             Assert.AreEqual(body, reply.Body);
         }
     }

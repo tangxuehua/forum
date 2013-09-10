@@ -17,7 +17,7 @@ namespace Forum.Domain.Tests
             ResetWaiters();
             Section section = null;
 
-            CommandService.Send(new CreateSection { SectionName = sectionName }, (result) =>
+            CommandService.Send(new CreateSection { SectionName = sectionName }, result =>
             {
                 Assert.IsNull(result.ErrorInfo);
                 EventHandlerWaiter.WaitOne();
@@ -25,7 +25,7 @@ namespace Forum.Domain.Tests
                 TestThreadWaiter.Set();
             });
 
-            TestThreadWaiter.WaitOne(500);
+            TestThreadWaiter.WaitOne();
             Assert.NotNull(section);
             Assert.AreEqual(sectionName, section.Name);
         }
@@ -37,14 +37,14 @@ namespace Forum.Domain.Tests
 
             ResetWaiters();
             var newSectionName = RandomString();
-            CommandService.Send(new ChangeSectionName { SectionId = SectionId, SectionName = newSectionName }, (result) =>
+            CommandService.Send(new ChangeSectionName { SectionId = SectionId, SectionName = newSectionName }, result =>
             {
                 Assert.IsNull(result.ErrorInfo);
                 EventHandlerWaiter.WaitOne();
                 section = MemoryCache.Get<Section>(SectionId.ToString());
                 TestThreadWaiter.Set();
             });
-            TestThreadWaiter.WaitOne(500);
+            TestThreadWaiter.WaitOne();
             Assert.AreEqual(newSectionName, section.Name);
         }
     }

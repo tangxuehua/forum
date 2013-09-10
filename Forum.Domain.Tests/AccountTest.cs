@@ -27,7 +27,7 @@ namespace Forum.Domain.Tests
                 TestThreadWaiter.Set();
             });
 
-            TestThreadWaiter.WaitOne(500);
+            TestThreadWaiter.WaitOne();
             Assert.NotNull(account);
             Assert.AreEqual(AccountId, account.Id);
             Assert.AreEqual(name, account.Name);
