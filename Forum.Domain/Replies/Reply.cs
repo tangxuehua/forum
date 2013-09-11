@@ -25,13 +25,13 @@ namespace Forum.Domain.Replies
         {
             Assert.IsNotNullOrWhiteSpace("回复内容", body);
             Assert.IsNotNull("被回复的帖子", post);
-            RaiseEvent(new PostReplied(Id, post.Id, body, authorId, DateTime.Now));
+            RaiseEvent(new PostReplied(new RepliedEventInfo(Id, post.Id, body, authorId, DateTime.Now)));
         }
-        public Reply(string body, Reply reply, Guid authorId) : base(Guid.NewGuid())
+        public Reply(string body, Reply parent, Guid authorId) : base(Guid.NewGuid())
         {
             Assert.IsNotNullOrWhiteSpace("回复内容", body);
-            Assert.IsNotNull("被回复的回复", reply);
-            RaiseEvent(new ReplyReplied(Id, reply.Id, reply.PostId, body, authorId, DateTime.Now));
+            Assert.IsNotNull("被回复的回复", parent);
+            RaiseEvent(new ReplyReplied(parent.Id, new RepliedEventInfo(Id, parent.PostId, body, authorId, DateTime.Now)));
         }
 
         public void ChangeBody(string body)
@@ -43,18 +43,18 @@ namespace Forum.Domain.Replies
 
         void IEventHandler<PostReplied>.Handle(PostReplied evnt)
         {
-            PostId = evnt.PostId;
-            Body = evnt.Body;
-            AuthorId = evnt.AuthorId;
-            CreatedOn = evnt.CreatedOn;
+            PostId = evnt.Info.PostId;
+            Body = evnt.Info.Body;
+            AuthorId = evnt.Info.AuthorId;
+            CreatedOn = evnt.Info.CreatedOn;
         }
         void IEventHandler<ReplyReplied>.Handle(ReplyReplied evnt)
         {
             ParentId = evnt.ParentReplyId;
-            PostId = evnt.PostId;
-            Body = evnt.Body;
-            AuthorId = evnt.AuthorId;
-            CreatedOn = evnt.CreatedOn;
+            PostId = evnt.Info.PostId;
+            Body = evnt.Info.Body;
+            AuthorId = evnt.Info.AuthorId;
+            CreatedOn = evnt.Info.CreatedOn;
         }
         void IEventHandler<ReplyBodyChanged>.Handle(ReplyBodyChanged evnt)
         {

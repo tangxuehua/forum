@@ -104,7 +104,7 @@ namespace Forum.Domain.Tests
 
         public void Handle(PostReplied evnt)
         {
-            ReplyTest.ReplyId = evnt.ReplyId;
+            ReplyTest.ReplyId = evnt.Info.ReplyId;
             TestBase.EventHandlerWaiter.Set();
         }
         public void Handle(ReplyBodyChanged evnt)
@@ -113,7 +113,7 @@ namespace Forum.Domain.Tests
         }
         public void Handle(ReplyReplied evnt)
         {
-            ReplyTest.ReplyId = evnt.ReplyId;
+            ReplyTest.ReplyId = evnt.Info.ReplyId;
             TestBase.EventHandlerWaiter.Set();
         }
     }

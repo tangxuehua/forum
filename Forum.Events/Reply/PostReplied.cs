@@ -8,29 +8,13 @@ namespace Forum.Events.Reply
     [Serializable]
     public class PostReplied : Event
     {
-        /// <summary>回复ID
+        /// <summary>回复事件的信息
         /// </summary>
-        public Guid ReplyId { get; private set; }
-        /// <summary>被回复的帖子ID
-        /// </summary>
-        public Guid PostId { get; private set; }
-        /// <summary>回复内容
-        /// </summary>
-        public string Body { get; private set; }
-        /// <summary>回复人ID
-        /// </summary>
-        public Guid AuthorId { get; private set; }
-        /// <summary>回复时间
-        /// </summary>
-        public DateTime CreatedOn { get; private set; }
+        public RepliedEventInfo Info { get; private set; }
 
-        public PostReplied(Guid replyId, Guid postId, string body, Guid authorId, DateTime createdOn)
+        public PostReplied(RepliedEventInfo info)
         {
-            ReplyId = replyId;
-            PostId = postId;
-            Body = body;
-            AuthorId = authorId;
-            CreatedOn = createdOn;
+            Info = info;
         }
     }
 }

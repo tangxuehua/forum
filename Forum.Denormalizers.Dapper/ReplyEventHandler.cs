@@ -18,23 +18,11 @@ namespace Forum.Denormalizers.Dapper
 
         public void Handle(PostReplied evnt)
         {
-            ConnectionFactory.CreateConnection().TryExecuteInTransaction((connection, transaction) =>
-            {
-                var replyCount = connection.GetValue<int>(new { Id = evnt.PostId }, "tb_Post", "ReplyCount", transaction);
-                CreateReply(connection, transaction, evnt.ReplyId, null, evnt.PostId, evnt.Body, evnt.AuthorId, replyCount + 1, evnt.CreatedOn);
-                var authorName = connection.GetValue<string>(new { Id = evnt.AuthorId }, "tb_Account", "Name", transaction);
-                UpdatePostStatisticInfo(connection, transaction, evnt.PostId, replyCount + 1, evnt.AuthorId, authorName, evnt.CreatedOn);
-            });
+            ConnectionFactory.CreateConnection().TryExecuteInTransaction((connection, transaction) => ProcessRepliedEvent(connection, transaction, evnt.Info, null));
         }
         public void Handle(ReplyReplied evnt)
         {
-            ConnectionFactory.CreateConnection().TryExecuteInTransaction((connection, transaction) =>
-            {
-                var replyCount = connection.GetValue<int>(new { Id = evnt.PostId }, "tb_Post", "ReplyCount", transaction);
-                CreateReply(connection, transaction, evnt.ReplyId, evnt.ParentReplyId, evnt.PostId, evnt.Body, evnt.AuthorId, replyCount + 1, evnt.CreatedOn);
-                var authorName = connection.GetValue<string>(new { Id = evnt.AuthorId }, "tb_Account", "Name", transaction);
-                UpdatePostStatisticInfo(connection, transaction, evnt.PostId, replyCount + 1, evnt.AuthorId, authorName, evnt.CreatedOn);
-            });
+            ConnectionFactory.CreateConnection().TryExecuteInTransaction((connection, transaction) => ProcessRepliedEvent(connection, transaction, evnt.Info, evnt.ParentReplyId));
         }
         public void Handle(ReplyBodyChanged evnt)
         {
@@ -44,6 +32,21 @@ namespace Forum.Denormalizers.Dapper
             });
         }
 
+        private static void ProcessRepliedEvent(IDbConnection connection, IDbTransaction transaction, RepliedEventInfo info, Guid? parentReplyId)
+        {
+            var replyCount = GetReplyCount(connection, transaction, info.PostId);
+            var authorName = GetAuthorName(connection, transaction, info.AuthorId);
+            UpdatePostStatisticInfo(connection, transaction, info.PostId, replyCount + 1, info.AuthorId, authorName, info.CreatedOn);
+            CreateReply(connection, transaction, info.ReplyId, parentReplyId, info.PostId, info.Body, info.AuthorId, replyCount + 1, info.CreatedOn);
+        }
+        private static int GetReplyCount(IDbConnection connection, IDbTransaction transaction, Guid postId)
+        {
+            return connection.GetValue<int>(new {Id = postId}, "tb_Post", "ReplyCount", transaction);
+        }
+        private static string GetAuthorName(IDbConnection connection, IDbTransaction transaction, Guid authorId)
+        {
+            return connection.GetValue<string>(new { Id = authorId }, "tb_Account", "Name", transaction);
+        }
         private static void CreateReply(IDbConnection connection, IDbTransaction transaction, Guid id, Guid? parentId, Guid postId, string body, Guid authorId, int floorIndex, DateTime createdOn)
         {
             connection.Insert(

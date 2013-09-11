@@ -43,6 +43,7 @@
     <Compile Include="Reply\PostReplied.cs" />
     <Compile Include="Reply\ReplyBodyChanged.cs" />
     <Compile Include="Reply\ReplyReplied.cs" />
+    <Compile Include="Reply\RepliedEventInfo.cs" />
     <Compile Include="Section\SectionCreated.cs" />
     <Compile Include="Section\SectionNameChanged.cs" />
   </ItemGroup>
