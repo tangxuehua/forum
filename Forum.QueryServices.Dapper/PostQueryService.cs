@@ -13,7 +13,15 @@ namespace Forum.QueryServices.Dapper
 
         public IEnumerable<Post> QueryPosts(PostQueryOption option)
         {
-            return ConnectionFactory.CreateConnection().TryExecute(connection => connection.Query<Post>(new { Section = option.SectionId }, "tb_Post"));
+            PageInfo.ValidateAndFixPageInfo(option.PageInfo);
+            object condition = null;
+
+            if (option.SectionId != null)
+            {
+                condition = new { Section = option.SectionId.Value };
+            }
+
+            return ConnectionFactory.CreateConnection().TryExecute(connection => connection.QueryPaged<Post>(condition, "tb_Post", "*", "CreatedOn", option.PageInfo.PageIndex, option.PageInfo.PageSize));
         }
     }
 }

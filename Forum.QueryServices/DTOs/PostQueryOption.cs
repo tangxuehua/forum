@@ -8,6 +8,9 @@ namespace Forum.QueryServices.DTOs
     {
         /// <summary>所属版块ID
         /// </summary>
-        public Guid SectionId { get; set; }
+        public Guid? SectionId { get; set; }
+        /// <summary>分页信息
+        /// </summary>
+        public PageInfo PageInfo { get; set; }
     }
 }

@@ -173,6 +173,58 @@ namespace ENode.Infrastructure.Dapper
             return connection.Query<T>(sql, obj, transaction, true, commandTimeout);
         }
 
+        /// <summary>Query paged data from a single table.
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="condition"></param>
+        /// <param name="table"></param>
+        /// <param name="columns"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="transaction"></param>
+        /// <param name="commandTimeout"></param>
+        /// <returns></returns>
+        public static IEnumerable<dynamic> QueryPaged(this IDbConnection connection, dynamic condition, string table, string columns, string orderBy, int pageIndex, int pageSize, IDbTransaction transaction = null, int? commandTimeout = null)
+        {
+            var obj = condition as object;
+            var whereFields = string.Empty;
+            var properties = GetProperties(obj);
+            if (properties.Count > 0)
+            {
+                whereFields = " WHERE " + string.Join(" and ", properties.Select(p => p + " = @" + p));
+            }
+            var sql = string.Format("SELECT {0} FROM (SELECT ROW_NUMBER() OVER (ORDER BY {1}) AS RowNumber, {0} FROM {2} {3}) AS Total WHERE RowNumber BETWEEN {4} AND {5}", columns, orderBy, table, whereFields, pageIndex * pageSize, (pageIndex + 1) * pageSize);
+
+            return connection.Query(sql, obj, transaction, true, commandTimeout);
+        }
+        /// <summary>Query paged data from a single table.
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="condition"></param>
+        /// <param name="table"></param>
+        /// <param name="columns"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="transaction"></param>
+        /// <param name="commandTimeout"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static IEnumerable<T> QueryPaged<T>(this IDbConnection connection, dynamic condition, string table, string columns, string orderBy, int pageIndex, int pageSize, IDbTransaction transaction = null, int? commandTimeout = null)
+        {
+            var obj = condition as object;
+            var whereFields = string.Empty;
+            var properties = GetProperties(obj);
+            if (properties.Count > 0)
+            {
+                whereFields = " WHERE " + string.Join(" and ", properties.Select(p => p + " = @" + p));
+            }
+            var sql = string.Format("SELECT {0} FROM (SELECT ROW_NUMBER() OVER (ORDER BY {1}) AS RowNumber, {0} FROM {2}{3}) AS Total WHERE RowNumber BETWEEN {4} AND {5}", columns, orderBy, table, whereFields, pageIndex * pageSize, (pageIndex + 1) * pageSize);
+
+            return connection.Query<T>(sql, obj, transaction, true, commandTimeout);
+        }
+
         /// <summary>Try to execute a given action and auto close the dbconnection after the action complete.
         /// </summary>
         /// <param name="connection"></param>
@@ -257,6 +309,10 @@ namespace ENode.Infrastructure.Dapper
 
         private static List<string> GetProperties(object o)
         {
+            if (o == null)
+            {
+                return new List<string>();
+            }
             if (o is DynamicParameters)
             {
                 return (o as DynamicParameters).ParameterNames.ToList();

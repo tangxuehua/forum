@@ -43,6 +43,7 @@
     <Compile Include="DTOs\PostInfo.cs" />
     <Compile Include="DTOs\PostQueryOption.cs" />
     <Compile Include="DTOs\ReplyInfo.cs" />
+    <Compile Include="DTOs\PageInfo.cs" />
     <Compile Include="IPostQueryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
