@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Forum.QueryServices.DTOs;
 
@@ -12,5 +13,10 @@ namespace Forum.QueryServices
         /// <param name="option"></param>
         /// <returns></returns>
         IEnumerable<Post> QueryPosts(PostQueryOption option);
+        /// <summary>²éÑ¯Ìû×ÓÏêÇé
+        /// </summary>
+        /// <param name="postId"></param>
+        /// <returns></returns>
+        PostInfo QueryPost(Guid postId);
     }
 }

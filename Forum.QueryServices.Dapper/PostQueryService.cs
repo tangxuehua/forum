@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ENode.Infrastructure;
 using ENode.Infrastructure.Dapper;
 using ENode.Infrastructure.Sql;
@@ -22,6 +23,10 @@ namespace Forum.QueryServices.Dapper
             }
 
             return ConnectionFactory.CreateConnection().TryExecute(connection => connection.QueryPaged<Post>(condition, "tb_Post", "*", "CreatedOn", option.PageInfo.PageIndex, option.PageInfo.PageSize));
+        }
+        public PostInfo QueryPost(Guid postId)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
