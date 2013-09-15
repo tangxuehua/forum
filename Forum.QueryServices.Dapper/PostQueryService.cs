@@ -22,11 +22,31 @@ namespace Forum.QueryServices.Dapper
                 condition = new { Section = option.SectionId.Value };
             }
 
-            return ConnectionFactory.CreateConnection().TryExecute(connection => connection.QueryPaged<Post>(condition, "tb_Post", "*", "CreatedOn", option.PageInfo.PageIndex, option.PageInfo.PageSize));
+            return ConnectionFactory.CreateConnection().TryExecute(connection =>
+            {
+                return connection.QueryPaged<Post>(
+                    condition,
+                    "tb_Post",
+                    "*",
+                    "CreatedOn",
+                    option.PageInfo.PageIndex,
+                    option.PageInfo.PageSize);
+            });
         }
         public PostInfo QueryPost(Guid postId)
         {
-            throw new System.NotImplementedException();
+            return ConnectionFactory.CreateConnection().TryExecute(connection =>
+            {
+                var post = connection.QuerySingleOrDefault<Post>(new { Id = postId }, "tb_Post");
+                if (post != null)
+                {
+                    var replyList = connection.Query<ReplyInfo>(new { PostId = postId }, "tb_Reply");
+                    var postInfo = Utils.CreateObject<PostInfo>(post);
+                    postInfo.ReplyList = replyList;
+                    return postInfo;
+                }
+                return null;
+            });
         }
     }
 }

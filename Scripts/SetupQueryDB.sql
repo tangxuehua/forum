@@ -21,20 +21,6 @@ CREATE TABLE [tb_Account](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-CREATE TABLE [tb_Reply](
-    [Id] [uniqueidentifier] NOT NULL,
-    [ParentId] [uniqueidentifier] NULL,
-    [PostId] [uniqueidentifier] NOT NULL,
-    [Body] [ntext] NOT NULL,
-    [AuthorId] [uniqueidentifier] NOT NULL,
-    [FloorIndex] [int] NOT NULL,
-    [CreatedOn] [datetime] NOT NULL,
- CONSTRAINT [PK_tb_Reply] PRIMARY KEY CLUSTERED 
-(
-    [Id] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
 CREATE TABLE [tb_Post](
     [Id] [uniqueidentifier] NOT NULL,
     [Subject] [varchar](256) NOT NULL,
@@ -48,6 +34,21 @@ CREATE TABLE [tb_Post](
     [MostRecentReplierName] [varchar](128) NULL,
     [MostRecentReplyCreatedOn] [datetime] NULL,
  CONSTRAINT [PK_tb_Post] PRIMARY KEY CLUSTERED 
+(
+    [Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+CREATE TABLE [tb_Reply](
+    [Id] [uniqueidentifier] NOT NULL,
+    [ParentId] [uniqueidentifier] NULL,
+    [PostId] [uniqueidentifier] NOT NULL,
+    [Body] [ntext] NOT NULL,
+    [AuthorId] [uniqueidentifier] NOT NULL,
+    [AuthorName] [varchar](128) NOT NULL,
+    [FloorIndex] [int] NOT NULL,
+    [CreatedOn] [datetime] NOT NULL,
+ CONSTRAINT [PK_tb_Reply] PRIMARY KEY CLUSTERED 
 (
     [Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]

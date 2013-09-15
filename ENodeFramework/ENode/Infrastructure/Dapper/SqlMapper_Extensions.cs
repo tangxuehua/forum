@@ -137,7 +137,7 @@ namespace ENode.Infrastructure.Dapper
             return connection.Query<T>(sql, null, transaction, true, commandTimeout);
         }
 
-        /// <summary>Query data from table with a specified condition.
+        /// <summary>Query a list of data from table with a specified condition.
         /// </summary>
         /// <param name="connection"></param>
         /// <param name="condition"></param>
@@ -147,14 +147,21 @@ namespace ENode.Infrastructure.Dapper
         /// <returns></returns>
         public static IEnumerable<dynamic> Query(this IDbConnection connection, dynamic condition, string table, IDbTransaction transaction = null, int? commandTimeout = null)
         {
-            var obj = condition as object;
-            var properties = GetProperties(obj);
-            var whereFields = string.Join(" and ", properties.Select(p => p + " = @" + p));
-            var sql = string.Format("select * from [{0}] where {1}", table, whereFields);
-
-            return connection.Query(sql, obj, transaction, true, commandTimeout);
+            return connection.Query(GetSimpleQuerySQL(condition as object, table), condition as object, transaction, true, commandTimeout);
         }
-        /// <summary>Query data from table with specified condition.
+        /// <summary>Query a single data from table with a specified condition.
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="condition"></param>
+        /// <param name="table"></param>
+        /// <param name="transaction"></param>
+        /// <param name="commandTimeout"></param>
+        /// <returns></returns>
+        public static dynamic QuerySingleOrDefault(this IDbConnection connection, dynamic condition, string table, IDbTransaction transaction = null, int? commandTimeout = null)
+        {
+            return connection.Query(GetSimpleQuerySQL(condition as object, table), condition as object, transaction, true, commandTimeout).SingleOrDefault();
+        }
+        /// <summary>Query a list of data from table with specified condition.
         /// </summary>
         /// <param name="connection"></param>
         /// <param name="condition"></param>
@@ -165,12 +172,20 @@ namespace ENode.Infrastructure.Dapper
         /// <returns></returns>
         public static IEnumerable<T> Query<T>(this IDbConnection connection, object condition, string table, IDbTransaction transaction = null, int? commandTimeout = null)
         {
-            var obj = condition as object;
-            var properties = GetProperties(obj);
-            var whereFields = string.Join(" and ", properties.Select(p => p + " = @" + p));
-            var sql = string.Format("select * from [{0}] where {1}", table, whereFields);
-
-            return connection.Query<T>(sql, obj, transaction, true, commandTimeout);
+            return connection.Query<T>(GetSimpleQuerySQL(condition as object, table), condition as object, transaction, true, commandTimeout);
+        }
+        /// <summary>Query a single data from table with specified condition.
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="condition"></param>
+        /// <param name="table"></param>
+        /// <param name="transaction"></param>
+        /// <param name="commandTimeout"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T QuerySingleOrDefault<T>(this IDbConnection connection, object condition, string table, IDbTransaction transaction = null, int? commandTimeout = null)
+        {
+            return connection.Query<T>(GetSimpleQuerySQL(condition as object, table), condition as object, transaction, true, commandTimeout).SingleOrDefault();
         }
 
         /// <summary>Query paged data from a single table.
@@ -307,6 +322,14 @@ namespace ENode.Infrastructure.Dapper
             }
         }
 
+        private static string GetSimpleQuerySQL(dynamic condition, string table)
+        {
+            var obj = condition as object;
+            var properties = GetProperties(obj);
+            var whereFields = string.Join(" and ", properties.Select(p => p + " = @" + p));
+            var sql = string.Format("select * from [{0}] where {1}", table, whereFields);
+            return sql;
+        }
         private static List<string> GetProperties(object o)
         {
             if (o == null)
