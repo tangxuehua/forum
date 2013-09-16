@@ -64,7 +64,7 @@ namespace Forum.Domain.Tests
         }
         protected string RandomString()
         {
-            return DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Ticks + Random.Next(100);
+            return Guid.NewGuid().ToString();
         }
     }
 
