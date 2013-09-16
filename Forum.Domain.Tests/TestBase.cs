@@ -25,6 +25,7 @@ namespace Forum.Domain.Tests
         protected static Random Random = new Random();
         protected ICommandService CommandService;
         protected IMemoryCache MemoryCache;
+        private const string QuerySideConnectionString = "Data Source=(localdb)\\Projects;Initial Catalog=ForumDB;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
         private static bool _initialized;
 
         [TestFixtureSetUp]
@@ -36,6 +37,7 @@ namespace Forum.Domain.Tests
                 {
                     Assembly.Load("Forum.Domain"),
                     Assembly.Load("Forum.CommandHandlers"),
+                    Assembly.Load("Forum.Denormalizers.Dapper"),
                     Assembly.Load("Forum.Domain.Tests")
                 };
                 Configuration
@@ -45,6 +47,7 @@ namespace Forum.Domain.Tests
                     .RegisterBusinessComponents(assemblies)
                     .UseLog4Net()
                     .UseJsonNet()
+                    .UseDefaultSqlQueryDbConnectionFactory(QuerySideConnectionString)
                     .CreateAllDefaultProcessors()
                     .Initialize(assemblies)
                     .Start();

@@ -37,7 +37,7 @@ namespace Forum.Denormalizers.Dapper
             var replyCount = GetReplyCount(connection, transaction, info.PostId);
             var authorName = GetAuthorName(connection, transaction, info.AuthorId);
             UpdatePostStatisticInfo(connection, transaction, info.PostId, replyCount + 1, info.AuthorId, authorName, info.CreatedOn);
-            CreateReply(connection, transaction, info.ReplyId, parentReplyId, info.PostId, info.Body, info.AuthorId, replyCount + 1, info.CreatedOn);
+            CreateReply(connection, transaction, info.ReplyId, parentReplyId, info.PostId, info.Body, info.AuthorId, authorName, replyCount + 1, info.CreatedOn);
         }
         private static int GetReplyCount(IDbConnection connection, IDbTransaction transaction, Guid postId)
         {
@@ -47,7 +47,7 @@ namespace Forum.Denormalizers.Dapper
         {
             return connection.GetValue<string>(new { Id = authorId }, "tb_Account", "Name", transaction);
         }
-        private static void CreateReply(IDbConnection connection, IDbTransaction transaction, Guid id, Guid? parentId, Guid postId, string body, Guid authorId, int floorIndex, DateTime createdOn)
+        private static void CreateReply(IDbConnection connection, IDbTransaction transaction, Guid id, Guid? parentId, Guid postId, string body, Guid authorId, string authorName, int floorIndex, DateTime createdOn)
         {
             connection.Insert(
                 new
@@ -57,6 +57,7 @@ namespace Forum.Denormalizers.Dapper
                     PostId = postId,
                     Body = body,
                     AuthorId = authorId,
+                    AuthorName = authorName,
                     FloorIndex = floorIndex,
                     CreatedOn = createdOn
                 },
