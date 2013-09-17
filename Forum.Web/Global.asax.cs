@@ -20,7 +20,7 @@ namespace Forum.Web
     {
         private const string CommandSideConnectionString = "mongodb://localhost/ForumDB";
         private const string AccountRegistrationInfoCollectionName = "AccountRegistrationInfoCollection";
-        private const string QuerySideConnectionString = "Data Source=.;Initial Catalog=ForumDB;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
+        private const string QuerySideConnectionString = "Data Source=(localdb)\\Projects;Initial Catalog=ForumDB;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
 
         protected void Application_Start()
         {

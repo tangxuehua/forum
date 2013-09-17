@@ -19,7 +19,7 @@ namespace Forum.QueryServices.Dapper
 
             if (option.SectionId != null)
             {
-                condition = new { Section = option.SectionId.Value };
+                condition = new { SectionId = option.SectionId.Value };
             }
 
             return ConnectionFactory.CreateConnection().TryExecute(connection =>
@@ -29,7 +29,7 @@ namespace Forum.QueryServices.Dapper
                     "tb_Post",
                     "*",
                     "CreatedOn",
-                    option.PageInfo.PageIndex,
+                    option.PageInfo.PageIndex - 1,
                     option.PageInfo.PageSize);
             });
         }

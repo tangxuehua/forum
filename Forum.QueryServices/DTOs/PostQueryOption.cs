@@ -12,5 +12,14 @@ namespace Forum.QueryServices.DTOs
         /// <summary>分页信息
         /// </summary>
         public PageInfo PageInfo { get; set; }
+
+        public PostQueryOption()
+        {
+            PageInfo = PageInfo.Default;
+        }
+        public PostQueryOption(int pageIndex) : this()
+        {
+            PageInfo.PageIndex = pageIndex;
+        }
     }
 }
