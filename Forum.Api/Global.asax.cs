@@ -11,11 +11,17 @@ using Autofac.Integration.WebApi;
 using ENode;
 using ENode.Autofac;
 using ENode.Infrastructure;
+using ENode.JsonNet;
+using ENode.Log4Net;
+using ENode.Mongo;
+using Forum.Api.Extensions;
 
 namespace Forum.Api
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
+        private const string CommandSideConnectionString = "mongodb://localhost/ForumDB";
+        private const string AccountRegistrationInfoCollectionName = "AccountRegistrationInfoCollection";
         private const string QuerySideConnectionString = "Data Source=(localdb)\\Projects;Initial Catalog=ForumDB;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
 
         protected void Application_Start()
@@ -29,6 +35,10 @@ namespace Forum.Api
 
             var assemblies = new[]
             {
+                Assembly.Load("Forum.Domain"),
+                Assembly.Load("Forum.Domain.Repositories.MongoDB"),
+                Assembly.Load("Forum.CommandHandlers"),
+                Assembly.Load("Forum.Denormalizers.Dapper"),
                 Assembly.Load("Forum.QueryServices.Dapper")
             };
             Configuration
@@ -36,7 +46,14 @@ namespace Forum.Api
                 .UseAutofac()
                 .RegisterFrameworkComponents()
                 .RegisterBusinessComponents(assemblies)
-                .UseDefaultSqlQueryDbConnectionFactory(QuerySideConnectionString);
+                .UseLog4Net()
+                .UseJsonNet()
+                .UseMongo(CommandSideConnectionString)
+                .UseDefaultSqlQueryDbConnectionFactory(QuerySideConnectionString)
+                .MongoAccountRegistrationInfoRepository(CommandSideConnectionString, AccountRegistrationInfoCollectionName)
+                .CreateAllDefaultProcessors()
+                .Initialize(assemblies)
+                .Start();
 
             var container = ((AutofacObjectContainer)ObjectContainer.Current).Container;
             RegisterControllers(container);

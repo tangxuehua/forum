@@ -2,7 +2,7 @@
 using Forum.Domain.Accounts;
 using Forum.Domain.Repositories.MongoDB;
 
-namespace Forum.Web.Extensions
+namespace Forum.Api.Extensions
 {
     public static class ConfigurationExtensions
     {
