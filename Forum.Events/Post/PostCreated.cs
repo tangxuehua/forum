@@ -15,7 +15,7 @@ namespace Forum.Events.Post
         public Guid AuthorId { get; private set; }
         public DateTime CreatedOn { get; private set; }
 
-        public PostCreated(Guid postId, string subject, string body, Guid sectionId, Guid authorId, DateTime createdOn)
+        public PostCreated(Guid postId, string subject, string body, Guid sectionId, Guid authorId, DateTime createdOn) : base(postId)
         {
             PostId = postId;
             Subject = subject;

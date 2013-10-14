@@ -12,7 +12,7 @@ namespace Forum.Events.Reply
         /// </summary>
         public RepliedEventInfo Info { get; private set; }
 
-        public PostReplied(RepliedEventInfo info)
+        public PostReplied(RepliedEventInfo info) : base(info.ReplyId)
         {
             Info = info;
         }

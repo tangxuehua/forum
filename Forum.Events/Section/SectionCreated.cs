@@ -9,7 +9,7 @@ namespace Forum.Events.Section
         public Guid SectionId { get; private set; }
         public string Name { get; private set; }
 
-        public SectionCreated(Guid sectionId, string name)
+        public SectionCreated(Guid sectionId, string name) : base(sectionId)
         {
             SectionId = sectionId;
             Name = name;

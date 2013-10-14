@@ -15,7 +15,7 @@ namespace Forum.Events.Reply
         /// </summary>
         public RepliedEventInfo Info { get; private set; }
 
-        public ReplyReplied(Guid parentReplyId, RepliedEventInfo info)
+        public ReplyReplied(Guid parentReplyId, RepliedEventInfo info) : base(info.ReplyId)
         {
             ParentReplyId = parentReplyId;
             Info = info;

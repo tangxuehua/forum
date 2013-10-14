@@ -10,7 +10,7 @@ namespace Forum.Events.Account
         public string Name { get; private set; }
         public string Password { get; private set; }
 
-        public AccountCreated(Guid accountId, string name, string password)
+        public AccountCreated(Guid accountId, string name, string password) : base(accountId)
         {
             AccountId = accountId;
             Name = name;

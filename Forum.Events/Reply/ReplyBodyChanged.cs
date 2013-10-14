@@ -9,7 +9,7 @@ namespace Forum.Events.Reply
         public Guid ReplyId { get; private set; }
         public string Body { get; private set; }
 
-        public ReplyBodyChanged(Guid replyId, string body)
+        public ReplyBodyChanged(Guid replyId, string body) : base(replyId)
         {
             ReplyId = replyId;
             Body = body;

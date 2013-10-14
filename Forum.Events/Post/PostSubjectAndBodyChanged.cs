@@ -10,7 +10,7 @@ namespace Forum.Events.Post
         public string Subject { get; private set; }
         public string Body { get; private set; }
 
-        public PostSubjectAndBodyChanged(Guid postId, string subject, string body)
+        public PostSubjectAndBodyChanged(Guid postId, string subject, string body) : base(postId)
         {
             PostId = postId;
             Subject = subject;
