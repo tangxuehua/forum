@@ -13,12 +13,12 @@ namespace Forum.Domain.Replies
         public string ParentId { get; private set; }
         public string AuthorId { get; private set; }
         public string Body { get; private set; }
-        public DateTime CreatedOn { get; private set; }
 
         public Reply(string id, string postId, string parentId, string authorId, string body) : base(id)
         {
-            Assert.IsNotNullOrWhiteSpace("回复内容", body);
             Assert.IsNotNullOrWhiteSpace("被回复的帖子", postId);
+            Assert.IsNotNullOrWhiteSpace("回复作者", authorId);
+            Assert.IsNotNullOrWhiteSpace("回复内容", body);
             RaiseEvent(new ReplyCreatedEvent(Id, postId, parentId, authorId, body, DateTime.Now));
         }
 
@@ -36,7 +36,6 @@ namespace Forum.Domain.Replies
             ParentId = evnt.ParentId;
             Body = evnt.Body;
             AuthorId = evnt.AuthorId;
-            CreatedOn = evnt.CreatedOn;
         }
         private void Handle(ReplyBodyUpdatedEvent evnt)
         {

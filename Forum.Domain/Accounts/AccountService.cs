@@ -20,8 +20,7 @@ namespace Forum.Domain.Accounts
         public Account GetAccount(string accountName)
         {
             var accountRegistrationInfo = _accountRegistrationInfoRepository.GetByAccountName(accountName);
-            if (accountRegistrationInfo != null &&
-                accountRegistrationInfo.RegistrationStatus == AccountRegistrationStatus.Confirmed)
+            if (accountRegistrationInfo != null && accountRegistrationInfo.RegistrationStatus == AccountRegistrationStatus.Confirmed)
             {
                 return _repository.Get<Account>(accountRegistrationInfo.AccountId);
             }

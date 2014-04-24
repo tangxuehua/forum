@@ -17,8 +17,7 @@ namespace Forum.Domain.Accounts
         /// </summary>
         public AccountRegistrationStatus RegistrationStatus { get; private set; }
 
-        public AccountRegistrationInfo(string accountId, string accountName)
-            : this(accountId, accountName, AccountRegistrationStatus.Created) { }
+        public AccountRegistrationInfo(string accountId, string accountName) : this(accountId, accountName, AccountRegistrationStatus.Created) { }
         public AccountRegistrationInfo(string accountId, string accountName, AccountRegistrationStatus registrationStatus)
         {
             AccountId = accountId;

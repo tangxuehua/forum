@@ -12,8 +12,8 @@ namespace Forum.Domain.Accounts
 
         public Account(string id, string name, string password) : base(id)
         {
-            Assert.IsNotNullOrWhiteSpace("name", name);
-            Assert.IsNotNullOrEmpty("password", password);
+            Assert.IsNotNullOrWhiteSpace("用户名", name);
+            Assert.IsNotNullOrEmpty("密码", password);
             RaiseEvent(new AccountCreatedEvent(Id, name, password));
         }
 

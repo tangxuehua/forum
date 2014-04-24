@@ -18,6 +18,8 @@ namespace Forum.Domain.Posts
         {
             Assert.IsNotNullOrWhiteSpace("帖子标题", subject);
             Assert.IsNotNullOrWhiteSpace("帖子内容", body);
+            Assert.IsNotNullOrWhiteSpace("帖子所属版块", sectionId);
+            Assert.IsNotNullOrWhiteSpace("帖子作者", authorId);
             RaiseEvent(new PostCreatedEvent(Id, subject, body, sectionId, authorId));
         }
 
