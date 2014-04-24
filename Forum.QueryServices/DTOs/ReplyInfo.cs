@@ -8,13 +8,13 @@ namespace Forum.QueryServices.DTOs
     {
         /// <summary>唯一标识
         /// </summary>
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         /// <summary>内容
         /// </summary>
         public string Body { get; set; }
         /// <summary>作者ID
         /// </summary>
-        public Guid AuthorId { get; set; }
+        public string AuthorId { get; set; }
         /// <summary>作者名称
         /// </summary>
         public string AuthorName { get; set; }

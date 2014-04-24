@@ -9,7 +9,7 @@ namespace Forum.Domain.Accounts
     {
         /// <summary>账号ID
         /// </summary>
-        public Guid AccountId { get; private set; }
+        public string AccountId { get; private set; }
         /// <summary>账号名
         /// </summary>
         public string AccountName { get; private set; }
@@ -17,9 +17,9 @@ namespace Forum.Domain.Accounts
         /// </summary>
         public AccountRegistrationStatus RegistrationStatus { get; private set; }
 
-        public AccountRegistrationInfo(Guid accountId, string accountName)
+        public AccountRegistrationInfo(string accountId, string accountName)
             : this(accountId, accountName, AccountRegistrationStatus.Created) { }
-        public AccountRegistrationInfo(Guid accountId, string accountName, AccountRegistrationStatus registrationStatus)
+        public AccountRegistrationInfo(string accountId, string accountName, AccountRegistrationStatus registrationStatus)
         {
             AccountId = accountId;
             AccountName = accountName;

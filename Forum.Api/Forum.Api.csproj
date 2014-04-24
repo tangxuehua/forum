@@ -42,17 +42,42 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac">
-      <HintPath>..\packages\Autofac.3.1.1\lib\net40\Autofac.dll</HintPath>
+      <HintPath>..\packages\Autofac.3.3.1\lib\net40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Integration.WebApi, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Autofac.WebApi.3.1.0\lib\net40\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+    <Reference Include="ECommon, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+      <HintPath>..\packages\ecommon.1.0.8\lib\net40\ECommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ECommon.Autofac">
+      <HintPath>..\packages\ecommon.autofac.1.0.8\lib\net40\ECommon.Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="ECommon.JsonNet">
+      <HintPath>..\packages\ecommon.jsonnet.1.0.8\lib\net40\ECommon.JsonNet.dll</HintPath>
+    </Reference>
+    <Reference Include="ECommon.Log4Net">
+      <HintPath>..\packages\ecommon.log4net.1.0.8\lib\net40\ECommon.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="ENode, Version=2.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\enode.2.1.3\lib\net40\ENode.dll</HintPath>
+    </Reference>
+    <Reference Include="ENode.EQueue">
+      <HintPath>..\packages\enode.equeue.1.1.6\lib\net40\ENode.EQueue.dll</HintPath>
+    </Reference>
+    <Reference Include="EQueue">
+      <HintPath>..\packages\equeue.1.0.9\lib\net40\EQueue.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="ServiceStack.Common">
       <HintPath>..\packages\ServiceStack.Common.3.9.56\lib\net35\ServiceStack.Common.dll</HintPath>
     </Reference>
@@ -87,9 +112,6 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
       <Private>True</Private>
@@ -154,11 +176,18 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
+    <Compile Include="ENodeExtensions.cs" />
     <Compile Include="Extensions\ConfigurationExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\AggregateRootTypeCodeProvider.cs" />
+    <Compile Include="Providers\CommandTopicProvider.cs" />
+    <Compile Include="Providers\CommandTypeCodeProvider.cs" />
+    <Compile Include="Providers\EventHandlerTypeCodeProvider.cs" />
+    <Compile Include="Providers\EventTopicProvider.cs" />
+    <Compile Include="Providers\EventTypeCodeProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -268,30 +297,6 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ENodeFramework\ENode\ENode.csproj">
-      <Project>{f884f01a-ed67-4f21-8576-fd2588491b24}</Project>
-      <Name>ENode</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ENodeFramework\Extensions\ENode.Autofac\ENode.Autofac.csproj">
-      <Project>{b4258b15-71b1-4b3b-960a-6a1c75ca2004}</Project>
-      <Name>ENode.Autofac</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ENodeFramework\Extensions\ENode.JsonNet\ENode.JsonNet.csproj">
-      <Project>{92b95148-23f9-4aa8-b5dd-fcbde0e0eb88}</Project>
-      <Name>ENode.JsonNet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ENodeFramework\Extensions\ENode.Log4Net\ENode.Log4Net.csproj">
-      <Project>{0f063898-fb02-47d9-b6c6-7a4cfe4b6c51}</Project>
-      <Name>ENode.Log4Net</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ENodeFramework\Extensions\ENode.Mongo\ENode.Mongo.csproj">
-      <Project>{25dda9f0-dc61-4446-9364-b29376215155}</Project>
-      <Name>ENode.Mongo</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ENodeFramework\Extensions\ENode.Redis\ENode.Redis.csproj">
-      <Project>{6c201374-2f02-4134-8098-9d7d8dfce31a}</Project>
-      <Name>ENode.Redis</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Forum.CommandHandlers\Forum.CommandHandlers.csproj">
       <Project>{985e2001-f607-44bf-a84b-31e9b7d89d0c}</Project>
       <Name>Forum.CommandHandlers</Name>
@@ -312,10 +317,6 @@
       <Project>{5a4055c3-89bc-4149-8a6d-06ce985080c9}</Project>
       <Name>Forum.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Forum.EventHandlers\Forum.EventHandlers.csproj">
-      <Project>{ad486a96-f0e6-4b26-9ae5-54ae78080f38}</Project>
-      <Name>Forum.EventHandlers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Forum.Events\Forum.Events.csproj">
       <Project>{20fea974-92f2-4147-a597-7e88dc1562db}</Project>
       <Name>Forum.Events</Name>
@@ -323,10 +324,6 @@
     <ProjectReference Include="..\Forum.Infrastructure\Forum.Infrastructure.csproj">
       <Project>{86985782-8588-48da-81ab-ffd3b855c73c}</Project>
       <Name>Forum.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Forum.ProcessManagers\Forum.ProcessManagers.csproj">
-      <Project>{a1f0cfc7-d08f-4b0b-a2ef-9c466903bc5c}</Project>
-      <Name>Forum.ProcessManagers</Name>
     </ProjectReference>
     <ProjectReference Include="..\Forum.QueryServices.Dapper\Forum.QueryServices.Dapper.csproj">
       <Project>{228e2c43-cd92-4b49-817d-3fbfbb9c50c4}</Project>

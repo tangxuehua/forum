@@ -1,14 +1,21 @@
-﻿using ENode.Infrastructure.Sql;
+﻿using System.Data;
+using ECommon.IoC;
+using ENode.Infrastructure.Sql;
 
 namespace Forum.QueryServices.Dapper
 {
     public abstract class BaseQueryService
     {
-        protected ISqlQueryDbConnectionFactory ConnectionFactory { get; private set; }
+        private ISqlQueryDbConnectionFactory _connectionFactory;
 
-        protected BaseQueryService(ISqlQueryDbConnectionFactory connectionFactory)
+        protected BaseQueryService()
         {
-            ConnectionFactory = connectionFactory;
+            _connectionFactory = ObjectContainer.Resolve<ISqlQueryDbConnectionFactory>();
+        }
+
+        protected IDbConnection GetConnection()
+        {
+            return _connectionFactory.CreateConnection();
         }
     }
 }

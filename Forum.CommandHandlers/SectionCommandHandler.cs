@@ -1,5 +1,5 @@
-﻿using ENode.Commanding;
-using ENode.Infrastructure;
+﻿using ECommon.IoC;
+using ENode.Commanding;
 using Forum.Commands.Section;
 using Forum.Domain.Sections;
 
@@ -12,11 +12,11 @@ namespace Forum.CommandHandlers
     {
         public void Handle(ICommandContext context, CreateSection command)
         {
-            context.Add(new Section(command.SectionName));
+            context.Add(new Section(command.AggregateRootId, command.SectionName));
         }
         public void Handle(ICommandContext context, ChangeSectionName command)
         {
-            context.Get<Section>(command.SectionId).ChangeName(command.SectionName);
+            context.Get<Section>(command.AggregateRootId).ChangeName(command.SectionName);
         }
     }
 }

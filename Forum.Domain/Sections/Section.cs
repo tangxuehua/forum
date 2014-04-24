@@ -1,19 +1,15 @@
 ﻿using System;
 using ENode.Domain;
-using ENode.Eventing;
 using Forum.Events.Section;
 
 namespace Forum.Domain.Sections
 {
     [Serializable]
-    public class Section : AggregateRoot<Guid>,
-        IEventHandler<SectionCreated>,
-        IEventHandler<SectionNameChanged>
+    public class Section : AggregateRoot<string>
     {
         public string Name { get; private set; }
 
-        public Section() { }
-        public Section(string name) : base(Guid.NewGuid())
+        public Section(string id, string name) : base(id)
         {
             RaiseEvent(new SectionCreated(Id, name));
         }
@@ -23,11 +19,12 @@ namespace Forum.Domain.Sections
             RaiseEvent(new SectionNameChanged(Id, name));
         }
 
-        void IEventHandler<SectionCreated>.Handle(SectionCreated evnt)
+        private void Handle(SectionCreated evnt)
         {
+            Id = evnt.AggregateRootId;
             Name = evnt.Name;
         }
-        void IEventHandler<SectionNameChanged>.Handle(SectionNameChanged evnt)
+        private void Handle(SectionNameChanged evnt)
         {
             Name = evnt.Name;
         }

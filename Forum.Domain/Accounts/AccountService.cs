@@ -1,6 +1,6 @@
-﻿using ENode.Domain;
+﻿using ECommon.IoC;
+using ENode.Domain;
 using ENode.Eventing;
-using ENode.Infrastructure;
 using Forum.Events.Account;
 
 namespace Forum.Domain.Accounts
@@ -19,7 +19,7 @@ namespace Forum.Domain.Accounts
 
         public Account GetAccount(string accountName)
         {
-            var accountRegistrationInfo = _accountRegistrationInfoRepository.Get(accountName);
+            var accountRegistrationInfo = _accountRegistrationInfoRepository.GetByAccountName(accountName);
             if (accountRegistrationInfo != null &&
                 accountRegistrationInfo.RegistrationStatus == AccountRegistrationStatus.Confirmed)
             {
@@ -30,11 +30,11 @@ namespace Forum.Domain.Accounts
 
         void IEventSynchronizer<AccountCreated>.OnBeforePersisting(AccountCreated evnt)
         {
-            _accountRegistrationInfoRepository.Add(new AccountRegistrationInfo(evnt.AccountId, evnt.Name));
+            _accountRegistrationInfoRepository.Add(new AccountRegistrationInfo(evnt.AggregateRootId, evnt.Name));
         }
         void IEventSynchronizer<AccountCreated>.OnAfterPersisted(AccountCreated evnt)
         {
-            var registrationInfo = _accountRegistrationInfoRepository.Get(evnt.Name);
+            var registrationInfo = _accountRegistrationInfoRepository.GetByAccountName(evnt.Name);
             registrationInfo.ConfirmStatus();
             _accountRegistrationInfoRepository.Update(registrationInfo);
         }

@@ -16,6 +16,6 @@
         /// </summary>
         /// <param name="accountName"></param>
         /// <returns></returns>
-        AccountRegistrationInfo Get(string accountName);
+        AccountRegistrationInfo GetByAccountName(string accountName);
     }
 }

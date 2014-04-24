@@ -4,15 +4,14 @@ using ENode.Eventing;
 namespace Forum.Events.Post
 {
     [Serializable]
-    public class PostSubjectAndBodyChanged : Event
+    public class PostSubjectAndBodyChanged : DomainEvent<string>
     {
-        public Guid PostId { get; private set; }
         public string Subject { get; private set; }
         public string Body { get; private set; }
 
-        public PostSubjectAndBodyChanged(Guid postId, string subject, string body) : base(postId)
+        public PostSubjectAndBodyChanged(string postId, string subject, string body)
+            : base(postId)
         {
-            PostId = postId;
             Subject = subject;
             Body = body;
         }

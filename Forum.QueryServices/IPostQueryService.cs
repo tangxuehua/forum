@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Forum.QueryServices.DTOs;
 
@@ -17,6 +16,6 @@ namespace Forum.QueryServices
         /// </summary>
         /// <param name="postId"></param>
         /// <returns></returns>
-        PostInfo QueryPost(Guid postId);
+        PostInfo QueryPost(string postId);
     }
 }

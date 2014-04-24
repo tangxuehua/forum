@@ -1,7 +1,6 @@
-﻿using ENode.Eventing;
-using ENode.Infrastructure;
+﻿using ECommon.IoC;
+using ENode.Eventing;
 using ENode.Infrastructure.Dapper;
-using ENode.Infrastructure.Sql;
 using Forum.Events.Section;
 
 namespace Forum.Denormalizers.Dapper
@@ -11,21 +10,19 @@ namespace Forum.Denormalizers.Dapper
         IEventHandler<SectionCreated>,
         IEventHandler<SectionNameChanged>
     {
-        public SectionEventHandler(ISqlQueryDbConnectionFactory connectionFactory) : base(connectionFactory) { }
-
         public void Handle(SectionCreated evnt)
         {
-            ConnectionFactory.CreateConnection().TryExecute(connection =>
+            using (var connection = GetConnection())
             {
-                connection.Insert(new { Id = evnt.SectionId, Name = evnt.Name }, "tb_Section");
-            });
+                connection.Insert(new { Id = evnt.AggregateRootId, Name = evnt.Name }, "tb_Section");
+            }
         }
         public void Handle(SectionNameChanged evnt)
         {
-            ConnectionFactory.CreateConnection().TryExecute(connection =>
+            using (var connection = GetConnection())
             {
-                connection.Update(new { Name = evnt.Name }, new { Id = evnt.SectionId }, "tb_Section");
-            });
+                connection.Update(new { Name = evnt.Name }, new { Id = evnt.AggregateRootId }, "tb_Section");
+            }
         }
     }
 }

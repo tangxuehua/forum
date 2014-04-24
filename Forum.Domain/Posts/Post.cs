@@ -1,6 +1,5 @@
 ﻿using System;
 using ENode.Domain;
-using ENode.Eventing;
 using Forum.Events.Post;
 
 namespace Forum.Domain.Posts
@@ -8,18 +7,15 @@ namespace Forum.Domain.Posts
     /// <summary>帖子聚合根
     /// </summary>
     [Serializable]
-    public class Post : AggregateRoot<Guid>,
-        IEventHandler<PostCreated>,
-        IEventHandler<PostSubjectAndBodyChanged>
+    public class Post : AggregateRoot<string>
     {
         public string Subject { get; private set; }
         public string Body { get; private set; }
-        public Guid SectionId { get; private set; }
-        public Guid AuthorId { get; private set; }
+        public string SectionId { get; private set; }
+        public string AuthorId { get; private set; }
         public DateTime CreatedOn { get; private set; }
 
-        public Post() { }
-        public Post(string subject, string body, Guid sectionId, Guid authorId) : base(Guid.NewGuid())
+        public Post(string id, string subject, string body, string sectionId, string authorId) : base(id)
         {
             Assert.IsNotNullOrWhiteSpace("帖子标题", subject);
             Assert.IsNotNullOrWhiteSpace("帖子内容", body);
@@ -35,15 +31,16 @@ namespace Forum.Domain.Posts
             RaiseEvent(new PostSubjectAndBodyChanged(Id, subject, body));
         }
 
-        void IEventHandler<PostCreated>.Handle(PostCreated evnt)
+        private void Handle(PostCreated evnt)
         {
+            Id = evnt.AggregateRootId;
             Subject = evnt.Subject;
             Body = evnt.Body;
             SectionId = evnt.SectionId;
             AuthorId = evnt.AuthorId;
             CreatedOn = evnt.CreatedOn;
         }
-        void IEventHandler<PostSubjectAndBodyChanged>.Handle(PostSubjectAndBodyChanged evnt)
+        private void Handle(PostSubjectAndBodyChanged evnt)
         {
             Subject = evnt.Subject;
             Body = evnt.Body;

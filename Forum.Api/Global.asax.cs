@@ -8,21 +8,21 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.WebApi;
-using ENode;
-using ENode.Autofac;
-using ENode.Infrastructure;
-using ENode.JsonNet;
-using ENode.Log4Net;
-using ENode.Mongo;
+using ECommon.Autofac;
+using ECommon.Configurations;
+using ECommon.IoC;
+using ECommon.JsonNet;
+using ECommon.Log4Net;
+using ENode.Configurations;
 using Forum.Api.Extensions;
 
 namespace Forum.Api
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
-        private const string CommandSideConnectionString = "mongodb://localhost/ForumDB";
+        private const string CommandSideConnectionString = "mongodb://localhost/Forum";
         private const string AccountRegistrationInfoCollectionName = "AccountRegistrationInfoCollection";
-        private const string QuerySideConnectionString = "Data Source=(localdb)\\Projects;Initial Catalog=ForumDB;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
+        private const string QuerySideConnectionString = "Data Source=(local);Initial Catalog=Forum;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
 
         protected void Application_Start()
         {
@@ -41,19 +41,24 @@ namespace Forum.Api
                 Assembly.Load("Forum.Denormalizers.Dapper"),
                 Assembly.Load("Forum.QueryServices.Dapper")
             };
+
             Configuration
                 .Create()
                 .UseAutofac()
-                .RegisterFrameworkComponents()
-                .RegisterBusinessComponents(assemblies)
+                .RegisterCommonComponents()
                 .UseLog4Net()
                 .UseJsonNet()
-                .UseMongo(CommandSideConnectionString)
+                .CreateENode()
+                .RegisterENodeComponents()
+                .RegisterBusinessComponents(assemblies)
                 .UseDefaultSqlQueryDbConnectionFactory(QuerySideConnectionString)
                 .MongoAccountRegistrationInfoRepository(CommandSideConnectionString, AccountRegistrationInfoCollectionName)
-                .CreateAllDefaultProcessors()
-                .Initialize(assemblies)
-                .Start();
+                .SetProviders()
+                .UseEQueue()
+                .InitializeBusinessAssemblies(assemblies)
+                .StartRetryCommandService()
+                .StartWaitingCommandService()
+                .StartEQueue();
 
             var container = ((AutofacObjectContainer)ObjectContainer.Current).Container;
             RegisterControllers(container);

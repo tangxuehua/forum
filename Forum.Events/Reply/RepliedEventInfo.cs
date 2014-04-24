@@ -9,21 +9,21 @@ namespace Forum.Events.Reply
     {
         /// <summary>回复ID
         /// </summary>
-        public Guid ReplyId { get; private set; }
+        public string ReplyId { get; private set; }
         /// <summary>被回复的帖子ID
         /// </summary>
-        public Guid PostId { get; private set; }
+        public string PostId { get; private set; }
         /// <summary>回复内容
         /// </summary>
         public string Body { get; private set; }
         /// <summary>回复人ID
         /// </summary>
-        public Guid AuthorId { get; private set; }
+        public string AuthorId { get; private set; }
         /// <summary>回复时间
         /// </summary>
         public DateTime CreatedOn { get; private set; }
 
-        public RepliedEventInfo(Guid replyId, Guid postId, string body, Guid authorId, DateTime createdOn)
+        public RepliedEventInfo(string replyId, string postId, string body, string authorId, DateTime createdOn)
         {
             ReplyId = replyId;
             PostId = postId;

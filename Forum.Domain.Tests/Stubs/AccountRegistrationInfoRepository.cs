@@ -32,7 +32,7 @@ namespace Forum.Domain.Test.Stubs
         {
             _registrationInfoDict[info.AccountName] = _binarySerializer.Serialize(info);
         }
-        public AccountRegistrationInfo Get(string accountName)
+        public AccountRegistrationInfo GetByAccountName(string accountName)
         {
             return _binarySerializer.Deserialize<AccountRegistrationInfo>(_registrationInfoDict[accountName]);
         }

@@ -35,6 +35,18 @@
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.3.1.1\lib\net40\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="ECommon">
+      <HintPath>..\packages\ecommon.1.0.8\lib\net40\ECommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ENode">
+      <HintPath>..\packages\enode.2.1.3\lib\net40\ENode.dll</HintPath>
+    </Reference>
+    <Reference Include="ENode.EQueue">
+      <HintPath>..\packages\enode.equeue.1.1.6\lib\net40\ENode.EQueue.dll</HintPath>
+    </Reference>
+    <Reference Include="EQueue">
+      <HintPath>..\packages\equeue.1.0.9\lib\net40\EQueue.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
@@ -59,22 +71,6 @@
     <Compile Include="ReplyTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ENodeFramework\ENode\ENode.csproj">
-      <Project>{f884f01a-ed67-4f21-8576-fd2588491b24}</Project>
-      <Name>ENode</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ENodeFramework\Extensions\ENode.Autofac\ENode.Autofac.csproj">
-      <Project>{b4258b15-71b1-4b3b-960a-6a1c75ca2004}</Project>
-      <Name>ENode.Autofac</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ENodeFramework\Extensions\ENode.JsonNet\ENode.JsonNet.csproj">
-      <Project>{92b95148-23f9-4aa8-b5dd-fcbde0e0eb88}</Project>
-      <Name>ENode.JsonNet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ENodeFramework\Extensions\ENode.Log4Net\ENode.Log4Net.csproj">
-      <Project>{0f063898-fb02-47d9-b6c6-7a4cfe4b6c51}</Project>
-      <Name>ENode.Log4Net</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Forum.CommandHandlers\Forum.CommandHandlers.csproj">
       <Project>{985e2001-f607-44bf-a84b-31e9b7d89d0c}</Project>
       <Name>Forum.CommandHandlers</Name>

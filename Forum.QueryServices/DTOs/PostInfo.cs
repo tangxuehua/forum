@@ -9,7 +9,7 @@ namespace Forum.QueryServices.DTOs
     {
         /// <summary>唯一标识
         /// </summary>
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         /// <summary>标题
         /// </summary>
         public string Subject { get; set; }
@@ -18,10 +18,10 @@ namespace Forum.QueryServices.DTOs
         public string Body { get; set; }
         /// <summary>所属版块ID
         /// </summary>
-        public Guid SectionId { get; set; }
+        public string SectionId { get; set; }
         /// <summary>作者ID
         /// </summary>
-        public Guid AuthorId { get; set; }
+        public string AuthorId { get; set; }
         /// <summary>作者名称
         /// </summary>
         public string AuthorName { get; set; }

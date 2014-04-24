@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using ENode.Infrastructure;
+using ECommon.IoC;
+using ECommon.Utilities;
 using ENode.Infrastructure.Dapper;
-using ENode.Infrastructure.Sql;
 using Forum.QueryServices.DTOs;
 
 namespace Forum.QueryServices.Dapper
@@ -10,19 +10,17 @@ namespace Forum.QueryServices.Dapper
     [Component]
     public class PostQueryService : BaseQueryService, IPostQueryService
     {
-        public PostQueryService(ISqlQueryDbConnectionFactory connectionFactory) : base(connectionFactory) { }
-
         public IEnumerable<Post> QueryPosts(PostQueryOption option)
         {
             PageInfo.ValidateAndFixPageInfo(option.PageInfo);
             object condition = null;
 
-            if (option.SectionId != null)
+            if (!string.IsNullOrEmpty(option.SectionId))
             {
-                condition = new { SectionId = option.SectionId.Value };
+                condition = new { SectionId = option.SectionId };
             }
 
-            return ConnectionFactory.CreateConnection().TryExecute(connection =>
+            using (var connection = GetConnection())
             {
                 return connection.QueryPaged<Post>(
                     condition,
@@ -31,22 +29,22 @@ namespace Forum.QueryServices.Dapper
                     "CreatedOn",
                     option.PageInfo.PageIndex - 1,
                     option.PageInfo.PageSize);
-            });
+            }
         }
-        public PostInfo QueryPost(Guid postId)
+        public PostInfo QueryPost(string postId)
         {
-            return ConnectionFactory.CreateConnection().TryExecute(connection =>
+            using (var connection = GetConnection())
             {
                 var post = connection.QuerySingleOrDefault<Post>(new { Id = postId }, "tb_Post");
                 if (post != null)
                 {
                     var replyList = connection.Query<ReplyInfo>(new { PostId = postId }, "tb_Reply");
-                    var postInfo = Utils.CreateObject<PostInfo>(post);
+                    var postInfo = ObjectUtils.CreateObject<PostInfo>(post);
                     postInfo.ReplyList = replyList;
                     return postInfo;
                 }
                 return null;
-            });
+            }
         }
     }
 }

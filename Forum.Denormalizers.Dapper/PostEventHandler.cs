@@ -1,7 +1,6 @@
-﻿using ENode.Eventing;
-using ENode.Infrastructure;
+﻿using ECommon.IoC;
+using ENode.Eventing;
 using ENode.Infrastructure.Dapper;
-using ENode.Infrastructure.Sql;
 using Forum.Events.Post;
 
 namespace Forum.Denormalizers.Dapper
@@ -11,34 +10,32 @@ namespace Forum.Denormalizers.Dapper
         IEventHandler<PostCreated>,
         IEventHandler<PostSubjectAndBodyChanged>
     {
-        public PostEventHandler(ISqlQueryDbConnectionFactory connectionFactory) : base(connectionFactory) { }
-
         public void Handle(PostCreated evnt)
         {
-            ConnectionFactory.CreateConnection().TryExecuteInTransaction((connection, transaction) =>
+            using (var connection = GetConnection())
             {
-                var authorName = connection.GetValue<string>(new { Id = evnt.AuthorId }, "tb_Account", "Name", transaction);
                 connection.Insert(
                     new
                     {
-                        Id = evnt.PostId,
+                        Id = evnt.AggregateRootId,
                         Subject = evnt.Subject,
                         Body = evnt.Body,
                         SectionId = evnt.SectionId,
                         AuthorId = evnt.AuthorId,
-                        AuthorName = authorName,
-                        ReplyCount = 0,
                         CreatedOn = evnt.CreatedOn
                     },
-                    "tb_Post", transaction);
-            });
+                    "tb_Post");
+            }
         }
         public void Handle(PostSubjectAndBodyChanged evnt)
         {
-            ConnectionFactory.CreateConnection().TryExecute(connection =>
+            using (var connection = GetConnection())
             {
-                connection.Update(new { Subject = evnt.Subject, Body = evnt.Body }, new { Id = evnt.PostId }, "tb_Post");
-            });
+                connection.Update(
+                    new { Subject = evnt.Subject, Body = evnt.Body },
+                    new { Id = evnt.AggregateRootId },
+                    "tb_Post");
+            }
         }
     }
 }

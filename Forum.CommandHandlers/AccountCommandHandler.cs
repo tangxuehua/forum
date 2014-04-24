@@ -1,5 +1,5 @@
-﻿using ENode.Commanding;
-using ENode.Infrastructure;
+﻿using ECommon.IoC;
+using ENode.Commanding;
 using Forum.Commands.Account;
 using Forum.Domain.Accounts;
 
@@ -10,7 +10,7 @@ namespace Forum.CommandHandlers
     {
         public void Handle(ICommandContext context, CreateAccount command)
         {
-            context.Add(new Account(command.Name, command.Password));
+            context.Add(new Account(command.AggregateRootId, command.Name, command.Password));
         }
     }
 }

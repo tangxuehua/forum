@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading;
+using ECommon.IoC;
 using ENode;
 using ENode.Autofac;
 using ENode.Commanding;
@@ -25,7 +26,7 @@ namespace Forum.Domain.Tests
         protected static Random Random = new Random();
         protected ICommandService CommandService;
         protected IMemoryCache MemoryCache;
-        private const string QuerySideConnectionString = "Data Source=(localdb)\\Projects;Initial Catalog=ForumDB;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
+        private const string QuerySideConnectionString = "Data Source=(local);Initial Catalog=Forum;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
         private static bool _initialized;
 
         [TestFixtureSetUp]

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using ENode.Infrastructure;
+using ECommon.IoC;
 using Forum.Domain.Accounts;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -58,15 +58,15 @@ namespace Forum.Domain.Repositories.MongoDB
             document["Status"] = info.RegistrationStatus.ToString();
             accountCollection.Save(document);
         }
-        public AccountRegistrationInfo Get(string accountName)
+        public AccountRegistrationInfo GetByAccountName(string accountName)
         {
             var document = GetAccountCollection().FindOneById(new BsonString(accountName));
             if (document != null)
             {
                 return new AccountRegistrationInfo(
-                    new Guid(document["AccountId"].AsString),
+                    document["AccountId"].AsString,
                     document["_id"].AsString,
-                    document["Status"].AsString.ParseEnum<AccountRegistrationStatus>());
+                    (AccountRegistrationStatus)Enum.Parse(typeof(AccountRegistrationStatus), document["Status"].AsString));
             }
             return null;
         }

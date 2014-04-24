@@ -8,16 +8,16 @@ namespace Forum.QueryServices.DTOs
     {
         /// <summary>唯一标识
         /// </summary>
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         /// <summary>标题
         /// </summary>
         public string Subject { get; set; }
         /// <summary>所属版块ID
         /// </summary>
-        public Guid SectionId { get; set; }
+        public string SectionId { get; set; }
         /// <summary>作者ID
         /// </summary>
-        public Guid AuthorId { get; set; }
+        public string AuthorId { get; set; }
         /// <summary>作者名称
         /// </summary>
         public string AuthorName { get; set; }
@@ -29,7 +29,7 @@ namespace Forum.QueryServices.DTOs
         public DateTime CreatedOn { get; set; }
         /// <summary>最近一个回复的作者ID
         /// </summary>
-        public Guid MostRecentReplierId { get; set; }
+        public string MostRecentReplierId { get; set; }
         /// <summary>最近一个回复的作者名称
         /// </summary>
         public string MostRecentReplierName { get; set; }

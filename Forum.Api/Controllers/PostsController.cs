@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Http;
 using Forum.QueryServices;
 using Forum.QueryServices.DTOs;
@@ -19,11 +18,11 @@ namespace Forum.Api.Controllers
         {
             return _postQueryService.QueryPosts(new PostQueryOption(pageIndex));
         }
-        public IEnumerable<Post> GetPosts(Guid sectionId, int pageIndex)
+        public IEnumerable<Post> GetPosts(string sectionId, int pageIndex)
         {
             return _postQueryService.QueryPosts(new PostQueryOption(pageIndex) { SectionId = sectionId });
         }
-        public PostInfo GetPost(Guid id)
+        public PostInfo GetPost(string id)
         {
             return _postQueryService.QueryPost(id);
         }
