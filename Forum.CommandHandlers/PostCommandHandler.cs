@@ -7,14 +7,14 @@ namespace Forum.CommandHandlers
 {
     [Component]
     internal sealed class PostCommandHandler :
-        ICommandHandler<CreatePost>,
-        ICommandHandler<ChangePostSubjectAndBody>
+        ICommandHandler<CreatePostCommand>,
+        ICommandHandler<ChangePostCommand>
     {
-        public void Handle(ICommandContext context, CreatePost command)
+        public void Handle(ICommandContext context, CreatePostCommand command)
         {
             context.Add(new Post(command.AggregateRootId, command.Subject, command.Body, command.SectionId, command.AuthorId));
         }
-        public void Handle(ICommandContext context, ChangePostSubjectAndBody command)
+        public void Handle(ICommandContext context, ChangePostCommand command)
         {
             context.Get<Post>(command.AggregateRootId).ChangeSubjectAndBody(command.Subject, command.Body);
         }

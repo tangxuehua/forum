@@ -11,16 +11,16 @@ namespace Forum.Api.Providers
     {
         public CommandTypeCodeProvider()
         {
-            RegisterType<CreateAccount>(100);
+            RegisterType<CreateAccountCommand>(100);
 
-            RegisterType<CreateSection>(200);
-            RegisterType<ChangeSectionName>(201);
+            RegisterType<CreateSectionCommand>(200);
+            RegisterType<ChangeSectionCommand>(201);
 
-            RegisterType<CreatePost>(300);
-            RegisterType<ChangePostSubjectAndBody>(301);
+            RegisterType<CreatePostCommand>(300);
+            RegisterType<ChangePostCommand>(301);
 
-            RegisterType<CreateReply>(400);
-            RegisterType<ChangeReplyBody>(401);
+            RegisterType<CreateReplyCommand>(400);
+            RegisterType<ChangeReplyCommand>(401);
         }
     }
 }

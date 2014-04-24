@@ -44,14 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account\CreateAccount.cs" />
-    <Compile Include="Post\ChangePostSubjectAndBody.cs" />
-    <Compile Include="Post\CreatePost.cs" />
+    <Compile Include="Account\CreateAccountCommand.cs" />
+    <Compile Include="Post\ChangePostCommand.cs" />
+    <Compile Include="Post\CreatePostCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reply\ChangeReplyBody.cs" />
-    <Compile Include="Reply\CreateReply.cs" />
-    <Compile Include="Section\ChangeSectionName.cs" />
-    <Compile Include="Section\CreateSection.cs" />
+    <Compile Include="Reply\ChangeReplyCommand.cs" />
+    <Compile Include="Reply\CreateReplyCommand.cs" />
+    <Compile Include="Section\ChangeSectionCommand.cs" />
+    <Compile Include="Section\CreateSectionCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

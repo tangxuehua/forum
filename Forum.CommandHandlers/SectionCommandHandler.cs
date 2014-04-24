@@ -7,16 +7,16 @@ namespace Forum.CommandHandlers
 {
     [Component]
     internal sealed class SectionCommandHandler :
-        ICommandHandler<CreateSection>,
-        ICommandHandler<ChangeSectionName>
+        ICommandHandler<CreateSectionCommand>,
+        ICommandHandler<ChangeSectionCommand>
     {
-        public void Handle(ICommandContext context, CreateSection command)
+        public void Handle(ICommandContext context, CreateSectionCommand command)
         {
-            context.Add(new Section(command.AggregateRootId, command.SectionName));
+            context.Add(new Section(command.AggregateRootId, command.Name));
         }
-        public void Handle(ICommandContext context, ChangeSectionName command)
+        public void Handle(ICommandContext context, ChangeSectionCommand command)
         {
-            context.Get<Section>(command.AggregateRootId).ChangeName(command.SectionName);
+            context.Get<Section>(command.AggregateRootId).ChangeName(command.Name);
         }
     }
 }

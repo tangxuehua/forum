@@ -8,10 +8,10 @@ namespace Forum.CommandHandlers
 {
     [Component]
     internal sealed class ReplyCommandHandler :
-        ICommandHandler<CreateReply>,
-        ICommandHandler<ChangeReplyBody>
+        ICommandHandler<CreateReplyCommand>,
+        ICommandHandler<ChangeReplyCommand>
     {
-        public void Handle(ICommandContext context, CreateReply command)
+        public void Handle(ICommandContext context, CreateReplyCommand command)
         {
             if (command.ParentId != null)
             {
@@ -24,7 +24,7 @@ namespace Forum.CommandHandlers
                 context.Add(new Reply(command.AggregateRootId, command.Body, post, command.AuthorId));
             }
         }
-        public void Handle(ICommandContext context, ChangeReplyBody command)
+        public void Handle(ICommandContext context, ChangeReplyCommand command)
         {
             context.Get<Reply>(command.AggregateRootId).ChangeBody(command.Body);
         }

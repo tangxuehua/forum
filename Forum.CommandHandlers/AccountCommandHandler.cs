@@ -6,9 +6,9 @@ using Forum.Domain.Accounts;
 namespace Forum.CommandHandlers
 {
     [Component]
-    internal sealed class AccountCommandHandler : ICommandHandler<CreateAccount>
+    internal sealed class AccountCommandHandler : ICommandHandler<CreateAccountCommand>
     {
-        public void Handle(ICommandContext context, CreateAccount command)
+        public void Handle(ICommandContext context, CreateAccountCommand command)
         {
             context.Add(new Account(command.AggregateRootId, command.Name, command.Password));
         }
