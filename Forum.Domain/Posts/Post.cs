@@ -22,7 +22,7 @@ namespace Forum.Domain.Posts
             RaiseEvent(new PostCreated(Id, subject, body, sectionId, authorId, DateTime.Now));
         }
 
-        public void ChangeSubjectAndBody(string subject, string body)
+        public void Update(string subject, string body)
         {
             if (Subject == subject || Body == body) return;
 

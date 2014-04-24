@@ -14,7 +14,7 @@ namespace Forum.Domain.Sections
             RaiseEvent(new SectionCreated(Id, name));
         }
 
-        public void ChangeName(string name)
+        public void Update(string name)
         {
             RaiseEvent(new SectionNameChanged(Id, name));
         }

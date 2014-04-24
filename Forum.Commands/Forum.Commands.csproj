@@ -45,12 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account\CreateAccountCommand.cs" />
-    <Compile Include="Post\ChangePostCommand.cs" />
+    <Compile Include="Post\UpdatePostCommand.cs" />
     <Compile Include="Post\CreatePostCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reply\ChangeReplyCommand.cs" />
+    <Compile Include="Reply\UpdateReplyCommand.cs" />
     <Compile Include="Reply\CreateReplyCommand.cs" />
-    <Compile Include="Section\ChangeSectionCommand.cs" />
+    <Compile Include="Section\UpdateSectionCommand.cs" />
     <Compile Include="Section\CreateSectionCommand.cs" />
   </ItemGroup>
   <ItemGroup>

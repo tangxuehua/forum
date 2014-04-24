@@ -14,13 +14,13 @@ namespace Forum.Api.Providers
             RegisterType<CreateAccountCommand>(100);
 
             RegisterType<CreateSectionCommand>(200);
-            RegisterType<ChangeSectionCommand>(201);
+            RegisterType<UpdateSectionCommand>(201);
 
             RegisterType<CreatePostCommand>(300);
-            RegisterType<ChangePostCommand>(301);
+            RegisterType<UpdatePostCommand>(301);
 
             RegisterType<CreateReplyCommand>(400);
-            RegisterType<ChangeReplyCommand>(401);
+            RegisterType<UpdateReplyCommand>(401);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Forum.CommandHandlers
     [Component]
     internal sealed class ReplyCommandHandler :
         ICommandHandler<CreateReplyCommand>,
-        ICommandHandler<ChangeReplyCommand>
+        ICommandHandler<UpdateReplyCommand>
     {
         public void Handle(ICommandContext context, CreateReplyCommand command)
         {
@@ -24,7 +24,7 @@ namespace Forum.CommandHandlers
                 context.Add(new Reply(command.AggregateRootId, command.Body, post, command.AuthorId));
             }
         }
-        public void Handle(ICommandContext context, ChangeReplyCommand command)
+        public void Handle(ICommandContext context, UpdateReplyCommand command)
         {
             context.Get<Reply>(command.AggregateRootId).ChangeBody(command.Body);
         }
