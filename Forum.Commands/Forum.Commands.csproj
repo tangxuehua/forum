@@ -48,7 +48,7 @@
     <Compile Include="Post\UpdatePostCommand.cs" />
     <Compile Include="Post\CreatePostCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reply\UpdateReplyCommand.cs" />
+    <Compile Include="Reply\UpdateReplyBodyCommand.cs" />
     <Compile Include="Reply\CreateReplyCommand.cs" />
     <Compile Include="Section\UpdateSectionCommand.cs" />
     <Compile Include="Section\CreateSectionCommand.cs" />

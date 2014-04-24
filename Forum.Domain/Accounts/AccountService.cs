@@ -6,7 +6,7 @@ using Forum.Events.Account;
 namespace Forum.Domain.Accounts
 {
     [Component]
-    public class AccountService : IAccountService, IEventSynchronizer<AccountCreated>
+    public class AccountService : IAccountService, IEventSynchronizer<AccountCreatedEvent>
     {
         private readonly IRepository _repository;
         private readonly IAccountRegistrationInfoRepository _accountRegistrationInfoRepository;
@@ -28,11 +28,11 @@ namespace Forum.Domain.Accounts
             return null;
         }
 
-        void IEventSynchronizer<AccountCreated>.OnBeforePersisting(AccountCreated evnt)
+        void IEventSynchronizer<AccountCreatedEvent>.OnBeforePersisting(AccountCreatedEvent evnt)
         {
             _accountRegistrationInfoRepository.Add(new AccountRegistrationInfo(evnt.AggregateRootId, evnt.Name));
         }
-        void IEventSynchronizer<AccountCreated>.OnAfterPersisted(AccountCreated evnt)
+        void IEventSynchronizer<AccountCreatedEvent>.OnAfterPersisted(AccountCreatedEvent evnt)
         {
             var registrationInfo = _accountRegistrationInfoRepository.GetByAccountName(evnt.Name);
             registrationInfo.ConfirmStatus();

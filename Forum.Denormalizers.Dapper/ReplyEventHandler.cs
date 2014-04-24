@@ -7,51 +7,41 @@ namespace Forum.Denormalizers.Dapper
 {
     [Component]
     public class ReplyEventHandler : BaseEventHandler,
-        IEventHandler<PostReplied>,
-        IEventHandler<ReplyReplied>,
-        IEventHandler<ReplyBodyChanged>
+        IEventHandler<ReplyCreatedEvent>,
+        IEventHandler<ReplyBodyUpdatedEvent>
     {
-        public void Handle(PostReplied evnt)
+        public void Handle(ReplyCreatedEvent evnt)
         {
             using (var connection = GetConnection())
             {
                 connection.Insert(
                     new
                     {
-                        Id = evnt.Info.ReplyId,
-                        PostId = evnt.Info.PostId,
-                        Body = evnt.Info.Body,
-                        AuthorId = evnt.Info.AuthorId,
-                        CreatedOn = evnt.Info.CreatedOn
+                        Id = evnt.AggregateRootId,
+                        PostId = evnt.PostId,
+                        ParentId = evnt.ParentId,
+                        AuthorId = evnt.AuthorId,
+                        Body = evnt.Body,
+                        CreatedOn = evnt.Timestamp,
+                        UpdatedOn = evnt.Timestamp
                     },
                     "tb_Reply");
             }
         }
-        public void Handle(ReplyReplied evnt)
-        {
-            using (var connection = GetConnection())
-            {
-                connection.Insert(
-                    new
-                    {
-                        Id = evnt.Info.ReplyId,
-                        ParentId = evnt.ParentReplyId,
-                        PostId = evnt.Info.PostId,
-                        Body = evnt.Info.Body,
-                        AuthorId = evnt.Info.AuthorId,
-                        CreatedOn = evnt.Info.CreatedOn
-                    },
-                    "tb_Reply");
-            }
-        }
-        public void Handle(ReplyBodyChanged evnt)
+        public void Handle(ReplyBodyUpdatedEvent evnt)
         {
             using (var connection = GetConnection())
             {
                 connection.Update(
-                    new { Body = evnt.Body },
-                    new { Id = evnt.AggregateRootId },
-                    "tb_Reply");
+                    new
+                    {
+                        Body = evnt.Body,
+                        UpdatedOn = evnt.Timestamp
+                    },
+                    new
+                    {
+                        Id = evnt.AggregateRootId
+                    }, "tb_Reply");
             }
         }
     }

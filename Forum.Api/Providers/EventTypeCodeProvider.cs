@@ -11,17 +11,16 @@ namespace Forum.Api.Providers
     {
         public EventTypeCodeProvider()
         {
-            RegisterType<AccountCreated>(100);
+            RegisterType<AccountCreatedEvent>(100);
 
-            RegisterType<SectionCreated>(200);
-            RegisterType<SectionNameChanged>(201);
+            RegisterType<SectionCreatedEvent>(200);
+            RegisterType<SectionUpdatedEvent>(201);
 
-            RegisterType<PostCreated>(300);
-            RegisterType<PostSubjectAndBodyChanged>(301);
+            RegisterType<PostCreatedEvent>(300);
+            RegisterType<PostUpdatedEvent>(301);
 
-            RegisterType<PostReplied>(400);
-            RegisterType<ReplyReplied>(401);
-            RegisterType<ReplyBodyChanged>(402);
+            RegisterType<ReplyCreatedEvent>(400);
+            RegisterType<ReplyBodyUpdatedEvent>(401);
         }
     }
 }

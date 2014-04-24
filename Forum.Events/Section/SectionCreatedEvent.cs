@@ -4,11 +4,11 @@ using ENode.Eventing;
 namespace Forum.Events.Section
 {
     [Serializable]
-    public class SectionCreated : DomainEvent<string>
+    public class SectionCreatedEvent : DomainEvent<string>
     {
         public string Name { get; private set; }
 
-        public SectionCreated(string sectionId, string name)
+        public SectionCreatedEvent(string sectionId, string name)
             : base(sectionId)
         {
             Name = name;

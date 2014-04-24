@@ -4,11 +4,11 @@ using ENode.Commanding;
 namespace Forum.Commands.Reply
 {
     [Serializable]
-    public class UpdateReplyCommand : Command<string>
+    public class UpdateReplyBodyCommand : Command<string>
     {
         public string Body { get; set; }
 
-        public UpdateReplyCommand(string id, string body) : base(id)
+        public UpdateReplyBodyCommand(string id, string body) : base(id)
         {
             Body = body;
         }

@@ -13,13 +13,12 @@ namespace Forum.Domain.Posts
         public string Body { get; private set; }
         public string SectionId { get; private set; }
         public string AuthorId { get; private set; }
-        public DateTime CreatedOn { get; private set; }
 
         public Post(string id, string subject, string body, string sectionId, string authorId) : base(id)
         {
             Assert.IsNotNullOrWhiteSpace("帖子标题", subject);
             Assert.IsNotNullOrWhiteSpace("帖子内容", body);
-            RaiseEvent(new PostCreated(Id, subject, body, sectionId, authorId, DateTime.Now));
+            RaiseEvent(new PostCreatedEvent(Id, subject, body, sectionId, authorId));
         }
 
         public void Update(string subject, string body)
@@ -28,19 +27,18 @@ namespace Forum.Domain.Posts
 
             Assert.IsNotNullOrWhiteSpace("帖子标题", subject);
             Assert.IsNotNullOrWhiteSpace("帖子内容", body);
-            RaiseEvent(new PostSubjectAndBodyChanged(Id, subject, body));
+            RaiseEvent(new PostUpdatedEvent(Id, subject, body));
         }
 
-        private void Handle(PostCreated evnt)
+        private void Handle(PostCreatedEvent evnt)
         {
             Id = evnt.AggregateRootId;
             Subject = evnt.Subject;
             Body = evnt.Body;
             SectionId = evnt.SectionId;
             AuthorId = evnt.AuthorId;
-            CreatedOn = evnt.CreatedOn;
         }
-        private void Handle(PostSubjectAndBodyChanged evnt)
+        private void Handle(PostUpdatedEvent evnt)
         {
             Subject = evnt.Subject;
             Body = evnt.Body;

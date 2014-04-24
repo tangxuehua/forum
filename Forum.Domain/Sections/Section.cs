@@ -11,20 +11,20 @@ namespace Forum.Domain.Sections
 
         public Section(string id, string name) : base(id)
         {
-            RaiseEvent(new SectionCreated(Id, name));
+            RaiseEvent(new SectionCreatedEvent(Id, name));
         }
 
         public void Update(string name)
         {
-            RaiseEvent(new SectionNameChanged(Id, name));
+            RaiseEvent(new SectionUpdatedEvent(Id, name));
         }
 
-        private void Handle(SectionCreated evnt)
+        private void Handle(SectionCreatedEvent evnt)
         {
             Id = evnt.AggregateRootId;
             Name = evnt.Name;
         }
-        private void Handle(SectionNameChanged evnt)
+        private void Handle(SectionUpdatedEvent evnt)
         {
             Name = evnt.Name;
         }

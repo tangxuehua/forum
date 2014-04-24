@@ -7,10 +7,10 @@ namespace Forum.Denormalizers.Dapper
 {
     [Component]
     public class PostEventHandler : BaseEventHandler,
-        IEventHandler<PostCreated>,
-        IEventHandler<PostSubjectAndBodyChanged>
+        IEventHandler<PostCreatedEvent>,
+        IEventHandler<PostUpdatedEvent>
     {
-        public void Handle(PostCreated evnt)
+        public void Handle(PostCreatedEvent evnt)
         {
             using (var connection = GetConnection())
             {
@@ -22,19 +22,26 @@ namespace Forum.Denormalizers.Dapper
                         Body = evnt.Body,
                         SectionId = evnt.SectionId,
                         AuthorId = evnt.AuthorId,
-                        CreatedOn = evnt.CreatedOn
-                    },
-                    "tb_Post");
+                        CreatedOn = evnt.Timestamp,
+                        UpdatedOn = evnt.Timestamp
+                    }, "tb_Post");
             }
         }
-        public void Handle(PostSubjectAndBodyChanged evnt)
+        public void Handle(PostUpdatedEvent evnt)
         {
             using (var connection = GetConnection())
             {
                 connection.Update(
-                    new { Subject = evnt.Subject, Body = evnt.Body },
-                    new { Id = evnt.AggregateRootId },
-                    "tb_Post");
+                    new
+                    {
+                        Subject = evnt.Subject,
+                        Body = evnt.Body,
+                        UpdatedOn = evnt.Timestamp
+                    },
+                    new
+                    {
+                        Id = evnt.AggregateRootId
+                    }, "tb_Post");
             }
         }
     }

@@ -44,16 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account\AccountCreated.cs" />
-    <Compile Include="Post\PostCreated.cs" />
-    <Compile Include="Post\PostSubjectAndBodyChanged.cs" />
+    <Compile Include="Account\AccountCreatedEvent.cs" />
+    <Compile Include="Post\PostCreatedEvent.cs" />
+    <Compile Include="Post\PostUpdatedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reply\PostReplied.cs" />
-    <Compile Include="Reply\ReplyBodyChanged.cs" />
-    <Compile Include="Reply\ReplyReplied.cs" />
-    <Compile Include="Reply\RepliedEventInfo.cs" />
-    <Compile Include="Section\SectionCreated.cs" />
-    <Compile Include="Section\SectionNameChanged.cs" />
+    <Compile Include="Reply\ReplyCreatedEvent.cs" />
+    <Compile Include="Reply\ReplyBodyUpdatedEvent.cs" />
+    <Compile Include="Section\SectionCreatedEvent.cs" />
+    <Compile Include="Section\SectionUpdatedEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -4,12 +4,11 @@ using ENode.Eventing;
 namespace Forum.Events.Reply
 {
     [Serializable]
-    public class ReplyBodyChanged : DomainEvent<string>
+    public class ReplyBodyUpdatedEvent : DomainEvent<string>
     {
         public string Body { get; private set; }
 
-        public ReplyBodyChanged(string replyId, string body)
-            : base(replyId)
+        public ReplyBodyUpdatedEvent(string id, string body) : base(id)
         {
             Body = body;
         }

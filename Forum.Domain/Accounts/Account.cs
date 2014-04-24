@@ -14,10 +14,10 @@ namespace Forum.Domain.Accounts
         {
             Assert.IsNotNullOrWhiteSpace("name", name);
             Assert.IsNotNullOrEmpty("password", password);
-            RaiseEvent(new AccountCreated(Id, name, password));
+            RaiseEvent(new AccountCreatedEvent(Id, name, password));
         }
 
-        private void Handle(AccountCreated evnt)
+        private void Handle(AccountCreatedEvent evnt)
         {
             Id = evnt.AggregateRootId;
             Name = evnt.Name;

@@ -20,7 +20,7 @@ namespace Forum.Api.Providers
             RegisterType<UpdatePostCommand>(301);
 
             RegisterType<CreateReplyCommand>(400);
-            RegisterType<UpdateReplyCommand>(401);
+            RegisterType<UpdateReplyBodyCommand>(401);
         }
     }
 }
