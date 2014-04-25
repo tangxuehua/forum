@@ -25,7 +25,7 @@ namespace Forum.Domain.Posts
 
         public void Update(string subject, string body)
         {
-            if (Subject == subject || Body == body) return;
+            if (Subject == subject && Body == body) return;
 
             Assert.IsNotNullOrWhiteSpace("帖子标题", subject);
             Assert.IsNotNullOrWhiteSpace("帖子内容", body);
