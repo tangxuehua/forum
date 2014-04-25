@@ -3,34 +3,35 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Domain", "Forum.Domain\Forum.Domain.csproj", "{5A4055C3-89BC-4149-8A6D-06CE985080C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Domain.Model", "Forum.Domain\Forum.Domain.Model.csproj", "{5A4055C3-89BC-4149-8A6D-06CE985080C9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{E84533C2-AD28-4E65-AD8A-5A57953D9BF7}"
-	ProjectSection(SolutionItems) = preProject
-		Scripts\SetupQueryDB.sql = Scripts\SetupQueryDB.sql
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Denormalizers.Dapper", "Forum.Denormalizers.Dapper\Forum.Denormalizers.Dapper.csproj", "{433DD072-0748-4440-BA1B-4A0D6E507D3B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Infrastructure.Denormalizers.Dapper", "Forum.Denormalizers.Dapper\Forum.Infrastructure.Denormalizers.Dapper.csproj", "{433DD072-0748-4440-BA1B-4A0D6E507D3B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Infrastructure", "Forum.Infrastructure\Forum.Infrastructure.csproj", "{86985782-8588-48DA-81AB-FFD3B855C73C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Commands", "Forum.Commands\Forum.Commands.csproj", "{7787EC6C-9CF3-401C-803A-B4DA2B0CA9EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Application.Commands", "Forum.Commands\Forum.Application.Commands.csproj", "{7787EC6C-9CF3-401C-803A-B4DA2B0CA9EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.CommandHandlers", "Forum.CommandHandlers\Forum.CommandHandlers.csproj", "{985E2001-F607-44BF-A84B-31E9B7D89D0C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Application.CommandHandlers", "Forum.CommandHandlers\Forum.Application.CommandHandlers.csproj", "{985E2001-F607-44BF-A84B-31E9B7D89D0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.QueryServices", "Forum.QueryServices\Forum.QueryServices.csproj", "{A0BC4AE4-1CAB-4CBF-9BFB-5365F04C60CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Application.QueryServices", "Forum.QueryServices\Forum.Application.QueryServices.csproj", "{A0BC4AE4-1CAB-4CBF-9BFB-5365F04C60CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.QueryServices.Dapper", "Forum.QueryServices.Dapper\Forum.QueryServices.Dapper.csproj", "{228E2C43-CD92-4B49-817D-3FBFBB9C50C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Infrastructure.QueryServices.Dapper", "Forum.QueryServices.Dapper\Forum.Infrastructure.QueryServices.Dapper.csproj", "{228E2C43-CD92-4B49-817D-3FBFBB9C50C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Domain.Repositories.MongoDB", "Forum.Domain.Repositories.MongoDB\Forum.Domain.Repositories.MongoDB.csproj", "{F53755FD-A603-4D08-ABAB-B766D20DEB3B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Infrastructure.Repositories.MongoDB", "Forum.Domain.Repositories.MongoDB\Forum.Infrastructure.Repositories.MongoDB.csproj", "{F53755FD-A603-4D08-ABAB-B766D20DEB3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Events", "Forum.Events\Forum.Events.csproj", "{20FEA974-92F2-4147-A597-7E88DC1562DB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4BC3D8CD-36FC-431C-9201-C1D070F0EC9E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Domain.Events", "Forum.Events\Forum.Domain.Events.csproj", "{20FEA974-92F2-4147-A597-7E88DC1562DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Api", "Forum.Api\Forum.Api.csproj", "{215C3B08-5ED8-455C-8F44-CE928CAD6C5C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{96B93DC0-8868-4785-8794-BC682110AE94}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{D03D8DA9-CE2B-4DB3-A8E5-CFAF81076BE0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{CFFCAFF5-7E6E-4B24-B108-C87FE5FD5C76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Domain.Tests", "Forum.Domain.Tests\Forum.Domain.Tests.csproj", "{8ACE1B35-380C-448F-970E-1D0722BD6090}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Application.ProcessManagers", "Forum.Application.ProcessManagers\Forum.Application.ProcessManagers.csproj", "{B6CCE427-29EA-48C0-A41A-421A04A7D9D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,14 +79,29 @@ Global
 		{215C3B08-5ED8-455C-8F44-CE928CAD6C5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{215C3B08-5ED8-455C-8F44-CE928CAD6C5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{215C3B08-5ED8-455C-8F44-CE928CAD6C5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8ACE1B35-380C-448F-970E-1D0722BD6090}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8ACE1B35-380C-448F-970E-1D0722BD6090}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8ACE1B35-380C-448F-970E-1D0722BD6090}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8ACE1B35-380C-448F-970E-1D0722BD6090}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6CCE427-29EA-48C0-A41A-421A04A7D9D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6CCE427-29EA-48C0-A41A-421A04A7D9D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6CCE427-29EA-48C0-A41A-421A04A7D9D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6CCE427-29EA-48C0-A41A-421A04A7D9D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{86985782-8588-48DA-81AB-FFD3B855C73C} = {96B93DC0-8868-4785-8794-BC682110AE94}
-		{433DD072-0748-4440-BA1B-4A0D6E507D3B} = {96B93DC0-8868-4785-8794-BC682110AE94}
-		{F53755FD-A603-4D08-ABAB-B766D20DEB3B} = {96B93DC0-8868-4785-8794-BC682110AE94}
 		{228E2C43-CD92-4B49-817D-3FBFBB9C50C4} = {96B93DC0-8868-4785-8794-BC682110AE94}
+		{F53755FD-A603-4D08-ABAB-B766D20DEB3B} = {96B93DC0-8868-4785-8794-BC682110AE94}
+		{433DD072-0748-4440-BA1B-4A0D6E507D3B} = {96B93DC0-8868-4785-8794-BC682110AE94}
+		{985E2001-F607-44BF-A84B-31E9B7D89D0C} = {D03D8DA9-CE2B-4DB3-A8E5-CFAF81076BE0}
+		{7787EC6C-9CF3-401C-803A-B4DA2B0CA9EF} = {D03D8DA9-CE2B-4DB3-A8E5-CFAF81076BE0}
+		{A0BC4AE4-1CAB-4CBF-9BFB-5365F04C60CE} = {D03D8DA9-CE2B-4DB3-A8E5-CFAF81076BE0}
+		{B6CCE427-29EA-48C0-A41A-421A04A7D9D7} = {D03D8DA9-CE2B-4DB3-A8E5-CFAF81076BE0}
+		{5A4055C3-89BC-4149-8A6D-06CE985080C9} = {CFFCAFF5-7E6E-4B24-B108-C87FE5FD5C76}
+		{20FEA974-92F2-4147-A597-7E88DC1562DB} = {CFFCAFF5-7E6E-4B24-B108-C87FE5FD5C76}
+		{8ACE1B35-380C-448F-970E-1D0722BD6090} = {CFFCAFF5-7E6E-4B24-B108-C87FE5FD5C76}
 	EndGlobalSection
 EndGlobal
