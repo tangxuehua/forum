@@ -1,9 +1,10 @@
 ﻿using ECommon.IoC;
 using ENode.Domain;
 using ENode.Eventing;
+using Forum.Domain.Accounts;
 using Forum.Events.Account;
 
-namespace Forum.Domain.Accounts
+namespace Forum.Application.Accounts
 {
     [Component]
     public class AccountService : IAccountService, IEventSynchronizer<AccountCreatedEvent>

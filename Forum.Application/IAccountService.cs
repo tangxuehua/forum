@@ -1,4 +1,6 @@
-﻿namespace Forum.Domain.Accounts
+﻿using Forum.Domain.Accounts;
+
+namespace Forum.Application.Accounts
 {
     public interface IAccountService
     {
