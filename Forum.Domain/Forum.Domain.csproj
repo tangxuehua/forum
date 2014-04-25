@@ -44,15 +44,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\Account.cs" />
+    <Compile Include="Accounts\AccountCreatedEvent.cs" />
+    <Compile Include="Accounts\AccountRegistrationInfo.cs" />
+    <Compile Include="Accounts\AccountRegistrationStatus.cs" />
+    <Compile Include="Accounts\DuplicateAccountNameException.cs" />
+    <Compile Include="Accounts\IAccountRegistrationInfoRepository.cs" />
     <Compile Include="DomainException.cs" />
     <Compile Include="Assert.cs" />
+    <Compile Include="Posts\Post.cs" />
+    <Compile Include="Posts\PostCreatedEvent.cs" />
+    <Compile Include="Posts\PostUpdatedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Forum.Events\Forum.Domain.csproj">
-      <Project>{20fea974-92f2-4147-a597-7e88dc1562db}</Project>
-      <Name>Forum.Domain</Name>
-    </ProjectReference>
+    <Compile Include="Replies\Reply.cs" />
+    <Compile Include="Replies\ReplyBodyUpdatedEvent.cs" />
+    <Compile Include="Replies\ReplyCreatedEvent.cs" />
+    <Compile Include="Sections\Section.cs" />
+    <Compile Include="Sections\SectionCreatedEvent.cs" />
+    <Compile Include="Sections\SectionUpdatedEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -52,13 +52,13 @@
     <Compile Include="ReplyEventHandler.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Forum.Events\Forum.Domain.csproj">
-      <Project>{20fea974-92f2-4147-a597-7e88dc1562db}</Project>
-      <Name>Forum.Domain</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Forum.Domain\Forum.Domain.csproj">
+      <Project>{5a4055c3-89bc-4149-8a6d-06ce985080c9}</Project>
+      <Name>Forum.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

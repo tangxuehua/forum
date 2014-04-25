@@ -5,7 +5,7 @@ using Forum.Domain.Accounts;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace Forum.Persistence.Dapper.Repositories
+namespace Forum.Domain.Repositories.Dapper
 {
     [Component]
     public class AccountRegistrationInfoRepository : IAccountRegistrationInfoRepository
