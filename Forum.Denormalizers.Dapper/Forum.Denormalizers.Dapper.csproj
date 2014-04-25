@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5A4055C3-89BC-4149-8A6D-06CE985080C9}</ProjectGuid>
+    <ProjectGuid>{433DD072-0748-4440-BA1B-4A0D6E507D3B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Forum.Domain</RootNamespace>
-    <AssemblyName>Forum.Domain</AssemblyName>
+    <RootNamespace>Forum.Denormalizers.Dapper</RootNamespace>
+    <AssemblyName>Forum.Denormalizers.Dapper</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -44,9 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DomainException.cs" />
-    <Compile Include="Assert.cs" />
+    <Compile Include="SectionEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BaseEventHandler.cs" />
+    <Compile Include="AccountEventHandler.cs" />
+    <Compile Include="PostEventHandler.cs" />
+    <Compile Include="ReplyEventHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Forum.Events\Forum.Domain.csproj">

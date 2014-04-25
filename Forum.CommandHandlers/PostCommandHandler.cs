@@ -1,6 +1,6 @@
 ﻿using ECommon.IoC;
 using ENode.Commanding;
-using Forum.Commands.Post;
+using Forum.Commands.Posts;
 using Forum.Domain.Posts;
 
 namespace Forum.CommandHandlers

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ECommon.IoC;
 using ECommon.Utilities;
 using ENode.Infrastructure.Dapper;

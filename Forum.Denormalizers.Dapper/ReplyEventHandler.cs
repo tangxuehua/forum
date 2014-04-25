@@ -1,7 +1,7 @@
 ﻿using ECommon.IoC;
 using ENode.Eventing;
 using ENode.Infrastructure.Dapper;
-using Forum.Events.Reply;
+using Forum.Domain.Replies;
 
 namespace Forum.Denormalizers.Dapper
 {

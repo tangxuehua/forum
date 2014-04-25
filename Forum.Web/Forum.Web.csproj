@@ -333,7 +333,7 @@
       <Project>{5a4055c3-89bc-4149-8a6d-06ce985080c9}</Project>
       <Name>Forum.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Forum.Events\Forum.Events.csproj">
+    <ProjectReference Include="..\Forum.Events\Forum.Domain.csproj">
       <Project>{20fea974-92f2-4147-a597-7e88dc1562db}</Project>
       <Name>Forum.Events</Name>
     </ProjectReference>
