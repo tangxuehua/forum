@@ -297,9 +297,41 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Forum.CommandHandlers\Forum.CommandHandlers.csproj">
+      <Project>{985e2001-f607-44bf-a84b-31e9b7d89d0c}</Project>
+      <Name>Forum.CommandHandlers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.Commands\Forum.Commands.csproj">
+      <Project>{7787ec6c-9cf3-401c-803a-b4da2b0ca9ef}</Project>
+      <Name>Forum.Commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.Denormalizers.Dapper\Forum.Denormalizers.Dapper.csproj">
+      <Project>{433dd072-0748-4440-ba1b-4a0d6e507d3b}</Project>
+      <Name>Forum.Denormalizers.Dapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.Domain.Repositories.Dapper\Forum.Domain.Repositories.Dapper.csproj">
+      <Project>{b229fffe-0f61-4ec7-88a5-5e76197f476c}</Project>
+      <Name>Forum.Domain.Repositories.Dapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Forum.Domain\Forum.Domain.csproj">
       <Project>{5a4055c3-89bc-4149-8a6d-06ce985080c9}</Project>
       <Name>Forum.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.EventSynchronizers\Forum.EventSynchronizers.csproj">
+      <Project>{ccfc7288-0d7f-4028-aed5-fa8ddbe84339}</Project>
+      <Name>Forum.EventSynchronizers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.Infrastructure\Forum.Infrastructure.csproj">
+      <Project>{86985782-8588-48da-81ab-ffd3b855c73c}</Project>
+      <Name>Forum.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.QueryServices.Dapper\Forum.QueryServices.Dapper.csproj">
+      <Project>{228e2c43-cd92-4b49-817d-3fbfbb9c50c4}</Project>
+      <Name>Forum.QueryServices.Dapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.QueryServices\Forum.QueryServices.csproj">
+      <Project>{a0bc4ae4-1cab-4cbf-9bfb-5365f04c60ce}</Project>
+      <Name>Forum.QueryServices</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

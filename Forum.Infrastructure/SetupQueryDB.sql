@@ -2,6 +2,16 @@
 -- Tables of Forum.
 -------------------------------------------------------------------------
 
+CREATE TABLE [tb_Registration](
+    [AccountName] [nvarchar](64) NOT NULL,
+    [AccountId] [nvarchar](32) NOT NULL,
+    [Status] [nvarchar](32) NOT NULL,
+ CONSTRAINT [PK_tb_Registration] PRIMARY KEY CLUSTERED
+(
+    [AccountName] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 CREATE TABLE [tb_Account](
     [Id] [nvarchar](32) NOT NULL,
     [Name] [nvarchar](128) NOT NULL,

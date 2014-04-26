@@ -20,9 +20,7 @@ namespace Forum.Api
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
-        private const string CommandSideConnectionString = "mongodb://localhost/Forum";
-        private const string AccountRegistrationInfoCollectionName = "AccountRegistrationInfoCollection";
-        private const string QuerySideConnectionString = "Data Source=(local);Initial Catalog=Forum;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
+        private const string ConnectionString = "Data Source=(local);Initial Catalog=Forum;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
 
         protected void Application_Start()
         {
@@ -51,8 +49,8 @@ namespace Forum.Api
                 .CreateENode()
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
-                .UseDefaultSqlQueryDbConnectionFactory(QuerySideConnectionString)
-                .MongoAccountRegistrationInfoRepository(CommandSideConnectionString, AccountRegistrationInfoCollectionName)
+                .UseDefaultSqlQueryDbConnectionFactory(ConnectionString)
+                .SetRegistrationDapperRepository(ConnectionString)
                 .SetProviders()
                 .UseEQueue()
                 .InitializeBusinessAssemblies(assemblies)

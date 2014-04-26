@@ -1,7 +1,8 @@
-﻿using System;
-using ENode.Infrastructure;
-using Forum.Commands.Account;
+﻿using ECommon.IoC;
+using ECommon.Utilities;
+using Forum.Commands.Accounts;
 using Forum.Domain.Accounts;
+using Forum.QueryServices;
 using NUnit.Framework;
 
 namespace Forum.Domain.Tests
@@ -9,33 +10,24 @@ namespace Forum.Domain.Tests
     [TestFixture]
     public class AccountTest : TestBase
     {
-        public static Guid AccountId;
-
         [Test]
-        public void CreateAccountTest()
+        public void create_single_account_test()
         {
-            var name = RandomString();
-            var password = RandomString();
-            ResetWaiters();
-            Account account = null;
+            var id = ObjectId.GenerateNewStringId();
+            var name = ObjectId.GenerateNewStringId();
+            var password = ObjectId.GenerateNewStringId();
 
-            CommandService.Send(new CreateAccount { Name = name, Password = password }, result =>
-            {
-                Assert.IsNull(result.ErrorInfo);
-                EventHandlerWaiter.WaitOne();
-                account = MemoryCache.Get<Account>(AccountId.ToString());
-                TestThreadWaiter.Set();
-            });
+            _commandService.Execute(new CreateAccountCommand(id, name, password)).Wait();
 
-            TestThreadWaiter.WaitOne();
+            var account = _memoryCache.Get<Account>(id);
             Assert.NotNull(account);
-            Assert.AreEqual(AccountId, account.Id);
+            Assert.AreEqual(id, account.Id);
             Assert.AreEqual(name, account.Name);
             Assert.AreEqual(password, account.Password);
 
             account = ObjectContainer.Resolve<IAccountService>().GetAccount(name);
             Assert.IsNotNull(account);
-            Assert.AreEqual(AccountId, account.Id);
+            Assert.AreEqual(id, account.Id);
             Assert.AreEqual(name, account.Name);
             Assert.AreEqual(password, account.Password);
         }

@@ -37,7 +37,7 @@ namespace Forum.Domain.Repositories.Dapper
                 {
                     if (ex.Number == 2601)
                     {
-                        if (ex.Message.Contains("IX_Registration_AccountNameIndex"))
+                        if (ex.Message.Contains("PK_tb_Registration"))
                         {
                             throw new DuplicateAccountNameException(registration.AccountName, ex);
                         }
