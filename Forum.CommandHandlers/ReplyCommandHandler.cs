@@ -12,7 +12,12 @@ namespace Forum.CommandHandlers
     {
         public void Handle(ICommandContext context, CreateReplyCommand command)
         {
-            context.Add(new Reply(command.AggregateRootId, command.PostId, command.ParentId, command.AuthorId, command.Body));
+            Reply parent = null;
+            if (!string.IsNullOrEmpty(command.ParentId))
+            {
+                parent = context.Get<Reply>(command.ParentId);
+            }
+            context.Add(new Reply(command.AggregateRootId, command.PostId, parent, command.AuthorId, command.Body));
         }
         public void Handle(ICommandContext context, UpdateReplyBodyCommand command)
         {

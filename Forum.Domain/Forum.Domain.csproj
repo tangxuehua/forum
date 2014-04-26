@@ -35,8 +35,9 @@
     <Reference Include="ECommon">
       <HintPath>..\packages\ecommon.1.0.8\lib\net40\ECommon.dll</HintPath>
     </Reference>
-    <Reference Include="ENode">
-      <HintPath>..\packages\enode.2.1.3\lib\net40\ENode.dll</HintPath>
+    <Reference Include="ENode, Version=2.1.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\enode.2.1.5\lib\net40\ENode.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,10 +47,10 @@
   <ItemGroup>
     <Compile Include="Accounts\Account.cs" />
     <Compile Include="Accounts\AccountCreatedEvent.cs" />
-    <Compile Include="Accounts\AccountRegistrationInfo.cs" />
-    <Compile Include="Accounts\AccountRegistrationStatus.cs" />
+    <Compile Include="Accounts\Registration.cs" />
+    <Compile Include="Accounts\RegistrationStatus.cs" />
     <Compile Include="Accounts\DuplicateAccountNameException.cs" />
-    <Compile Include="Accounts\IAccountRegistrationInfoRepository.cs" />
+    <Compile Include="Accounts\IRegistrationRepository.cs" />
     <Compile Include="DomainException.cs" />
     <Compile Include="Assert.cs" />
     <Compile Include="Posts\Post.cs" />

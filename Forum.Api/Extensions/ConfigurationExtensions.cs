@@ -8,7 +8,7 @@ namespace Forum.Api.Extensions
     {
         public static ENodeConfiguration MongoAccountRegistrationInfoRepository(this ENodeConfiguration configuration, string connectionString, string accountCollectionName)
         {
-            configuration.GetCommonConfiguration().SetDefault<IAccountRegistrationInfoRepository, AccountRegistrationInfoRepository>(
+            configuration.GetCommonConfiguration().SetDefault<IRegistrationRepository, AccountRegistrationInfoRepository>(
                 new AccountRegistrationInfoRepository(connectionString, accountCollectionName));
             return configuration;
         }

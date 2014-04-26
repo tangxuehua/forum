@@ -1,6 +1,6 @@
 ﻿using Forum.Domain.Accounts;
 
-namespace Forum.Application.Services
+namespace Forum.QueryServices
 {
     public interface IAccountService
     {

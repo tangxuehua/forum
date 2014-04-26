@@ -1,42 +1,45 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Data.SqlClient;
 using ECommon.IoC;
+using ENode.Infrastructure.Dapper;
 using Forum.Domain.Accounts;
-using MongoDB.Bson;
-using MongoDB.Driver;
 
 namespace Forum.Domain.Repositories.Dapper
 {
     [Component]
-    public class AccountRegistrationInfoRepository : IAccountRegistrationInfoRepository
+    public class RegistrationRepository : IRegistrationRepository
     {
         private readonly string _connectionString;
-        private readonly string _accountCollectionName;
-        private readonly ConcurrentDictionary<string, MongoCollection<BsonDocument>> _collectionDict;
 
-        public AccountRegistrationInfoRepository(string connectionString, string accountCollectionName)
+        public RegistrationRepository(string connectionString)
         {
             if (connectionString == null)
             {
                 throw new ArgumentNullException("connectionString");
             }
-            if (accountCollectionName == null)
-            {
-                throw new ArgumentNullException("accountCollectionName");
-            }
             _connectionString = connectionString;
-            _accountCollectionName = accountCollectionName;
-            _collectionDict = new ConcurrentDictionary<string, MongoCollection<BsonDocument>>();
         }
 
-        public void Add(AccountRegistrationInfo info)
+        public void Add(Registration info)
         {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Insert(
+                    new
+                    {
+                        AccountId = info.AccountId,
+                        AccountName = info.AccountName,
+                        Status = RegistrationStatus.Created.ToString()
+                    }, "tb_Registration");
+            }
+
             try
             {
                 GetAccountCollection().Insert(new BsonDocument {
                     { "_id", info.AccountName },
                     { "AccountId", info.AccountId.ToString() },
-                    { "Status", AccountRegistrationStatus.Created.ToString() }
+                    { "Status", RegistrationStatus.Created.ToString() }
                 });
             }
             catch (WriteConcernException ex)
@@ -47,7 +50,7 @@ namespace Forum.Domain.Repositories.Dapper
                 }
             }
         }
-        public void Update(AccountRegistrationInfo info)
+        public void Update(Registration info)
         {
             var accountCollection = GetAccountCollection();
             var document = accountCollection.FindOneById(new BsonString(info.AccountName));
@@ -58,15 +61,15 @@ namespace Forum.Domain.Repositories.Dapper
             document["Status"] = info.RegistrationStatus.ToString();
             accountCollection.Save(document);
         }
-        public AccountRegistrationInfo GetByAccountName(string accountName)
+        public Registration GetByAccountName(string accountName)
         {
             var document = GetAccountCollection().FindOneById(new BsonString(accountName));
             if (document != null)
             {
-                return new AccountRegistrationInfo(
+                return new Registration(
                     document["AccountId"].AsString,
                     document["_id"].AsString,
-                    (AccountRegistrationStatus)Enum.Parse(typeof(AccountRegistrationStatus), document["Status"].AsString));
+                    (RegistrationStatus)Enum.Parse(typeof(RegistrationStatus), document["Status"].AsString));
             }
             return null;
         }

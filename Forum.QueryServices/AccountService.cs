@@ -1,41 +1,29 @@
 ﻿using ECommon.IoC;
 using ENode.Domain;
-using ENode.Eventing;
 using Forum.Domain.Accounts;
 
-namespace Forum.Application.Services
+namespace Forum.QueryServices
 {
     [Component]
-    public class AccountService : IAccountService, IEventSynchronizer<AccountCreatedEvent>
+    public class AccountService : IAccountService
     {
         private readonly IRepository _repository;
-        private readonly IAccountRegistrationInfoRepository _accountRegistrationInfoRepository;
+        private readonly IRegistrationRepository _registrationRepository;
 
-        public AccountService(IRepository repository, IAccountRegistrationInfoRepository accountRegistrationInfoRepository)
+        public AccountService(IRepository repository, IRegistrationRepository registrationRepository)
         {
             _repository = repository;
-            _accountRegistrationInfoRepository = accountRegistrationInfoRepository;
+            _registrationRepository = registrationRepository;
         }
 
         public Account GetAccount(string accountName)
         {
-            var accountRegistrationInfo = _accountRegistrationInfoRepository.GetByAccountName(accountName);
-            if (accountRegistrationInfo != null && accountRegistrationInfo.RegistrationStatus == AccountRegistrationStatus.Confirmed)
+            var registration = _registrationRepository.GetByAccountName(accountName);
+            if (registration != null && registration.RegistrationStatus == RegistrationStatus.Confirmed)
             {
-                return _repository.Get<Account>(accountRegistrationInfo.AccountId);
+                return _repository.Get<Account>(registration.AccountId);
             }
             return null;
-        }
-
-        public void OnBeforePersisting(AccountCreatedEvent evnt)
-        {
-            _accountRegistrationInfoRepository.Add(new AccountRegistrationInfo(evnt.AggregateRootId, evnt.Name));
-        }
-        public void OnAfterPersisted(AccountCreatedEvent evnt)
-        {
-            var registrationInfo = _accountRegistrationInfoRepository.GetByAccountName(evnt.Name);
-            registrationInfo.ConfirmStatus();
-            _accountRegistrationInfoRepository.Update(registrationInfo);
         }
     }
 }
