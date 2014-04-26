@@ -19,7 +19,7 @@ namespace Forum.QueryServices
         public Account GetAccount(string accountName)
         {
             var registration = _registrationRepository.GetByAccountName(accountName);
-            if (registration != null && registration.RegistrationStatus == RegistrationStatus.Confirmed)
+            if (registration != null && registration.Status == RegistrationStatus.Confirmed)
             {
                 return _repository.Get<Account>(registration.AccountId);
             }

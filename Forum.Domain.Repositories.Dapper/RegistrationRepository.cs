@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Data.SqlClient;
 using ECommon.IoC;
 using ENode.Infrastructure.Dapper;
@@ -21,71 +20,56 @@ namespace Forum.Domain.Repositories.Dapper
             _connectionString = connectionString;
         }
 
-        public void Add(Registration info)
+        public void Add(Registration registration)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = GetConnection())
             {
-                connection.Insert(
-                    new
-                    {
-                        AccountId = info.AccountId,
-                        AccountName = info.AccountName,
-                        Status = RegistrationStatus.Created.ToString()
-                    }, "tb_Registration");
-            }
-
-            try
-            {
-                GetAccountCollection().Insert(new BsonDocument {
-                    { "_id", info.AccountName },
-                    { "AccountId", info.AccountId.ToString() },
-                    { "Status", RegistrationStatus.Created.ToString() }
-                });
-            }
-            catch (WriteConcernException ex)
-            {
-                if (ex.CommandResult != null && ex.CommandResult.Code != null && ex.CommandResult.Code.Value == 11000)
+                try
                 {
-                    throw new DuplicateAccountNameException(info.AccountName, ex);
+                    connection.Insert(new
+                    {
+                        AccountId = registration.AccountId,
+                        AccountName = registration.AccountName,
+                        Status = registration.Status
+                    }, "tb_Registration");
+                }
+                catch (SqlException ex)
+                {
+                    if (ex.Number == 2601)
+                    {
+                        if (ex.Message.Contains("IX_Registration_AccountNameIndex"))
+                        {
+                            throw new DuplicateAccountNameException(registration.AccountName, ex);
+                        }
+                    }
+                    throw;
                 }
             }
         }
-        public void Update(Registration info)
+        public void Update(Registration registration)
         {
-            var accountCollection = GetAccountCollection();
-            var document = accountCollection.FindOneById(new BsonString(info.AccountName));
-            if (document == null)
+            using (var connection = GetConnection())
             {
-                throw new Exception(string.Format("无法根据账号：{0}获取账号注册信息。", info.AccountName));
+                connection.Update(new { Status = registration.Status }, new { AccountId = registration.AccountId }, "tb_Registration");
             }
-            document["Status"] = info.RegistrationStatus.ToString();
-            accountCollection.Save(document);
         }
         public Registration GetByAccountName(string accountName)
         {
-            var document = GetAccountCollection().FindOneById(new BsonString(accountName));
-            if (document != null)
+            using (var connection = GetConnection())
             {
-                return new Registration(
-                    document["AccountId"].AsString,
-                    document["_id"].AsString,
-                    (RegistrationStatus)Enum.Parse(typeof(RegistrationStatus), document["Status"].AsString));
+                var data = connection.QuerySingleOrDefault(new { AccountName = accountName }, "tb_Registration");
+                if (data != null)
+                {
+                    var status = (RegistrationStatus)Enum.Parse(typeof(RegistrationStatus), data.Status);
+                    return new Registration(data.AccountId, accountName, status);
+                }
             }
             return null;
         }
 
-        private MongoCollection<BsonDocument> GetAccountCollection()
+        private SqlConnection GetConnection()
         {
-            MongoCollection<BsonDocument> collection;
-            if (_collectionDict.TryGetValue(_accountCollectionName, out collection)) return collection;
-
-            lock (this)
-            {
-                collection = new MongoClient(_connectionString).GetServer().GetDatabase(new MongoUrl(_connectionString).DatabaseName).GetCollection(_accountCollectionName);
-                _collectionDict.TryAdd(_accountCollectionName, collection);
-            }
-
-            return collection;
+            return new SqlConnection(_connectionString);
         }
     }
 }

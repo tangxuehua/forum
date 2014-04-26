@@ -15,21 +15,22 @@ namespace Forum.Domain.Accounts
         public string AccountName { get; private set; }
         /// <summary>账号注册状态
         /// </summary>
-        public RegistrationStatus RegistrationStatus { get; private set; }
+        public RegistrationStatus Status { get; private set; }
 
         public Registration(string accountId, string accountName) : this(accountId, accountName, RegistrationStatus.Created) { }
-        public Registration(string accountId, string accountName, RegistrationStatus registrationStatus)
+        public Registration(string accountId, string accountName, RegistrationStatus status)
         {
             AccountId = accountId;
             AccountName = accountName;
-            RegistrationStatus = registrationStatus;
+            Status = status;
         }
 
         /// <summary>确认账号注册信息，状态修改为已确认
         /// </summary>
-        public void ConfirmStatus()
+        public Registration ConfirmStatus()
         {
-            RegistrationStatus = RegistrationStatus.Confirmed;
+            Status = RegistrationStatus.Confirmed;
+            return this;
         }
     }
 }

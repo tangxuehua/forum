@@ -20,9 +20,7 @@ namespace Forum.EventSynchronizers
         }
         public void OnAfterPersisted(AccountCreatedEvent evnt)
         {
-            var registration = _registrationRepository.GetByAccountName(evnt.Name);
-            registration.ConfirmStatus();
-            _registrationRepository.Update(registration);
+            _registrationRepository.Update(_registrationRepository.GetByAccountName(evnt.Name).ConfirmStatus());
         }
     }
 }
