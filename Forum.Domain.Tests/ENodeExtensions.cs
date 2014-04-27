@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Threading;
-using ECommon.IoC;
+using ECommon.Components;
 using ECommon.Scheduling;
 using ENode.Commanding;
 using ENode.Configurations;
@@ -37,11 +37,6 @@ namespace Forum.Domain.Tests
             configuration.SetDefault<IEventTypeCodeProvider, EventTypeCodeProvider>();
             configuration.SetDefault<IEventHandlerTypeCodeProvider, EventHandlerTypeCodeProvider>();
             return enodeConfiguration;
-        }
-        public static ENodeConfiguration UseRegistrationDapperRepository(this ENodeConfiguration configuration, string connectionString)
-        {
-            configuration.GetCommonConfiguration().SetDefault<IRegistrationRepository, RegistrationRepository>(new RegistrationRepository(connectionString));
-            return configuration;
         }
         public static ENodeConfiguration UseEQueue(this ENodeConfiguration enodeConfiguration)
         {

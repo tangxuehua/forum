@@ -1,12 +1,12 @@
-﻿using ECommon.IoC;
+﻿using ECommon.Components;
 using ENode.Commanding;
 using Forum.Commands.Posts;
 using Forum.Domain.Posts;
 
 namespace Forum.CommandHandlers
 {
-    [Component]
-    internal sealed class PostCommandHandler :
+    [Component(LifeStyle.Singleton)]
+    public class PostCommandHandler :
         ICommandHandler<CreatePostCommand>,
         ICommandHandler<UpdatePostCommand>
     {

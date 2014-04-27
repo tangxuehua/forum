@@ -1,82 +1,77 @@
-﻿using System;
-using Forum.Commands.Reply;
+﻿using ECommon.Utilities;
+using Forum.Commands.Replies;
 using Forum.Domain.Replies;
 using NUnit.Framework;
 
 namespace Forum.Domain.Tests
 {
     [TestFixture]
-    public class ReplyTest : PostTest
+    public class ReplyTest : TestBase
     {
-        public static Guid ReplyId;
-
         [Test]
-        public void CreatePostReplyTest()
+        public void create_reply_test1()
         {
-            CreatePostTest();
-            var body = RandomString();
-            var authorId = CreateAccountId();
-            ResetWaiters();
-            Reply reply = null;
+            var id = ObjectId.GenerateNewStringId();
+            var postId = ObjectId.GenerateNewStringId();
+            var authorId = ObjectId.GenerateNewStringId();
+            var body = ObjectId.GenerateNewStringId();
 
-            CommandService.Send(new CreateReply { Body = body, PostId = PostId, AuthorId = authorId }, result =>
-            {
-                Assert.IsNull(result.ErrorInfo);
-                EventHandlerWaiter.WaitOne();
-                reply = MemoryCache.Get<Reply>(ReplyId);
-                TestThreadWaiter.Set();
-            });
+            _commandService.Execute(new CreateReplyCommand(id, postId, null, body, authorId)).Wait();
 
-            TestThreadWaiter.WaitOne();
+            var reply = _memoryCache.Get<Reply>(id);
+
             Assert.NotNull(reply);
-            Assert.AreEqual(body, reply.Body);
+            Assert.AreEqual(id, reply.Id);
+            Assert.AreEqual(postId, reply.PostId);
             Assert.AreEqual(authorId, reply.AuthorId);
-            Assert.AreEqual(PostId, reply.PostId);
+            Assert.AreEqual(body, reply.Body);
         }
+
         [Test]
-        public void CreateReplyReplyTest()
+        public void create_reply_test2()
         {
-            CreatePostReplyTest();
-            var body = RandomString();
-            var authorId = CreateAccountId();
-            var parentId = ReplyId;
-            ResetWaiters();
-            Reply reply = null;
+            var id = ObjectId.GenerateNewStringId();
+            var postId = ObjectId.GenerateNewStringId();
+            var authorId = ObjectId.GenerateNewStringId();
+            var body = ObjectId.GenerateNewStringId();
 
-            CommandService.Send(new CreateReply { Body = body, ParentId = parentId, PostId = PostId, AuthorId = authorId }, result =>
-            {
-                Assert.IsNull(result.ErrorInfo);
-                EventHandlerWaiter.WaitOne();
-                reply = MemoryCache.Get<Reply>(ReplyId);
-                TestThreadWaiter.Set();
-            });
+            _commandService.Execute(new CreateReplyCommand(id, postId, null, body, authorId)).Wait();
 
-            TestThreadWaiter.WaitOne();
+            var id2 = ObjectId.GenerateNewStringId();
+            var body2 = ObjectId.GenerateNewStringId();
+
+            _commandService.Execute(new CreateReplyCommand(id2, postId, id, body2, authorId)).Wait();
+
+            var reply = _memoryCache.Get<Reply>(id2);
+
             Assert.NotNull(reply);
-            Assert.AreEqual(body, reply.Body);
+            Assert.AreEqual(id2, reply.Id);
+            Assert.AreEqual(postId, reply.PostId);
             Assert.AreEqual(authorId, reply.AuthorId);
-            Assert.AreEqual(PostId, reply.PostId);
-            Assert.AreEqual(parentId, reply.ParentId);
+            Assert.AreEqual(body2, reply.Body);
         }
+
         [Test]
-        public void ChangeReplyBodyTest()
+        public void update_reply_body_test()
         {
-            CreatePostReplyTest();
+            var id = ObjectId.GenerateNewStringId();
+            var postId = ObjectId.GenerateNewStringId();
+            var authorId = ObjectId.GenerateNewStringId();
+            var body = ObjectId.GenerateNewStringId();
 
-            ResetWaiters();
-            Reply reply = null;
-            var body = RandomString();
+            _commandService.Execute(new CreateReplyCommand(id, postId, null, body, authorId)).Wait();
 
-            CommandService.Send(new ChangeReplyBody { ReplyId = ReplyId, Body = body }, result =>
-            {
-                Assert.IsNull(result.ErrorInfo);
-                EventHandlerWaiter.WaitOne();
-                reply = MemoryCache.Get<Reply>(ReplyId);
-                TestThreadWaiter.Set();
-            });
+            var body2 = ObjectId.GenerateNewStringId();
 
-            TestThreadWaiter.WaitOne();
-            Assert.AreEqual(body, reply.Body);
+            _commandService.Execute(new UpdateReplyBodyCommand(id, body2)).Wait();
+
+            var reply = _memoryCache.Get<Reply>(id);
+
+            Assert.NotNull(reply);
+            Assert.AreEqual(id, reply.Id);
+            Assert.AreEqual(postId, reply.PostId);
+            Assert.AreEqual(authorId, reply.AuthorId);
+            Assert.AreEqual(body2, reply.Body);
         }
     }
 }

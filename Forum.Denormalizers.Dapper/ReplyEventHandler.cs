@@ -1,11 +1,12 @@
-﻿using ECommon.IoC;
+﻿using ECommon.Components;
+using ECommon.Dapper;
 using ENode.Eventing;
-using ENode.Infrastructure.Dapper;
 using Forum.Domain.Replies;
+using Forum.Infrastructure;
 
 namespace Forum.Denormalizers.Dapper
 {
-    [Component]
+    [Component(LifeStyle.Singleton)]
     public class ReplyEventHandler : BaseEventHandler,
         IEventHandler<ReplyCreatedEvent>,
         IEventHandler<ReplyBodyUpdatedEvent>
@@ -25,7 +26,7 @@ namespace Forum.Denormalizers.Dapper
                         CreatedOn = evnt.Timestamp,
                         UpdatedOn = evnt.Timestamp
                     },
-                    "tb_Reply");
+                    Constants.ReplyTable);
             }
         }
         public void Handle(ReplyBodyUpdatedEvent evnt)
@@ -41,7 +42,7 @@ namespace Forum.Denormalizers.Dapper
                     new
                     {
                         Id = evnt.AggregateRootId
-                    }, "tb_Reply");
+                    }, Constants.ReplyTable);
             }
         }
     }

@@ -49,30 +49,33 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Autofac.WebApi.3.1.0\lib\net40\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ecommon.1.0.8\lib\net40\ECommon.dll</HintPath>
+      <HintPath>..\packages\ecommon.1.0.9\lib\net40\ECommon.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon.Autofac, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon.Autofac, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ecommon.autofac.1.0.9\lib\net40\ECommon.Autofac.dll</HintPath>
+      <HintPath>..\packages\ecommon.autofac.1.1.0\lib\net40\ECommon.Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon.JsonNet">
-      <HintPath>..\packages\ecommon.jsonnet.1.0.8\lib\net40\ECommon.JsonNet.dll</HintPath>
-    </Reference>
-    <Reference Include="ECommon.Log4Net">
-      <HintPath>..\packages\ecommon.log4net.1.0.8\lib\net40\ECommon.Log4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="ENode, Version=2.1.5.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon.JsonNet, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\enode.2.1.6\lib\net40\ENode.dll</HintPath>
+      <HintPath>..\packages\ecommon.jsonnet.1.0.9\lib\net40\ECommon.JsonNet.dll</HintPath>
     </Reference>
-    <Reference Include="ENode.EQueue, Version=1.1.8.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon.Log4Net, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\enode.equeue.1.1.9\lib\net40\ENode.EQueue.dll</HintPath>
+      <HintPath>..\packages\ecommon.log4net.1.0.9\lib\net40\ECommon.Log4Net.dll</HintPath>
     </Reference>
-    <Reference Include="EQueue">
-      <HintPath>..\packages\equeue.1.0.9\lib\net40\EQueue.dll</HintPath>
+    <Reference Include="ENode, Version=2.1.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\enode.2.1.7\lib\net40\ENode.dll</HintPath>
+    </Reference>
+    <Reference Include="ENode.EQueue, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\enode.equeue.1.2.0\lib\net40\ENode.EQueue.dll</HintPath>
+    </Reference>
+    <Reference Include="EQueue, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\equeue.1.1.0\lib\net40\EQueue.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>

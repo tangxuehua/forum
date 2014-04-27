@@ -1,12 +1,12 @@
-﻿using ECommon.IoC;
+﻿using ECommon.Components;
 using ENode.Commanding;
 using Forum.Commands.Sections;
 using Forum.Domain.Sections;
 
 namespace Forum.CommandHandlers
 {
-    [Component]
-    internal sealed class SectionCommandHandler :
+    [Component(LifeStyle.Singleton)]
+    public class SectionCommandHandler :
         ICommandHandler<CreateSectionCommand>,
         ICommandHandler<UpdateSectionCommand>
     {

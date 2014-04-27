@@ -1,12 +1,13 @@
 ﻿using System.Reflection;
 using ECommon.Autofac;
+using ECommon.Components;
 using ECommon.Configurations;
-using ECommon.IoC;
 using ECommon.JsonNet;
 using ECommon.Log4Net;
 using ENode.Commanding;
 using ENode.Configurations;
 using ENode.Domain;
+using Forum.Infrastructure;
 using NUnit.Framework;
 
 namespace Forum.Domain.Tests
@@ -25,6 +26,8 @@ namespace Forum.Domain.Tests
         {
             if (!_initialized)
             {
+                ConfigSettings.ConnectionString = ConnectionString;
+
                 var assemblies = new[]
                 {
                     Assembly.Load("Forum.Domain"),
@@ -45,8 +48,7 @@ namespace Forum.Domain.Tests
                     .CreateENode()
                     .RegisterENodeComponents()
                     .RegisterBusinessComponents(assemblies)
-                    .UseDefaultSqlQueryDbConnectionFactory(ConnectionString)
-                    .UseRegistrationDapperRepository(ConnectionString)
+                    .UseSqlServerEventStore(ConnectionString)
                     .SetProviders()
                     .UseEQueue()
                     .InitializeBusinessAssemblies(assemblies)

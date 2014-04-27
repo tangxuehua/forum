@@ -1,12 +1,12 @@
-﻿using ECommon.IoC;
+﻿using ECommon.Components;
 using ENode.Commanding;
 using Forum.Commands.Accounts;
 using Forum.Domain.Accounts;
 
 namespace Forum.CommandHandlers
 {
-    [Component]
-    internal sealed class AccountCommandHandler : ICommandHandler<CreateAccountCommand>
+    [Component(LifeStyle.Singleton)]
+    public class AccountCommandHandler : ICommandHandler<CreateAccountCommand>
     {
         public void Handle(ICommandContext context, CreateAccountCommand command)
         {

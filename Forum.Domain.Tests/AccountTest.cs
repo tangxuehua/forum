@@ -1,5 +1,5 @@
-﻿using ECommon.Extensions;
-using ECommon.IoC;
+﻿using ECommon.Components;
+using ECommon.Extensions;
 using ECommon.Utilities;
 using ENode.Commanding;
 using Forum.Commands.Accounts;

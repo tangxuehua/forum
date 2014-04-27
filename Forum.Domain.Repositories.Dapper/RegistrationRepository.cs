@@ -1,25 +1,16 @@
 ﻿using System;
 using System.Data.SqlClient;
-using ECommon.IoC;
-using ENode.Infrastructure.Dapper;
+using System.Linq;
+using ECommon.Components;
+using ECommon.Dapper;
 using Forum.Domain.Accounts;
+using Forum.Infrastructure;
 
 namespace Forum.Domain.Repositories.Dapper
 {
-    [Component]
+    [Component(LifeStyle.Singleton)]
     public class RegistrationRepository : IRegistrationRepository
     {
-        private readonly string _connectionString;
-
-        public RegistrationRepository(string connectionString)
-        {
-            if (connectionString == null)
-            {
-                throw new ArgumentNullException("connectionString");
-            }
-            _connectionString = connectionString;
-        }
-
         public void Add(Registration registration)
         {
             using (var connection = GetConnection())
@@ -31,13 +22,13 @@ namespace Forum.Domain.Repositories.Dapper
                         AccountId = registration.AccountId,
                         AccountName = registration.AccountName,
                         Status = registration.Status
-                    }, "tb_Registration");
+                    }, Constants.RegistrationTable);
                 }
                 catch (SqlException ex)
                 {
                     if (ex.Number == 2627)
                     {
-                        if (ex.Message.Contains("PK_tb_Registration"))
+                        if (ex.Message.Contains(Constants.RegistrationTablePrimaryKeyName))
                         {
                             throw new DuplicateAccountNameException(registration.AccountName, ex);
                         }
@@ -50,14 +41,14 @@ namespace Forum.Domain.Repositories.Dapper
         {
             using (var connection = GetConnection())
             {
-                connection.Update(new { Status = registration.Status }, new { AccountId = registration.AccountId }, "tb_Registration");
+                connection.Update(new { Status = registration.Status }, new { AccountId = registration.AccountId }, Constants.RegistrationTable);
             }
         }
         public Registration GetByAccountName(string accountName)
         {
             using (var connection = GetConnection())
             {
-                var data = connection.QuerySingleOrDefault(new { AccountName = accountName }, "tb_Registration");
+                var data = connection.QueryList(new { AccountName = accountName }, Constants.RegistrationTable).SingleOrDefault();
                 if (data != null)
                 {
                     var status = (RegistrationStatus)Enum.Parse(typeof(RegistrationStatus), data.Status);
@@ -69,7 +60,7 @@ namespace Forum.Domain.Repositories.Dapper
 
         private SqlConnection GetConnection()
         {
-            return new SqlConnection(_connectionString);
+            return new SqlConnection(ConfigSettings.ConnectionString);
         }
     }
 }

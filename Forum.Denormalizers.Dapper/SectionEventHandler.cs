@@ -1,11 +1,12 @@
-﻿using ECommon.IoC;
+﻿using ECommon.Components;
+using ECommon.Dapper;
 using ENode.Eventing;
-using ENode.Infrastructure.Dapper;
 using Forum.Domain.Sections;
+using Forum.Infrastructure;
 
 namespace Forum.Denormalizers.Dapper
 {
-    [Component]
+    [Component(LifeStyle.Singleton)]
     public class SectionEventHandler : BaseEventHandler,
         IEventHandler<SectionCreatedEvent>,
         IEventHandler<SectionUpdatedEvent>
@@ -21,7 +22,7 @@ namespace Forum.Denormalizers.Dapper
                         Name = evnt.Name,
                         CreatedOn = evnt.Timestamp,
                         UpdatedOn = evnt.Timestamp
-                    }, "tb_Section");
+                    }, Constants.SectionTable);
             }
         }
         public void Handle(SectionUpdatedEvent evnt)
@@ -37,7 +38,7 @@ namespace Forum.Denormalizers.Dapper
                     new
                     {
                         Id = evnt.AggregateRootId
-                    }, "tb_Section");
+                    }, Constants.SectionTable);
             }
         }
     }

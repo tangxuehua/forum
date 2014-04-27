@@ -1,11 +1,12 @@
-﻿using ECommon.IoC;
+﻿using ECommon.Components;
+using ECommon.Dapper;
 using ENode.Eventing;
-using ENode.Infrastructure.Dapper;
 using Forum.Domain.Posts;
+using Forum.Infrastructure;
 
 namespace Forum.Denormalizers.Dapper
 {
-    [Component]
+    [Component(LifeStyle.Singleton)]
     public class PostEventHandler : BaseEventHandler,
         IEventHandler<PostCreatedEvent>,
         IEventHandler<PostUpdatedEvent>
@@ -24,7 +25,7 @@ namespace Forum.Denormalizers.Dapper
                         AuthorId = evnt.AuthorId,
                         CreatedOn = evnt.Timestamp,
                         UpdatedOn = evnt.Timestamp
-                    }, "tb_Post");
+                    }, Constants.PostTable);
             }
         }
         public void Handle(PostUpdatedEvent evnt)
@@ -41,7 +42,7 @@ namespace Forum.Denormalizers.Dapper
                     new
                     {
                         Id = evnt.AggregateRootId
-                    }, "tb_Post");
+                    }, Constants.PostTable);
             }
         }
     }

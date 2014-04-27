@@ -1,21 +1,14 @@
 ﻿using System.Data;
-using ECommon.IoC;
-using ENode.Infrastructure.Sql;
+using System.Data.SqlClient;
+using Forum.Infrastructure;
 
 namespace Forum.Denormalizers.Dapper
 {
     public abstract class BaseEventHandler
     {
-        private ISqlQueryDbConnectionFactory _connectionFactory;
-
-        protected BaseEventHandler()
-        {
-            _connectionFactory = ObjectContainer.Resolve<ISqlQueryDbConnectionFactory>();
-        }
-
         protected IDbConnection GetConnection()
         {
-            return _connectionFactory.CreateConnection();
+            return new SqlConnection(ConfigSettings.ConnectionString);
         }
     }
 }

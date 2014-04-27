@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
-using ECommon.IoC;
+using ECommon.Components;
+using ECommon.Dapper;
 using ECommon.Utilities;
-using ENode.Infrastructure.Dapper;
+using Forum.Infrastructure;
 using Forum.QueryServices.DTOs;
 
 namespace Forum.QueryServices.Dapper
 {
-    [Component]
+    [Component(LifeStyle.Singleton)]
     public class PostQueryService : BaseQueryService, IPostQueryService
     {
         public IEnumerable<Post> QueryPosts(PostQueryOption option)
@@ -23,10 +24,9 @@ namespace Forum.QueryServices.Dapper
             {
                 return connection.QueryPaged<Post>(
                     condition,
-                    "tb_Post",
-                    "*",
+                    Constants.PostTable,
                     "CreatedOn",
-                    option.PageInfo.PageIndex - 1,
+                    option.PageInfo.PageIndex,
                     option.PageInfo.PageSize);
             }
         }
@@ -34,10 +34,10 @@ namespace Forum.QueryServices.Dapper
         {
             using (var connection = GetConnection())
             {
-                var post = connection.QuerySingleOrDefault<Post>(new { Id = postId }, "tb_Post");
+                var post = connection.QueryList<Post>(new { Id = postId }, Constants.PostTable);
                 if (post != null)
                 {
-                    var replyList = connection.Query<ReplyInfo>(new { PostId = postId }, "tb_Reply");
+                    var replyList = connection.QueryList<ReplyInfo>(new { PostId = postId }, Constants.ReplyTable);
                     var postInfo = ObjectUtils.CreateObject<PostInfo>(post);
                     postInfo.ReplyList = replyList;
                     return postInfo;

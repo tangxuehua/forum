@@ -1,12 +1,12 @@
-﻿using ECommon.IoC;
+﻿using ECommon.Components;
 using ENode.Commanding;
 using Forum.Commands.Replies;
 using Forum.Domain.Replies;
 
 namespace Forum.CommandHandlers
 {
-    [Component]
-    internal sealed class ReplyCommandHandler :
+    [Component(LifeStyle.Singleton)]
+    public class ReplyCommandHandler :
         ICommandHandler<CreateReplyCommand>,
         ICommandHandler<UpdateReplyBodyCommand>
     {

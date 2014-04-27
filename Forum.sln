@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Api", "Forum.Api\Forum.Api.csproj", "{215C3B08-5ED8-455C-8F44-CE928CAD6C5C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Domain.Tests", "Forum.Domain.Tests\Forum.Domain.Tests.csproj", "{8ACE1B35-380C-448F-970E-1D0722BD6090}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.CommandHandlers", "Forum.CommandHandlers\Forum.CommandHandlers.csproj", "{985E2001-F607-44BF-A84B-31E9B7D89D0C}"
@@ -21,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.QueryServices.Dapper"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Domain.Repositories.Dapper", "Forum.Domain.Repositories.Dapper\Forum.Domain.Repositories.Dapper.csproj", "{B229FFFE-0F61-4EC7-88A5-5E76197F476C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Web", "Forum.Web\Forum.Web.csproj", "{C0E1AA79-E513-478A-8F18-90747EE794A3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Domain", "Forum.Domain\Forum.Domain.csproj", "{5A4055C3-89BC-4149-8A6D-06CE985080C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.EventSynchronizers", "Forum.EventSynchronizers\Forum.EventSynchronizers.csproj", "{CCFC7288-0D7F-4028-AED5-FA8DDBE84339}"
@@ -33,10 +29,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{215C3B08-5ED8-455C-8F44-CE928CAD6C5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{215C3B08-5ED8-455C-8F44-CE928CAD6C5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{215C3B08-5ED8-455C-8F44-CE928CAD6C5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{215C3B08-5ED8-455C-8F44-CE928CAD6C5C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8ACE1B35-380C-448F-970E-1D0722BD6090}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8ACE1B35-380C-448F-970E-1D0722BD6090}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ACE1B35-380C-448F-970E-1D0722BD6090}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,10 +61,6 @@ Global
 		{B229FFFE-0F61-4EC7-88A5-5E76197F476C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B229FFFE-0F61-4EC7-88A5-5E76197F476C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B229FFFE-0F61-4EC7-88A5-5E76197F476C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C0E1AA79-E513-478A-8F18-90747EE794A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C0E1AA79-E513-478A-8F18-90747EE794A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C0E1AA79-E513-478A-8F18-90747EE794A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C0E1AA79-E513-478A-8F18-90747EE794A3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5A4055C3-89BC-4149-8A6D-06CE985080C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5A4055C3-89BC-4149-8A6D-06CE985080C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A4055C3-89BC-4149-8A6D-06CE985080C9}.Release|Any CPU.ActiveCfg = Release|Any CPU

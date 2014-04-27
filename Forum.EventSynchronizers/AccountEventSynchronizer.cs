@@ -1,10 +1,10 @@
-﻿using ECommon.IoC;
+﻿using ECommon.Components;
 using ENode.Eventing;
 using Forum.Domain.Accounts;
 
 namespace Forum.EventSynchronizers
 {
-    [Component]
+    [Component(LifeStyle.Singleton)]
     public class AccountEventSynchronizer : IEventSynchronizer<AccountCreatedEvent>
     {
         private readonly IRegistrationRepository _registrationRepository;
