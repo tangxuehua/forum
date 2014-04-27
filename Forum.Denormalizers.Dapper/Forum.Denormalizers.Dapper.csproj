@@ -37,7 +37,7 @@
     </Reference>
     <Reference Include="ENode, Version=2.1.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\enode.2.1.5\lib\net40\ENode.dll</HintPath>
+      <HintPath>..\packages\enode.2.1.6\lib\net40\ENode.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />

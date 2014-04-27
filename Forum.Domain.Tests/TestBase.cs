@@ -20,6 +20,7 @@ namespace Forum.Domain.Tests
         protected IMemoryCache _memoryCache;
         private const string ConnectionString = "Data Source=(local);Initial Catalog=Forum;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
         private static bool _initialized;
+        protected static ENodeConfiguration _configuration;
 
         [TestFixtureSetUp]
         public void SetUp()
@@ -37,7 +38,7 @@ namespace Forum.Domain.Tests
                     Assembly.Load("Forum.QueryServices.Dapper"),
                     Assembly.Load("Forum.Domain.Tests")
                 };
-                Configuration
+                _configuration = Configuration
                     .Create()
                     .UseAutofac()
                     .RegisterCommonComponents()

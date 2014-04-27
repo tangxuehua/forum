@@ -111,14 +111,20 @@ namespace Forum.Domain.Tests
         {
             var scheduleService = ObjectContainer.Resolve<IScheduleService>();
             var waitHandle = new ManualResetEvent(false);
+            var commandTopicProvider = ObjectContainer.Resolve<ICommandTopicProvider>() as CommandTopicProvider;
+            var eventTopicProvider = ObjectContainer.Resolve<IEventTopicProvider>() as EventTopicProvider;
+
+            var totalCommandTopicCount = commandTopicProvider.GetAllCommandTopics().Count();
+            var totalEventTopicCount = eventTopicProvider.GetAllEventTopics().Count();
+
             var taskId = scheduleService.ScheduleTask(() =>
             {
                 var eventConsumerAllocatedQueues = _eventConsumer.Consumer.GetCurrentQueues();
                 var commandConsumerAllocatedQueues = _commandConsumer.Consumer.GetCurrentQueues();
                 var executedCommandMessageConsumerAllocatedQueues = _commandResultProcessor.CommandExecutedMessageConsumer.GetCurrentQueues();
                 var domainEventHandledMessageConsumerAllocatedQueues = _commandResultProcessor.DomainEventHandledMessageConsumer.GetCurrentQueues();
-                if (eventConsumerAllocatedQueues.Count() == 4
-                    && commandConsumerAllocatedQueues.Count() == 4
+                if (eventConsumerAllocatedQueues.Count() == totalCommandTopicCount * _broker.Setting.DefaultTopicQueueCount
+                    && commandConsumerAllocatedQueues.Count() == totalEventTopicCount * _broker.Setting.DefaultTopicQueueCount
                     && executedCommandMessageConsumerAllocatedQueues.Count() == 4
                     && domainEventHandledMessageConsumerAllocatedQueues.Count() == 4)
                 {

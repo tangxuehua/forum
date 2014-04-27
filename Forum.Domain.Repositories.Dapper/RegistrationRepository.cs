@@ -35,7 +35,7 @@ namespace Forum.Domain.Repositories.Dapper
                 }
                 catch (SqlException ex)
                 {
-                    if (ex.Number == 2601)
+                    if (ex.Number == 2627)
                     {
                         if (ex.Message.Contains("PK_tb_Registration"))
                         {
