@@ -1,5 +1,5 @@
-﻿using System;
-using Forum.Commands.Section;
+﻿using ECommon.Utilities;
+using Forum.Commands.Sections;
 using Forum.Domain.Sections;
 using NUnit.Framework;
 
@@ -8,44 +8,37 @@ namespace Forum.Domain.Tests
     [TestFixture]
     public class SectionTest : TestBase
     {
-        public static Guid SectionId;
-
         [Test]
-        public void CreateSectionTest()
+        public void create_section_test()
         {
-            var sectionName = RandomString();
-            ResetWaiters();
-            Section section = null;
+            var id = ObjectId.GenerateNewStringId();
+            var name = ObjectId.GenerateNewStringId();
 
-            CommandService.Send(new CreateSection { SectionName = sectionName }, result =>
-            {
-                Assert.IsNull(result.ErrorInfo);
-                EventHandlerWaiter.WaitOne();
-                section = MemoryCache.Get<Section>(SectionId.ToString());
-                TestThreadWaiter.Set();
-            });
+            _commandService.Execute(new CreateSectionCommand(id, name)).Wait();
 
-            TestThreadWaiter.WaitOne();
+            var section = _memoryCache.Get<Section>(id);
+
             Assert.NotNull(section);
-            Assert.AreEqual(sectionName, section.Name);
+            Assert.AreEqual(id, section.Id);
+            Assert.AreEqual(name, section.Name);
         }
         [Test]
-        public void ChangeSectionNameTest()
+        public void update_section_test()
         {
-            CreateSectionTest();
-            Section section = null;
+            var id = ObjectId.GenerateNewStringId();
+            var name = ObjectId.GenerateNewStringId();
 
-            ResetWaiters();
-            var newSectionName = RandomString();
-            CommandService.Send(new ChangeSectionName { SectionId = SectionId, SectionName = newSectionName }, result =>
-            {
-                Assert.IsNull(result.ErrorInfo);
-                EventHandlerWaiter.WaitOne();
-                section = MemoryCache.Get<Section>(SectionId.ToString());
-                TestThreadWaiter.Set();
-            });
-            TestThreadWaiter.WaitOne();
-            Assert.AreEqual(newSectionName, section.Name);
+            _commandService.Execute(new CreateSectionCommand(id, name)).Wait();
+
+            var name2 = ObjectId.GenerateNewStringId();
+
+            _commandService.Execute(new UpdateSectionCommand(id, name2)).Wait();
+
+            var section = _memoryCache.Get<Section>(id);
+
+            Assert.NotNull(section);
+            Assert.AreEqual(id, section.Id);
+            Assert.AreEqual(name2, section.Name);
         }
     }
 }

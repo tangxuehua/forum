@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using System.Threading;
+﻿using System.Reflection;
 using ECommon.Autofac;
 using ECommon.Configurations;
 using ECommon.IoC;

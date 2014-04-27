@@ -1,6 +1,5 @@
-﻿using System;
-using Forum.Commands.Account;
-using Forum.Commands.Post;
+﻿using ECommon.Utilities;
+using Forum.Commands.Posts;
 using Forum.Domain.Posts;
 using NUnit.Framework;
 
@@ -9,27 +8,19 @@ namespace Forum.Domain.Tests
     [TestFixture]
     public class PostTest : TestBase
     {
-        public static Guid PostId;
-
         [Test]
-        public void CreatePostTest()
+        public void create_post_test()
         {
-            var authorId = CreateAccountId();
-            var subject = RandomString();
-            var body = RandomString();
-            var sectionId = Guid.NewGuid();
-            ResetWaiters();
-            Post post = null;
+            var id = ObjectId.GenerateNewStringId();
+            var authorId = ObjectId.GenerateNewStringId();
+            var subject = ObjectId.GenerateNewStringId();
+            var body = ObjectId.GenerateNewStringId();
+            var sectionId = ObjectId.GenerateNewStringId();
 
-            CommandService.Send(new CreatePost { Subject = subject, Body = body, SectionId = sectionId, AuthorId = authorId }, result =>
-            {
-                Assert.IsNull(result.ErrorInfo);
-                EventHandlerWaiter.WaitOne();
-                post = MemoryCache.Get<Post>(PostId.ToString());
-                TestThreadWaiter.Set();
-            });
+            _commandService.Execute(new CreatePostCommand(id, subject, body, sectionId, authorId)).Wait();
 
-            TestThreadWaiter.WaitOne();
+            var post = _memoryCache.Get<Post>(id);
+
             Assert.NotNull(post);
             Assert.AreEqual(subject, post.Subject);
             Assert.AreEqual(body, post.Body);
@@ -37,44 +28,25 @@ namespace Forum.Domain.Tests
             Assert.AreEqual(sectionId, post.SectionId);
         }
         [Test]
-        public void ChangePostSubjectAndBodyTest()
+        public void update_post_test()
         {
-            CreatePostTest();
+            var id = ObjectId.GenerateNewStringId();
+            var authorId = ObjectId.GenerateNewStringId();
+            var subject = ObjectId.GenerateNewStringId();
+            var body = ObjectId.GenerateNewStringId();
+            var sectionId = ObjectId.GenerateNewStringId();
 
-            ResetWaiters();
-            var post = MemoryCache.Get<Post>(PostId.ToString());
-            var subject = RandomString();
-            var body = RandomString();
+            _commandService.Execute(new CreatePostCommand(id, subject, body, sectionId, authorId)).Wait();
 
-            CommandService.Send(new ChangePostSubjectAndBody { PostId = PostId, Subject = subject, Body = body }, result =>
-            {
-                Assert.IsNull(result.ErrorInfo);
-                EventHandlerWaiter.WaitOne();
-                post = MemoryCache.Get<Post>(PostId.ToString());
-                TestThreadWaiter.Set();
-            });
+            var subject2 = ObjectId.GenerateNewStringId();
+            var body2 = ObjectId.GenerateNewStringId();
+            _commandService.Execute(new UpdatePostCommand(id, subject2, body2)).Wait();
 
-            TestThreadWaiter.WaitOne();
-            Assert.AreEqual(subject, post.Subject);
-            Assert.AreEqual(body, post.Body);
-        }
+            var post = _memoryCache.Get<Post>(id);
 
-        protected Guid CreateAccountId()
-        {
-            ResetWaiters();
-            Guid? authorId = null;
-
-            CommandService.Send(new CreateAccount { Name = RandomString(), Password = RandomString() }, result =>
-            {
-                Assert.IsNull(result.ErrorInfo);
-                EventHandlerWaiter.WaitOne();
-                authorId = AccountTest.AccountId;
-                TestThreadWaiter.Set();
-            });
-
-            TestThreadWaiter.WaitOne();
-            Assert.NotNull(authorId);
-            return authorId.Value;
+            Assert.NotNull(post);
+            Assert.AreEqual(subject2, post.Subject);
+            Assert.AreEqual(body2, post.Body);
         }
     }
 }

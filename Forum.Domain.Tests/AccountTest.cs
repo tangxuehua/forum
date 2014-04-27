@@ -1,6 +1,6 @@
-﻿using ECommon.IoC;
+﻿using ECommon.Extensions;
+using ECommon.IoC;
 using ECommon.Utilities;
-using ECommon.Extensions;
 using ENode.Commanding;
 using Forum.Commands.Accounts;
 using Forum.Domain.Accounts;
@@ -37,12 +37,11 @@ namespace Forum.Domain.Tests
         [Test]
         public void create_duplicate_account_test()
         {
-            var id = ObjectId.GenerateNewStringId();
             var name = ObjectId.GenerateNewStringId();
             var password = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new CreateAccountCommand(id, name, password)).Wait();
-            var result = _commandService.Execute(new CreateAccountCommand(id, name, password)).WaitResult<CommandResult>(3000);
+            _commandService.Execute(new CreateAccountCommand(ObjectId.GenerateNewStringId(), name, password)).Wait();
+            var result = _commandService.Execute(new CreateAccountCommand(ObjectId.GenerateNewStringId(), name, password)).WaitResult<CommandResult>(3000);
 
             Assert.AreEqual(CommandStatus.Failed, result.Status);
             Assert.AreEqual(typeof(DuplicateAccountNameException).Name, result.ExceptionTypeName);

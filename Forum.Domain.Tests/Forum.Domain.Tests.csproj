@@ -61,6 +61,7 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -75,6 +76,7 @@
   <ItemGroup>
     <Compile Include="AccountTest.cs" />
     <Compile Include="ENodeExtensions.cs" />
+    <Compile Include="PostTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\AggregateRootTypeCodeProvider.cs" />
     <Compile Include="Providers\CommandTopicProvider.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="Providers\EventHandlerTypeCodeProvider.cs" />
     <Compile Include="Providers\EventTopicProvider.cs" />
     <Compile Include="Providers\EventTypeCodeProvider.cs" />
+    <Compile Include="SectionTest.cs" />
     <Compile Include="TestBase.cs" />
   </ItemGroup>
   <ItemGroup>
