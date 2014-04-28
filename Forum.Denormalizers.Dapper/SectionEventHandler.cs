@@ -21,7 +21,8 @@ namespace Forum.Denormalizers.Dapper
                         Id = evnt.AggregateRootId,
                         Name = evnt.Name,
                         CreatedOn = evnt.Timestamp,
-                        UpdatedOn = evnt.Timestamp
+                        UpdatedOn = evnt.Timestamp,
+                        Version = evnt.Version
                     }, Constants.SectionTable);
             }
         }
@@ -33,11 +34,13 @@ namespace Forum.Denormalizers.Dapper
                     new
                     {
                         Name = evnt.Name,
-                        UpdatedOn = evnt.Timestamp
+                        UpdatedOn = evnt.Timestamp,
+                        Version = evnt.Version
                     },
                     new
                     {
-                        Id = evnt.AggregateRootId
+                        Id = evnt.AggregateRootId,
+                        Version = evnt.Version - 1
                     }, Constants.SectionTable);
             }
         }

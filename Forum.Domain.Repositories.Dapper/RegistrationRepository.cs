@@ -41,7 +41,7 @@ namespace Forum.Domain.Repositories.Dapper
         {
             using (var connection = GetConnection())
             {
-                connection.Update(new { Status = registration.Status }, new { AccountId = registration.AccountId }, Constants.RegistrationTable);
+                connection.Update(new { Status = registration.Status }, new { AccountName = registration.AccountName }, Constants.RegistrationTable);
             }
         }
         public Registration GetByAccountName(string accountName)

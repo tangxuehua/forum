@@ -30,6 +30,7 @@ CREATE TABLE [Section](
     [Name] [nvarchar](128) NOT NULL,
     [CreatedOn] [datetime] NOT NULL,
     [UpdatedOn] [datetime] NOT NULL,
+    [Version]   [BIGINT]  NOT NULL,
  CONSTRAINT [PK_Section] PRIMARY KEY CLUSTERED 
 (
     [Id] ASC
@@ -44,6 +45,7 @@ CREATE TABLE [Post](
     [SectionId] [nvarchar](32) NOT NULL,
     [CreatedOn] [datetime] NOT NULL,
     [UpdatedOn] [datetime] NOT NULL,
+    [Version]   [BIGINT]  NOT NULL,
  CONSTRAINT [PK_Post] PRIMARY KEY CLUSTERED 
 (
     [Id] ASC
@@ -58,6 +60,7 @@ CREATE TABLE [Reply](
     [Body] [ntext] NOT NULL,
     [CreatedOn] [datetime] NOT NULL,
     [UpdatedOn] [datetime] NOT NULL,
+    [Version]   [BIGINT]  NOT NULL,
  CONSTRAINT [PK_Reply] PRIMARY KEY CLUSTERED 
 (
     [Id] ASC

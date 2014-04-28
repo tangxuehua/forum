@@ -24,7 +24,8 @@ namespace Forum.Denormalizers.Dapper
                         AuthorId = evnt.AuthorId,
                         Body = evnt.Body,
                         CreatedOn = evnt.Timestamp,
-                        UpdatedOn = evnt.Timestamp
+                        UpdatedOn = evnt.Timestamp,
+                        Version = evnt.Version
                     },
                     Constants.ReplyTable);
             }
@@ -37,11 +38,13 @@ namespace Forum.Denormalizers.Dapper
                     new
                     {
                         Body = evnt.Body,
-                        UpdatedOn = evnt.Timestamp
+                        UpdatedOn = evnt.Timestamp,
+                        Version = evnt.Version
                     },
                     new
                     {
-                        Id = evnt.AggregateRootId
+                        Id = evnt.AggregateRootId,
+                        Version = evnt.Version - 1
                     }, Constants.ReplyTable);
             }
         }
