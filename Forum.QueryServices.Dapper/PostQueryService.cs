@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ECommon.Components;
 using ECommon.Dapper;
@@ -40,7 +41,7 @@ namespace Forum.QueryServices.Dapper
 
                 var sequenceIds = string.Join(",", posts.Select(x => x.MostRecentReplySequence));
                 sql = string.Format(@"
-                        select r.Id, r.Sequence, r.AuthorId, a.Name as AuthorName, r.CreatedOn from {0} r inner join {1} a on r.AuthorId = a.Id where r.Sequence in ({2})",
+                        select r.Id, r.Sequence, r.AuthorId, a.Name as AuthorName, r.CreatedOn from {0} r left join {1} a on r.AuthorId = a.Id where r.Sequence in ({2})",
                         Constants.ReplyTable, Constants.AccountTable, sequenceIds);
                 var replies = connection.Query(sql);
 
@@ -51,7 +52,7 @@ namespace Forum.QueryServices.Dapper
                     {
                         post.MostRecentReplyId = mostRecentReply.Id;
                         post.MostRecentReplierId = mostRecentReply.AuthorId;
-                        post.MostRecentReplierName = mostRecentReply.AuthorName;
+                        post.MostRecentReplierName = mostRecentReply.AuthorName == DBNull.Value ? null : mostRecentReply.AuthorName;
                         post.MostRecentReplyCreatedOn = mostRecentReply.CreatedOn;
                     }
                 }
@@ -64,8 +65,8 @@ namespace Forum.QueryServices.Dapper
             using (var connection = GetConnection())
             {
                 var sql = string.Format(@"
-                        select p.*, a1.Name as AuthorName from {0} p inner join {1} a1 on p.AuthorId = a1.Id where p.Id = @PostId
-                        select r.*, a2.Name as AuthorName from {2} r inner join {1} a2 on r.AuthorId = a2.Id where r.PostId = @PostId order by r.CreatedOn asc",
+                        select p.*, a1.Name as AuthorName from {0} p left join {1} a1 on p.AuthorId = a1.Id where p.Id = @PostId
+                        select r.*, a2.Name as AuthorName from {2} r left join {1} a2 on r.AuthorId = a2.Id where r.PostId = @PostId order by r.CreatedOn asc",
                         Constants.PostTable, Constants.AccountTable, Constants.ReplyTable);
 
                 using (var multi = connection.QueryMultiple(sql, new { PostId = postId }))
