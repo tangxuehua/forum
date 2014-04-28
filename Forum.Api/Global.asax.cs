@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Dependencies;
-using System.Web.Mvc;
-using System.Web.Optimization;
-using System.Web.Routing;
 using Autofac;
-using Autofac.Integration.WebApi;
 using ECommon.Autofac;
-using ECommon.Configurations;
 using ECommon.Components;
+using ECommon.Configurations;
 using ECommon.JsonNet;
 using ECommon.Log4Net;
 using ENode.Configurations;
 using Forum.Api.Extensions;
+using Forum.Infrastructure;
 
 namespace Forum.Api
 {
@@ -24,22 +22,20 @@ namespace Forum.Api
 
         protected void Application_Start()
         {
-            AreaRegistration.RegisterAllAreas();
+            GlobalConfiguration.Configure(WebApiConfig.Register);
 
-            WebApiConfig.Register(GlobalConfiguration.Configuration);
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ConfigSettings.ConnectionString = ConnectionString;
 
             var assemblies = new[]
-            {
-                Assembly.Load("Forum.Domain"),
-                Assembly.Load("Forum.Domain.Repositories.MongoDB"),
-                Assembly.Load("Forum.CommandHandlers"),
-                Assembly.Load("Forum.Denormalizers.Dapper"),
-                Assembly.Load("Forum.QueryServices.Dapper")
-            };
-
+                {
+                    Assembly.Load("Forum.Domain"),
+                    Assembly.Load("Forum.CommandHandlers"),
+                    Assembly.Load("Forum.Denormalizers.Dapper"),
+                    Assembly.Load("Forum.Domain.Repositories.Dapper"),
+                    Assembly.Load("Forum.EventSynchronizers"),
+                    Assembly.Load("Forum.QueryServices"),
+                    Assembly.Load("Forum.QueryServices.Dapper")
+                };
             Configuration
                 .Create()
                 .UseAutofac()
@@ -49,8 +45,7 @@ namespace Forum.Api
                 .CreateENode()
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
-                .UseDefaultSqlQueryDbConnectionFactory(ConnectionString)
-                .SetRegistrationDapperRepository(ConnectionString)
+                .UseSqlServerEventStore(ConnectionString)
                 .SetProviders()
                 .UseEQueue()
                 .InitializeBusinessAssemblies(assemblies)
@@ -58,60 +53,56 @@ namespace Forum.Api
                 .StartWaitingCommandService()
                 .StartEQueue();
 
-            var container = ((AutofacObjectContainer)ObjectContainer.Current).Container;
-            RegisterControllers(container);
-            GlobalConfiguration.Configuration.DependencyResolver = new AutofacContainer(container);
+            RegisterControllers();
+            GlobalConfiguration.Configuration.DependencyResolver = new AutofacContainer();
         }
 
-        private static void RegisterControllers(IContainer container)
+        private static void RegisterControllers()
         {
-            var containerBuilder = new ContainerBuilder();
-            containerBuilder.RegisterApiControllers(typeof(WebApiApplication).Assembly);
-            containerBuilder.Update(container);
-        }
-    }
-
-    class AutofacContainer : IDependencyScope, System.Web.Http.Dependencies.IDependencyResolver
-    {
-        protected IContainer _container;
-
-        public AutofacContainer(IContainer container)
-        {
-            if (container == null)
+            foreach (var controllerType in typeof(WebApiApplication).Assembly.GetTypes().Where(x => x.Name.EndsWith("Controller")))
             {
-                throw new ArgumentNullException("container");
+                ObjectContainer.RegisterType(controllerType, LifeStyle.Transient);
             }
-            _container = container;
         }
 
-        public IDependencyScope BeginScope()
+        class AutofacContainer : IDependencyScope, IDependencyResolver
         {
-            return this;
-        }
-        public object GetService(Type serviceType)
-        {
-            if (_container.IsRegistered(serviceType))
+            private IContainer _container;
+
+            public AutofacContainer()
             {
-                return _container.Resolve(serviceType);
+                _container = ((AutofacObjectContainer)ObjectContainer.Current).Container;
             }
-            else
+
+            public IDependencyScope BeginScope()
             {
-                return null;
+                return this;
             }
-        }
-        public IEnumerable<object> GetServices(Type serviceType)
-        {
-            if (_container.IsRegistered(serviceType))
+            public object GetService(Type serviceType)
             {
-                return new[] { _container.Resolve(serviceType) };
+                if (_container.IsRegistered(serviceType))
+                {
+                    return _container.Resolve(serviceType);
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
+            public IEnumerable<object> GetServices(Type serviceType)
             {
-                return new List<object>();
+                if (_container.IsRegistered(serviceType))
+                {
+                    return new[] { _container.Resolve(serviceType) };
+                }
+                else
+                {
+                    return new List<object>();
+                }
             }
-        }
-        public void Dispose()
-        {
+            public void Dispose()
+            {
+            }
         }
     }
 }

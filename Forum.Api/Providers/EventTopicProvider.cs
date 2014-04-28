@@ -1,21 +1,42 @@
-﻿using ENode.Domain;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ENode.EQueue;
 using ENode.Eventing;
+using Forum.Domain.Accounts;
+using Forum.Domain.Posts;
+using Forum.Domain.Replies;
+using Forum.Domain.Sections;
 
 namespace Forum.Api.Providers
 {
     public class EventTopicProvider : IEventTopicProvider
     {
-        private IAggregateRootTypeCodeProvider _aggregateRootTypeCodeProvider;
+        private IDictionary<Type, string> _topicDict = new Dictionary<Type, string>();
 
-        public EventTopicProvider(IAggregateRootTypeCodeProvider aggregateRootTypeCodeProvider)
+        public EventTopicProvider()
         {
-            _aggregateRootTypeCodeProvider = aggregateRootTypeCodeProvider;
+            RegisterTopic("AccountEventTopic", typeof(AccountCreatedEvent));
+            RegisterTopic("SectionEventTopic", typeof(SectionCreatedEvent), typeof(SectionUpdatedEvent));
+            RegisterTopic("PostEventTopic", typeof(PostCreatedEvent), typeof(PostUpdatedEvent));
+            RegisterTopic("ReplyEventTopic", typeof(ReplyCreatedEvent), typeof(ReplyBodyUpdatedEvent));
         }
+
         public string GetTopic(EventStream eventStream)
         {
-            var aggregateRootTypeFullName = _aggregateRootTypeCodeProvider.GetType(eventStream.AggregateRootTypeCode).FullName;
-            return aggregateRootTypeFullName.Substring(aggregateRootTypeFullName.LastIndexOf('.') + 1) + "EventTopic";
+            return _topicDict[eventStream.Events.First().GetType()];
+        }
+        public IEnumerable<string> GetAllEventTopics()
+        {
+            return _topicDict.Values.Distinct();
+        }
+
+        private void RegisterTopic(string topic, params Type[] eventTypes)
+        {
+            foreach (var eventType in eventTypes)
+            {
+                _topicDict.Add(eventType, topic);
+            }
         }
     }
 }

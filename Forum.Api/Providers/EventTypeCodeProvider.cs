@@ -1,9 +1,9 @@
 ﻿using ENode.Eventing;
 using ENode.Infrastructure;
-using Forum.Events.Account;
-using Forum.Events.Post;
-using Forum.Events.Reply;
-using Forum.Events.Section;
+using Forum.Domain.Accounts;
+using Forum.Domain.Posts;
+using Forum.Domain.Replies;
+using Forum.Domain.Sections;
 
 namespace Forum.Api.Providers
 {

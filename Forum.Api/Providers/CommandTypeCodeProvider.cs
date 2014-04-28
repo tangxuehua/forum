@@ -1,9 +1,9 @@
 ﻿using ENode.Commanding;
 using ENode.Infrastructure;
-using Forum.Commands.Account;
-using Forum.Commands.Post;
-using Forum.Commands.Reply;
-using Forum.Commands.Section;
+using Forum.Commands.Accounts;
+using Forum.Commands.Posts;
+using Forum.Commands.Replies;
+using Forum.Commands.Sections;
 
 namespace Forum.Api.Providers
 {

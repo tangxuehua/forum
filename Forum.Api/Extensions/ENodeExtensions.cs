@@ -1,4 +1,8 @@
-﻿using ENode.Commanding;
+﻿using System.Linq;
+using System.Threading;
+using ECommon.Components;
+using ECommon.Scheduling;
+using ENode.Commanding;
 using ENode.Configurations;
 using ENode.Domain;
 using ENode.EQueue;
@@ -8,8 +12,10 @@ using EQueue.Broker;
 using EQueue.Clients.Consumers;
 using EQueue.Configurations;
 using Forum.Api.Providers;
+using Forum.Domain.Accounts;
+using Forum.Domain.Repositories.Dapper;
 
-namespace Forum.Api
+namespace Forum.Api.Extensions
 {
     public static class ENodeExtensions
     {
@@ -70,8 +76,12 @@ namespace Forum.Api
             _commandConsumer = new CommandConsumer(consumerSetting, _commandExecutedMessageSender);
             _eventConsumer = new EventConsumer(eventConsumerSetting, _domainEventHandledMessageSender);
 
-            _commandConsumer.Subscribe("NoteCommandTopic");
-            _eventConsumer.Subscribe("NoteEventTopic");
+            var commandTopicProvider = ObjectContainer.Resolve<ICommandTopicProvider>() as CommandTopicProvider;
+            var eventTopicProvider = ObjectContainer.Resolve<IEventTopicProvider>() as EventTopicProvider;
+
+            commandTopicProvider.GetAllCommandTopics().ToList().ForEach(topic => _commandConsumer.Subscribe(topic));
+            eventTopicProvider.GetAllEventTopics().ToList().ForEach(topic => _eventConsumer.Subscribe(topic));
+
             _commandResultProcessor.SetExecutedCommandMessageTopic("ExecutedCommandMessageTopic");
             _commandResultProcessor.SetDomainEventHandledMessageTopic("DomainEventHandledMessageTopic");
 
@@ -88,7 +98,38 @@ namespace Forum.Api
             _domainEventHandledMessageSender.Start();
             _commandResultProcessor.Start();
 
+            WaitAllConsumerLoadBalanceComplete();
+
             return enodeConfiguration;
+        }
+
+        private static void WaitAllConsumerLoadBalanceComplete()
+        {
+            var scheduleService = ObjectContainer.Resolve<IScheduleService>();
+            var waitHandle = new ManualResetEvent(false);
+            var commandTopicProvider = ObjectContainer.Resolve<ICommandTopicProvider>() as CommandTopicProvider;
+            var eventTopicProvider = ObjectContainer.Resolve<IEventTopicProvider>() as EventTopicProvider;
+
+            var totalCommandTopicCount = commandTopicProvider.GetAllCommandTopics().Count();
+            var totalEventTopicCount = eventTopicProvider.GetAllEventTopics().Count();
+
+            var taskId = scheduleService.ScheduleTask(() =>
+            {
+                var eventConsumerAllocatedQueues = _eventConsumer.Consumer.GetCurrentQueues();
+                var commandConsumerAllocatedQueues = _commandConsumer.Consumer.GetCurrentQueues();
+                var executedCommandMessageConsumerAllocatedQueues = _commandResultProcessor.CommandExecutedMessageConsumer.GetCurrentQueues();
+                var domainEventHandledMessageConsumerAllocatedQueues = _commandResultProcessor.DomainEventHandledMessageConsumer.GetCurrentQueues();
+                if (eventConsumerAllocatedQueues.Count() == totalCommandTopicCount * _broker.Setting.DefaultTopicQueueCount
+                    && commandConsumerAllocatedQueues.Count() == totalEventTopicCount * _broker.Setting.DefaultTopicQueueCount
+                    && executedCommandMessageConsumerAllocatedQueues.Count() == 4
+                    && domainEventHandledMessageConsumerAllocatedQueues.Count() == 4)
+                {
+                    waitHandle.Set();
+                }
+            }, 1000, 1000);
+
+            waitHandle.WaitOne();
+            scheduleService.ShutdownTask(taskId);
         }
     }
 }

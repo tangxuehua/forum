@@ -40,20 +40,22 @@ namespace Forum.QueryServices.Dapper
                 var posts = connection.Query<PostInfo>(sql, condition);
 
                 var sequenceIds = string.Join(",", posts.Select(x => x.MostRecentReplySequence));
-                sql = string.Format(@"
-                        select r.Id, r.Sequence, r.AuthorId, a.Name as AuthorName, r.CreatedOn from {0} r left join {1} a on r.AuthorId = a.Id where r.Sequence in ({2})",
-                        Constants.ReplyTable, Constants.AccountTable, sequenceIds);
-                var replies = connection.Query(sql);
-
-                foreach (var post in posts)
+                if (sequenceIds.Count() > 0)
                 {
-                    var mostRecentReply = replies.SingleOrDefault(x => x.Sequence == post.MostRecentReplySequence);
-                    if (mostRecentReply != null)
+                    sql = string.Format(@"
+                        select r.Id, r.Sequence, r.AuthorId, a.Name as AuthorName, r.CreatedOn from {0} r left join {1} a on r.AuthorId = a.Id where r.Sequence in ({2})",
+                            Constants.ReplyTable, Constants.AccountTable, sequenceIds);
+                    var replies = connection.Query(sql);
+                    foreach (var post in posts)
                     {
-                        post.MostRecentReplyId = mostRecentReply.Id;
-                        post.MostRecentReplierId = mostRecentReply.AuthorId;
-                        post.MostRecentReplierName = mostRecentReply.AuthorName == DBNull.Value ? null : mostRecentReply.AuthorName;
-                        post.MostRecentReplyCreatedOn = mostRecentReply.CreatedOn;
+                        var mostRecentReply = replies.SingleOrDefault(x => x.Sequence == post.MostRecentReplySequence);
+                        if (mostRecentReply != null)
+                        {
+                            post.MostRecentReplyId = mostRecentReply.Id;
+                            post.MostRecentReplierId = mostRecentReply.AuthorId;
+                            post.MostRecentReplierName = mostRecentReply.AuthorName is DBNull ? null : mostRecentReply.AuthorName;
+                            post.MostRecentReplyCreatedOn = mostRecentReply.CreatedOn;
+                        }
                     }
                 }
 
