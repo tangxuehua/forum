@@ -54,6 +54,7 @@ CREATE TABLE [Post](
 GO
 CREATE TABLE [Reply](
     [Id] [nvarchar](32) NOT NULL,
+    [Sequence] [BIGINT] IDENTITY (1, 1) NOT NULL,
     [PostId] [nvarchar](32) NOT NULL,
     [ParentId] [nvarchar](32) NULL,
     [AuthorId] [nvarchar](32) NOT NULL,
