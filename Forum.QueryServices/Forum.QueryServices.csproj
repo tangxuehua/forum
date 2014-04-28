@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountService.cs" />
-    <Compile Include="DTOs\Post.cs" />
     <Compile Include="DTOs\PostInfo.cs" />
     <Compile Include="DTOs\PostQueryOption.cs" />
     <Compile Include="DTOs\ReplyInfo.cs" />

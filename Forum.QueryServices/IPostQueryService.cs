@@ -11,7 +11,7 @@ namespace Forum.QueryServices
         /// </summary>
         /// <param name="option"></param>
         /// <returns></returns>
-        IEnumerable<Post> QueryPosts(PostQueryOption option);
+        IEnumerable<PostInfo> QueryPosts(PostQueryOption option);
         /// <summary>²éÑ¯Ìû×ÓÏêÇé
         /// </summary>
         /// <param name="postId"></param>
