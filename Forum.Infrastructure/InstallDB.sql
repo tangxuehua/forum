@@ -5,6 +5,7 @@
 CREATE TABLE [Registration](
     [AccountName] [nvarchar](64) NOT NULL,
     [AccountId] [nvarchar](32) NOT NULL,
+    [Sequence] [BIGINT] IDENTITY (1, 1) NOT NULL,
     [Status] [nvarchar](32) NOT NULL,
  CONSTRAINT [PK_Registration] PRIMARY KEY CLUSTERED
 (
@@ -14,6 +15,7 @@ CREATE TABLE [Registration](
 GO
 CREATE TABLE [Account](
     [Id] [nvarchar](32) NOT NULL,
+    [Sequence] [BIGINT] IDENTITY (1, 1) NOT NULL,
     [Name] [nvarchar](128) NOT NULL,
     [Password] [nvarchar](128) NOT NULL,
     [CreatedOn] [datetime] NOT NULL,
@@ -27,6 +29,7 @@ CREATE TABLE [Account](
 GO
 CREATE TABLE [Section](
     [Id] [nvarchar](32) NOT NULL,
+    [Sequence] [BIGINT] IDENTITY (1, 1) NOT NULL,
     [Name] [nvarchar](128) NOT NULL,
     [CreatedOn] [datetime] NOT NULL,
     [UpdatedOn] [datetime] NOT NULL,
@@ -39,6 +42,7 @@ CREATE TABLE [Section](
 GO
 CREATE TABLE [Post](
     [Id] [nvarchar](32) NOT NULL,
+    [Sequence] [BIGINT] IDENTITY (1, 1) NOT NULL,
     [Subject] [nvarchar](256) NOT NULL,
     [Body] [ntext] NOT NULL,
     [AuthorId] [nvarchar](32) NOT NULL,

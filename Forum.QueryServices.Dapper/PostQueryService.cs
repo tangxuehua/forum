@@ -29,7 +29,7 @@ namespace Forum.QueryServices.Dapper
                 var pageSize = option.PageInfo.PageSize;
                 var sql = string.Format(@"
                         SELECT * FROM (
-                            SELECT ROW_NUMBER() OVER (ORDER BY p.CreatedOn) AS RowNumber, p.*, a.Name as AuthorName, r.ReplyCount, r.MostRecentReplySequence
+                            SELECT ROW_NUMBER() OVER (ORDER BY p.Sequence) AS RowNumber, p.*, a.Name as AuthorName, r.ReplyCount, r.MostRecentReplySequence
                             FROM {0} p
                             LEFT JOIN {1} a ON p.AuthorId = a.Id
                             LEFT JOIN (SELECT PostId, COUNT(*) AS ReplyCount, MAX(Sequence) AS MostRecentReplySequence FROM {2} GROUP BY PostId) r on r.PostId = p.Id
@@ -66,7 +66,7 @@ namespace Forum.QueryServices.Dapper
             {
                 var sql = string.Format(@"
                         select p.*, a1.Name as AuthorName from {0} p left join {1} a1 on p.AuthorId = a1.Id where p.Id = @PostId
-                        select r.*, a2.Name as AuthorName from {2} r left join {1} a2 on r.AuthorId = a2.Id where r.PostId = @PostId order by r.CreatedOn asc",
+                        select r.*, a2.Name as AuthorName from {2} r left join {1} a2 on r.AuthorId = a2.Id where r.PostId = @PostId order by r.Sequence asc",
                         Constants.PostTable, Constants.AccountTable, Constants.ReplyTable);
 
                 using (var multi = connection.QueryMultiple(sql, new { PostId = postId }))
