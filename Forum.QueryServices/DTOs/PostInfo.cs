@@ -40,6 +40,9 @@ namespace Forum.QueryServices.DTOs
         /// <summary>最近一个回复ID
         /// </summary>
         public string MostRecentReplyId { get; set; }
+        /// <summary>最近一个回复的Sequence
+        /// </summary>
+        public long MostRecentReplySequence { get; set; }
         /// <summary>最近一个回复的作者ID
         /// </summary>
         public string MostRecentReplierId { get; set; }

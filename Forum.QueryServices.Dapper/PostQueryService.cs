@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using ECommon.Components;
 using ECommon.Dapper;
-using ECommon.Utilities;
 using Forum.Infrastructure;
 using Forum.QueryServices.DTOs;
 
@@ -15,28 +13,50 @@ namespace Forum.QueryServices.Dapper
         public IEnumerable<PostInfo> QueryPosts(PostQueryOption option)
         {
             PageInfo.ValidateAndFixPageInfo(option.PageInfo);
-            object condition = null;
 
+            object condition = null;
+            var wherePart = string.Empty;
             if (!string.IsNullOrEmpty(option.SectionId))
             {
                 condition = new { SectionId = option.SectionId };
+                wherePart = "WHERE p.SectionId = @SectionId";
             }
 
             using (var connection = GetConnection())
             {
-//                var sql = string.Format(@"
-//                        select p.*, a.Name as AuthorName, count(r.*) as ReplyCount, max(r.Sequence) as MostRecentReplySequence from {0} p
-//                        inner join {1} a on p.AuthorId = a.Id
-//                        left join {2} r on r.PostId = p.Id
-//                        group by p.Id",
-//                    Constants.PostTable, Constants.AccountTable, Constants.ReplyTable);
+                var pageIndex = option.PageInfo.PageIndex;
+                var pageSize = option.PageInfo.PageSize;
+                var sql = string.Format(@"
+                        SELECT * FROM (
+                            SELECT ROW_NUMBER() OVER (ORDER BY p.CreatedOn) AS RowNumber, p.*, a.Name as AuthorName, r.ReplyCount, r.MostRecentReplySequence
+                            FROM {0} p
+                            LEFT JOIN {1} a ON p.AuthorId = a.Id
+                            LEFT JOIN (SELECT PostId, COUNT(*) AS ReplyCount, MAX(Sequence) AS MostRecentReplySequence FROM {2} GROUP BY PostId) r on r.PostId = p.Id
+                            {3}) AS Total
+                        WHERE RowNumber >= {4} AND RowNumber <= {5}",
+                    Constants.PostTable, Constants.AccountTable, Constants.ReplyTable, wherePart, (pageIndex - 1) * pageSize + 1, pageIndex * pageSize);
 
-                return connection.QueryPaged<PostInfo>(
-                    condition,
-                    Constants.PostTable,
-                    "CreatedOn",
-                    option.PageInfo.PageIndex,
-                    option.PageInfo.PageSize);
+                var posts = connection.Query<PostInfo>(sql, condition);
+
+                var sequenceIds = string.Join(",", posts.Select(x => x.MostRecentReplySequence));
+                sql = string.Format(@"
+                        select r.Id, r.Sequence, r.AuthorId, a.Name as AuthorName, r.CreatedOn from {0} r inner join {1} a on r.AuthorId = a.Id where r.Sequence in ({2})",
+                        Constants.ReplyTable, Constants.AccountTable, sequenceIds);
+                var replies = connection.Query(sql);
+
+                foreach (var post in posts)
+                {
+                    var mostRecentReply = replies.SingleOrDefault(x => x.Sequence == post.MostRecentReplySequence);
+                    if (mostRecentReply != null)
+                    {
+                        post.MostRecentReplyId = mostRecentReply.Id;
+                        post.MostRecentReplierId = mostRecentReply.AuthorId;
+                        post.MostRecentReplierName = mostRecentReply.AuthorName;
+                        post.MostRecentReplyCreatedOn = mostRecentReply.CreatedOn;
+                    }
+                }
+
+                return posts;
             }
         }
         public PostInfo QueryPost(string postId)
@@ -50,21 +70,25 @@ namespace Forum.QueryServices.Dapper
 
                 using (var multi = connection.QueryMultiple(sql, new { PostId = postId }))
                 {
-                    var postInfo = multi.Read<PostInfo>().SingleOrDefault();
-                    if (postInfo != null)
+                    var post = multi.Read<PostInfo>().SingleOrDefault();
+                    if (post != null)
                     {
                         var replyList = multi.Read<ReplyInfo>().ToList();
-                        postInfo.ReplyList = replyList;
-                        postInfo.ReplyCount = replyList.Count();
+                        for (var index = 0; index < replyList.Count; index++)
+                        {
+                            replyList[index].Floor = index + 1;
+                        }
+                        post.ReplyList = replyList;
+                        post.ReplyCount = replyList.Count();
                         if (replyList.Count > 0)
                         {
                             var mostRecentReply = replyList.Last();
-                            postInfo.MostRecentReplyId = mostRecentReply.Id;
-                            postInfo.MostRecentReplierId = mostRecentReply.AuthorId;
-                            postInfo.MostRecentReplierName = mostRecentReply.AuthorName;
-                            postInfo.MostRecentReplyCreatedOn = mostRecentReply.CreatedOn;
+                            post.MostRecentReplyId = mostRecentReply.Id;
+                            post.MostRecentReplierId = mostRecentReply.AuthorId;
+                            post.MostRecentReplierName = mostRecentReply.AuthorName;
+                            post.MostRecentReplyCreatedOn = mostRecentReply.CreatedOn;
                         }
-                        return postInfo;
+                        return post;
                     }
                     return null;
                 }

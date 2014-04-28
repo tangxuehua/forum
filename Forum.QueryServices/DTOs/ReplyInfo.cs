@@ -23,6 +23,6 @@ namespace Forum.QueryServices.DTOs
         public DateTime CreatedOn { get; set; }
         /// <summary>楼层，即第几个回复，从1开始；
         /// </summary>
-        public int FloorIndex { get; set; }
+        public int Floor { get; set; }
     }
 }
