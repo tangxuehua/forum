@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Web.Http;
-using System.Web.Http.Dependencies;
 using Autofac;
+using Autofac.Integration.WebApi;
 using ECommon.Autofac;
 using ECommon.Components;
 using ECommon.Configurations;
@@ -54,55 +51,15 @@ namespace Forum.Api
                 .StartEQueue();
 
             RegisterControllers();
-            GlobalConfiguration.Configuration.DependencyResolver = new AutofacContainer();
         }
 
         private static void RegisterControllers()
         {
-            foreach (var controllerType in typeof(WebApiApplication).Assembly.GetTypes().Where(x => x.Name.EndsWith("Controller")))
-            {
-                ObjectContainer.RegisterType(controllerType, LifeStyle.Transient);
-            }
-        }
-
-        class AutofacContainer : IDependencyScope, IDependencyResolver
-        {
-            private IContainer _container;
-
-            public AutofacContainer()
-            {
-                _container = ((AutofacObjectContainer)ObjectContainer.Current).Container;
-            }
-
-            public IDependencyScope BeginScope()
-            {
-                return this;
-            }
-            public object GetService(Type serviceType)
-            {
-                if (_container.IsRegistered(serviceType))
-                {
-                    return _container.Resolve(serviceType);
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            public IEnumerable<object> GetServices(Type serviceType)
-            {
-                if (_container.IsRegistered(serviceType))
-                {
-                    return new[] { _container.Resolve(serviceType) };
-                }
-                else
-                {
-                    return new List<object>();
-                }
-            }
-            public void Dispose()
-            {
-            }
+            var container = (ObjectContainer.Current as AutofacObjectContainer).Container;
+            var builder = new ContainerBuilder();
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            builder.Update(container);
+            GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
     }
 }
