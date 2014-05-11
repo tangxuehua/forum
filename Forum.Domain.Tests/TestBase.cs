@@ -17,7 +17,6 @@ namespace Forum.Domain.Tests
     {
         protected ICommandService _commandService;
         protected IMemoryCache _memoryCache;
-        private const string ConnectionString = "Data Source=(local);Initial Catalog=Forum;uid=sa;pwd=howareyou;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
         private static bool _initialized;
         protected static ENodeConfiguration _configuration;
 
@@ -26,7 +25,7 @@ namespace Forum.Domain.Tests
         {
             if (!_initialized)
             {
-                ConfigSettings.ConnectionString = ConnectionString;
+                ConfigSettings.Initialize();
 
                 var assemblies = new[]
                 {
@@ -48,7 +47,6 @@ namespace Forum.Domain.Tests
                     .CreateENode()
                     .RegisterENodeComponents()
                     .RegisterBusinessComponents(assemblies)
-                    .UseSqlServerEventStore(ConnectionString)
                     .SetProviders()
                     .UseEQueue()
                     .InitializeBusinessAssemblies(assemblies)

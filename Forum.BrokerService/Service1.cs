@@ -9,6 +9,7 @@ using ECommon.Log4Net;
 using ECommon.Logging;
 using EQueue.Broker;
 using EQueue.Configurations;
+using Forum.Infrastructure;
 
 namespace Forum.BrokerService
 {
@@ -54,13 +55,27 @@ namespace Forum.BrokerService
 
         static void InitializeEQueue()
         {
+            ConfigSettings.Initialize();
+
+            var messageStoreSetting = new SqlServerMessageStoreSetting
+            {
+                ConnectionString = ConfigSettings.ConnectionString,
+                DeleteMessageHourOfDay = -1
+            };
+            var offsetManagerSetting = new SqlServerOffsetManagerSetting
+            {
+                ConnectionString = ConfigSettings.ConnectionString
+            };
+
             Configuration
                 .Create()
                 .UseAutofac()
                 .RegisterCommonComponents()
                 .UseLog4Net()
                 .UseJsonNet()
-                .RegisterEQueueComponents();
+                .RegisterEQueueComponents()
+                .UseSqlServerMessageStore(messageStoreSetting)
+                .UseSqlServerOffsetManager(offsetManagerSetting);
         }
     }
 }

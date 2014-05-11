@@ -55,7 +55,7 @@ namespace Forum.EventService
 
         private void InitializeENode()
         {
-            ConfigSettings.ConnectionString = "Data Source=(local);Initial Catalog=Forum;uid=sa;pwd=howareyou;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
+            ConfigSettings.Initialize();
 
             var assemblies = new[]
             {
@@ -72,7 +72,6 @@ namespace Forum.EventService
                 .CreateENode()
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
-                .UseSqlServerEventStore(ConfigSettings.ConnectionString)
                 .UseSqlServerEventPublishInfoStore(ConfigSettings.ConnectionString)
                 .UseSqlServerEventHandleInfoStore(ConfigSettings.ConnectionString)
                 .SetProviders()

@@ -5,8 +5,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac;
-using Autofac.Integration.WebApi;
 using Autofac.Integration.Mvc;
+using Autofac.Integration.WebApi;
 using ECommon.Autofac;
 using ECommon.Components;
 using ECommon.Configurations;
@@ -20,8 +20,6 @@ namespace Forum.Web
 {
     public class MvcApplication : HttpApplication
     {
-        private const string ConnectionString = "Data Source=(local);Initial Catalog=Forum;uid=sa;pwd=howareyou;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
-
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -35,15 +33,16 @@ namespace Forum.Web
 
         private static void InitializeENode()
         {
-            ConfigSettings.ConnectionString = ConnectionString;
+            ConfigSettings.Initialize();
 
             var assemblies = new[]
-                {
-                    Assembly.Load("Forum.Domain"),
-                    Assembly.Load("Forum.Domain.Repositories.Dapper"),
-                    Assembly.Load("Forum.QueryServices"),
-                    Assembly.Load("Forum.QueryServices.Dapper")
-                };
+            {
+                Assembly.Load("Forum.Domain"),
+                Assembly.Load("Forum.Domain.Repositories.Dapper"),
+                Assembly.Load("Forum.QueryServices"),
+                Assembly.Load("Forum.QueryServices.Dapper")
+            };
+
             Configuration
                 .Create()
                 .UseAutofac()
@@ -53,7 +52,6 @@ namespace Forum.Web
                 .CreateENode()
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
-                .UseSqlServerEventStore(ConnectionString)
                 .SetProviders()
                 .UseEQueue()
                 .InitializeBusinessAssemblies(assemblies)
