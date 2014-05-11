@@ -73,6 +73,8 @@ namespace Forum.EventService
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
                 .UseSqlServerEventStore(ConfigSettings.ConnectionString)
+                .UseSqlServerEventPublishInfoStore(ConfigSettings.ConnectionString)
+                .UseSqlServerEventHandleInfoStore(ConfigSettings.ConnectionString)
                 .SetProviders()
                 .UseEQueue()
                 .InitializeBusinessAssemblies(assemblies);
