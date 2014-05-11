@@ -17,7 +17,7 @@ namespace Forum.Domain.Tests
     {
         protected ICommandService _commandService;
         protected IMemoryCache _memoryCache;
-        private const string ConnectionString = "Data Source=(local);Initial Catalog=Forum;Integrated Security=True;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
+        private const string ConnectionString = "Data Source=(local);Initial Catalog=Forum;uid=sa;pwd=howareyou;Connect Timeout=30;Min Pool Size=10;Max Pool Size=100";
         private static bool _initialized;
         protected static ENodeConfiguration _configuration;
 

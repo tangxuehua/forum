@@ -48,12 +48,13 @@ namespace Forum.QueryServices.Dapper
                     var replies = connection.Query(sql);
                     foreach (var post in posts)
                     {
+                        post.AuthorName = FormatValue(post.AuthorName);
                         var mostRecentReply = replies.SingleOrDefault(x => x.Sequence == post.MostRecentReplySequence);
                         if (mostRecentReply != null)
                         {
-                            post.MostRecentReplyId = mostRecentReply.Id;
-                            post.MostRecentReplierId = mostRecentReply.AuthorId;
-                            post.MostRecentReplierName = mostRecentReply.AuthorName is DBNull ? null : mostRecentReply.AuthorName;
+                            post.MostRecentReplyId = FormatValue(mostRecentReply.Id);
+                            post.MostRecentReplierId = FormatValue(mostRecentReply.AuthorId);
+                            post.MostRecentReplierName = FormatValue(mostRecentReply.AuthorName);
                             post.MostRecentReplyCreatedOn = mostRecentReply.CreatedOn;
                         }
                     }
@@ -86,16 +87,26 @@ namespace Forum.QueryServices.Dapper
                         if (replyList.Count > 0)
                         {
                             var mostRecentReply = replyList.Last();
-                            post.MostRecentReplyId = mostRecentReply.Id;
-                            post.MostRecentReplierId = mostRecentReply.AuthorId;
-                            post.MostRecentReplierName = mostRecentReply.AuthorName;
+                            post.MostRecentReplyId = FormatValue(mostRecentReply.Id);
+                            post.MostRecentReplierId = FormatValue(mostRecentReply.AuthorId);
+                            post.MostRecentReplierName = FormatValue(mostRecentReply.AuthorName);
                             post.MostRecentReplyCreatedOn = mostRecentReply.CreatedOn;
                         }
+
                         return post;
                     }
                     return null;
                 }
             }
+        }
+
+        private static string FormatValue(object value)
+        {
+            if (value is DBNull || value == null)
+            {
+                return string.Empty;
+            }
+            return value.ToString();
         }
     }
 }

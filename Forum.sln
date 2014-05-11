@@ -23,9 +23,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Domain", "Forum.Domai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.EventSynchronizers", "Forum.EventSynchronizers\Forum.EventSynchronizers.csproj", "{CCFC7288-0D7F-4028-AED5-FA8DDBE84339}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Api", "Forum.Api\Forum.Api.csproj", "{1DB09360-C090-43D3-A981-EAFB25E1D536}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hosts", "Hosts", "{9C48549C-7E4F-4D88-AAAE-6809D604D282}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Web", "Forum.Web\Forum.Web.csproj", "{13DD445C-C062-43B7-AB77-FA4B86B513AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.BrokerService", "Forum.BrokerService\Forum.BrokerService.csproj", "{67C0FA69-1233-4217-B6F0-C65658CAC8CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.CommandService", "Forum.CommandService\Forum.CommandService.csproj", "{6CE6AB8F-FA95-4E28-AF7C-45125E61609E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.EventService", "Forum.EventService\Forum.EventService.csproj", "{B29D46C2-A4D4-492E-A154-03F7DF07BA86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,16 +79,30 @@ Global
 		{CCFC7288-0D7F-4028-AED5-FA8DDBE84339}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCFC7288-0D7F-4028-AED5-FA8DDBE84339}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCFC7288-0D7F-4028-AED5-FA8DDBE84339}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1DB09360-C090-43D3-A981-EAFB25E1D536}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1DB09360-C090-43D3-A981-EAFB25E1D536}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1DB09360-C090-43D3-A981-EAFB25E1D536}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1DB09360-C090-43D3-A981-EAFB25E1D536}.Release|Any CPU.Build.0 = Release|Any CPU
 		{13DD445C-C062-43B7-AB77-FA4B86B513AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{13DD445C-C062-43B7-AB77-FA4B86B513AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13DD445C-C062-43B7-AB77-FA4B86B513AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13DD445C-C062-43B7-AB77-FA4B86B513AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67C0FA69-1233-4217-B6F0-C65658CAC8CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67C0FA69-1233-4217-B6F0-C65658CAC8CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67C0FA69-1233-4217-B6F0-C65658CAC8CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67C0FA69-1233-4217-B6F0-C65658CAC8CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CE6AB8F-FA95-4E28-AF7C-45125E61609E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CE6AB8F-FA95-4E28-AF7C-45125E61609E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CE6AB8F-FA95-4E28-AF7C-45125E61609E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CE6AB8F-FA95-4E28-AF7C-45125E61609E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B29D46C2-A4D4-492E-A154-03F7DF07BA86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B29D46C2-A4D4-492E-A154-03F7DF07BA86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B29D46C2-A4D4-492E-A154-03F7DF07BA86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B29D46C2-A4D4-492E-A154-03F7DF07BA86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{13DD445C-C062-43B7-AB77-FA4B86B513AA} = {9C48549C-7E4F-4D88-AAAE-6809D604D282}
+		{67C0FA69-1233-4217-B6F0-C65658CAC8CE} = {9C48549C-7E4F-4D88-AAAE-6809D604D282}
+		{6CE6AB8F-FA95-4E28-AF7C-45125E61609E} = {9C48549C-7E4F-4D88-AAAE-6809D604D282}
+		{B29D46C2-A4D4-492E-A154-03F7DF07BA86} = {9C48549C-7E4F-4D88-AAAE-6809D604D282}
 	EndGlobalSection
 EndGlobal

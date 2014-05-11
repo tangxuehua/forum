@@ -7,6 +7,14 @@ namespace Forum.QueryServices.DTOs
     /// </summary>
     public class PostInfo
     {
+        public PostInfo()
+        {
+            AuthorName = string.Empty;
+            ReplyList = new ReplyInfo[0];
+            MostRecentReplyId = string.Empty;
+            MostRecentReplierId = string.Empty;
+            MostRecentReplierName = string.Empty;
+        }
         /// <summary>唯一标识
         /// </summary>
         public string Id { get; set; }

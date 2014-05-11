@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using System.Threading;
 using ECommon.Components;
+using ECommon.Remoting;
 using ECommon.Scheduling;
+using ECommon.Socketing;
 using ENode.Commanding;
 using ENode.Configurations;
 using ENode.Domain;
@@ -10,9 +12,8 @@ using ENode.EQueue.Commanding;
 using ENode.Eventing;
 using EQueue.Broker;
 using EQueue.Clients.Consumers;
+using EQueue.Clients.Producers;
 using EQueue.Configurations;
-using Forum.Domain.Accounts;
-using Forum.Domain.Repositories.Dapper;
 
 namespace Forum.Domain.Tests
 {
@@ -44,30 +45,38 @@ namespace Forum.Domain.Tests
 
             configuration.RegisterEQueueComponents();
 
+            var producerSetting = new ProducerSetting { BrokerPort = 6000 };
             var consumerSetting = new ConsumerSetting
             {
+                BrokerPort = 6001,
                 HeartbeatBrokerInterval = 1000,
                 UpdateTopicQueueCountInterval = 1000,
                 RebalanceInterval = 1000
             };
             var eventConsumerSetting = new ConsumerSetting
             {
+                BrokerPort = 6001,
                 HeartbeatBrokerInterval = 1000,
                 UpdateTopicQueueCountInterval = 1000,
                 RebalanceInterval = 1000,
                 MessageHandleMode = MessageHandleMode.Sequential
             };
 
-            _broker = new BrokerController().Initialize();
+            var brokerSetting = new BrokerSetting
+            {
+                ProducerSocketSetting = new SocketSetting { Address = SocketUtils.GetLocalIPV4().ToString(), Port = 6000, Backlog = 5000 },
+                ConsumerSocketSetting = new SocketSetting { Address = SocketUtils.GetLocalIPV4().ToString(), Port = 6001, Backlog = 5000 }
+            };
+            _broker = new BrokerController(brokerSetting).Initialize();
 
             var commandExecutedMessageConsumer = new Consumer("CommandExecutedMessageConsumer", "CommandExecutedMessageConsumerGroup", consumerSetting);
             var domainEventHandledMessageConsumer = new Consumer("DomainEventHandledMessageConsumer", "DomainEventHandledMessageConsumerGroup", consumerSetting);
             _commandResultProcessor = new CommandResultProcessor(commandExecutedMessageConsumer, domainEventHandledMessageConsumer);
 
-            _commandService = new CommandService(_commandResultProcessor);
-            _commandExecutedMessageSender = new CommandExecutedMessageSender();
-            _domainEventHandledMessageSender = new DomainEventHandledMessageSender();
-            _eventPublisher = new EventPublisher();
+            _commandService = new CommandService(_commandResultProcessor, "CommandService", producerSetting);
+            _commandExecutedMessageSender = new CommandExecutedMessageSender("CommandExecutedMessageSender", producerSetting);
+            _domainEventHandledMessageSender = new DomainEventHandledMessageSender("DomainEventHandledMessageSender", producerSetting);
+            _eventPublisher = new EventPublisher("EventPublisher", producerSetting);
 
             configuration.SetDefault<ICommandService, CommandService>(_commandService);
             configuration.SetDefault<IEventPublisher, EventPublisher>(_eventPublisher);

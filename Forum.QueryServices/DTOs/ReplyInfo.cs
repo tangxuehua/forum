@@ -6,6 +6,10 @@ namespace Forum.QueryServices.DTOs
     /// </summary>
     public class ReplyInfo
     {
+        public ReplyInfo()
+        {
+            AuthorName = string.Empty;
+        }
         /// <summary>唯一标识
         /// </summary>
         public string Id { get; set; }
