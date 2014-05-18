@@ -5,6 +5,10 @@
     padding-right: 5px;
 }
 
+.vertical-center {
+    vertical-align: middle !important;
+}
+
 .sidebar-nav {
     padding: 9px 0;
 }

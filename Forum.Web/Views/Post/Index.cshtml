@@ -1,40 +1,51 @@
 ﻿@{
-    ViewBag.Title = "主页";
+    ViewBag.Title = "帖子列表";
 }
-
-
-@*<table class="table table-striped" id="dataTable">
-    <thead>
-        <tr>
-            <th>
-                标题
-            </th>
-            <th class="center">
-                发帖人
-            </th>
-            <th class="center">
-                回复数
-            </th>
-            <th class="center">
-                最新回复
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="post in posts">
-            <td width="10%">
-                {{post.Subject}}
-            </td>
-            <td width="10%" class="center">
-                
-                <a href="http://osupdateadmin.yunos.com/rest/userinfo/index.html?userId=99287" target="_blank">{{post.AuthorName}}</a>
-            </td>
-            <td width="10%" class="center">
-                {{post.ReplyCount}}
-            </td>
-            <td width="10%" class="center">
-                {{post.packageName}}
-            </td>
-        </tr>
-    </tbody>
-</table>*@
+@section Scripts {
+    <script type="text/javascript">
+        var sectionId = '@ViewBag.SectionId';
+        var authorId = '@ViewBag.AuthorId';
+        var pageIndex = '@ViewBag.PageIndex';
+    </script>
+    <script type="text/javascript" src="@Url.Content("~/Content/controllers/post-controller.js")"></script>
+}
+<div ng-controller="PostController">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th width="60%" class="vertical-center">
+                    标题
+                </th>
+                <th width="15%" class="text-center vertical-center">
+                    发帖人
+                </th>
+                <th width="10%" class="text-center vertical-center">
+                    回复数
+                </th>
+                <th width="15%" class="text-center vertical-center">
+                    最新回复
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="post in posts">
+                <td class="vertical-center">
+                    <a href="/post/detail/{{post.Id}}" target="_blank">{{post.Subject}}</a>
+                </td>
+                <td class="text-center vertical-center">
+                    <a href="/post/index?authorId={{post.AuthorId}}" target="_blank">{{post.AuthorName}}</a><br />{{post.CreatedOn}}
+                </td>
+                <td class="text-center vertical-center">
+                    {{post.ReplyCount}}
+                </td>
+                <td class="text-center vertical-center">
+                    <div ng-show="{{post.MostRecentReplyId != ''}}">
+                        <a href="/post/index?authorId={{post.MostRecentReplierId}}" target="_blank">{{post.MostRecentReplierName}}</a>
+                        <br />{{post.MostRecentReplyCreatedOn}}
+                    </div>
+                    <div ng-show="{{post.MostRecentReplyId == ''}}">-</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

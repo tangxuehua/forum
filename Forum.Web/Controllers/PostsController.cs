@@ -6,7 +6,6 @@ using Forum.QueryServices.DTOs;
 
 namespace Forum.Web.Controllers
 {
-    [RoutePrefix("api/posts")]
     public class PostsController : ApiController
     {
         private readonly ICommandService _commandService;
@@ -18,17 +17,12 @@ namespace Forum.Web.Controllers
             _postQueryService = postQueryService;
         }
 
-        [Route("pages/{pageIndex:int}")]
-        public IEnumerable<PostInfo> GetPosts(int pageIndex)
-        {
-            return _postQueryService.QueryPosts(new PostQueryOption(pageIndex));
-        }
-        [Route("{sectionId}/pages/{pageIndex:int}")]
-        public IEnumerable<PostInfo> GetPosts(string sectionId, int pageIndex)
+        [Route("api/posts")]
+        public IEnumerable<PostInfo> GetPosts(string sectionId, string authorId, int pageIndex)
         {
             return _postQueryService.QueryPosts(new PostQueryOption(pageIndex) { SectionId = sectionId });
         }
-        [Route("{id}")]
+        [Route("api/posts/{id}")]
         public PostInfo GetPost(string id)
         {
             return _postQueryService.QueryPost(id);
