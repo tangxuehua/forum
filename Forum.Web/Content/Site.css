@@ -1,27 +1,84 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top: 5px;
     padding-bottom: 40px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
+
 .sidebar-nav {
     padding: 9px 0;
 }
 
-.profile {
-    color:#999;
+.site-header {
+    border-bottom: solid 1px #006600;
 }
-.profile form a {
-    color:#999;
+
+.navbar {
+    border: 0px;
+    margin-bottom: 10px;
+}
+
+.site-brand {
+    float: left;
+    width: 45px;
+    height: 45px;
+    display: block;
+    background-image: url(./images/logo.png);
+    background-repeat: no-repeat;
+}
+
+.site-name {
+    float: left;
+    padding-top: 8px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: #777;
+    letter-spacing: 1.4px;
+}
+.navbar-right {
+    margin-right: 0px !important;
+}
+.navbar li a {
+    padding-top: 10px;
     text-decoration: none;
+    color: #777;
 }
-.profile form a:hover,
-.profile form a:focus {
-  text-decoration: none;
-  color: #eeeeee;
+.navbar li form {
+    padding-top: 10px;
 }
-.profile li a {
-  display: inline-block;
-  padding:10px 0 0 20px !important;
+
+.row {
+    margin-left: 0px;
+    margin-right: 0px;
 }
-.profile li a.username {
-  padding:10px 0 0 0 !important;
+.content {
+    padding-left: 0px;
+    min-height: 480px;
+}
+
+.sidebar-nav {
+    padding: 0px;
+}
+.sidebar-left {
+    padding-left: 0px;
+}
+
+@media (min-width: 768px) {
+  .sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+    max-height: none;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
 }

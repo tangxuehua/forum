@@ -1,16 +1,19 @@
-﻿@if (Request.IsAuthenticated) {
-    <ul class="nav profile">
-        <li>您好，@Html.ActionLink(User.Identity.Name, "controlpanel", "account", routeValues: null, htmlAttributes: new { title = "我的控制面板", @class = "username" })!</li>
+﻿@if (Request.IsAuthenticated)
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink(User.Identity.Name, "profile", "account", routeValues: null, htmlAttributes: new { title = "我的控制面板" })</li>
         <li>
-            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "logoffForm" }))
+            {
                 @Html.AntiForgeryToken()
                 <a href="javascript:document.getElementById('logoutForm').submit()">注销</a>
             }
         </li>
     </ul>
 }
-else {
-    <ul class="nav">
+else
+{
+    <ul class="nav navbar-nav navbar-right">
         <li>@Html.ActionLink("注册", "register", "account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("登录", "login", "account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
