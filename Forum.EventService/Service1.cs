@@ -34,6 +34,7 @@ namespace Forum.EventService
             catch (Exception ex)
             {
                 _logger.Error(ex);
+                throw;
             }
         }
 
@@ -43,13 +44,10 @@ namespace Forum.EventService
             {
                 _enodeConfiguration.ShutdownEQueue();
             }
-            catch (SocketException ex)
-            {
-                _logger.InfoFormat("Socket {0}.", ex.SocketErrorCode);
-            }
             catch (Exception ex)
             {
                 _logger.Error(ex);
+                throw;
             }
         }
 

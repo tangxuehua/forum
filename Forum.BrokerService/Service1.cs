@@ -34,6 +34,7 @@ namespace Forum.BrokerService
             catch (Exception ex)
             {
                 _logger.Error(ex);
+                throw;
             }
         }
 
@@ -41,15 +42,15 @@ namespace Forum.BrokerService
         {
             try
             {
-                _broker.Shutdown();
-            }
-            catch (SocketException ex)
-            {
-                _logger.InfoFormat("Socket {0}.", ex.SocketErrorCode);
+                if (_broker != null)
+                {
+                    _broker.Shutdown();
+                }
             }
             catch (Exception ex)
             {
                 _logger.Error(ex);
+                throw;
             }
         }
 
