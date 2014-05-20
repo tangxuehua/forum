@@ -1,13 +1,6 @@
-﻿@{
+﻿@model IEnumerable<Forum.Web.Models.PostListModel>
+@{
     ViewBag.Title = "帖子列表";
-}
-@section Scripts {
-    <script type="text/javascript">
-        var sectionId = '@ViewBag.SectionId';
-        var authorId = '@ViewBag.AuthorId';
-        var pageIndex = '@ViewBag.PageIndex';
-    </script>
-    <script type="text/javascript" src="@Url.Content("~/Content/controllers/post-controller.js")"></script>
 }
 <div ng-controller="PostController">
     <table class="table table-striped">
@@ -28,24 +21,33 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="post in posts">
-                <td class="vertical-center">
-                    <a href="/post/detail/{{post.Id}}" target="_blank">{{post.Subject}}</a>
-                </td>
-                <td class="text-center vertical-center">
-                    <a href="/post/index?authorId={{post.AuthorId}}" target="_blank">{{post.AuthorName}}</a><br />{{post.CreatedOn}}
-                </td>
-                <td class="text-center vertical-center">
-                    {{post.ReplyCount}}
-                </td>
-                <td class="text-center vertical-center">
-                    <div ng-show="{{post.MostRecentReplyId != ''}}">
-                        <a href="/post/index?authorId={{post.MostRecentReplierId}}" target="_blank">{{post.MostRecentReplierName}}</a>
-                        <br />{{post.MostRecentReplyCreatedOn}}
-                    </div>
-                    <div ng-show="{{post.MostRecentReplyId == ''}}">-</div>
-                </td>
-            </tr>
+            @foreach (var post in Model)
+            {
+                <tr>
+                    <td class="vertical-center">
+                        @Html.ActionLink(post.Subject, "detail", new { id = post.Id }, new { target = "_blank" })
+                    </td>
+                    <td class="text-center vertical-center">
+                        @Html.ActionLink(post.AuthorName, "index", new { authorId = post.AuthorId }, new { target = "_blank" })
+                        <br />
+                        @post.CreatedOn
+                    </td>
+                    <td class="text-center vertical-center">
+                        @post.ReplyCount
+                    </td>
+                    <td class="text-center vertical-center">
+                        @if (post.MostRecentReply != null)
+                        {
+                            @Html.ActionLink(post.MostRecentReply.AuthorName, "index", new { authorId = post.MostRecentReply.AuthorId }, new { target = "_blank" })<br />
+                            @post.MostRecentReply.CreatedOn
+                        }
+                        else
+                        {
+                            @Html.Raw("-")
+                        }
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>

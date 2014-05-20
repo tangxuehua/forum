@@ -13,8 +13,6 @@ namespace Forum.QueryServices.Dapper
     {
         public IEnumerable<PostInfo> QueryPosts(PostQueryOption option)
         {
-            PageInfo.ValidateAndFixPageInfo(option.PageInfo);
-
             object condition = null;
             var wherePart = string.Empty;
             if (!string.IsNullOrEmpty(option.SectionId))

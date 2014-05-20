@@ -6,6 +6,9 @@ namespace Forum.QueryServices.DTOs
     /// </summary>
     public class PostQueryOption
     {
+        /// <summary>帖子作者ID
+        /// </summary>
+        public string AuthorId { get; set; }
         /// <summary>所属版块ID
         /// </summary>
         public string SectionId { get; set; }
@@ -15,11 +18,7 @@ namespace Forum.QueryServices.DTOs
 
         public PostQueryOption()
         {
-            PageInfo = PageInfo.Default;
-        }
-        public PostQueryOption(int pageIndex) : this()
-        {
-            PageInfo.PageIndex = pageIndex;
+            PageInfo = new PageInfo();
         }
     }
 }

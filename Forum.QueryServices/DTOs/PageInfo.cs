@@ -6,10 +6,6 @@ namespace Forum.QueryServices.DTOs
     /// </summary>
     public class PageInfo
     {
-        /// <summary>默认的分页信息
-        /// </summary>
-        public static PageInfo Default = new PageInfo { PageIndex = 1, PageSize = 20 };
-
         /// <summary>当前页（从1开始）
         /// </summary>
         public int PageIndex { get; set; }
@@ -17,23 +13,18 @@ namespace Forum.QueryServices.DTOs
         /// </summary>
         public int PageSize { get; set; }
 
-        /// <summary>验证给定的分页信息，如果不合法，则返回一个合法的分页信息
-        /// </summary>
-        /// <param name="pageInfo"></param>
-        public static void ValidateAndFixPageInfo(PageInfo pageInfo)
+        public PageInfo(int pageIndex = 1, int pageSize = 20)
         {
-            if (pageInfo == null)
+            if (pageIndex < 1)
             {
-                pageInfo = PageInfo.Default;
+                throw new ArgumentException("pageIndex cannot small than 1.");
             }
-            if (pageInfo.PageIndex < 1)
+            if (pageSize < 1)
             {
-                pageInfo.PageIndex = 1;
+                throw new ArgumentException("pageSize cannot small than 1.");
             }
-            if (pageInfo.PageSize < 1)
-            {
-                pageInfo.PageSize = 20;
-            }
+            PageIndex = 1;
+            PageSize = 20;
         }
     }
 }
