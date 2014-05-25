@@ -33,7 +33,6 @@ namespace Forum.Domain.Tests
                     Assembly.Load("Forum.CommandHandlers"),
                     Assembly.Load("Forum.Denormalizers.Dapper"),
                     Assembly.Load("Forum.Domain.Repositories.Dapper"),
-                    Assembly.Load("Forum.EventSynchronizers"),
                     Assembly.Load("Forum.QueryServices"),
                     Assembly.Load("Forum.QueryServices.Dapper"),
                     Assembly.Load("Forum.Domain.Tests")

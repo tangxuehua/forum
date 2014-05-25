@@ -59,8 +59,7 @@ namespace Forum.CommandService
             {
                 Assembly.Load("Forum.Domain"),
                 Assembly.Load("Forum.CommandHandlers"),
-                Assembly.Load("Forum.Domain.Repositories.Dapper"),
-                Assembly.Load("Forum.EventSynchronizers")
+                Assembly.Load("Forum.Domain.Repositories.Dapper")
             };
 
             _enodeConfiguration = Configuration

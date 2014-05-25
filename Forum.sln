@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Domain.Repositories.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Domain", "Forum.Domain\Forum.Domain.csproj", "{5A4055C3-89BC-4149-8A6D-06CE985080C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.EventSynchronizers", "Forum.EventSynchronizers\Forum.EventSynchronizers.csproj", "{CCFC7288-0D7F-4028-AED5-FA8DDBE84339}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hosts", "Hosts", "{9C48549C-7E4F-4D88-AAAE-6809D604D282}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Web", "Forum.Web\Forum.Web.csproj", "{13DD445C-C062-43B7-AB77-FA4B86B513AA}"
@@ -75,10 +73,6 @@ Global
 		{5A4055C3-89BC-4149-8A6D-06CE985080C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A4055C3-89BC-4149-8A6D-06CE985080C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A4055C3-89BC-4149-8A6D-06CE985080C9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CCFC7288-0D7F-4028-AED5-FA8DDBE84339}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CCFC7288-0D7F-4028-AED5-FA8DDBE84339}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CCFC7288-0D7F-4028-AED5-FA8DDBE84339}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CCFC7288-0D7F-4028-AED5-FA8DDBE84339}.Release|Any CPU.Build.0 = Release|Any CPU
 		{13DD445C-C062-43B7-AB77-FA4B86B513AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{13DD445C-C062-43B7-AB77-FA4B86B513AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13DD445C-C062-43B7-AB77-FA4B86B513AA}.Release|Any CPU.ActiveCfg = Release|Any CPU

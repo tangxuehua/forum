@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Accounts\Account.cs" />
     <Compile Include="Accounts\AccountCreatedEvent.cs" />
+    <Compile Include="Accounts\CheckAccountNameUniqueService.cs" />
     <Compile Include="Accounts\Registration.cs" />
     <Compile Include="Accounts\RegistrationStatus.cs" />
     <Compile Include="Accounts\DuplicateAccountNameException.cs" />

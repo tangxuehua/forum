@@ -1,15 +1,14 @@
 ﻿using ECommon.Components;
 using ENode.Eventing;
-using Forum.Domain.Accounts;
 
-namespace Forum.EventSynchronizers
+namespace Forum.Domain.Accounts
 {
     [Component(LifeStyle.Singleton)]
-    public class AccountEventSynchronizer : IEventSynchronizer<AccountCreatedEvent>
+    public class CheckAccountNameUniqueService : IEventSynchronizer<AccountCreatedEvent>
     {
         private readonly IRegistrationRepository _registrationRepository;
 
-        public AccountEventSynchronizer(IRegistrationRepository registrationRepository)
+        public CheckAccountNameUniqueService(IRegistrationRepository registrationRepository)
         {
             _registrationRepository = registrationRepository;
         }
