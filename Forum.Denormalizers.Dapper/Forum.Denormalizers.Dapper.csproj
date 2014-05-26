@@ -36,9 +36,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ECommon.1.2.4\lib\net40\ECommon.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ENode, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ENode.2.2.1\lib\net40\ENode.dll</HintPath>
+      <HintPath>..\packages\ENode.2.2.2\lib\net40\ENode.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />

@@ -6,11 +6,18 @@ using Forum.Domain.Accounts;
 namespace Forum.CommandHandlers
 {
     [Component(LifeStyle.Singleton)]
-    public class AccountCommandHandler : ICommandHandler<CreateAccountCommand>
+    public class AccountCommandHandler : ICommandHandler<RegisterNewAccountCommand>
     {
-        public void Handle(ICommandContext context, CreateAccountCommand command)
+        private readonly AccountFactory _factory;
+
+        public AccountCommandHandler(AccountFactory factory)
         {
-            context.Add(new Account(command.AggregateRootId, command.Name, command.Password));
+            _factory = factory;
+        }
+
+        public void Handle(ICommandContext context, RegisterNewAccountCommand command)
+        {
+            context.Add(_factory.CreateAccount(command.Name, command.Password));
         }
     }
 }

@@ -15,23 +15,24 @@ namespace Forum.Domain.Tests
         [Test]
         public void create_single_account_test()
         {
-            var id = ObjectId.GenerateNewStringId();
             var name = ObjectId.GenerateNewStringId();
             var password = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new CreateAccountCommand(id, name, password)).Wait();
+            var result = _commandService.Execute(new RegisterNewAccountCommand(name, password)).WaitResult<CommandResult>(3000);
 
-            var account = _memoryCache.Get<Account>(id);
+            Assert.AreEqual(CommandStatus.Success, result.Status);
+            Assert.IsNotNull(result.AggregateRootId);
+
+            var account = _memoryCache.Get<Account>(result.AggregateRootId);
             Assert.NotNull(account);
-            Assert.AreEqual(id, account.Id);
             Assert.AreEqual(name, account.Name);
             Assert.AreEqual(password, account.Password);
 
-            account = ObjectContainer.Resolve<IAccountService>().GetAccount(name);
-            Assert.IsNotNull(account);
-            Assert.AreEqual(id, account.Id);
-            Assert.AreEqual(name, account.Name);
-            Assert.AreEqual(password, account.Password);
+            var accountInfo = ObjectContainer.Resolve<IAccountQueryService>().Find(name);
+            Assert.IsNotNull(accountInfo);
+            Assert.AreEqual(result.AggregateRootId, accountInfo.Id);
+            Assert.AreEqual(name, accountInfo.Name);
+            Assert.AreEqual(password, accountInfo.Password);
         }
 
         [Test]
@@ -40,8 +41,8 @@ namespace Forum.Domain.Tests
             var name = ObjectId.GenerateNewStringId();
             var password = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new CreateAccountCommand(ObjectId.GenerateNewStringId(), name, password)).Wait();
-            var result = _commandService.Execute(new CreateAccountCommand(ObjectId.GenerateNewStringId(), name, password)).WaitResult<CommandResult>(3000);
+            _commandService.Execute(new RegisterNewAccountCommand(name, password)).Wait();
+            var result = _commandService.Execute(new RegisterNewAccountCommand(name, password)).WaitResult<CommandResult>(3000);
 
             Assert.AreEqual(CommandStatus.Failed, result.Status);
             Assert.AreEqual(typeof(DuplicateAccountNameException).Name, result.ExceptionTypeName);

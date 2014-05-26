@@ -36,9 +36,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ECommon.1.2.4\lib\net40\ECommon.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ENode, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ENode.2.2.1\lib\net40\ENode.dll</HintPath>
+      <HintPath>..\packages\ENode.2.2.2\lib\net40\ENode.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,12 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountService.cs" />
+    <Compile Include="DTOs\AccountInfo.cs" />
     <Compile Include="DTOs\PostInfo.cs" />
     <Compile Include="DTOs\PostQueryOption.cs" />
     <Compile Include="DTOs\ReplyInfo.cs" />
     <Compile Include="DTOs\PageInfo.cs" />
-    <Compile Include="IAccountService.cs" />
+    <Compile Include="IAccountQueryService.cs" />
     <Compile Include="IPostQueryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

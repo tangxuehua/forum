@@ -66,13 +66,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ECommon.Log4Net.1.2.4\lib\net40\ECommon.Log4Net.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ENode, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ENode.2.2.1\lib\net40\ENode.dll</HintPath>
+      <HintPath>..\packages\ENode.2.2.2\lib\net40\ENode.dll</HintPath>
     </Reference>
-    <Reference Include="ENode.EQueue, Version=1.2.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ENode.EQueue.1.2.4\lib\net40\ENode.EQueue.dll</HintPath>
+    <Reference Include="ENode.EQueue">
+      <HintPath>..\packages\ENode.EQueue.1.2.5\lib\net40\ENode.EQueue.dll</HintPath>
     </Reference>
     <Reference Include="EQueue, Version=1.1.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -216,8 +215,6 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ControlPanel.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
-    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Post\Index.cshtml" />
     <Content Include="Views\Post\Detail.cshtml" />

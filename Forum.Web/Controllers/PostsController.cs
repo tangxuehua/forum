@@ -20,12 +20,12 @@ namespace Forum.Web.Controllers
         [Route("api/posts")]
         public IEnumerable<PostInfo> GetPosts(string sectionId, string authorId, int pageIndex)
         {
-            return _postQueryService.QueryPosts(new PostQueryOption { SectionId = sectionId, AuthorId = authorId, PageInfo = new PageInfo(pageIndex) });
+            return _postQueryService.Find(new PostQueryOption { SectionId = sectionId, AuthorId = authorId, PageInfo = new PageInfo(pageIndex) });
         }
         [Route("api/posts/{id}")]
         public PostInfo GetPost(string id)
         {
-            return _postQueryService.QueryPost(id);
+            return _postQueryService.Find(id);
         }
     }
 }

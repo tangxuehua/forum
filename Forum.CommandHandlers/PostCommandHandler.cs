@@ -10,9 +10,16 @@ namespace Forum.CommandHandlers
         ICommandHandler<CreatePostCommand>,
         ICommandHandler<UpdatePostCommand>
     {
+        private readonly PostFactory _factory;
+
+        public PostCommandHandler(PostFactory factory)
+        {
+            _factory = factory;
+        }
+
         public void Handle(ICommandContext context, CreatePostCommand command)
         {
-            context.Add(new Post(command.AggregateRootId, command.Subject, command.Body, command.SectionId, command.AuthorId));
+            context.Add(_factory.CreatePost(command.Subject, command.Body, command.SectionId, command.AuthorId));
         }
         public void Handle(ICommandContext context, UpdatePostCommand command)
         {

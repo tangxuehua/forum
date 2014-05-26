@@ -20,7 +20,7 @@ namespace Forum.Web.Controllers
 
         public ActionResult Index(string sectionId, string authorId, int? pageIndex)
         {
-            var posts = _postQueryService.QueryPosts(
+            var posts = _postQueryService.Find(
                 new PostQueryOption
                 {
                     SectionId = sectionId,

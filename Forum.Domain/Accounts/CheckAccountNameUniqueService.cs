@@ -3,23 +3,24 @@ using ENode.Eventing;
 
 namespace Forum.Domain.Accounts
 {
+    /// <summary>一个规则服务，用于检查账号是否唯一
+    /// </summary>
     [Component(LifeStyle.Singleton)]
     public class CheckAccountNameUniqueService : IEventSynchronizer<AccountCreatedEvent>
     {
-        private readonly IRegistrationRepository _registrationRepository;
+        private readonly IAccountRepository _accountRepository;
 
-        public CheckAccountNameUniqueService(IRegistrationRepository registrationRepository)
+        public CheckAccountNameUniqueService(IAccountRepository accountRepository)
         {
-            _registrationRepository = registrationRepository;
+            _accountRepository = accountRepository;
         }
 
         public void OnBeforePersisting(AccountCreatedEvent evnt)
         {
-            _registrationRepository.Add(new Registration(evnt.AggregateRootId, evnt.Name));
+            _accountRepository.Add(new AccountInfo(evnt.AggregateRootId, evnt.Name));
         }
         public void OnAfterPersisted(AccountCreatedEvent evnt)
         {
-            _registrationRepository.Update(_registrationRepository.GetByAccountName(evnt.Name).ConfirmStatus());
         }
     }
 }

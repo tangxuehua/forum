@@ -11,11 +11,11 @@ namespace Forum.QueryServices
         /// </summary>
         /// <param name="option"></param>
         /// <returns></returns>
-        IEnumerable<PostInfo> QueryPosts(PostQueryOption option);
+        IEnumerable<PostInfo> Find(PostQueryOption option);
         /// <summary>²éÑ¯Ìû×ÓÏêÇé
         /// </summary>
         /// <param name="postId"></param>
         /// <returns></returns>
-        PostInfo QueryPost(string postId);
+        PostInfo Find(string postId);
     }
 }

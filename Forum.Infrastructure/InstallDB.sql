@@ -2,12 +2,11 @@
 --Tables used by Forum.
 ----------------------------------------------------------------------------------------------
 
-CREATE TABLE [dbo].[Registration](
+CREATE TABLE [dbo].[AccountInfo](
     [AccountName] [nvarchar](64) NOT NULL,
     [AccountId] [nvarchar](32) NOT NULL,
     [Sequence] [bigint] IDENTITY(1,1) NOT NULL,
-    [Status] [nvarchar](32) NOT NULL,
- CONSTRAINT [PK_Registration] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_AccountInfo] PRIMARY KEY CLUSTERED 
 (
     [AccountName] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]

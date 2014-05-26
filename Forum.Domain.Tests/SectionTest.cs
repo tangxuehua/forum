@@ -1,4 +1,6 @@
-﻿using ECommon.Utilities;
+﻿using ECommon.Extensions;
+using ECommon.Utilities;
+using ENode.Commanding;
 using Forum.Commands.Sections;
 using Forum.Domain.Sections;
 using NUnit.Framework;
@@ -11,33 +13,34 @@ namespace Forum.Domain.Tests
         [Test]
         public void create_section_test()
         {
-            var id = ObjectId.GenerateNewStringId();
             var name = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new CreateSectionCommand(id, name)).Wait();
+            var result = _commandService.Execute(new CreateSectionCommand(name)).WaitResult<CommandResult>(3000);
 
-            var section = _memoryCache.Get<Section>(id);
+            Assert.AreEqual(CommandStatus.Success, result.Status);
+            Assert.IsNotNull(result.AggregateRootId);
+
+            var section = _memoryCache.Get<Section>(result.AggregateRootId);
 
             Assert.NotNull(section);
-            Assert.AreEqual(id, section.Id);
+            Assert.AreEqual(result.AggregateRootId, section.Id);
             Assert.AreEqual(name, section.Name);
         }
         [Test]
         public void update_section_test()
         {
-            var id = ObjectId.GenerateNewStringId();
             var name = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new CreateSectionCommand(id, name)).Wait();
+            var result = _commandService.Execute(new CreateSectionCommand(name)).WaitResult<CommandResult>(3000);
 
             var name2 = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new UpdateSectionCommand(id, name2)).Wait();
+            _commandService.Execute(new UpdateSectionCommand(result.AggregateRootId, name2)).Wait();
 
-            var section = _memoryCache.Get<Section>(id);
+            var section = _memoryCache.Get<Section>(result.AggregateRootId);
 
             Assert.NotNull(section);
-            Assert.AreEqual(id, section.Id);
+            Assert.AreEqual(result.AggregateRootId, section.Id);
             Assert.AreEqual(name2, section.Name);
         }
     }

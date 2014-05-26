@@ -10,9 +10,16 @@ namespace Forum.CommandHandlers
         ICommandHandler<CreateSectionCommand>,
         ICommandHandler<UpdateSectionCommand>
     {
+        private readonly SectionFactory _factory;
+
+        public SectionCommandHandler(SectionFactory factory)
+        {
+            _factory = factory;
+        }
+
         public void Handle(ICommandContext context, CreateSectionCommand command)
         {
-            context.Add(new Section(command.AggregateRootId, command.Name));
+            context.Add(_factory.CreateSection(command.Name));
         }
         public void Handle(ICommandContext context, UpdateSectionCommand command)
         {

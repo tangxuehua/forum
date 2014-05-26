@@ -11,7 +11,7 @@ namespace Forum.QueryServices.Dapper
     [Component(LifeStyle.Singleton)]
     public class PostQueryService : BaseQueryService, IPostQueryService
     {
-        public IEnumerable<PostInfo> QueryPosts(PostQueryOption option)
+        public IEnumerable<PostInfo> Find(PostQueryOption option)
         {
             object condition = null;
             var wherePart = string.Empty;
@@ -61,7 +61,7 @@ namespace Forum.QueryServices.Dapper
                 return posts;
             }
         }
-        public PostInfo QueryPost(string postId)
+        public PostInfo Find(string postId)
         {
             using (var connection = GetConnection())
             {

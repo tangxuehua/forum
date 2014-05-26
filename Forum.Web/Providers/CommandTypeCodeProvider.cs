@@ -11,7 +11,7 @@ namespace Forum.Web.Providers
     {
         public CommandTypeCodeProvider()
         {
-            RegisterType<CreateAccountCommand>(100);
+            RegisterType<RegisterNewAccountCommand>(100);
 
             RegisterType<CreateSectionCommand>(200);
             RegisterType<UpdateSectionCommand>(201);

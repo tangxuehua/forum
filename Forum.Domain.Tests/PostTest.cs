@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ECommon.Components;
+using ECommon.Extensions;
 using ECommon.Utilities;
+using ENode.Commanding;
 using Forum.Commands.Accounts;
 using Forum.Commands.Posts;
 using Forum.Commands.Replies;
@@ -18,15 +20,17 @@ namespace Forum.Domain.Tests
         [Test]
         public void create_post_test()
         {
-            var id = ObjectId.GenerateNewStringId();
             var authorId = ObjectId.GenerateNewStringId();
             var subject = ObjectId.GenerateNewStringId();
             var body = ObjectId.GenerateNewStringId();
             var sectionId = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new CreatePostCommand(id, subject, body, sectionId, authorId)).Wait();
+            var result = _commandService.Execute(new CreatePostCommand(subject, body, sectionId, authorId)).WaitResult<CommandResult>(3000);
 
-            var post = _memoryCache.Get<Post>(id);
+            Assert.AreEqual(CommandStatus.Success, result.Status);
+            Assert.IsNotNull(result.AggregateRootId);
+
+            var post = _memoryCache.Get<Post>(result.AggregateRootId);
 
             Assert.NotNull(post);
             Assert.AreEqual(subject, post.Subject);
@@ -37,19 +41,18 @@ namespace Forum.Domain.Tests
         [Test]
         public void update_post_test()
         {
-            var id = ObjectId.GenerateNewStringId();
             var authorId = ObjectId.GenerateNewStringId();
             var subject = ObjectId.GenerateNewStringId();
             var body = ObjectId.GenerateNewStringId();
             var sectionId = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new CreatePostCommand(id, subject, body, sectionId, authorId)).Wait();
+            var postId = _commandService.Execute(new CreatePostCommand(subject, body, sectionId, authorId)).WaitResult<CommandResult>(3000).AggregateRootId;
 
             var subject2 = ObjectId.GenerateNewStringId();
             var body2 = ObjectId.GenerateNewStringId();
-            _commandService.Execute(new UpdatePostCommand(id, subject2, body2)).Wait();
+            _commandService.Execute(new UpdatePostCommand(postId, subject2, body2)).Wait();
 
-            var post = _memoryCache.Get<Post>(id);
+            var post = _memoryCache.Get<Post>(postId);
 
             Assert.NotNull(post);
             Assert.AreEqual(subject2, post.Subject);
@@ -70,11 +73,10 @@ namespace Forum.Domain.Tests
 
             for (var i = 0; i < totalPostCount; i++)
             {
-                var postId = ObjectId.GenerateNewStringId();
-                _commandService.Execute(new CreatePostCommand(postId, subject, body, sectionId, authorId)).Wait();
+                var postId = _commandService.Execute(new CreatePostCommand(subject, body, sectionId, authorId)).WaitResult<CommandResult>(3000).AggregateRootId;
                 for (var j = 0; j < replyCountPerPost; j++)
                 {
-                    _commandService.Execute(new CreateReplyCommand(ObjectId.GenerateNewStringId(), postId, null, body, authorId)).Wait();
+                    _commandService.Execute(new CreateReplyCommand(postId, null, body, authorId)).Wait();
                 }
                 postIds.Add(postId);
             }
@@ -83,7 +85,7 @@ namespace Forum.Domain.Tests
 
             for (var pageIndex = 1; pageIndex <= totalPostCount / pageSize; pageIndex++)
             {
-                var posts = queryService.QueryPosts(new PostQueryOption { SectionId = sectionId, PageInfo = new PageInfo { PageIndex = pageIndex, PageSize = pageSize } }).ToList();
+                var posts = queryService.Find(new PostQueryOption { SectionId = sectionId, PageInfo = new PageInfo { PageIndex = pageIndex, PageSize = pageSize } }).ToList();
                 Assert.AreEqual(replyCountPerPost, posts.Count());
                 var expectedPostIds = postIds.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
                 for (var i = 0; i < pageSize; i++)
@@ -97,23 +99,19 @@ namespace Forum.Domain.Tests
         [Test]
         public void query_post_detail_test()
         {
-            var postId = ObjectId.GenerateNewStringId();
             var subject = ObjectId.GenerateNewStringId();
             var body = ObjectId.GenerateNewStringId();
             var sectionId = ObjectId.GenerateNewStringId();
-            var authorId = ObjectId.GenerateNewStringId();
             var authorName = ObjectId.GenerateNewStringId();
-            var secondReplyId = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new CreateAccountCommand(authorId, authorName, "123456")).Wait();
-
-            _commandService.Execute(new CreatePostCommand(postId, subject, body, sectionId, authorId)).Wait();
-            _commandService.Execute(new CreateReplyCommand(ObjectId.GenerateNewStringId(), postId, null, body, ObjectId.GenerateNewStringId())).Wait();
-            _commandService.Execute(new CreateReplyCommand(secondReplyId, postId, null, body, authorId)).Wait();
+            var authorId = _commandService.Execute(new RegisterNewAccountCommand(authorName, "123456")).WaitResult<CommandResult>(3000).AggregateRootId;
+            var postId = _commandService.Execute(new CreatePostCommand(subject, body, sectionId, authorId)).WaitResult<CommandResult>(3000).AggregateRootId;
+            _commandService.Execute(new CreateReplyCommand(postId, null, body, ObjectId.GenerateNewStringId())).Wait();
+            var secondReplyId = _commandService.Execute(new CreateReplyCommand(postId, null, body, authorId)).WaitResult<CommandResult>(3000).AggregateRootId;
 
             var queryService = ObjectContainer.Resolve<IPostQueryService>();
 
-            var post = queryService.QueryPost(postId);
+            var post = queryService.Find(postId);
             Assert.IsNotNull(post);
             Assert.IsNotNull(post.ReplyList);
             Assert.AreEqual(2, post.ReplyCount);

@@ -1,4 +1,6 @@
-﻿using ECommon.Utilities;
+﻿using ECommon.Extensions;
+using ECommon.Utilities;
+using ENode.Commanding;
 using Forum.Commands.Replies;
 using Forum.Domain.Replies;
 using NUnit.Framework;
@@ -11,17 +13,19 @@ namespace Forum.Domain.Tests
         [Test]
         public void create_reply_test1()
         {
-            var id = ObjectId.GenerateNewStringId();
             var postId = ObjectId.GenerateNewStringId();
             var authorId = ObjectId.GenerateNewStringId();
             var body = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new CreateReplyCommand(id, postId, null, body, authorId)).Wait();
+            var result = _commandService.Execute(new CreateReplyCommand(postId, null, body, authorId)).WaitResult<CommandResult>(3000);
 
-            var reply = _memoryCache.Get<Reply>(id);
+            Assert.AreEqual(CommandStatus.Success, result.Status);
+            Assert.IsNotNull(result.AggregateRootId);
+
+            var reply = _memoryCache.Get<Reply>(result.AggregateRootId);
 
             Assert.NotNull(reply);
-            Assert.AreEqual(id, reply.Id);
+            Assert.AreEqual(result.AggregateRootId, reply.Id);
             Assert.AreEqual(postId, reply.PostId);
             Assert.AreEqual(authorId, reply.AuthorId);
             Assert.AreEqual(body, reply.Body);
@@ -30,17 +34,15 @@ namespace Forum.Domain.Tests
         [Test]
         public void create_reply_test2()
         {
-            var id = ObjectId.GenerateNewStringId();
             var postId = ObjectId.GenerateNewStringId();
             var authorId = ObjectId.GenerateNewStringId();
             var body = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new CreateReplyCommand(id, postId, null, body, authorId)).Wait();
+            var id1 = _commandService.Execute(new CreateReplyCommand(postId, null, body, authorId)).WaitResult<CommandResult>(3000).AggregateRootId;
 
-            var id2 = ObjectId.GenerateNewStringId();
             var body2 = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new CreateReplyCommand(id2, postId, id, body2, authorId)).Wait();
+            var id2 = _commandService.Execute(new CreateReplyCommand(postId, id1, body2, authorId)).WaitResult<CommandResult>(3000).AggregateRootId;
 
             var reply = _memoryCache.Get<Reply>(id2);
 
@@ -48,18 +50,18 @@ namespace Forum.Domain.Tests
             Assert.AreEqual(id2, reply.Id);
             Assert.AreEqual(postId, reply.PostId);
             Assert.AreEqual(authorId, reply.AuthorId);
+            Assert.AreEqual(id1, reply.ParentId);
             Assert.AreEqual(body2, reply.Body);
         }
 
         [Test]
         public void update_reply_body_test()
         {
-            var id = ObjectId.GenerateNewStringId();
             var postId = ObjectId.GenerateNewStringId();
             var authorId = ObjectId.GenerateNewStringId();
             var body = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new CreateReplyCommand(id, postId, null, body, authorId)).Wait();
+            var id = _commandService.Execute(new CreateReplyCommand(postId, null, body, authorId)).WaitResult<CommandResult>(3000).AggregateRootId;
 
             var body2 = ObjectId.GenerateNewStringId();
 

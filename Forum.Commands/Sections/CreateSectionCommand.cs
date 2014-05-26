@@ -4,11 +4,11 @@ using ENode.Commanding;
 namespace Forum.Commands.Sections
 {
     [Serializable]
-    public class CreateSectionCommand : Command<string>
+    public class CreateSectionCommand : Command<string>, ICreatingAggregateCommand
     {
         public string Name { get; set; }
 
-        public CreateSectionCommand(string id, string name) : base(id)
+        public CreateSectionCommand(string name)
         {
             Name = name;
         }

@@ -13,12 +13,12 @@ namespace Forum.Web.Controllers
     public class AccountController : Controller
     {
         private readonly ICommandService _commandService;
-        private readonly IAccountService _accountService;
+        private readonly IAccountQueryService _accountQueryService;
 
-        public AccountController(ICommandService commandService, IAccountService accountService)
+        public AccountController(ICommandService commandService, IAccountQueryService accountQueryService)
         {
             _commandService = commandService;
-            _accountService = accountService;
+            _accountQueryService = accountQueryService;
         }
 
         [AllowAnonymous]
@@ -33,7 +33,7 @@ namespace Forum.Web.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            var command = new CreateAccountCommand(ObjectId.GenerateNewStringId(), model.UserName, model.Password);
+            var command = new RegisterNewAccountCommand(model.AccountName, model.Password);
             var task = _commandService.Execute(command);
             var result = task.WaitResult<CommandResult>(5000);
 
@@ -43,7 +43,7 @@ namespace Forum.Web.Controllers
             }
             else if (result.Status == CommandStatus.Success)
             {
-                FormsAuthentication.SetAuthCookie(model.UserName, false);
+                FormsAuthentication.SetAuthCookie(model.AccountName, false);
                 return RedirectToAction("Index", "Home");
             }
             else if (result.Status == CommandStatus.Failed)
@@ -75,7 +75,7 @@ namespace Forum.Web.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            var account = _accountService.GetAccount(model.UserName);
+            var account = _accountQueryService.Find(model.AccountName);
             if (account == null)
             {
                 ModelState.AddModelError("", "账号不存在。");
@@ -86,7 +86,7 @@ namespace Forum.Web.Controllers
             }
             else
             {
-                FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+                FormsAuthentication.SetAuthCookie(model.AccountName, model.RememberMe);
                 return RedirectToLocal(returnUrl);
             }
 

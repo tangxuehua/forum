@@ -36,9 +36,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ECommon.1.2.4\lib\net40\ECommon.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ENode, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ENode.2.2.1\lib\net40\ENode.dll</HintPath>
+      <HintPath>..\packages\ENode.2.2.2\lib\net40\ENode.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,21 +49,27 @@
     <Compile Include="Accounts\Account.cs" />
     <Compile Include="Accounts\AccountCreatedEvent.cs" />
     <Compile Include="Accounts\CheckAccountNameUniqueService.cs" />
-    <Compile Include="Accounts\Registration.cs" />
-    <Compile Include="Accounts\RegistrationStatus.cs" />
+    <Compile Include="Accounts\AccountInfo.cs" />
     <Compile Include="Accounts\DuplicateAccountNameException.cs" />
-    <Compile Include="Accounts\IRegistrationRepository.cs" />
+    <Compile Include="Accounts\AccountFactory.cs" />
+    <Compile Include="Accounts\IAccountRepository.cs" />
     <Compile Include="Assert.cs" />
     <Compile Include="DomainException.cs" />
+    <Compile Include="Posts\PostFactory.cs" />
+    <Compile Include="Posts\IPostRepository.cs" />
     <Compile Include="Posts\Post.cs" />
     <Compile Include="Posts\PostCreatedEvent.cs" />
     <Compile Include="Posts\PostUpdatedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Replies\IReplyRepository.cs" />
     <Compile Include="Replies\Reply.cs" />
     <Compile Include="Replies\ReplyBodyUpdatedEvent.cs" />
     <Compile Include="Replies\ReplyCreatedEvent.cs" />
+    <Compile Include="Replies\ReplyFactory.cs" />
+    <Compile Include="Sections\ISectionRepository.cs" />
     <Compile Include="Sections\Section.cs" />
     <Compile Include="Sections\SectionCreatedEvent.cs" />
+    <Compile Include="Sections\SectionFactory.cs" />
     <Compile Include="Sections\SectionUpdatedEvent.cs" />
   </ItemGroup>
   <ItemGroup>
