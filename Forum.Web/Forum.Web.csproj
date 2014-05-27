@@ -219,6 +219,7 @@
     <Content Include="Views\Post\Index.cshtml" />
     <Content Include="Views\Post\Detail.cshtml" />
     <Content Include="Content\jquery\jquery-1.10.2.min.map" />
+    <Content Include="Views\Shared\TimeoutError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Forum.Commands\Forum.Commands.csproj">

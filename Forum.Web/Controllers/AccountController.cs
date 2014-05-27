@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -29,24 +30,21 @@ namespace Forum.Web.Controllers
         {
             return View();
         }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterModel model)
+        [AsyncTimeout(5000)]
+        [HandleError(ExceptionType = typeof(TimeoutException), View = "TimeoutError")]
+        public async Task<ActionResult> Register(RegisterModel model, CancellationToken token)
         {
             if (!ModelState.IsValid) return View(model);
 
-            var command = new RegisterNewAccountCommand(model.AccountName, model.Password);
-            var task = _commandService.Execute(command);
-            var result = task.WaitResult<CommandResult>(5000);
+            var result = await _commandService.Execute(new RegisterNewAccountCommand(model.AccountName, model.Password));
 
-            if (!task.IsCompleted)
+            if (result.Status == CommandStatus.Success)
             {
-                ModelState.AddModelError("", "用户注册处理超时。");
-            }
-            else if (result.Status == CommandStatus.Success)
-            {
-                FormsAuthentication.SetAuthCookie(model.AccountName, false);
+                SignIn(model.AccountName, false);
                 return RedirectToAction("Index", "Home");
             }
             else if (result.Status == CommandStatus.Failed)
@@ -74,39 +72,26 @@ namespace Forum.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public Task<ActionResult> Login(LoginModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginModel model, string returnUrl)
         {
-            var viewModelTask = Task.Factory.StartNew(() => model);
+            if (!ModelState.IsValid) return View(model);
 
-            if (!ModelState.IsValid)
+            var account = await Task.Factory.StartNew(() => _accountQueryService.Find(model.AccountName));
+
+            if (account == null)
             {
-                return viewModelTask.ContinueWith<ActionResult>(task => View(task.Result));
+                ModelState.AddModelError("", "账号不存在。");
+                return View(model);
+            }
+            else if (account.Password != model.Password)
+            {
+                ModelState.AddModelError("", "密码不正确。");
+                return View(model);
             }
 
-            var queryAccountTask = Task.Factory.StartNew(() => _accountQueryService.Find(model.AccountName));
+            SignIn(model.AccountName, model.RememberMe);
 
-            return Task.Factory.ContinueWhenAll<ActionResult>(new Task[] { viewModelTask, queryAccountTask },
-                tasks =>
-                {
-                    var viewModel = ((Task<LoginModel>)tasks[0]).Result;
-                    var account = ((Task<AccountData>)tasks[1]).Result;
-
-                    if (account == null)
-                    {
-                        ModelState.AddModelError("", "账号不存在。");
-                        return View(viewModel);
-                    }
-                    else if (account.Password != model.Password)
-                    {
-                        ModelState.AddModelError("", "密码不正确。");
-                        return View(viewModel);
-                    }
-                    else
-                    {
-                        SignIn(viewModel.AccountName, viewModel.RememberMe);
-                        return RedirectToLocal(returnUrl);
-                    }
-                });
+            return RedirectToLocal(returnUrl);
         }
 
         [HttpPost]
