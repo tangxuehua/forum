@@ -1,16 +1,19 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 using System.Web.Security;
 using ECommon.Extensions;
-using ECommon.Utilities;
 using ENode.Commanding;
 using Forum.Commands.Accounts;
 using Forum.Domain.Accounts;
 using Forum.QueryServices;
 using Forum.Web.Models;
+using AccountData = Forum.QueryServices.DTOs.AccountInfo;
 
 namespace Forum.Web.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : AsyncController
     {
         private readonly ICommandService _commandService;
         private readonly IAccountQueryService _accountQueryService;
@@ -71,33 +74,46 @@ namespace Forum.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model, string returnUrl)
+        public Task<ActionResult> Login(LoginModel model, string returnUrl)
         {
-            if (!ModelState.IsValid) return View(model);
+            var viewModelTask = Task.Factory.StartNew(() => model);
 
-            var account = _accountQueryService.Find(model.AccountName);
-            if (account == null)
+            if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "账号不存在。");
-            }
-            else if (account.Password != model.Password)
-            {
-                ModelState.AddModelError("", "密码不正确。");
-            }
-            else
-            {
-                FormsAuthentication.SetAuthCookie(model.AccountName, model.RememberMe);
-                return RedirectToLocal(returnUrl);
+                return viewModelTask.ContinueWith<ActionResult>(task => View(task.Result));
             }
 
-            return View(model);
+            var queryAccountTask = Task.Factory.StartNew(() => _accountQueryService.Find(model.AccountName));
+
+            return Task.Factory.ContinueWhenAll<ActionResult>(new Task[] { viewModelTask, queryAccountTask },
+                tasks =>
+                {
+                    var viewModel = ((Task<LoginModel>)tasks[0]).Result;
+                    var account = ((Task<AccountData>)tasks[1]).Result;
+
+                    if (account == null)
+                    {
+                        ModelState.AddModelError("", "账号不存在。");
+                        return View(viewModel);
+                    }
+                    else if (account.Password != model.Password)
+                    {
+                        ModelState.AddModelError("", "密码不正确。");
+                        return View(viewModel);
+                    }
+                    else
+                    {
+                        SignIn(viewModel.AccountName, viewModel.RememberMe);
+                        return RedirectToLocal(returnUrl);
+                    }
+                });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            FormsAuthentication.SignOut();
+            SignOut();
             return RedirectToAction("Index", "Home");
         }
 
@@ -113,6 +129,51 @@ namespace Forum.Web.Controllers
                 return Redirect(returnUrl);
             }
             return RedirectToAction("Index", "Home");
+        }
+        private void SignIn(string accountName, bool createPersistentCookie)
+        {
+            var now = DateTime.Now;
+
+            var ticket = new FormsAuthenticationTicket(
+                1 /*version*/,
+                accountName,
+                now,
+                now.AddYears(10),
+                createPersistentCookie,
+                accountName,
+                FormsAuthentication.FormsCookiePath);
+
+            var encryptedTicket = FormsAuthentication.Encrypt(ticket);
+
+            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket)
+            {
+                HttpOnly = true,
+                Secure = FormsAuthentication.RequireSSL,
+                Path = FormsAuthentication.FormsCookiePath
+            };
+
+            if (FormsAuthentication.CookieDomain != null)
+            {
+                cookie.Domain = FormsAuthentication.CookieDomain;
+            }
+
+            if (createPersistentCookie)
+            {
+                cookie.Expires = ticket.Expiration;
+            }
+
+            HttpContext.Response.Cookies.Add(cookie);
+        }
+        private void SignOut()
+        {
+            FormsAuthentication.SignOut();
+
+            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, "")
+            {
+                Expires = DateTime.Now.AddYears(-1),
+            };
+
+            HttpContext.Response.Cookies.Add(cookie);
         }
     }
 }
