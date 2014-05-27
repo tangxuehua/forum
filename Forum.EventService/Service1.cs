@@ -58,6 +58,7 @@ namespace Forum.EventService
             var assemblies = new[]
             {
                 Assembly.Load("Forum.Domain"),
+                Assembly.Load("Forum.Domain.Repositories.Dapper"),
                 Assembly.Load("Forum.Denormalizers.Dapper")
             };
 
