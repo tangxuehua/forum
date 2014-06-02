@@ -1,15 +1,62 @@
 ﻿function PostController($scope, $http) {
-    $scope.posts = [];
+    $scope.sections = [];
 
-    $http({
-        method: 'GET',
-        url: '/api/posts',
-        params: { authorId: authorId, sectionId: sectionId, pageIndex: pageIndex }
-    })
-    .success(function (data, status, headers, config) {
-        $scope.posts = data;
-    })
-    .error(function (data, status, headers, config) {
-        alert("Get posts failed.");
-    });
+    $scope.showNewPostDialog = function () {
+        $scope.newPost = {
+            subject: '',
+            body: '',
+            sectionId: ''
+        };
+        if ($scope.sections.length > 0) {
+            $("#float-box-newPost").modal("show");
+            return;
+        }
+
+        $http({
+            method: 'GET',
+            url: '/section/getall'
+        })
+        .success(function (result, status, headers, config) {
+            if (result.success) {
+                $scope.sections = result.data;
+                $("#float-box-newPost").modal("show");
+            } else {
+                alert(result.errorMsg);
+            }
+        })
+        .error(function (result, status, headers, config) {
+            alert(result.errorMsg);
+        });
+    };
+
+    $scope.submitPost = function () {
+        if (isStringEmpty($scope.newPost.sectionId)) {
+            msg('请选择帖子所属版块');
+            return false;
+        }
+        if (isStringEmpty($scope.newPost.subject)) {
+            msg('请输入帖子标题');
+            return false;
+        }
+        if (isStringEmpty($scope.newPost.body)) {
+            msg('请输入帖子内容');
+            return false;
+        }
+
+        $http({
+            method: 'POST',
+            url: '/post/create',
+            data: $scope.newPost
+        })
+        .success(function (result, status, headers, config) {
+            if (result.success) {
+                window.location.reload();
+            } else {
+                msg(result.errorMsg);
+            }
+        })
+        .error(function (result, status, headers, config) {
+            msg(result.errorMsg);
+        });
+    };
 }

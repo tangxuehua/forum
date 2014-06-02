@@ -16,6 +16,10 @@ namespace Forum.Web
                 "~/Content/bootstrap/css/bootstrap-theme.min.css"));
             bundles.Add(new ScriptBundle("~/content/angularjs").Include(
                 "~/Content/angularjs/angular.min.js"));
+            bundles.Add(new ScriptBundle("~/content/bootbox").Include(
+                "~/Content/bootbox/bootbox.js"));
+            bundles.Add(new ScriptBundle("~/content/js").Include(
+                "~/Content/site.js"));
             bundles.Add(new StyleBundle("~/content/css").Include(
                 "~/Content/site.css"));
         }

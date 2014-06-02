@@ -50,4 +50,48 @@
             }
         </tbody>
     </table>
+    <button class="btn btn-primary btn-lg" data-toggle="modal" ng-click="showNewPostDialog()">发表帖子</button>
+    <div class="modal fade" id="float-box-newPost">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">发表帖子</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal form-tc" action="" method="post">
+                        <div class="control-group">
+                            <label class="control-label">版块</label>
+                            <div class="controls">
+                                <select class="input span3" ng-model="newPost.sectionId" ng-options="section.Id as section.Name for section in sections"><option value="">-- 选择版块 --</option></select>
+                                <label class="star">*</label>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">标题</label>
+                            <div class="controls">
+                                <input type="text" maxlength="256" class="input span5" ng-model="newPost.subject" />
+                                <label class="star">*</label>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">内容</label>
+                            <div class="controls">
+                                <textarea maxlength="2000" class="input span5" ng-model="newPost.body" rows="5"></textarea>
+                                <label class="star">*</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="submitPost()">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </div>
+
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/content/controllers/post-controller.js")"></script>
+}

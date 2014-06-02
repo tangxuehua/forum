@@ -32,13 +32,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ECommon, Version=1.2.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.1.2.4\lib\net40\ECommon.dll</HintPath>
+    <Reference Include="ECommon">
+      <HintPath>..\packages\ECommon.1.2.5\lib\net40\ECommon.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ENode.2.2.2\lib\net40\ENode.dll</HintPath>
+    <Reference Include="ENode">
+      <HintPath>..\packages\ENode.2.2.3\lib\net40\ENode.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,11 +45,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTOs\AccountInfo.cs" />
+    <Compile Include="DTOs\SectionInfo.cs" />
     <Compile Include="DTOs\PostInfo.cs" />
     <Compile Include="DTOs\PostQueryOption.cs" />
     <Compile Include="DTOs\ReplyInfo.cs" />
     <Compile Include="DTOs\PageInfo.cs" />
     <Compile Include="IAccountQueryService.cs" />
+    <Compile Include="ISectionQueryService.cs" />
     <Compile Include="IPostQueryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -6,7 +6,6 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
-using Autofac.Integration.WebApi;
 using ECommon.Autofac;
 using ECommon.Components;
 using ECommon.Configurations;
@@ -23,7 +22,6 @@ namespace Forum.Web
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-            GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
@@ -40,7 +38,8 @@ namespace Forum.Web
                 Assembly.Load("Forum.Domain"),
                 Assembly.Load("Forum.Domain.Repositories.Dapper"),
                 Assembly.Load("Forum.QueryServices"),
-                Assembly.Load("Forum.QueryServices.Dapper")
+                Assembly.Load("Forum.QueryServices.Dapper"),
+                Assembly.Load("Forum.Web")
             };
 
             Configuration
@@ -66,10 +65,8 @@ namespace Forum.Web
             var container = (ObjectContainer.Current as AutofacObjectContainer).Container;
             var builder = new ContainerBuilder();
             builder.RegisterControllers(webAssembly);
-            builder.RegisterApiControllers(webAssembly);
             builder.Update(container);
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
-            GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
     }
 }

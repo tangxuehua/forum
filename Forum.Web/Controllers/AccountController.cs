@@ -4,47 +4,43 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using ECommon.Extensions;
 using ENode.Commanding;
 using Forum.Commands.Accounts;
 using Forum.Domain.Accounts;
 using Forum.QueryServices;
 using Forum.Web.Models;
-using AccountData = Forum.QueryServices.DTOs.AccountInfo;
+using Forum.Web.Services;
 
 namespace Forum.Web.Controllers
 {
-    public class AccountController : AsyncController
+    public class AccountController : Controller
     {
+        private readonly AuthenticationService _authenticationService;
         private readonly ICommandService _commandService;
-        private readonly IAccountQueryService _accountQueryService;
+        private readonly IAccountQueryService _queryService;
 
-        public AccountController(ICommandService commandService, IAccountQueryService accountQueryService)
+        public AccountController(AuthenticationService authenticationService, ICommandService commandService, IAccountQueryService queryService)
         {
+            _authenticationService = authenticationService;
             _commandService = commandService;
-            _accountQueryService = accountQueryService;
+            _queryService = queryService;
         }
 
-        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [AsyncTimeout(5000)]
-        [HandleError(ExceptionType = typeof(TimeoutException), View = "TimeoutError")]
         public async Task<ActionResult> Register(RegisterModel model, CancellationToken token)
         {
-            if (!ModelState.IsValid) return View(model);
-
             var result = await _commandService.Execute(new RegisterNewAccountCommand(model.AccountName, model.Password));
 
             if (result.Status == CommandStatus.Success)
             {
-                SignIn(model.AccountName, false);
+                _authenticationService.SignIn(result.AggregateRootId, model.AccountName, false);
                 return RedirectToAction("Index", "Home");
             }
             else if (result.Status == CommandStatus.Failed)
@@ -62,7 +58,6 @@ namespace Forum.Web.Controllers
             return View(model);
         }
 
-        [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
@@ -70,13 +65,10 @@ namespace Forum.Web.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginModel model, string returnUrl)
         {
-            if (!ModelState.IsValid) return View(model);
-
-            var account = await Task.Factory.StartNew(() => _accountQueryService.Find(model.AccountName));
+            var account = await Task.Factory.StartNew(() => _queryService.Find(model.AccountName));
 
             if (account == null)
             {
@@ -89,19 +81,21 @@ namespace Forum.Web.Controllers
                 return View(model);
             }
 
-            SignIn(model.AccountName, model.RememberMe);
+            _authenticationService.SignIn(account.Id, model.AccountName, model.RememberMe);
 
             return RedirectToLocal(returnUrl);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult LogOff()
         {
-            SignOut();
+            _authenticationService.SignOut();
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize]
         public ActionResult ControlPanel()
         {
             return View();
@@ -114,51 +108,6 @@ namespace Forum.Web.Controllers
                 return Redirect(returnUrl);
             }
             return RedirectToAction("Index", "Home");
-        }
-        private void SignIn(string accountName, bool createPersistentCookie)
-        {
-            var now = DateTime.Now;
-
-            var ticket = new FormsAuthenticationTicket(
-                1 /*version*/,
-                accountName,
-                now,
-                now.AddYears(10),
-                createPersistentCookie,
-                accountName,
-                FormsAuthentication.FormsCookiePath);
-
-            var encryptedTicket = FormsAuthentication.Encrypt(ticket);
-
-            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket)
-            {
-                HttpOnly = true,
-                Secure = FormsAuthentication.RequireSSL,
-                Path = FormsAuthentication.FormsCookiePath
-            };
-
-            if (FormsAuthentication.CookieDomain != null)
-            {
-                cookie.Domain = FormsAuthentication.CookieDomain;
-            }
-
-            if (createPersistentCookie)
-            {
-                cookie.Expires = ticket.Expiration;
-            }
-
-            HttpContext.Response.Cookies.Add(cookie);
-        }
-        private void SignOut()
-        {
-            FormsAuthentication.SignOut();
-
-            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, "")
-            {
-                Expires = DateTime.Now.AddYears(-1),
-            };
-
-            HttpContext.Response.Cookies.Add(cookie);
         }
     }
 }

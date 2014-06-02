@@ -23,8 +23,8 @@ namespace Forum.QueryServices.DTOs
             {
                 throw new ArgumentException("pageSize cannot small than 1.");
             }
-            PageIndex = 1;
-            PageSize = 20;
+            PageIndex = pageIndex;
+            PageSize = pageSize;
         }
     }
 }

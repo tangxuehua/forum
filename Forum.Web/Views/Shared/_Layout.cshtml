@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="zh" id="forum" ng-app>
+<html lang="zh" id="forum" ng-app="forum">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -54,9 +54,22 @@
             </footer>
         </div>
     </div>
+    <script>
+        @functions{
+            string TokenHeaderValue()
+            {
+                string cookieToken, formToken;
+                AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                return cookieToken + ":" + formToken;
+            }
+        }
+        var requestVerificationToken = '@TokenHeaderValue()';
+    </script>
     @Scripts.Render("~/content/jquery")
     @Scripts.Render("~/content/bootstrap/js")
     @Scripts.Render("~/content/angularjs")
+    @Scripts.Render("~/content/bootbox")
+    @Scripts.Render("~/content/js")
     @RenderSection("Scripts", required: false)
 </body>
 </html>

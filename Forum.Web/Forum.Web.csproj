@@ -22,6 +22,7 @@
     <IISExpressUseClassicPipelineMode />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,35 +48,33 @@
     <Reference Include="Autofac.Integration.Mvc">
       <HintPath>..\packages\Autofac.Mvc5.3.3.0\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac.Integration.WebApi">
-      <HintPath>..\packages\Autofac.WebApi2.3.3.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
-    </Reference>
-    <Reference Include="ECommon, Version=1.2.4.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon, Version=1.2.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.1.2.4\lib\net40\ECommon.dll</HintPath>
+      <HintPath>..\packages\ECommon.1.2.5\lib\net40\ECommon.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon.Autofac, Version=1.2.4.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon.Autofac, Version=1.2.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.Autofac.1.2.4\lib\net40\ECommon.Autofac.dll</HintPath>
+      <HintPath>..\packages\ECommon.Autofac.1.2.5\lib\net40\ECommon.Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon.JsonNet, Version=1.2.4.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon.JsonNet, Version=1.2.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.JsonNet.1.2.4\lib\net40\ECommon.JsonNet.dll</HintPath>
+      <HintPath>..\packages\ECommon.JsonNet.1.2.5\lib\net40\ECommon.JsonNet.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon.Log4Net, Version=1.2.4.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon.Log4Net, Version=1.2.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.Log4Net.1.2.4\lib\net40\ECommon.Log4Net.dll</HintPath>
+      <HintPath>..\packages\ECommon.Log4Net.1.2.5\lib\net40\ECommon.Log4Net.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ENode, Version=2.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ENode.2.2.2\lib\net40\ENode.dll</HintPath>
+      <HintPath>..\packages\ENode.2.2.3\lib\net40\ENode.dll</HintPath>
     </Reference>
-    <Reference Include="ENode.EQueue">
-      <HintPath>..\packages\ENode.EQueue.1.2.5\lib\net40\ENode.EQueue.dll</HintPath>
-    </Reference>
-    <Reference Include="EQueue, Version=1.1.5.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ENode.EQueue, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EQueue.1.1.5\lib\net40\EQueue.dll</HintPath>
+      <HintPath>..\packages\ENode.EQueue.1.2.6\lib\net40\ENode.EQueue.dll</HintPath>
+    </Reference>
+    <Reference Include="EQueue, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EQueue.1.1.6\lib\net40\EQueue.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
@@ -143,27 +142,30 @@
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.1\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
-    <Reference Include="WebGrease">
-      <Private>True</Private>
-      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
-    </Reference>
     <Reference Include="Antlr3.Runtime">
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Section\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Attributes\AjaxAuthorizeAttribute.cs" />
+    <Compile Include="Attributes\AjaxValidateAntiForgeryTokenAttribute.cs" />
+    <Compile Include="Attributes\HandleExceptionAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PostController.cs" />
-    <Compile Include="Controllers\PostsController.cs" />
+    <Compile Include="Controllers\SectionController.cs" />
     <Compile Include="Extensions\ENodeExtensions.cs" />
     <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Global.asax.cs">
@@ -177,9 +179,12 @@
     <Compile Include="Providers\CommandTopicProvider.cs" />
     <Compile Include="Providers\CommandTypeCodeProvider.cs" />
     <Compile Include="Providers\EventTypeCodeProvider.cs" />
+    <Compile Include="Services\AuthenticationService.cs" />
+    <Compile Include="Services\ContextService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\angularjs\angular.min.js" />
+    <Content Include="Content\bootbox\bootbox.js" />
     <Content Include="Content\bootstrap\css\bootstrap-theme.css" />
     <Content Include="Content\bootstrap\css\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap\css\bootstrap.css" />
@@ -197,6 +202,7 @@
     <Content Include="Content\controllers\post-controller.js" />
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\jquery\jquery-1.10.2.min.js" />
+    <Content Include="Content\site.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
