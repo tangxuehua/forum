@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="zh" id="forum" ng-app="forum">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    @Styles.Render("~/content/bootstrap/css")
+    @Styles.Render("~/content/css")
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="site-header">
+            <div class="collapse navbar-collapse navbar-left">
+                <a class="site-brand" href="/"></a>
+                <div class="site-name">ENode Forum</div>
+            </div>
+            <div class="collapse navbar-collapse">
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </nav>
+    <div class="row" style="min-height:430px">
+        <div class="col-lg-12">
+            @RenderBody()
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <hr>
+            <footer class="text-center">
+                <p>Developed by netfocus.</p>
+            </footer>
+        </div>
+    </div>
+    <script>
+        @functions{
+            string TokenHeaderValue()
+            {
+                string cookieToken, formToken;
+                AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                return cookieToken + ":" + formToken;
+            }
+        }
+        var requestVerificationToken = '@TokenHeaderValue()';
+    </script>
+    @Scripts.Render("~/content/jquery")
+    @Scripts.Render("~/content/bootstrap/js")
+    @Scripts.Render("~/content/angularjs")
+    @Scripts.Render("~/content/bootbox")
+    @Scripts.Render("~/content/js")
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

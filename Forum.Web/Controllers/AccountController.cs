@@ -8,6 +8,7 @@ using ENode.Commanding;
 using Forum.Commands.Accounts;
 using Forum.Domain.Accounts;
 using Forum.QueryServices;
+using Forum.Web.Attributes;
 using Forum.Web.Models;
 using Forum.Web.Services;
 
@@ -32,30 +33,22 @@ namespace Forum.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [AjaxValidateAntiForgeryToken]
         [AsyncTimeout(5000)]
         public async Task<ActionResult> Register(RegisterModel model, CancellationToken token)
         {
             var result = await _commandService.Execute(new RegisterNewAccountCommand(model.AccountName, model.Password));
 
-            if (result.Status == CommandStatus.Success)
-            {
-                _authenticationService.SignIn(result.AggregateRootId, model.AccountName, false);
-                return RedirectToAction("Index", "Home");
-            }
-            else if (result.Status == CommandStatus.Failed)
+            if (result.Status == CommandStatus.Failed)
             {
                 if (result.ExceptionTypeName == typeof(DuplicateAccountNameException).Name)
                 {
-                    ModelState.AddModelError("", "该用户已被注册，请用其他账号注册。");
+                    return Json(new { success = false, errorMsg = "该用户已被注册，请用其他账号注册。" });
                 }
-                else
-                {
-                    ModelState.AddModelError("", result.ErrorMessage);
-                }
+                return Json(new { success = false, errorMsg = result.ErrorMessage });
             }
 
-            return View(model);
+            return Json(new { success = true });
         }
 
         public ActionResult Login(string returnUrl)
@@ -65,25 +58,24 @@ namespace Forum.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginModel model, string returnUrl)
+        [AjaxValidateAntiForgeryToken]
+        [AsyncTimeout(5000)]
+        public async Task<ActionResult> Login(LoginModel model)
         {
             var account = await Task.Factory.StartNew(() => _queryService.Find(model.AccountName));
 
             if (account == null)
             {
-                ModelState.AddModelError("", "账号不存在。");
-                return View(model);
+                return Json(new { success = false, errorMsg = "用户名不存在" });
             }
             else if (account.Password != model.Password)
             {
-                ModelState.AddModelError("", "密码不正确。");
-                return View(model);
+                return Json(new { success = false, errorMsg = "密码输入错误" });
             }
 
             _authenticationService.SignIn(account.Id, model.AccountName, model.RememberMe);
 
-            return RedirectToLocal(returnUrl);
+            return Json(new { success = true });
         }
 
         [HttpPost]

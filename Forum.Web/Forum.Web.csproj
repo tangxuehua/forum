@@ -203,6 +203,8 @@
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\bootstrap\js\bootstrap.js" />
     <Content Include="Content\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\controllers\login-controller.js" />
+    <Content Include="Content\controllers\register-controller.js" />
     <Content Include="Content\controllers\post-detail-controller.js" />
     <Content Include="Content\controllers\post-controller.js" />
     <Content Include="Content\images\logo.png" />
@@ -231,6 +233,7 @@
     <Content Include="Views\Post\Detail.cshtml" />
     <Content Include="Content\jquery\jquery-1.10.2.min.map" />
     <Content Include="Views\Shared\TimeoutError.cshtml" />
+    <Content Include="Views\Shared\_SimpleLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Forum.Commands\Forum.Commands.csproj">

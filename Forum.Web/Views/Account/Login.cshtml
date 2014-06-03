@@ -1,36 +1,53 @@
 ﻿@model Forum.Web.Models.LoginModel
 @{
-    ViewBag.Title = "登录";
+    ViewBag.Title = "用户登录";
+    Layout = "~/Views/Shared/_SimpleLayout.cshtml";
 }
 
-@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
-    @Html.AntiForgeryToken()
-    <fieldset>
-        <legend>账号登陆</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.AccountName)
-                @Html.TextBoxFor(m => m.AccountName)
-                @Html.ValidationMessageFor(m => m.AccountName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-                @Html.ValidationMessageFor(m => m.Password)
-            </li>
-            <li>
-                @Html.CheckBoxFor(m => m.RememberMe)
-                @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
-            </li>
-        </ol>
-        <input type="submit" value="登录" />
-        @Html.ValidationSummary(true)
-    </fieldset>
-    <p>
-        @Html.ActionLink("注册", "Register") (如果你没有帐户)。
-    </p>
-}
+<center>
+    <div class="login_wrapper" ng-controller="LoginController">
+        <form class="form-horizontal" role="form">
+            <fieldset>
+                <legend>用户登录</legend>
+                <div class="form-group">
+                    <label for="accountName" class="col-sm-2 control-label">用户名</label>
+                    <div class="col-sm-6">
+                        <input type="text" id="accountName" class="form-control" ng-model="loginAccount.accountName" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-sm-2 control-label">密码</label>
+                    <div class="col-sm-6">
+                        <input type="password" id="password" class="form-control" ng-model="loginAccount.password" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-6">
+                        <input type="checkbox" id="rememberMe" ng-model="loginAccount.rememberMe" /> 下次自动登录
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-6">
+                        <span class="error" ng-show="errorMsg != ''">{{errorMsg}}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-primary" ng-click="submit()">提交</button>
+                        <span style="margin-left:20px"></span>@Html.ActionLink("注册", "register") (如果你没有账号)。
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</center>
 
 @section Scripts {
-    @Scripts.Render("~/content/jquery")
+    <script type="text/javascript">
+        var returnUrl = '@ViewBag.ReturnUrl';
+    </script>
+    <script type="text/javascript" src="@Url.Content("~/content/controllers/login-controller.js")"></script>
 }

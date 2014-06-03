@@ -77,6 +77,17 @@
     padding-left: 0px;
 }
 
+.register_wrapper {
+    width: 600px;
+    text-align: left;
+    margin-top: 70px;
+}
+.login_wrapper {
+    width: 600px;
+    text-align: left;
+    margin-top: 70px;
+}
+
 @media (min-width: 768px) {
   .sidebar-nav .navbar .navbar-collapse {
     padding: 0;
