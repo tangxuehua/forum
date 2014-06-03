@@ -16,11 +16,13 @@ namespace Forum.Web.Controllers
     {
         private readonly ICommandService _commandService;
         private readonly IPostQueryService _queryService;
+        private readonly IContextService _contextService;
 
-        public PostController(ICommandService commandService, IPostQueryService queryService)
+        public PostController(ICommandService commandService, IPostQueryService queryService, IContextService contextService)
         {
             _commandService = commandService;
             _queryService = queryService;
+            _contextService = contextService;
         }
 
         public ActionResult Index(string sectionId, string authorId, int? pageIndex)
@@ -51,7 +53,7 @@ namespace Forum.Web.Controllers
                     model.Subject,
                     model.Body,
                     model.SectionId,
-                    ContextService.CurrentAccount.AccountId));
+                    _contextService.CurrentAccount.AccountId));
 
             if (result.Status == CommandSendStatus.Failed)
             {

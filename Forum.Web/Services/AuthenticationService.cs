@@ -6,7 +6,7 @@ using ECommon.Components;
 namespace Forum.Web.Services
 {
     [Component(LifeStyle.Singleton)]
-    public class AuthenticationService
+    public class AuthenticationService : IAuthenticationService
     {
         public void SignIn(string userId, string accountName, bool createPersistentCookie)
         {

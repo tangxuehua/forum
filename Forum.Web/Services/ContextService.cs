@@ -1,11 +1,13 @@
 ﻿using System.Web;
 using System.Web.Security;
+using ECommon.Components;
 
 namespace Forum.Web.Services
 {
-    public class ContextService
+    [Component(LifeStyle.Singleton)]
+    public class ContextService : IContextService
     {
-        public static AccountIdentity CurrentAccount
+        public AccountIdentity CurrentAccount
         {
             get
             {
@@ -21,18 +23,6 @@ namespace Forum.Web.Services
                 }
                 return null;
             }
-        }
-    }
-
-    public class AccountIdentity
-    {
-        public string AccountId { get; private set; }
-        public string AccountName { get; private set; }
-
-        public AccountIdentity(string accountId, string accountName)
-        {
-            AccountId = accountId;
-            AccountName = accountName;
         }
     }
 }

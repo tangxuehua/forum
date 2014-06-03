@@ -15,11 +15,11 @@ namespace Forum.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly AuthenticationService _authenticationService;
+        private readonly IAuthenticationService _authenticationService;
         private readonly ICommandService _commandService;
         private readonly IAccountQueryService _queryService;
 
-        public AccountController(AuthenticationService authenticationService, ICommandService commandService, IAccountQueryService queryService)
+        public AccountController(IAuthenticationService authenticationService, ICommandService commandService, IAccountQueryService queryService)
         {
             _authenticationService = authenticationService;
             _commandService = commandService;

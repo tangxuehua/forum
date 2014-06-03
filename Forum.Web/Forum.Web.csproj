@@ -181,6 +181,8 @@
     <Compile Include="Providers\EventTypeCodeProvider.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\ContextService.cs" />
+    <Compile Include="Services\IAuthenticationService.cs" />
+    <Compile Include="Services\IContextService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\angularjs\angular.min.js" />
