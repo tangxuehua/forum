@@ -2,7 +2,7 @@
 {
     public interface IAuthenticationService
     {
-        void SignIn(string userId, string accountName, bool createPersistentCookie);
+        void SignIn(string accountId, string accountName, bool createPersistentCookie);
         void SignOut();
     }
 }

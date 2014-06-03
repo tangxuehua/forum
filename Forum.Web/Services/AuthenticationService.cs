@@ -8,7 +8,7 @@ namespace Forum.Web.Services
     [Component(LifeStyle.Singleton)]
     public class AuthenticationService : IAuthenticationService
     {
-        public void SignIn(string userId, string accountName, bool createPersistentCookie)
+        public void SignIn(string accountId, string accountName, bool createPersistentCookie)
         {
             var now = DateTime.Now;
 
@@ -18,7 +18,7 @@ namespace Forum.Web.Services
                 now,
                 now.AddYears(10),
                 createPersistentCookie,
-                userId,
+                accountId,
                 FormsAuthentication.FormsCookiePath);
 
             var encryptedTicket = FormsAuthentication.Encrypt(ticket);
