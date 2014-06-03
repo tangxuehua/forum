@@ -1,7 +1,9 @@
 ﻿function PostController($scope, $http) {
     $scope.sections = [];
+    $scope.errorMsg = '';
 
     $scope.showNewPostDialog = function () {
+        $scope.errorMsg = '';
         $scope.newPost = {
             subject: '',
             body: '',
@@ -21,25 +23,25 @@
                 $scope.sections = result.data;
                 $("#float-box-newPost").modal("show");
             } else {
-                alert(result.errorMsg);
+                msg(result.errorMsg);
             }
         })
         .error(function (result, status, headers, config) {
-            alert(result.errorMsg);
+            msg(result.errorMsg);
         });
     };
 
     $scope.submitPost = function () {
         if (isStringEmpty($scope.newPost.sectionId)) {
-            msg('请选择帖子所属版块');
+            $scope.errorMsg = '请选择帖子所属版块';
             return false;
         }
         if (isStringEmpty($scope.newPost.subject)) {
-            msg('请输入帖子标题');
+            $scope.errorMsg = '请输入帖子标题';
             return false;
         }
         if (isStringEmpty($scope.newPost.body)) {
-            msg('请输入帖子内容');
+            $scope.errorMsg = '请输入帖子内容';
             return false;
         }
 
@@ -52,11 +54,11 @@
             if (result.success) {
                 window.location.reload();
             } else {
-                msg(result.errorMsg);
+                $scope.errorMsg = result.errorMsg;
             }
         })
         .error(function (result, status, headers, config) {
-            msg(result.errorMsg);
+            $scope.errorMsg = result.errorMsg;
         });
     };
 }

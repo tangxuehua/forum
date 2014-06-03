@@ -11,8 +11,20 @@
                     <h4 class="modal-title">发表回复</h4>
                 </div>
                 <div class="modal-body">
-                    <textarea maxlength="2000" class="input span5" ng-model="newReply.body" rows="5"></textarea>
-                    <label class="star">*</label>
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="sectionId" class="col-sm-2 control-label">内容</label>
+                            <div class="col-sm-9">
+                                <textarea id="body" class="form-control" ng-model="newReply.body" maxlength="2000" rows="10"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-9">
+                                <span class="error" ng-show="errorMsg != ''">{{errorMsg}}</span>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" ng-click="submitReply()">提交</button>

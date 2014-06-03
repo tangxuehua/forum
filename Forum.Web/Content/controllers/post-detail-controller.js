@@ -1,5 +1,8 @@
 ﻿function PostDetailController($scope, $http) {
+    $scope.errorMsg = '';
+
     $scope.showNewReplyDialog = function () {
+        $scope.errorMsg = '';
         $scope.newReply = {
             body: '',
             postId: postId,
@@ -10,11 +13,11 @@
 
     $scope.submitReply = function () {
         if (isStringEmpty($scope.newReply.body)) {
-            msg('请输入回复内容');
+            $scope.errorMsg = '请输入回复内容';
             return false;
         }
         if (isStringEmpty($scope.newReply.postId)) {
-            msg('回复对应的帖子不能为空');
+            $scope.errorMsg = '回复对应的帖子不能为空';
             return false;
         }
 
@@ -27,11 +30,11 @@
             if (result.success) {
                 window.location.reload();
             } else {
-                msg(result.errorMsg);
+                $scope.errorMsg = result.errorMsg;
             }
         })
         .error(function (result, status, headers, config) {
-            msg(result.errorMsg);
+            $scope.errorMsg = result.errorMsg;
         });
     };
 }

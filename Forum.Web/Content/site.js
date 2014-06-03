@@ -17,8 +17,12 @@ var showConfirm = function (message, callback) {
     });
 };
 
+String.prototype.trim = function () {
+    return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+
 var isStringEmpty = function (input) {
-    if (input == null || input == '') {
+    if (input == null || input == '' || input.trim() == '') {
         return true;
     }
     return false;

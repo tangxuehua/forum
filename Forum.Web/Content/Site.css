@@ -5,6 +5,11 @@
     padding-right: 5px;
 }
 
+.modal-body {
+    padding: 0px;
+    padding-top: 20px !important;
+}
+
 .vertical-center {
     vertical-align: middle !important;
 }
@@ -20,6 +25,10 @@
 .navbar {
     border: 0px;
     margin-bottom: 10px;
+}
+
+.error {
+    color: #b94a48;
 }
 
 .site-brand {
