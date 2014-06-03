@@ -39,6 +39,7 @@ namespace Forum.Web.Controllers
         }
         public ActionResult Detail(string id)
         {
+            ViewBag.PostId = id;
             return View(_queryService.Find(id).ToDetailViewModel());
         }
 

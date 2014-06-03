@@ -153,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Reply\" />
     <Folder Include="Views\Section\" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +166,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PostController.cs" />
+    <Compile Include="Controllers\ReplyController.cs" />
     <Compile Include="Controllers\SectionController.cs" />
     <Compile Include="Extensions\ENodeExtensions.cs" />
     <Compile Include="Extensions\ModelExtensions.cs" />
@@ -201,6 +203,7 @@
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\bootstrap\js\bootstrap.js" />
     <Content Include="Content\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\controllers\post-detail-controller.js" />
     <Content Include="Content\controllers\post-controller.js" />
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\jquery\jquery-1.10.2.min.js" />

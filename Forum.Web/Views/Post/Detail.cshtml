@@ -1,6 +1,31 @@
 ﻿@{
-    ViewBag.Title = "Post Detail Page";
+    ViewBag.Title = "帖子详情";
 }
-<div>
-    Post Detail Page
+<div ng-controller="PostDetailController">
+    <button class="btn btn-primary btn-lg" data-toggle="modal" ng-click="showNewReplyDialog()">发表回复</button>
+    <div class="modal fade" id="float-box-newReply">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">发表回复</h4>
+                </div>
+                <div class="modal-body">
+                    <textarea maxlength="2000" class="input span5" ng-model="newReply.body" rows="5"></textarea>
+                    <label class="star">*</label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="submitReply()">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </div>
+
+@section Scripts {
+    <script type="text/javascript">
+        var postId = '@ViewBag.PostId';
+    </script>
+    <script type="text/javascript" src="@Url.Content("~/content/controllers/post-detail-controller.js")"></script>
+}

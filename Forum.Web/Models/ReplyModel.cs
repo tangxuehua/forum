@@ -14,4 +14,15 @@ namespace Forum.Web.Models
         public string CreatedOn { get; set; }
         public int Floor { get; set; }
     }
+    public class CreateReplyModel
+    {
+        public string Body { get; set; }
+        public string PostId { get; set; }
+        public string ParentId { get; set; }
+    }
+    public class EditReplyModel
+    {
+        public string Id { get; set; }
+        public string Body { get; set; }
+    }
 }
