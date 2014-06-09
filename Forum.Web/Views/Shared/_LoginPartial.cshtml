@@ -1,7 +1,7 @@
 ﻿@if (Request.IsAuthenticated)
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink(User.Identity.Name, "profile", "account", routeValues: null, htmlAttributes: new { title = "我的控制面板" })</li>
+        <li><span style="display:block;margin-top:10px;margin-right:10px">@Html.Raw("Hi " + User.Identity.Name + ",")</span></li>
         <li>
             @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "logoffForm" }))
             {

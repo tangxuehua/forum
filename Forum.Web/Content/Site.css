@@ -43,11 +43,24 @@
 .site-name {
     float: left;
     padding-top: 8px;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 20px;
     font-weight: bold;
-    color: #777;
+    display: block;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-family :"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 20px;
+    color: #366f9f;
+    line-height: 25px;
+    text-shadow: 2px 2px 4px #CCC;
     letter-spacing: 1.4px;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+}
+.site-header a {
+    text-decoration: none;
 }
 .navbar-right {
     margin-right: 0px !important;
@@ -105,4 +118,56 @@
     padding-top: 12px;
     padding-bottom: 12px;
   }
+}
+
+.post_title
+{
+    display: block;
+    font-family :"微软雅黑";
+    font-size: 16px;
+    color: black;
+    line-height: 25px;
+    text-shadow: 2px 2px 4px #CCC;
+    letter-spacing: 1px;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+}
+.post-item-header {
+    border-top: 2px solid #567286;
+    display: block;
+    color: #000;
+}
+.post-item-header a {
+    text-decoration: none;
+    color: #000;
+}
+.post-item-header a:hover {
+    color: red;
+}
+.post-item-body {
+    clear: both;
+    padding-top: 5px;
+    padding-bottom: 20px;
+    color: #666;
+}
+.reply-item-header {
+    border-top: solid 1px #666;
+    display: block;
+    color: #000;
+}
+.reply-item-header a {
+    text-decoration: none;
+    color: #000;
+}
+.reply-item-header a:hover {
+    color: red;
+}
+.reply-item-body {
+    clear: both;
+    padding-top: 5px;
+    padding-bottom: 20px;
+    color: #666;
 }

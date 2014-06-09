@@ -1,7 +1,55 @@
-﻿@{
-    ViewBag.Title = "帖子详情";
+﻿@model Forum.Web.Models.PostDetailModel
+@{
+    ViewBag.Title = "ENode论坛-帖子详情";
 }
 <div ng-controller="PostDetailController">
+    <div>
+        <div class="post_title">
+            @Model.Subject
+        </div>
+        <div class="post-item-header">
+            <div class="pull-left">
+                <span>#楼主</span>
+                <span style="margin-right:5px">@Model.CreatedOn</span>
+                @if (!string.IsNullOrEmpty(Model.AuthorName))
+                {
+                    @Html.ActionLink(Model.AuthorName, "index", new { authorId = Model.AuthorId }, new { target = "_blank" })
+                }
+            </div>
+            <div class="pull-right">
+                <a href="#" ng-click="showNewReplyDialog()">回复</a>
+            </div>
+        </div>
+        <div class="post-item-body">
+            @Model.Subject
+        </div>
+    </div>
+    @foreach (var reply in Model.Replies)
+    {
+        <div>
+            <div class="reply-item-header">
+                <div class="pull-left">
+                    <span>#@reply.Floor@Html.Raw("楼")</span>
+                    @if (@reply.AuthorId == Model.AuthorId)
+                    {
+                        <span>[楼主]</span>
+                    }
+                    <span style="margin-left:5px; margin-right:5px">@reply.CreatedOn</span>
+                    @if (!string.IsNullOrEmpty(reply.AuthorName))
+                    {
+                        @Html.ActionLink(reply.AuthorName, "index", new { authorId = reply.AuthorId }, new { target = "_blank" })
+                    }
+                </div>
+                <div class="pull-right">
+                    <a href="#" ng-click="showNewSubReplyDialog('@reply.Id')">回复</a>
+                </div>
+            </div>
+            <div class="reply-item-body">
+                @reply.Body
+            </div>
+        </div>
+    }
+
     <button class="btn btn-primary btn-lg" data-toggle="modal" ng-click="showNewReplyDialog()">发表回复</button>
     <div class="modal fade" id="float-box-newReply">
         <div class="modal-dialog">

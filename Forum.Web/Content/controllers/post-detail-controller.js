@@ -10,6 +10,15 @@
         };
         $("#float-box-newReply").modal("show");
     };
+    $scope.showNewSubReplyDialog = function (parentId) {
+        $scope.errorMsg = '';
+        $scope.newReply = {
+            body: '',
+            postId: postId,
+            parentId: parentId
+        };
+        $("#float-box-newReply").modal("show");
+    };
 
     $scope.submitReply = function () {
         if (isStringEmpty($scope.newReply.body)) {

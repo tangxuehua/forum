@@ -20,6 +20,7 @@ namespace Forum.Web.Models
     {
         public string Id { get; set; }
         public string Subject { get; set; }
+        public string Body { get; set; }
         public string AuthorId { get; set; }
         public string AuthorName { get; set; }
         public string CreatedOn { get; set; }
