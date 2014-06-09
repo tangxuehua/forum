@@ -11,7 +11,7 @@ namespace Forum.Denormalizers.Dapper
         IEventHandler<PostCreatedEvent>,
         IEventHandler<PostUpdatedEvent>
     {
-        public void Handle(PostCreatedEvent evnt)
+        public void Handle(IEventContext context, PostCreatedEvent evnt)
         {
             using (var connection = GetConnection())
             {
@@ -29,7 +29,7 @@ namespace Forum.Denormalizers.Dapper
                     }, Constants.PostTable);
             }
         }
-        public void Handle(PostUpdatedEvent evnt)
+        public void Handle(IEventContext context, PostUpdatedEvent evnt)
         {
             using (var connection = GetConnection())
             {

@@ -11,7 +11,7 @@ namespace Forum.Denormalizers.Dapper
         IEventHandler<ReplyCreatedEvent>,
         IEventHandler<ReplyBodyUpdatedEvent>
     {
-        public void Handle(ReplyCreatedEvent evnt)
+        public void Handle(IEventContext context, ReplyCreatedEvent evnt)
         {
             using (var connection = GetConnection())
             {
@@ -30,7 +30,7 @@ namespace Forum.Denormalizers.Dapper
                     Constants.ReplyTable);
             }
         }
-        public void Handle(ReplyBodyUpdatedEvent evnt)
+        public void Handle(IEventContext context, ReplyBodyUpdatedEvent evnt)
         {
             using (var connection = GetConnection())
             {

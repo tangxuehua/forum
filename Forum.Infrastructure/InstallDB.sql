@@ -80,19 +80,17 @@ GO
 --Tables used by ENode.
 ----------------------------------------------------------------------------------------------
 
-CREATE TABLE [dbo].[Event](
-    [Sequence] [bigint] IDENTITY(1,1) NOT NULL,
-    [AggregateRootTypeCode] [int] NOT NULL,
-    [AggregateRootId] [nvarchar](36) NOT NULL,
-    [Version] [int] NOT NULL,
-    [CommitId] [nvarchar](36) NOT NULL,
-    [Timestamp] [datetime] NOT NULL,
-    [Events] [varbinary](max) NOT NULL,
- CONSTRAINT [PK_Event] PRIMARY KEY CLUSTERED 
-(
-    [Sequence] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
+CREATE TABLE [dbo].[Event] (
+    [Sequence]                BIGINT IDENTITY (1, 1) NOT NULL,
+    [AggregateRootTypeCode]   INT             NOT NULL,
+    [AggregateRootId]         NVARCHAR (36)   NOT NULL,
+    [Version]                 INT             NOT NULL,
+    [CommitId]                NVARCHAR (64)   NOT NULL,
+    [ProcessId]               NVARCHAR (36)   NULL,
+    [Timestamp]               DATETIME        NOT NULL,
+    [Events]                  VARBINARY (MAX) NOT NULL,
+    CONSTRAINT [PK_Event] PRIMARY KEY CLUSTERED ([Sequence] ASC)
+)
 GO
 CREATE UNIQUE INDEX [IX_Event_VersionIndex] ON [dbo].[Event] ([AggregateRootId], [Version])
 GO

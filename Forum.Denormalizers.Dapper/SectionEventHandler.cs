@@ -11,7 +11,7 @@ namespace Forum.Denormalizers.Dapper
         IEventHandler<SectionCreatedEvent>,
         IEventHandler<SectionUpdatedEvent>
     {
-        public void Handle(SectionCreatedEvent evnt)
+        public void Handle(IEventContext context, SectionCreatedEvent evnt)
         {
             using (var connection = GetConnection())
             {
@@ -26,7 +26,7 @@ namespace Forum.Denormalizers.Dapper
                     }, Constants.SectionTable);
             }
         }
-        public void Handle(SectionUpdatedEvent evnt)
+        public void Handle(IEventContext context, SectionUpdatedEvent evnt)
         {
             using (var connection = GetConnection())
             {

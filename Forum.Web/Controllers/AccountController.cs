@@ -48,6 +48,7 @@ namespace Forum.Web.Controllers
                 return Json(new { success = false, errorMsg = result.ErrorMessage });
             }
 
+            _authenticationService.SignIn(result.AggregateRootId, model.AccountName, false);
             return Json(new { success = true });
         }
 

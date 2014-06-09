@@ -9,7 +9,7 @@ namespace Forum.Denormalizers.Dapper
     [Component(LifeStyle.Singleton)]
     public class AccountEventHandler : BaseEventHandler, IEventHandler<AccountCreatedEvent>
     {
-        public void Handle(AccountCreatedEvent evnt)
+        public void Handle(IEventContext context, AccountCreatedEvent evnt)
         {
             using (var connection = GetConnection())
             {
