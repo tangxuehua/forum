@@ -15,10 +15,21 @@ namespace Forum.QueryServices.Dapper
         {
             object condition = null;
             var wherePart = string.Empty;
-            if (!string.IsNullOrEmpty(option.SectionId))
+
+            if (!string.IsNullOrEmpty(option.SectionId) && !string.IsNullOrEmpty(option.AuthorId))
+            {
+                condition = new { SectionId = option.SectionId, AuthorId = option.AuthorId };
+                wherePart = "WHERE p.SectionId = @SectionId and p.AuthorId = @AuthorId";
+            }
+            else if (!string.IsNullOrEmpty(option.SectionId))
             {
                 condition = new { SectionId = option.SectionId };
                 wherePart = "WHERE p.SectionId = @SectionId";
+            }
+            else if (!string.IsNullOrEmpty(option.AuthorId))
+            {
+                condition = new { AuthorId = option.AuthorId };
+                wherePart = "WHERE p.AuthorId = @AuthorId";
             }
 
             using (var connection = GetConnection())

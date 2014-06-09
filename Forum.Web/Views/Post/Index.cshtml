@@ -6,17 +6,23 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th width="60%" class="vertical-center">
+                <th width="44%" class="vertical-center">
                     标题
                 </th>
-                <th width="15%" class="text-center vertical-center">
+                <th width="12%" class="text-center vertical-center">
                     发帖人
                 </th>
-                <th width="10%" class="text-center vertical-center">
+                <th width="12%" class="text-center vertical-center">
+                    发帖时间
+                </th>
+                <th width="8%" class="text-center vertical-center">
                     回复数
                 </th>
-                <th width="15%" class="text-center vertical-center">
-                    最新回复
+                <th width="12%" class="text-center vertical-center">
+                    回复人
+                </th>
+                <th width="12%" class="text-center vertical-center">
+                    回复时间
                 </th>
             </tr>
         </thead>
@@ -29,7 +35,8 @@
                     </td>
                     <td class="text-center vertical-center">
                         @Html.ActionLink(post.AuthorName, "index", new { authorId = post.AuthorId }, new { target = "_blank" })
-                        <br />
+                    </td>
+                    <td class="text-center vertical-center">
                         @post.CreatedOn
                     </td>
                     <td class="text-center vertical-center">
@@ -38,7 +45,16 @@
                     <td class="text-center vertical-center">
                         @if (post.MostRecentReply != null)
                         {
-                            @Html.ActionLink(post.MostRecentReply.AuthorName, "index", new { authorId = post.MostRecentReply.AuthorId }, new { target = "_blank" })<br />
+                            @Html.ActionLink(post.MostRecentReply.AuthorName, "index", new { authorId = post.MostRecentReply.AuthorId }, new { target = "_blank" })
+                        }
+                        else
+                        {
+                            @Html.Raw("-")
+                        }
+                    </td>
+                    <td class="text-center vertical-center">
+                        @if (post.MostRecentReply != null)
+                        {
                             @post.MostRecentReply.CreatedOn
                         }
                         else
