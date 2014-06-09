@@ -153,7 +153,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Reply\" />
     <Folder Include="Views\Section\" />
   </ItemGroup>
   <ItemGroup>
