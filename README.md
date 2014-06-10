@@ -18,9 +18,8 @@ Visual Studio 2013 + Sql Server 2005/2008;
 2. 新建一个空的数据库，叫Forum；
 3. 在新建的数据库中运行Forum.Infrastructure项目中的InstallDB.sql脚本，创建所有的表；
 4. 修改Forum.BrokerService、Forum.CommandService、Forum.EventService、Forum.Web、Forum.Domain.Tests这些项目中配置文件中的connectionString；
-5. 通过命令InstallUtil安装Forum.BrokerService、Forum.CommandService、Forum.EventService这三个Windows服务，安装完成后先启动BrokerService，再启动后两个；
-   重要：由于这三个Windows服务是使用NT AUTHORITY\LOCAL SERVICE这个账号启动的，而该账号没有访问Sql Server的权限，
-   所以connectionString中请不要以集成模式访问数据库，最好以sa账号来访问。
+   确保能连接上上面新建的Forum数据库；
+5. 1）通过命令InstallUtil安装Forum.BrokerService、Forum.CommandService、Forum.EventService这三个Windows服务；
+   2）安装完之后，将每个服务的登陆账号设置为你当前系统的登陆用户，否则服务无法启动；因为服务启动时会访问上面建立的Forum数据库，而服务默认的启动账号(LocalService)权限不够无法访问数据库；
+   3）安装完成后先启动BrokerService，再启动后两个；
 6. 将Forum.Web设置为启动项目，然后F5启动网站即可；
-
-目前Forum.Web实现了注册、登录、注销三个功能，以及提供了两个Web API接口，提供查询帖子列表和帖子详情。
