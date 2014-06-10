@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using System.Web;
-using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -49,7 +48,6 @@ namespace Forum.Web
                 .CreateENode()
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
-                .UseSqlServerEventStore(ConfigSettings.ConnectionString)
                 .SetProviders()
                 .UseEQueue()
                 .InitializeBusinessAssemblies(assemblies)
