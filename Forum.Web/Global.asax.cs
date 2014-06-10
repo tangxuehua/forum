@@ -35,8 +35,6 @@ namespace Forum.Web
 
             var assemblies = new[]
             {
-                Assembly.Load("Forum.Domain"),
-                Assembly.Load("Forum.Domain.Repositories.Dapper"),
                 Assembly.Load("Forum.QueryServices"),
                 Assembly.Load("Forum.QueryServices.Dapper"),
                 Assembly.Load("Forum.Web")
