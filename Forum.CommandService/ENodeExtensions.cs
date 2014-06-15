@@ -34,17 +34,15 @@ namespace Forum.CommandService
 
             configuration.RegisterEQueueComponents();
 
-            var consumerSetting = new ConsumerSetting
-            {
-                HeartbeatBrokerInterval = 1000,
-                UpdateTopicQueueCountInterval = 1000,
-                RebalanceInterval = 1000
-            };
-
             _commandExecutedMessageSender = new CommandExecutedMessageSender();
             _eventPublisher = new EventPublisher();
 
             configuration.SetDefault<IEventPublisher, EventPublisher>(_eventPublisher);
+
+            var consumerSetting = new ConsumerSetting
+            {
+                PullRequestSetting = new PullRequestSetting { PullRequestTimeoutMilliseconds = 7000 }
+            };
 
             _commandConsumer = new CommandConsumer(consumerSetting, _commandExecutedMessageSender);
 

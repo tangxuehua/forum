@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Sockets;
 using System.Reflection;
 using System.ServiceProcess;
 using ECommon.Autofac;
@@ -16,20 +15,21 @@ namespace Forum.EventService
     public partial class Service1 : ServiceBase
     {
         private ILogger _logger;
-        private ENodeConfiguration _enodeConfiguration;
+        private ENodeConfiguration _configuration;
 
         public Service1()
         {
             InitializeComponent();
             InitializeENode();
             _logger = ObjectContainer.Resolve<ILoggerFactory>().Create("Forum.EventService");
+            _logger.Info("Service initialized.");
         }
 
         protected override void OnStart(string[] args)
         {
             try
             {
-                _enodeConfiguration.StartEQueue();
+                _configuration.StartEQueue();
             }
             catch (Exception ex)
             {
@@ -42,7 +42,7 @@ namespace Forum.EventService
         {
             try
             {
-                _enodeConfiguration.ShutdownEQueue();
+                _configuration.ShutdownEQueue();
             }
             catch (Exception ex)
             {
@@ -62,7 +62,7 @@ namespace Forum.EventService
                 Assembly.Load("Forum.Denormalizers.Dapper")
             };
 
-            _enodeConfiguration = Configuration
+            _configuration = Configuration
                 .Create()
                 .UseAutofac()
                 .RegisterCommonComponents()

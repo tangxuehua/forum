@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Sockets;
 using System.ServiceProcess;
 using ECommon.Autofac;
 using ECommon.Components;
@@ -23,13 +22,14 @@ namespace Forum.BrokerService
             InitializeComponent();
             InitializeEQueue();
             _logger = ObjectContainer.Resolve<ILoggerFactory>().Create("Forum.BrokerService");
+            _logger.Info("Service initialized.");
         }
 
         protected override void OnStart(string[] args)
         {
             try
             {
-                _broker = new BrokerController(new BrokerSetting { DeleteMessageInterval = 60000 }).Initialize().Start();
+                _broker.Start();
             }
             catch (Exception ex)
             {
@@ -54,7 +54,7 @@ namespace Forum.BrokerService
             }
         }
 
-        static void InitializeEQueue()
+        private void InitializeEQueue()
         {
             ConfigSettings.Initialize();
 
@@ -77,6 +77,9 @@ namespace Forum.BrokerService
                 .RegisterEQueueComponents()
                 .UseSqlServerMessageStore(messageStoreSetting)
                 .UseSqlServerOffsetManager(offsetManagerSetting);
+
+            var setting = new BrokerSetting { SuspendPullRequestMilliseconds = 3000 };
+            _broker = new BrokerController(setting);
         }
     }
 }

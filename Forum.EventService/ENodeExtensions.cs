@@ -28,16 +28,12 @@ namespace Forum.EventService
 
             configuration.RegisterEQueueComponents();
 
-            var consumerSetting = new ConsumerSetting
-            {
-                HeartbeatBrokerInterval = 1000,
-                UpdateTopicQueueCountInterval = 1000,
-                RebalanceInterval = 1000,
-                MessageHandleMode = MessageHandleMode.Sequential
-            };
-
             _domainEventHandledMessageSender = new DomainEventHandledMessageSender();
 
+            var consumerSetting = new ConsumerSetting
+            {
+                PullRequestSetting = new PullRequestSetting { PullRequestTimeoutMilliseconds = 7000 }
+            };
             _eventConsumer = new EventConsumer(consumerSetting, _domainEventHandledMessageSender);
 
             var eventTopicProvider = ObjectContainer.Resolve<IEventTopicProvider>() as EventTopicProvider;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Sockets;
 using System.Reflection;
 using System.ServiceProcess;
 using ECommon.Autofac;
@@ -16,20 +15,24 @@ namespace Forum.CommandService
     public partial class Service1 : ServiceBase
     {
         private ILogger _logger;
-        private ENodeConfiguration _enodeConfiguration;
+        private ENodeConfiguration _configuration;
 
         public Service1()
         {
             InitializeComponent();
             InitializeENode();
             _logger = ObjectContainer.Resolve<ILoggerFactory>().Create("Forum.CommandService");
+            _logger.Info("Service initialized.");
         }
 
         protected override void OnStart(string[] args)
         {
             try
             {
-                _enodeConfiguration.StartRetryCommandService().StartWaitingCommandService().StartEQueue();
+                _configuration
+                    .StartRetryCommandService()
+                    .StartWaitingCommandService()
+                    .StartEQueue();
             }
             catch (Exception ex)
             {
@@ -42,7 +45,7 @@ namespace Forum.CommandService
         {
             try
             {
-                _enodeConfiguration.ShutdownEQueue();
+                _configuration.ShutdownEQueue();
             }
             catch (Exception ex)
             {
@@ -62,7 +65,7 @@ namespace Forum.CommandService
                 Assembly.Load("Forum.Domain.Repositories.Dapper")
             };
 
-            _enodeConfiguration = Configuration
+            _configuration = Configuration
                 .Create()
                 .UseAutofac()
                 .RegisterCommonComponents()

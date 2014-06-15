@@ -67,7 +67,7 @@ namespace Forum.Domain.Tests
                 ProducerSocketSetting = new SocketSetting { Address = SocketUtils.GetLocalIPV4().ToString(), Port = 6000, Backlog = 5000 },
                 ConsumerSocketSetting = new SocketSetting { Address = SocketUtils.GetLocalIPV4().ToString(), Port = 6001, Backlog = 5000 }
             };
-            _broker = new BrokerController(brokerSetting).Initialize();
+            _broker = new BrokerController(brokerSetting);
 
             var commandExecutedMessageConsumer = new Consumer("CommandExecutedMessageConsumer", "CommandExecutedMessageConsumerGroup", consumerSetting);
             var domainEventHandledMessageConsumer = new Consumer("DomainEventHandledMessageConsumer", "DomainEventHandledMessageConsumerGroup", consumerSetting);
@@ -121,7 +121,7 @@ namespace Forum.Domain.Tests
             var totalCommandTopicCount = commandTopicProvider.GetAllCommandTopics().Count();
             var totalEventTopicCount = eventTopicProvider.GetAllEventTopics().Count();
 
-            var taskId = scheduleService.ScheduleTask(() =>
+            var taskId = scheduleService.ScheduleTask("WaitAllConsumerLoadBalanceComplete", () =>
             {
                 var eventConsumerAllocatedQueues = _eventConsumer.Consumer.GetCurrentQueues();
                 var commandConsumerAllocatedQueues = _commandConsumer.Consumer.GetCurrentQueues();
@@ -129,8 +129,8 @@ namespace Forum.Domain.Tests
                 var domainEventHandledMessageConsumerAllocatedQueues = _commandResultProcessor.DomainEventHandledMessageConsumer.GetCurrentQueues();
                 if (eventConsumerAllocatedQueues.Count() == totalCommandTopicCount * _broker.Setting.DefaultTopicQueueCount
                     && commandConsumerAllocatedQueues.Count() == totalEventTopicCount * _broker.Setting.DefaultTopicQueueCount
-                    && executedCommandMessageConsumerAllocatedQueues.Count() == 4
-                    && domainEventHandledMessageConsumerAllocatedQueues.Count() == 4)
+                    && executedCommandMessageConsumerAllocatedQueues.Count() == 1
+                    && domainEventHandledMessageConsumerAllocatedQueues.Count() == 1)
                 {
                     waitHandle.Set();
                 }
