@@ -28,9 +28,9 @@ namespace Forum.Denormalizers.Dapper
         }
         public void Handle(IEventContext context, SectionUpdatedEvent evnt)
         {
-            using (var connection = GetConnection())
+            TryUpdateRecord(connection =>
             {
-                connection.Update(
+                return connection.Update(
                     new
                     {
                         Name = evnt.Name,
@@ -42,7 +42,7 @@ namespace Forum.Denormalizers.Dapper
                         Id = evnt.AggregateRootId,
                         Version = evnt.Version - 1
                     }, Constants.SectionTable);
-            }
+            });
         }
     }
 }

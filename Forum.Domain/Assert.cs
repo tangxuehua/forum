@@ -15,14 +15,14 @@ namespace Forum.Domain
         {
             if (string.IsNullOrEmpty(input))
             {
-                throw new DomainException("{0}不能为空或空字符串", name);
+                throw new DomainException("{0}不能为空", name);
             }
         }
         public static void IsNotNullOrWhiteSpace(string name, string input)
         {
             if (string.IsNullOrWhiteSpace(input))
             {
-                throw new DomainException("{0}不能为空或空白字符串", name);
+                throw new DomainException("{0}不能为空", name);
             }
         }
         public static void AreEqual(Guid id1, Guid id2, string errorMessageFormat)

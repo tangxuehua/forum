@@ -39,7 +39,7 @@ namespace Forum.Web.Controllers
         }
         public ActionResult Detail(string id)
         {
-            ViewBag.PostId = id;
+            ViewBag.CurrentAccountId = _contextService.CurrentAccount.AccountId;
             return View(_queryService.Find(id).ToDetailViewModel());
         }
 
@@ -55,6 +55,27 @@ namespace Forum.Web.Controllers
                     model.Body,
                     model.SectionId,
                     _contextService.CurrentAccount.AccountId));
+
+            if (result.Status == CommandSendStatus.Failed)
+            {
+                return Json(new { success = false, errorMsg = result.ErrorMessage });
+            }
+
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        [AjaxAuthorize]
+        [AjaxValidateAntiForgeryToken]
+        [AsyncTimeout(5000)]
+        public async Task<ActionResult> Update(EditPostModel model)
+        {
+            if (model.AuthorId != _contextService.CurrentAccount.AccountId)
+            {
+                return Json(new { success = false, errorMsg = "您不是帖子的作者，不能编辑该帖子。" });
+            }
+
+            var result = await _commandService.SendAsync(new UpdatePostCommand(model.Id, model.Subject, model.Body));
 
             if (result.Status == CommandSendStatus.Failed)
             {

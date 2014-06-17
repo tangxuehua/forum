@@ -31,9 +31,9 @@ namespace Forum.Denormalizers.Dapper
         }
         public void Handle(IEventContext context, PostUpdatedEvent evnt)
         {
-            using (var connection = GetConnection())
+            TryUpdateRecord(connection =>
             {
-                connection.Update(
+                return connection.Update(
                     new
                     {
                         Subject = evnt.Subject,
@@ -46,7 +46,7 @@ namespace Forum.Denormalizers.Dapper
                         Id = evnt.AggregateRootId,
                         Version = evnt.Version - 1
                     }, Constants.PostTable);
-            }
+            });
         }
     }
 }

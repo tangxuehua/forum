@@ -41,6 +41,7 @@ namespace Forum.Web.Models
     public class EditPostModel
     {
         public string Id { get; set; }
+        public string AuthorId { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
     }

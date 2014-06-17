@@ -38,9 +38,9 @@
     <Reference Include="Autofac, Version=3.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.3.4.0\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.1.2.9\lib\net40\ECommon.dll</HintPath>
+      <HintPath>..\packages\ECommon.1.3.1\lib\net40\ECommon.dll</HintPath>
     </Reference>
     <Reference Include="ECommon.Autofac, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -54,9 +54,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ECommon.Log4Net.1.2.9\lib\net40\ECommon.Log4Net.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.2.6.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ENode, Version=2.2.8.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ENode.2.2.6\lib\net40\ENode.dll</HintPath>
+      <HintPath>..\packages\ENode.2.2.8\lib\net40\ENode.dll</HintPath>
     </Reference>
     <Reference Include="ENode.EQueue, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

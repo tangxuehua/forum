@@ -32,9 +32,9 @@ namespace Forum.Denormalizers.Dapper
         }
         public void Handle(IEventContext context, ReplyBodyUpdatedEvent evnt)
         {
-            using (var connection = GetConnection())
+            TryUpdateRecord(connection =>
             {
-                connection.Update(
+                return connection.Update(
                     new
                     {
                         Body = evnt.Body,
@@ -46,7 +46,7 @@ namespace Forum.Denormalizers.Dapper
                         Id = evnt.AggregateRootId,
                         Version = evnt.Version - 1
                     }, Constants.ReplyTable);
-            }
+            });
         }
     }
 }
