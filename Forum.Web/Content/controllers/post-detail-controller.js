@@ -21,13 +21,23 @@
     };
     $scope.showEditPostDialog = function () {
         $scope.errorMsg = '';
-        $scope.editingPost = {
-            subject: '',
-            body: '',
-            id: postId,
-            authorId: postAuthorId
-        };
-        $("#float-box-editingPost").modal("show");
+
+        $http({
+            method: 'GET',
+            url: '/post/find',
+            params: { id: postId, option: 'simple' }
+        })
+        .success(function (result, status, headers, config) {
+            if (result.success) {
+                $scope.editingPost = result.data;
+                $("#float-box-editingPost").modal("show");
+            } else {
+                msg(result.errorMsg);
+            }
+        })
+        .error(function (result, status, headers, config) {
+            msg(result.errorMsg);
+        });
     };
 
     $scope.submitReply = function () {

@@ -108,6 +108,17 @@ namespace Forum.QueryServices.Dapper
                 }
             }
         }
+        public dynamic Find(string id, string option)
+        {
+            if (option == "simple")
+            {
+                using (var connection = GetConnection())
+                {
+                    return connection.QueryList(new { Id = id }, Constants.PostTable, "id,subject,body,authorId").SingleOrDefault();
+                }
+            }
+            throw new Exception("Invalid find option:" + option);
+        }
 
         private static string FormatValue(object value)
         {

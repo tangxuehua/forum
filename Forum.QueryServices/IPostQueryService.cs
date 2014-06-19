@@ -17,5 +17,7 @@ namespace Forum.QueryServices
         /// <param name="postId"></param>
         /// <returns></returns>
         PostInfo Find(string postId);
+
+        dynamic Find(string id, string option);
     }
 }

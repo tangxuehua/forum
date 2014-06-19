@@ -42,6 +42,21 @@ namespace Forum.Web.Controllers
             ViewBag.CurrentAccountId = _contextService.CurrentAccount.AccountId;
             return View(_queryService.Find(id).ToDetailViewModel());
         }
+        public ActionResult Find(string id, string option)
+        {
+            var post = _queryService.Find(id, option);
+            return Json(new
+            {
+                success = true,
+                data = new
+                {
+                    id = post.id,
+                    subject = post.subject,
+                    body = post.body,
+                    authorId = post.authorId
+                }
+            }, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpPost]
         [AjaxAuthorize]
