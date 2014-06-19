@@ -18,7 +18,7 @@ namespace Forum.Domain.Tests
             var name = ObjectId.GenerateNewStringId();
             var password = ObjectId.GenerateNewStringId();
 
-            var result = _commandService.Execute(new RegisterNewAccountCommand(name, password)).WaitResult<CommandResult>(3000);
+            var result = _commandService.Execute(new CreateAccountCommand(name, password)).WaitResult<CommandResult>(3000);
 
             Assert.AreEqual(CommandStatus.Success, result.Status);
             Assert.IsNotNull(result.AggregateRootId);
@@ -41,8 +41,8 @@ namespace Forum.Domain.Tests
             var name = ObjectId.GenerateNewStringId();
             var password = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new RegisterNewAccountCommand(name, password)).Wait();
-            var result = _commandService.Execute(new RegisterNewAccountCommand(name, password)).WaitResult<CommandResult>(3000);
+            _commandService.Execute(new CreateAccountCommand(name, password)).Wait();
+            var result = _commandService.Execute(new CreateAccountCommand(name, password)).WaitResult<CommandResult>(3000);
 
             Assert.AreEqual(CommandStatus.Failed, result.Status);
             Assert.AreEqual(typeof(DuplicateAccountNameException).Name, result.ExceptionTypeName);

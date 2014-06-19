@@ -11,7 +11,7 @@ namespace Forum.Domain.Tests
     {
         public CommandTypeCodeProvider()
         {
-            RegisterType<RegisterNewAccountCommand>(100);
+            RegisterType<CreateAccountCommand>(100);
 
             RegisterType<CreateSectionCommand>(200);
             RegisterType<UpdateSectionCommand>(201);

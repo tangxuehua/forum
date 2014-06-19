@@ -6,7 +6,7 @@ using Forum.Domain.Accounts;
 namespace Forum.CommandHandlers
 {
     [Component(LifeStyle.Singleton)]
-    public class AccountCommandHandler : ICommandHandler<RegisterNewAccountCommand>
+    public class AccountCommandHandler : ICommandHandler<CreateAccountCommand>
     {
         private readonly AccountFactory _factory;
 
@@ -15,7 +15,7 @@ namespace Forum.CommandHandlers
             _factory = factory;
         }
 
-        public void Handle(ICommandContext context, RegisterNewAccountCommand command)
+        public void Handle(ICommandContext context, CreateAccountCommand command)
         {
             context.Add(_factory.CreateAccount(command.Name, command.Password));
         }

@@ -2,8 +2,8 @@
 {
     public interface IAccountRepository
     {
-        void Add(AccountInfo account);
-        AccountInfo Find(string name);
+        void Add(Registration account);
+        Registration Find(string name);
         string GetNextAccountId();
     }
 }

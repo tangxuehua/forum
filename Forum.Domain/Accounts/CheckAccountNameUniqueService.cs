@@ -17,7 +17,7 @@ namespace Forum.Domain.Accounts
 
         public void OnBeforePersisting(AccountCreatedEvent evnt)
         {
-            _accountRepository.Add(new AccountInfo(evnt.AggregateRootId, evnt.Name));
+            //_accountRepository.Add(new Registration(evnt.AggregateRootId, evnt.Name));
         }
         public void OnAfterPersisted(AccountCreatedEvent evnt)
         {

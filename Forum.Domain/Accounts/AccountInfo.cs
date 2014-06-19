@@ -1,16 +1,20 @@
 ﻿using System;
+using ENode.Eventing;
 
 namespace Forum.Domain.Accounts
 {
+    /// <summary>账号基本信息，注册时用户录入的信息，值对象
+    /// </summary>
+    [Serializable]
     public class AccountInfo
     {
-        public string AccountId { get; private set; }
-        public string AccountName { get; private set; }
+        public string Name { get; private set; }
+        public string Password { get; private set; }
 
-        public AccountInfo(string accountId, string accountName)
+        public AccountInfo(string name, string password)
         {
-            AccountId = accountId;
-            AccountName = accountName;
+            Name = name;
+            Password = password;
         }
     }
 }

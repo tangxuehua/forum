@@ -104,7 +104,7 @@ namespace Forum.Domain.Tests
             var sectionId = ObjectId.GenerateNewStringId();
             var authorName = ObjectId.GenerateNewStringId();
 
-            var authorId = _commandService.Execute(new RegisterNewAccountCommand(authorName, "123456")).WaitResult<CommandResult>(3000).AggregateRootId;
+            var authorId = _commandService.Execute(new CreateAccountCommand(authorName, "123456")).WaitResult<CommandResult>(3000).AggregateRootId;
             var postId = _commandService.Execute(new CreatePostCommand(subject, body, sectionId, authorId)).WaitResult<CommandResult>(3000).AggregateRootId;
             _commandService.Execute(new CreateReplyCommand(postId, null, body, ObjectId.GenerateNewStringId())).Wait();
             var secondReplyId = _commandService.Execute(new CreateReplyCommand(postId, null, body, authorId)).WaitResult<CommandResult>(3000).AggregateRootId;

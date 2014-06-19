@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accounts\RegisterNewAccountCommand.cs" />
+    <Compile Include="Accounts\ConfirmRegistrationCommand.cs" />
+    <Compile Include="Accounts\StartRegistrationCommand.cs" />
+    <Compile Include="Accounts\CreateAccountCommand.cs" />
     <Compile Include="Posts\UpdatePostCommand.cs" />
     <Compile Include="Posts\CreatePostCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

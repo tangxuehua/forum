@@ -37,7 +37,7 @@ namespace Forum.Web.Controllers
         [AsyncTimeout(5000)]
         public async Task<ActionResult> Register(RegisterModel model, CancellationToken token)
         {
-            var result = await _commandService.Execute(new RegisterNewAccountCommand(model.AccountName, model.Password));
+            var result = await _commandService.Execute(new CreateAccountCommand(model.AccountName, model.Password));
 
             if (result.Status == CommandStatus.Failed)
             {
