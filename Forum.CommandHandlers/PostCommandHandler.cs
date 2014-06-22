@@ -1,6 +1,7 @@
 ﻿using ECommon.Components;
 using ENode.Commanding;
 using Forum.Commands.Posts;
+using Forum.Domain;
 using Forum.Domain.Posts;
 
 namespace Forum.CommandHandlers
@@ -10,9 +11,9 @@ namespace Forum.CommandHandlers
         ICommandHandler<CreatePostCommand>,
         ICommandHandler<UpdatePostCommand>
     {
-        private readonly PostFactory _factory;
+        private readonly AggregateRootFactory _factory;
 
-        public PostCommandHandler(PostFactory factory)
+        public PostCommandHandler(AggregateRootFactory factory)
         {
             _factory = factory;
         }

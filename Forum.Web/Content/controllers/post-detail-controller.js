@@ -25,7 +25,8 @@
         $http({
             method: 'GET',
             url: '/post/find',
-            params: { id: postId, option: 'simple' }
+            cache: false,
+            params: { id: postId, option: 'simple', random: Math.random() }
         })
         .success(function (result, status, headers, config) {
             if (result.success) {

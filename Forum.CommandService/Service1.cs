@@ -60,9 +60,9 @@ namespace Forum.CommandService
 
             var assemblies = new[]
             {
+                Assembly.Load("Forum.Infrastructure"),
                 Assembly.Load("Forum.Domain"),
-                Assembly.Load("Forum.CommandHandlers"),
-                Assembly.Load("Forum.Domain.Repositories.Dapper")
+                Assembly.Load("Forum.CommandHandlers")
             };
 
             _configuration = Configuration

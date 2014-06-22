@@ -38,33 +38,33 @@
     <Reference Include="Autofac, Version=3.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.3.4.0\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon, Version=1.3.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.1.3.1\lib\net40\ECommon.dll</HintPath>
+      <HintPath>..\packages\ECommon.1.3.2\lib\net40\ECommon.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon.Autofac, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon.Autofac, Version=1.3.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.Autofac.1.2.9\lib\net40\ECommon.Autofac.dll</HintPath>
+      <HintPath>..\packages\ECommon.Autofac.1.3.2\lib\net40\ECommon.Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon.JsonNet, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon.JsonNet, Version=1.3.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.JsonNet.1.2.9\lib\net40\ECommon.JsonNet.dll</HintPath>
+      <HintPath>..\packages\ECommon.JsonNet.1.3.2\lib\net40\ECommon.JsonNet.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon.Log4Net, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon.Log4Net, Version=1.3.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.Log4Net.1.2.9\lib\net40\ECommon.Log4Net.dll</HintPath>
+      <HintPath>..\packages\ECommon.Log4Net.1.3.2\lib\net40\ECommon.Log4Net.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.2.8.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ENode, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ENode.2.2.8\lib\net40\ENode.dll</HintPath>
+      <HintPath>..\packages\ENode.2.3.0\lib\net40\ENode.dll</HintPath>
     </Reference>
-    <Reference Include="ENode.EQueue, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ENode.EQueue, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ENode.EQueue.1.2.9\lib\net40\ENode.EQueue.dll</HintPath>
+      <HintPath>..\packages\ENode.EQueue.1.3.0\lib\net40\ENode.EQueue.dll</HintPath>
     </Reference>
-    <Reference Include="EQueue, Version=1.1.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="EQueue, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EQueue.1.1.9\lib\net40\EQueue.dll</HintPath>
+      <HintPath>..\packages\EQueue.1.2.0\lib\net40\EQueue.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
@@ -88,6 +88,9 @@
     <Compile Include="ProjectInstaller.Designer.cs">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
+    <Compile Include="Providers\AggregateRootTypeCodeProvider.cs" />
+    <Compile Include="Providers\CommandTopicProvider.cs" />
+    <Compile Include="Providers\CommandTypeCodeProvider.cs" />
     <Compile Include="Providers\EventHandlerTypeCodeProvider.cs" />
     <Compile Include="Providers\EventTopicProvider.cs" />
     <Compile Include="Providers\EventTypeCodeProvider.cs" />
@@ -115,13 +118,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Forum.Commands\Forum.Commands.csproj">
+      <Project>{7787ec6c-9cf3-401c-803a-b4da2b0ca9ef}</Project>
+      <Name>Forum.Commands</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Forum.Denormalizers.Dapper\Forum.Denormalizers.Dapper.csproj">
       <Project>{433dd072-0748-4440-ba1b-4a0d6e507d3b}</Project>
       <Name>Forum.Denormalizers.Dapper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Forum.Domain.Repositories.Dapper\Forum.Domain.Repositories.Dapper.csproj">
-      <Project>{b229fffe-0f61-4ec7-88a5-5e76197f476c}</Project>
-      <Name>Forum.Domain.Repositories.Dapper</Name>
     </ProjectReference>
     <ProjectReference Include="..\Forum.Domain\Forum.Domain.csproj">
       <Project>{5a4055c3-89bc-4149-8a6d-06ce985080c9}</Project>
@@ -130,6 +133,10 @@
     <ProjectReference Include="..\Forum.Infrastructure\Forum.Infrastructure.csproj">
       <Project>{86985782-8588-48da-81ab-ffd3b855c73c}</Project>
       <Name>Forum.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.ProcessManagers\Forum.ProcessManagers.csproj">
+      <Project>{bdf262af-7287-492e-aeff-fd8612e88834}</Project>
+      <Name>Forum.ProcessManagers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

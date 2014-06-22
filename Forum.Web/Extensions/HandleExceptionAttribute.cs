@@ -2,7 +2,7 @@
 using System.Net;
 using System.Web.Mvc;
 
-namespace Forum.Web.Attributes
+namespace Forum.Web.Extensions
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public class HandleExceptionAttribute : HandleErrorAttribute

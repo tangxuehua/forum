@@ -29,14 +29,16 @@ namespace Forum.Domain.Tests
 
                 var assemblies = new[]
                 {
+                    Assembly.Load("Forum.Infrastructure"),
                     Assembly.Load("Forum.Domain"),
                     Assembly.Load("Forum.CommandHandlers"),
+                    Assembly.Load("Forum.ProcessManagers"),
                     Assembly.Load("Forum.Denormalizers.Dapper"),
-                    Assembly.Load("Forum.Domain.Repositories.Dapper"),
                     Assembly.Load("Forum.QueryServices"),
                     Assembly.Load("Forum.QueryServices.Dapper"),
                     Assembly.Load("Forum.Domain.Tests")
                 };
+
                 _configuration = Configuration
                     .Create()
                     .UseAutofac()
@@ -46,6 +48,7 @@ namespace Forum.Domain.Tests
                     .CreateENode()
                     .RegisterENodeComponents()
                     .RegisterBusinessComponents(assemblies)
+                    .UseSqlServerEventStore(ConfigSettings.ConnectionString)
                     .SetProviders()
                     .UseEQueue()
                     .InitializeBusinessAssemblies(assemblies)

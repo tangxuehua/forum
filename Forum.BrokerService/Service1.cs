@@ -78,8 +78,7 @@ namespace Forum.BrokerService
                 .UseSqlServerMessageStore(messageStoreSetting)
                 .UseSqlServerOffsetManager(offsetManagerSetting);
 
-            var setting = new BrokerSetting { SuspendPullRequestMilliseconds = 3000 };
-            _broker = new BrokerController(setting);
+            _broker = new BrokerController();
         }
     }
 }

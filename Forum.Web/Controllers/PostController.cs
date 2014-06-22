@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using ENode.Commanding;
 using Forum.Commands.Posts;
 using Forum.QueryServices;
 using Forum.QueryServices.DTOs;
-using Forum.Web.Attributes;
 using Forum.Web.Extensions;
 using Forum.Web.Models;
 using Forum.Web.Services;
@@ -44,17 +45,11 @@ namespace Forum.Web.Controllers
         }
         public ActionResult Find(string id, string option)
         {
-            var post = _queryService.Find(id, option);
+            var post = _queryService.FindDynamic(id, option);
             return Json(new
             {
                 success = true,
-                data = new
-                {
-                    id = post.id,
-                    subject = post.subject,
-                    body = post.body,
-                    authorId = post.authorId
-                }
+                data = post
             }, JsonRequestBehavior.AllowGet);
         }
 

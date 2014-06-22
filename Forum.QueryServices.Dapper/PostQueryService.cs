@@ -108,7 +108,7 @@ namespace Forum.QueryServices.Dapper
                 }
             }
         }
-        public dynamic Find(string id, string option)
+        public dynamic FindDynamic(string id, string option)
         {
             if (option == "simple")
             {

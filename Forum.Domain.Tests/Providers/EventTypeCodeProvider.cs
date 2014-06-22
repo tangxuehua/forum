@@ -11,16 +11,21 @@ namespace Forum.Domain.Tests
     {
         public EventTypeCodeProvider()
         {
-            RegisterType<AccountCreatedEvent>(100);
+            RegisterType<RegistrationStartedEvent>(100);
+            RegisterType<RegistrationConfirmedEvent>(101);
+            RegisterType<RegistrationCompletedEvent>(102);
+            RegisterType<RegistrationCanceledEvent>(103);
 
-            RegisterType<SectionCreatedEvent>(200);
-            RegisterType<SectionUpdatedEvent>(201);
+            RegisterType<AccountCreatedEvent>(200);
 
-            RegisterType<PostCreatedEvent>(300);
-            RegisterType<PostUpdatedEvent>(301);
+            RegisterType<SectionCreatedEvent>(300);
+            RegisterType<SectionUpdatedEvent>(301);
 
-            RegisterType<ReplyCreatedEvent>(400);
-            RegisterType<ReplyBodyUpdatedEvent>(401);
+            RegisterType<PostCreatedEvent>(400);
+            RegisterType<PostUpdatedEvent>(401);
+
+            RegisterType<ReplyCreatedEvent>(500);
+            RegisterType<ReplyBodyUpdatedEvent>(501);
         }
     }
 }

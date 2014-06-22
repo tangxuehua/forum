@@ -57,8 +57,9 @@ namespace Forum.EventService
 
             var assemblies = new[]
             {
+                Assembly.Load("Forum.Infrastructure"),
                 Assembly.Load("Forum.Domain"),
-                Assembly.Load("Forum.Domain.Repositories.Dapper"),
+                Assembly.Load("Forum.ProcessManagers"),
                 Assembly.Load("Forum.Denormalizers.Dapper")
             };
 
@@ -71,6 +72,7 @@ namespace Forum.EventService
                 .CreateENode()
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
+                .UseSqlServerEventStore(ConfigSettings.ConnectionString)
                 .UseSqlServerEventPublishInfoStore(ConfigSettings.ConnectionString)
                 .UseSqlServerEventHandleInfoStore(ConfigSettings.ConnectionString)
                 .SetProviders()

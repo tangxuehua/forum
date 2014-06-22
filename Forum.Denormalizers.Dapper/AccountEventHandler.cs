@@ -17,8 +17,8 @@ namespace Forum.Denormalizers.Dapper
                     new
                     {
                         Id = evnt.AggregateRootId,
-                        Name = evnt.Name,
-                        Password = evnt.Password,
+                        Name = evnt.AccountInfo.Name,
+                        Password = evnt.AccountInfo.Password,
                         CreatedOn = evnt.Timestamp,
                         UpdatedOn = evnt.Timestamp,
                         Version = evnt.Version

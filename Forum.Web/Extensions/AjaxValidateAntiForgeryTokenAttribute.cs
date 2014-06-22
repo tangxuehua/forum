@@ -3,7 +3,7 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 
-namespace Forum.Web.Attributes
+namespace Forum.Web.Extensions
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public class AjaxValidateAntiForgeryTokenAttribute : FilterAttribute, IAuthorizationFilter

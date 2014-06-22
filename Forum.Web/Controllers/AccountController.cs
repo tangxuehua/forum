@@ -4,11 +4,12 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using ECommon.Utilities;
 using ENode.Commanding;
 using Forum.Commands.Accounts;
-using Forum.Domain.Accounts;
+using Forum.Infrastructure;
 using Forum.QueryServices;
-using Forum.Web.Attributes;
+using Forum.Web.Extensions;
 using Forum.Web.Models;
 using Forum.Web.Services;
 
@@ -37,18 +38,18 @@ namespace Forum.Web.Controllers
         [AsyncTimeout(5000)]
         public async Task<ActionResult> Register(RegisterModel model, CancellationToken token)
         {
-            var result = await _commandService.Execute(new CreateAccountCommand(model.AccountName, model.Password));
+            var result = await _commandService.StartProcess(new StartRegistrationCommand(model.AccountName, model.Password));
 
-            if (result.Status == CommandStatus.Failed)
+            if (result.Status == ENode.Commanding.ProcessStatus.Failed)
             {
-                if (result.ExceptionTypeName == typeof(DuplicateAccountNameException).Name)
+                if (result.ErrorCode == ErrorCodes.RegistrationDuplicateAccount)
                 {
                     return Json(new { success = false, errorMsg = "该用户已被注册，请用其他账号注册。" });
                 }
                 return Json(new { success = false, errorMsg = result.ErrorMessage });
             }
 
-            _authenticationService.SignIn(result.AggregateRootId, model.AccountName, false);
+            _authenticationService.SignIn(result.Items["AccountId"], model.AccountName, false);
             return Json(new { success = true });
         }
 

@@ -11,10 +11,11 @@ namespace Forum.CommandService.Providers
     {
         public AggregateRootTypeCodeProvider()
         {
-            RegisterType<Account>(100);
-            RegisterType<Section>(101);
-            RegisterType<Post>(102);
-            RegisterType<Reply>(103);
+            RegisterType<Registration>(100);
+            RegisterType<Account>(101);
+            RegisterType<Section>(102);
+            RegisterType<Post>(103);
+            RegisterType<Reply>(104);
         }
     }
 }

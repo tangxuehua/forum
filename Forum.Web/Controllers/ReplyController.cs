@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using ENode.Commanding;
 using Forum.Commands.Replies;
-using Forum.Web.Attributes;
+using Forum.Web.Extensions;
 using Forum.Web.Models;
 using Forum.Web.Services;
 

@@ -1,9 +1,8 @@
 ﻿using System.Linq;
 using System.Threading;
 using ECommon.Components;
-using ECommon.Remoting;
+using ECommon.Logging;
 using ECommon.Scheduling;
-using ECommon.Socketing;
 using ENode.Commanding;
 using ENode.Configurations;
 using ENode.Domain;
@@ -11,8 +10,6 @@ using ENode.EQueue;
 using ENode.EQueue.Commanding;
 using ENode.Eventing;
 using EQueue.Broker;
-using EQueue.Clients.Consumers;
-using EQueue.Clients.Producers;
 using EQueue.Configurations;
 
 namespace Forum.Domain.Tests
@@ -24,8 +21,6 @@ namespace Forum.Domain.Tests
         private static CommandConsumer _commandConsumer;
         private static EventPublisher _eventPublisher;
         private static EventConsumer _eventConsumer;
-        private static CommandExecutedMessageSender _commandExecutedMessageSender;
-        private static DomainEventHandledMessageSender _domainEventHandledMessageSender;
         private static CommandResultProcessor _commandResultProcessor;
 
         public static ENodeConfiguration SetProviders(this ENodeConfiguration enodeConfiguration)
@@ -45,53 +40,22 @@ namespace Forum.Domain.Tests
 
             configuration.RegisterEQueueComponents();
 
-            var producerSetting = new ProducerSetting { BrokerPort = 6000 };
-            var consumerSetting = new ConsumerSetting
-            {
-                BrokerPort = 6001,
-                HeartbeatBrokerInterval = 1000,
-                UpdateTopicQueueCountInterval = 1000,
-                RebalanceInterval = 1000
-            };
-            var eventConsumerSetting = new ConsumerSetting
-            {
-                BrokerPort = 6001,
-                HeartbeatBrokerInterval = 1000,
-                UpdateTopicQueueCountInterval = 1000,
-                RebalanceInterval = 1000,
-                MessageHandleMode = MessageHandleMode.Sequential
-            };
-
-            var brokerSetting = new BrokerSetting
-            {
-                ProducerSocketSetting = new SocketSetting { Address = SocketUtils.GetLocalIPV4().ToString(), Port = 6000, Backlog = 5000 },
-                ConsumerSocketSetting = new SocketSetting { Address = SocketUtils.GetLocalIPV4().ToString(), Port = 6001, Backlog = 5000 }
-            };
-            _broker = new BrokerController(brokerSetting);
-
-            var commandExecutedMessageConsumer = new Consumer("CommandExecutedMessageConsumer", "CommandExecutedMessageConsumerGroup", consumerSetting);
-            var domainEventHandledMessageConsumer = new Consumer("DomainEventHandledMessageConsumer", "DomainEventHandledMessageConsumerGroup", consumerSetting);
-            _commandResultProcessor = new CommandResultProcessor(commandExecutedMessageConsumer, domainEventHandledMessageConsumer);
-
-            _commandService = new CommandService(_commandResultProcessor, "CommandService", producerSetting);
-            _commandExecutedMessageSender = new CommandExecutedMessageSender("CommandExecutedMessageSender", producerSetting);
-            _domainEventHandledMessageSender = new DomainEventHandledMessageSender("DomainEventHandledMessageSender", producerSetting);
-            _eventPublisher = new EventPublisher("EventPublisher", producerSetting);
+            _broker = new BrokerController();
+            _commandResultProcessor = new CommandResultProcessor();
+            _commandService = new CommandService(_commandResultProcessor);
+            _eventPublisher = new EventPublisher();
 
             configuration.SetDefault<ICommandService, CommandService>(_commandService);
             configuration.SetDefault<IEventPublisher, EventPublisher>(_eventPublisher);
 
-            _commandConsumer = new CommandConsumer(consumerSetting, _commandExecutedMessageSender);
-            _eventConsumer = new EventConsumer(eventConsumerSetting, _domainEventHandledMessageSender);
+            _commandConsumer = new CommandConsumer();
+            _eventConsumer = new EventConsumer();
 
             var commandTopicProvider = ObjectContainer.Resolve<ICommandTopicProvider>() as CommandTopicProvider;
             var eventTopicProvider = ObjectContainer.Resolve<IEventTopicProvider>() as EventTopicProvider;
 
             commandTopicProvider.GetAllCommandTopics().ToList().ForEach(topic => _commandConsumer.Subscribe(topic));
             eventTopicProvider.GetAllEventTopics().ToList().ForEach(topic => _eventConsumer.Subscribe(topic));
-
-            _commandResultProcessor.SetExecutedCommandMessageTopic("ExecutedCommandMessageTopic");
-            _commandResultProcessor.SetDomainEventHandledMessageTopic("DomainEventHandledMessageTopic");
 
             return enodeConfiguration;
         }
@@ -102,8 +66,6 @@ namespace Forum.Domain.Tests
             _commandConsumer.Start();
             _eventPublisher.Start();
             _commandService.Start();
-            _commandExecutedMessageSender.Start();
-            _domainEventHandledMessageSender.Start();
             _commandResultProcessor.Start();
 
             WaitAllConsumerLoadBalanceComplete();
@@ -121,6 +83,8 @@ namespace Forum.Domain.Tests
             var totalCommandTopicCount = commandTopicProvider.GetAllCommandTopics().Count();
             var totalEventTopicCount = eventTopicProvider.GetAllEventTopics().Count();
 
+            var logger = ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(ENodeExtensions).Name);
+            logger.Info("Waiting for all consumer load balance complete, please wait for a moment...");
             var taskId = scheduleService.ScheduleTask("WaitAllConsumerLoadBalanceComplete", () =>
             {
                 var eventConsumerAllocatedQueues = _eventConsumer.Consumer.GetCurrentQueues();
@@ -138,6 +102,7 @@ namespace Forum.Domain.Tests
 
             waitHandle.WaitOne();
             scheduleService.ShutdownTask(taskId);
+            logger.Info("All consumer load balance completed.");
         }
     }
 }

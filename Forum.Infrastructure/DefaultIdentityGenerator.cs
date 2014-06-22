@@ -1,13 +1,12 @@
 ﻿using ECommon.Components;
 using ECommon.Utilities;
-using Forum.Domain.Replies;
 
-namespace Forum.Domain.Repositories.Dapper
+namespace Forum.Infrastructure
 {
     [Component(LifeStyle.Singleton)]
-    public class ReplyRepository : IReplyRepository
+    public class DefaultIdentityGenerator : IIdentityGenerator
     {
-        public string GetNextReplyId()
+        public string GetNextIdentity()
         {
             return ObjectId.GenerateNewStringId();
         }

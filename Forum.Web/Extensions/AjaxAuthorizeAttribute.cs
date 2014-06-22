@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Forum.Web.Attributes
+namespace Forum.Web.Extensions
 {
     public class AjaxAuthorizeAttribute : AuthorizeAttribute
     {

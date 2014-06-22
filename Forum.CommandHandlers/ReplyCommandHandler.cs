@@ -1,6 +1,7 @@
 ﻿using ECommon.Components;
 using ENode.Commanding;
 using Forum.Commands.Replies;
+using Forum.Domain;
 using Forum.Domain.Replies;
 
 namespace Forum.CommandHandlers
@@ -10,9 +11,9 @@ namespace Forum.CommandHandlers
         ICommandHandler<CreateReplyCommand>,
         ICommandHandler<UpdateReplyBodyCommand>
     {
-        private readonly ReplyFactory _factory;
+        private readonly AggregateRootFactory _factory;
 
-        public ReplyCommandHandler(ReplyFactory factory)
+        public ReplyCommandHandler(AggregateRootFactory factory)
         {
             _factory = factory;
         }

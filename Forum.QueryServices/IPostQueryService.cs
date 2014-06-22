@@ -3,21 +3,23 @@ using Forum.QueryServices.DTOs;
 
 namespace Forum.QueryServices
 {
-    /// <summary>帖子查询服务
-    /// </summary>
     public interface IPostQueryService
     {
-        /// <summary>查询帖子列表
+        /// <summary>Find posts by page.
         /// </summary>
         /// <param name="option"></param>
         /// <returns></returns>
         IEnumerable<PostInfo> Find(PostQueryOption option);
-        /// <summary>查询帖子详情
+        /// <summary>Find a single post.
         /// </summary>
         /// <param name="postId"></param>
         /// <returns></returns>
         PostInfo Find(string postId);
-
-        dynamic Find(string id, string option);
+        /// <summary>Find a single post, returns the dynamic data.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="option"></param>
+        /// <returns></returns>
+        dynamic FindDynamic(string id, string option);
     }
 }

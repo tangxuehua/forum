@@ -2,11 +2,11 @@
 --Tables used by Forum.
 ----------------------------------------------------------------------------------------------
 
-CREATE TABLE [dbo].[AccountInfo](
+CREATE TABLE [dbo].[Registration](
     [AccountName] [nvarchar](64) NOT NULL,
-    [AccountId] [nvarchar](32) NOT NULL,
+    [AccountPassword] [nvarchar](32) NOT NULL,
     [Sequence] [bigint] IDENTITY(1,1) NOT NULL,
- CONSTRAINT [PK_AccountInfo] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Registration] PRIMARY KEY CLUSTERED 
 (
     [AccountName] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
@@ -89,6 +89,7 @@ CREATE TABLE [dbo].[Event] (
     [ProcessId]               NVARCHAR (36)   NULL,
     [Timestamp]               DATETIME        NOT NULL,
     [Events]                  VARBINARY (MAX) NOT NULL,
+    [Items]                   VARBINARY (MAX) NOT NULL,
     CONSTRAINT [PK_Event] PRIMARY KEY CLUSTERED ([Sequence] ASC)
 )
 GO

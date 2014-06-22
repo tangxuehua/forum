@@ -1,5 +1,6 @@
 ﻿using System;
 using ENode.Domain;
+using Forum.Infrastructure;
 
 namespace Forum.Domain.Sections
 {
@@ -8,8 +9,10 @@ namespace Forum.Domain.Sections
     {
         public string Name { get; private set; }
 
-        public Section(string id, string name) : base(id)
+        public Section(string id, string name)
+            : base(id)
         {
+            Assert.IsNotNullOrWhiteSpace("版块名称", name);
             RaiseEvent(new SectionCreatedEvent(Id, name));
         }
 

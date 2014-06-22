@@ -1,5 +1,6 @@
 ﻿using System;
 using ENode.Domain;
+using Forum.Infrastructure;
 
 namespace Forum.Domain.Posts
 {
@@ -13,7 +14,8 @@ namespace Forum.Domain.Posts
         public string SectionId { get; private set; }
         public string AuthorId { get; private set; }
 
-        public Post(string id, string subject, string body, string sectionId, string authorId) : base(id)
+        public Post(string id, string subject, string body, string sectionId, string authorId)
+            : base(id)
         {
             Assert.IsNotNullOrWhiteSpace("帖子标题", subject);
             Assert.IsNotNullOrWhiteSpace("帖子内容", body);
@@ -24,8 +26,6 @@ namespace Forum.Domain.Posts
 
         public void Update(string subject, string body)
         {
-            if (Subject == subject && Body == body) return;
-
             Assert.IsNotNullOrWhiteSpace("帖子标题", subject);
             Assert.IsNotNullOrWhiteSpace("帖子内容", body);
             RaiseEvent(new PostUpdatedEvent(Id, subject, body));

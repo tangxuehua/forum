@@ -4,7 +4,7 @@ namespace Forum.QueryServices
 {
     public interface IAccountQueryService
     {
-        /// <summary>根据账号名获取账号
+        /// <summary>Find a single account by account name.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>

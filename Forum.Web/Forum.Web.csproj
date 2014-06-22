@@ -48,33 +48,33 @@
     <Reference Include="Autofac.Integration.Mvc">
       <HintPath>..\packages\Autofac.Mvc5.3.3.0\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon, Version=1.3.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.1.3.1\lib\net40\ECommon.dll</HintPath>
+      <HintPath>..\packages\ECommon.1.3.2\lib\net40\ECommon.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon.Autofac, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon.Autofac, Version=1.3.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.Autofac.1.2.9\lib\net40\ECommon.Autofac.dll</HintPath>
+      <HintPath>..\packages\ECommon.Autofac.1.3.2\lib\net40\ECommon.Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon.JsonNet, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon.JsonNet, Version=1.3.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.JsonNet.1.2.9\lib\net40\ECommon.JsonNet.dll</HintPath>
+      <HintPath>..\packages\ECommon.JsonNet.1.3.2\lib\net40\ECommon.JsonNet.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon.Log4Net, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon.Log4Net, Version=1.3.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.Log4Net.1.2.9\lib\net40\ECommon.Log4Net.dll</HintPath>
+      <HintPath>..\packages\ECommon.Log4Net.1.3.2\lib\net40\ECommon.Log4Net.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.2.8.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ENode, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ENode.2.2.8\lib\net40\ENode.dll</HintPath>
+      <HintPath>..\packages\ENode.2.3.0\lib\net40\ENode.dll</HintPath>
     </Reference>
-    <Reference Include="ENode.EQueue, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ENode.EQueue, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ENode.EQueue.1.2.9\lib\net40\ENode.EQueue.dll</HintPath>
+      <HintPath>..\packages\ENode.EQueue.1.3.0\lib\net40\ENode.EQueue.dll</HintPath>
     </Reference>
-    <Reference Include="EQueue, Version=1.1.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="EQueue, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EQueue.1.1.9\lib\net40\EQueue.dll</HintPath>
+      <HintPath>..\packages\EQueue.1.2.0\lib\net40\EQueue.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
@@ -159,9 +159,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Attributes\AjaxAuthorizeAttribute.cs" />
-    <Compile Include="Attributes\AjaxValidateAntiForgeryTokenAttribute.cs" />
-    <Compile Include="Attributes\HandleExceptionAttribute.cs" />
+    <Compile Include="Extensions\JsonHandlerAttribute.cs" />
+    <Compile Include="Extensions\JsonNetResult.cs" />
+    <Compile Include="Extensions\AjaxAuthorizeAttribute.cs" />
+    <Compile Include="Extensions\AjaxValidateAntiForgeryTokenAttribute.cs" />
+    <Compile Include="Extensions\HandleExceptionAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PostController.cs" />
@@ -231,15 +233,14 @@
     <Content Include="Content\jquery\jquery-1.10.2.min.map" />
     <Content Include="Views\Shared\TimeoutError.cshtml" />
     <Content Include="Views\Shared\_SimpleLayout.cshtml" />
+    <Content Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Forum.Commands\Forum.Commands.csproj">
       <Project>{7787ec6c-9cf3-401c-803a-b4da2b0ca9ef}</Project>
       <Name>Forum.Commands</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Forum.Domain\Forum.Domain.csproj">
-      <Project>{5a4055c3-89bc-4149-8a6d-06ce985080c9}</Project>
-      <Name>Forum.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\Forum.Infrastructure\Forum.Infrastructure.csproj">
       <Project>{86985782-8588-48da-81ab-ffd3b855c73c}</Project>

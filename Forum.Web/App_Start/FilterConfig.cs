@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using Forum.Web.Attributes;
+using Forum.Web.Extensions;
 
 namespace Forum.Web
 {
@@ -8,6 +8,7 @@ namespace Forum.Web
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleExceptionAttribute());
+            filters.Add(new JsonHandlerAttribute());
         }
     }
 }

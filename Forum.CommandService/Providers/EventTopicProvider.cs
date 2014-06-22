@@ -16,7 +16,12 @@ namespace Forum.CommandService.Providers
 
         public EventTopicProvider()
         {
-            RegisterTopic("AccountEventTopic", typeof(AccountCreatedEvent));
+            RegisterTopic("AccountEventTopic",
+                typeof(RegistrationStartedEvent),
+                typeof(RegistrationConfirmedEvent),
+                typeof(AccountCreatedEvent),
+                typeof(RegistrationCompletedEvent),
+                typeof(RegistrationCanceledEvent));
             RegisterTopic("SectionEventTopic", typeof(SectionCreatedEvent), typeof(SectionUpdatedEvent));
             RegisterTopic("PostEventTopic", typeof(PostCreatedEvent), typeof(PostUpdatedEvent));
             RegisterTopic("ReplyEventTopic", typeof(ReplyCreatedEvent), typeof(ReplyBodyUpdatedEvent));

@@ -1,16 +1,16 @@
 ﻿using ECommon.Components;
 using ENode.Commanding;
 using Forum.Commands.Accounts;
-using Forum.Domain.Accounts;
+using Forum.Domain;
 
 namespace Forum.CommandHandlers
 {
     [Component(LifeStyle.Singleton)]
     public class AccountCommandHandler : ICommandHandler<CreateAccountCommand>
     {
-        private readonly AccountFactory _factory;
+        private readonly AggregateRootFactory _factory;
 
-        public AccountCommandHandler(AccountFactory factory)
+        public AccountCommandHandler(AggregateRootFactory factory)
         {
             _factory = factory;
         }

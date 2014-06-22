@@ -5,7 +5,6 @@ using ENode.Configurations;
 using ENode.Domain;
 using ENode.EQueue;
 using ENode.Eventing;
-using EQueue.Clients.Consumers;
 using EQueue.Configurations;
 using Forum.CommandService.Providers;
 
@@ -15,7 +14,6 @@ namespace Forum.CommandService
     {
         private static CommandConsumer _commandConsumer;
         private static EventPublisher _eventPublisher;
-        private static CommandExecutedMessageSender _commandExecutedMessageSender;
 
         public static ENodeConfiguration SetProviders(this ENodeConfiguration enodeConfiguration)
         {
@@ -34,17 +32,11 @@ namespace Forum.CommandService
 
             configuration.RegisterEQueueComponents();
 
-            _commandExecutedMessageSender = new CommandExecutedMessageSender();
             _eventPublisher = new EventPublisher();
 
             configuration.SetDefault<IEventPublisher, EventPublisher>(_eventPublisher);
 
-            var consumerSetting = new ConsumerSetting
-            {
-                PullRequestSetting = new PullRequestSetting { PullRequestTimeoutMilliseconds = 7000 }
-            };
-
-            _commandConsumer = new CommandConsumer(consumerSetting, _commandExecutedMessageSender);
+            _commandConsumer = new CommandConsumer();
 
             var commandTopicProvider = ObjectContainer.Resolve<ICommandTopicProvider>() as CommandTopicProvider;
 
@@ -56,16 +48,12 @@ namespace Forum.CommandService
         {
             _commandConsumer.Start();
             _eventPublisher.Start();
-            _commandExecutedMessageSender.Start();
-
             return enodeConfiguration;
         }
         public static ENodeConfiguration ShutdownEQueue(this ENodeConfiguration enodeConfiguration)
         {
             _commandConsumer.Shutdown();
             _eventPublisher.Shutdown();
-            _commandExecutedMessageSender.Shutdown();
-
             return enodeConfiguration;
         }
     }

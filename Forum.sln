@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Denormalizers.Dapper"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.QueryServices.Dapper", "Forum.QueryServices.Dapper\Forum.QueryServices.Dapper.csproj", "{228E2C43-CD92-4B49-817D-3FBFBB9C50C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Domain.Repositories.Dapper", "Forum.Domain.Repositories.Dapper\Forum.Domain.Repositories.Dapper.csproj", "{B229FFFE-0F61-4EC7-88A5-5E76197F476C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Domain", "Forum.Domain\Forum.Domain.csproj", "{5A4055C3-89BC-4149-8A6D-06CE985080C9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hosts", "Hosts", "{9C48549C-7E4F-4D88-AAAE-6809D604D282}"
@@ -67,10 +65,6 @@ Global
 		{228E2C43-CD92-4B49-817D-3FBFBB9C50C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{228E2C43-CD92-4B49-817D-3FBFBB9C50C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{228E2C43-CD92-4B49-817D-3FBFBB9C50C4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B229FFFE-0F61-4EC7-88A5-5E76197F476C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B229FFFE-0F61-4EC7-88A5-5E76197F476C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B229FFFE-0F61-4EC7-88A5-5E76197F476C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B229FFFE-0F61-4EC7-88A5-5E76197F476C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5A4055C3-89BC-4149-8A6D-06CE985080C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5A4055C3-89BC-4149-8A6D-06CE985080C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A4055C3-89BC-4149-8A6D-06CE985080C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
