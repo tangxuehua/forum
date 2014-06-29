@@ -4,12 +4,12 @@ using ENode.Eventing;
 namespace Forum.Domain.Accounts
 {
     [Serializable]
-    public class RegistrationStartedEvent : DomainEvent<string>
+    public class AccountConfirmedEvent : ProcessCompletedEvent<string>
     {
         public AccountInfo AccountInfo { get; private set; }
 
-        public RegistrationStartedEvent(string registrationId, AccountInfo accountInfo)
-            : base(registrationId)
+        public AccountConfirmedEvent(string accountId, AccountInfo accountInfo)
+            : base(accountId)
         {
             AccountInfo = accountInfo;
         }

@@ -36,9 +36,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ECommon.1.3.2\lib\net40\ECommon.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ENode, Version=2.3.4.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ENode.2.3.0\lib\net40\ENode.dll</HintPath>
+      <HintPath>..\packages\ENode.2.3.4\lib\net40\ENode.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,17 +46,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accounts\CancelRegistrationCommand.cs" />
-    <Compile Include="Accounts\CompleteRegistrationCommand.cs" />
-    <Compile Include="Accounts\ConfirmRegistrationCommand.cs" />
-    <Compile Include="Accounts\StartRegistrationCommand.cs" />
-    <Compile Include="Accounts\CreateAccountCommand.cs" />
+    <Compile Include="Accounts\RejectAccountCommand.cs" />
+    <Compile Include="Accounts\ConfirmAccountCommand.cs" />
+    <Compile Include="Accounts\RegisterNewAccountCommand.cs" />
     <Compile Include="Posts\UpdatePostCommand.cs" />
     <Compile Include="Posts\CreatePostCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Replies\UpdateReplyBodyCommand.cs" />
+    <Compile Include="Replies\ChangeReplyBodyCommand.cs" />
     <Compile Include="Replies\CreateReplyCommand.cs" />
-    <Compile Include="Sections\UpdateSectionCommand.cs" />
+    <Compile Include="Sections\ChangeSectionNameCommand.cs" />
     <Compile Include="Sections\CreateSectionCommand.cs" />
   </ItemGroup>
   <ItemGroup>

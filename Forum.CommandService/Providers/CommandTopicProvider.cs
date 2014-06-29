@@ -16,15 +16,10 @@ namespace Forum.CommandService.Providers
 
         public CommandTopicProvider()
         {
-            RegisterTopic("AccountCommandTopic",
-                typeof(StartRegistrationCommand),
-                typeof(ConfirmRegistrationCommand),
-                typeof(CreateAccountCommand),
-                typeof(CancelRegistrationCommand),
-                typeof(CompleteRegistrationCommand));
-            RegisterTopic("SectionCommandTopic", typeof(CreateSectionCommand), typeof(UpdateSectionCommand));
+            RegisterTopic("AccountCommandTopic", typeof(RegisterNewAccountCommand), typeof(ConfirmAccountCommand), typeof(RejectAccountCommand));
+            RegisterTopic("SectionCommandTopic", typeof(CreateSectionCommand), typeof(ChangeSectionNameCommand));
             RegisterTopic("PostCommandTopic", typeof(CreatePostCommand), typeof(UpdatePostCommand));
-            RegisterTopic("ReplyCommandTopic", typeof(CreateReplyCommand), typeof(UpdateReplyBodyCommand));
+            RegisterTopic("ReplyCommandTopic", typeof(CreateReplyCommand), typeof(ChangeReplyBodyCommand));
         }
 
         public string GetTopic(ICommand command)

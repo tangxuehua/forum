@@ -21,7 +21,7 @@ namespace Forum.EventService
         {
             InitializeComponent();
             InitializeENode();
-            _logger = ObjectContainer.Resolve<ILoggerFactory>().Create("Forum.EventService");
+            _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(GetType().FullName);
             _logger.Info("Service initialized.");
         }
 
@@ -59,7 +59,6 @@ namespace Forum.EventService
             {
                 Assembly.Load("Forum.Infrastructure"),
                 Assembly.Load("Forum.Domain"),
-                Assembly.Load("Forum.ProcessManagers"),
                 Assembly.Load("Forum.Denormalizers.Dapper")
             };
 
@@ -72,7 +71,6 @@ namespace Forum.EventService
                 .CreateENode()
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
-                .UseSqlServerEventStore(ConfigSettings.ConnectionString)
                 .UseSqlServerEventPublishInfoStore(ConfigSettings.ConnectionString)
                 .UseSqlServerEventHandleInfoStore(ConfigSettings.ConnectionString)
                 .SetProviders()

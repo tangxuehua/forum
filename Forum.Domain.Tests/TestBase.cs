@@ -31,6 +31,7 @@ namespace Forum.Domain.Tests
                 {
                     Assembly.Load("Forum.Infrastructure"),
                     Assembly.Load("Forum.Domain"),
+                    Assembly.Load("Forum.Domain.Dapper"),
                     Assembly.Load("Forum.CommandHandlers"),
                     Assembly.Load("Forum.ProcessManagers"),
                     Assembly.Load("Forum.Denormalizers.Dapper"),
@@ -48,17 +49,19 @@ namespace Forum.Domain.Tests
                     .CreateENode()
                     .RegisterENodeComponents()
                     .RegisterBusinessComponents(assemblies)
-                    .UseSqlServerEventStore(ConfigSettings.ConnectionString)
                     .SetProviders()
+                    .UseSqlServerCommandStore(ConfigSettings.ConnectionString)
+                    .UseSqlServerEventStore(ConfigSettings.ConnectionString)
                     .UseEQueue()
                     .InitializeBusinessAssemblies(assemblies)
-                    .StartRetryCommandService()
-                    .StartWaitingCommandService()
+                    .StartENode()
                     .StartEQueue();
                 _initialized = true;
             }
             _commandService = ObjectContainer.Resolve<ICommandService>();
             _memoryCache = ObjectContainer.Resolve<IMemoryCache>();
+
+            var code = ObjectContainer.Resolve<ICommandTypeCodeProvider>().GetTypeCode(typeof(Forum.Commands.Accounts.RegisterNewAccountCommand));
         }
     }
 }

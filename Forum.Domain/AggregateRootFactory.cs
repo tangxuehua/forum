@@ -20,10 +20,6 @@ namespace Forum.Domain
             _repository = repository;
         }
 
-        public Registration CreateRegistration(string accountName, string accountPassword)
-        {
-            return new Registration(_identityGenerator.GetNextIdentity(), new AccountInfo(accountName, accountPassword));
-        }
         public Account CreateAccount(string name, string password)
         {
             return new Account(_identityGenerator.GetNextIdentity(), new AccountInfo(name, password));

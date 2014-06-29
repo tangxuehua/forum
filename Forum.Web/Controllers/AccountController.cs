@@ -38,18 +38,18 @@ namespace Forum.Web.Controllers
         [AsyncTimeout(5000)]
         public async Task<ActionResult> Register(RegisterModel model, CancellationToken token)
         {
-            var result = await _commandService.StartProcess(new StartRegistrationCommand(model.AccountName, model.Password));
+            var result = await _commandService.StartProcess(new RegisterNewAccountCommand(model.AccountName, model.Password));
 
             if (result.Status == ENode.Commanding.ProcessStatus.Failed)
             {
-                if (result.ErrorCode == ErrorCodes.RegistrationDuplicateAccount)
+                if (result.ErrorCode == ErrorCodes.DuplicateAccount)
                 {
                     return Json(new { success = false, errorMsg = "该用户已被注册，请用其他账号注册。" });
                 }
                 return Json(new { success = false, errorMsg = result.ErrorMessage });
             }
 
-            _authenticationService.SignIn(result.Items["AccountId"], model.AccountName, false);
+            _authenticationService.SignIn(result.CompleteProcessAggregateRootId, model.AccountName, false);
             return Json(new { success = true });
         }
 

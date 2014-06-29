@@ -65,7 +65,7 @@ namespace Forum.Domain.Tests
 
             var body2 = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new UpdateReplyBodyCommand(id, body2)).Wait();
+            _commandService.Execute(new ChangeReplyBodyCommand(id, body2)).Wait();
 
             var reply = _memoryCache.Get<Reply>(id);
 

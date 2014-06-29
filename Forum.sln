@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.EventService", "Forum
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.ProcessManagers", "Forum.ProcessManagers\Forum.ProcessManagers.csproj", "{BDF262AF-7287-492E-AEFF-FD8612E88834}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Domain.Dapper", "Forum.Domain.Dapper\Forum.Domain.Dapper.csproj", "{6AD347F8-D02E-4AAA-A72B-C4AD93971986}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +91,10 @@ Global
 		{BDF262AF-7287-492E-AEFF-FD8612E88834}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDF262AF-7287-492E-AEFF-FD8612E88834}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDF262AF-7287-492E-AEFF-FD8612E88834}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AD347F8-D02E-4AAA-A72B-C4AD93971986}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AD347F8-D02E-4AAA-A72B-C4AD93971986}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AD347F8-D02E-4AAA-A72B-C4AD93971986}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AD347F8-D02E-4AAA-A72B-C4AD93971986}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

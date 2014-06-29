@@ -21,7 +21,7 @@ namespace Forum.BrokerService
         {
             InitializeComponent();
             InitializeEQueue();
-            _logger = ObjectContainer.Resolve<ILoggerFactory>().Create("Forum.BrokerService");
+            _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(GetType().FullName);
             _logger.Info("Service initialized.");
         }
 

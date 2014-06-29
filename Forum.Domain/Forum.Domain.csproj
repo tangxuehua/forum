@@ -36,9 +36,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ECommon.1.3.2\lib\net40\ECommon.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ENode, Version=2.3.4.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ENode.2.3.0\lib\net40\ENode.dll</HintPath>
+      <HintPath>..\packages\ENode.2.3.4\lib\net40\ENode.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,24 +46,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\ValidateAccountService.cs" />
+    <Compile Include="Accounts\IAccountIndexStore.cs" />
     <Compile Include="AggregateRootFactory.cs" />
     <Compile Include="Accounts\Account.cs" />
-    <Compile Include="Accounts\RegistrationCanceledEvent.cs" />
-    <Compile Include="Accounts\RegistrationCompletedEvent.cs" />
-    <Compile Include="Accounts\RegistrationStartedEvent.cs" />
-    <Compile Include="Accounts\RegistrationConfirmedEvent.cs" />
-    <Compile Include="Accounts\AccountCreatedEvent.cs" />
-    <Compile Include="Accounts\Registration.cs" />
+    <Compile Include="Accounts\AccountRejectedEvent.cs" />
+    <Compile Include="Accounts\AccountConfirmedEvent.cs" />
+    <Compile Include="Accounts\NewAccountRegisteredEvent.cs" />
     <Compile Include="Posts\Post.cs" />
     <Compile Include="Posts\PostCreatedEvent.cs" />
     <Compile Include="Posts\PostUpdatedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Replies\Reply.cs" />
-    <Compile Include="Replies\ReplyBodyUpdatedEvent.cs" />
+    <Compile Include="Replies\ReplyBodyChangedEvent.cs" />
     <Compile Include="Replies\ReplyCreatedEvent.cs" />
     <Compile Include="Sections\Section.cs" />
     <Compile Include="Sections\SectionCreatedEvent.cs" />
-    <Compile Include="Sections\SectionUpdatedEvent.cs" />
+    <Compile Include="Sections\SectionNameChangedEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Forum.Infrastructure\Forum.Infrastructure.csproj">

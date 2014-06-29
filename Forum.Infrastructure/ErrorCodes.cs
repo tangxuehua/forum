@@ -2,6 +2,6 @@
 {
     public class ErrorCodes
     {
-        public const int RegistrationDuplicateAccount = 1001;
+        public const int DuplicateAccount = 1001;
     }
 }

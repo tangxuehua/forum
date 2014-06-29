@@ -2,8 +2,8 @@
 {
     public class Constants
     {
-        public const string RegistrationTable = "Registration";
-        public const string RegistrationTablePrimaryKeyName = "PK_Registration";
+        public const string AccountNameIndexTable = "AccountNameIndex";
+        public const string AccountNameIndexTablePrimaryKey = "PK_AccountNameIndex";
         public const string AccountTable = "Account";
         public const string SectionTable = "Section";
         public const string PostTable = "Post";

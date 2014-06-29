@@ -4,11 +4,11 @@ using ENode.Commanding;
 namespace Forum.Commands.Sections
 {
     [Serializable]
-    public class UpdateSectionCommand : Command<string>
+    public class ChangeSectionNameCommand : Command<string>
     {
         public string Name { get; set; }
 
-        public UpdateSectionCommand(string id, string name) : base(id)
+        public ChangeSectionNameCommand(string id, string name) : base(id)
         {
             Name = name;
         }

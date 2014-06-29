@@ -2,22 +2,21 @@
 --Tables used by Forum.
 ----------------------------------------------------------------------------------------------
 
-CREATE TABLE [dbo].[Registration](
-    [AccountName] [nvarchar](64) NOT NULL,
-    [AccountPassword] [nvarchar](32) NOT NULL,
+CREATE TABLE [dbo].[AccountNameIndex](
+    [AccountName] [nvarchar](128) NOT NULL,
+    [AccountId] [nvarchar](32) NOT NULL,
     [Sequence] [bigint] IDENTITY(1,1) NOT NULL,
- CONSTRAINT [PK_Registration] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_AccountNameIndex] PRIMARY KEY CLUSTERED 
 (
     [AccountName] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-
 CREATE TABLE [dbo].[Account](
     [Id] [nvarchar](32) NOT NULL,
     [Sequence] [bigint] IDENTITY(1,1) NOT NULL,
     [Name] [nvarchar](128) NOT NULL,
-    [Password] [nvarchar](128) NOT NULL,
+    [Password] [nvarchar](128) NULL,
     [CreatedOn] [datetime] NOT NULL,
     [UpdatedOn] [datetime] NOT NULL,
     [Version] [bigint] NOT NULL,
@@ -80,43 +79,43 @@ GO
 --Tables used by ENode.
 ----------------------------------------------------------------------------------------------
 
-CREATE TABLE [dbo].[Event] (
+CREATE TABLE [dbo].[Command] (
     [Sequence]                BIGINT IDENTITY (1, 1) NOT NULL,
-    [AggregateRootTypeCode]   INT             NOT NULL,
-    [AggregateRootId]         NVARCHAR (36)   NOT NULL,
-    [Version]                 INT             NOT NULL,
-    [CommitId]                NVARCHAR (64)   NOT NULL,
-    [ProcessId]               NVARCHAR (36)   NULL,
-    [Timestamp]               DATETIME        NOT NULL,
-    [Events]                  VARBINARY (MAX) NOT NULL,
-    [Items]                   VARBINARY (MAX) NOT NULL,
-    CONSTRAINT [PK_Event] PRIMARY KEY CLUSTERED ([Sequence] ASC)
+    [CommandId]               NVARCHAR (64)          NOT NULL,
+    [CommandTypeCode]         INT                    NOT NULL,
+    [AggregateRootTypeCode]   INT                    NOT NULL,
+    [AggregateRootId]         NVARCHAR (32)          NOT NULL,
+    [ProcessId]               NVARCHAR (32)          NULL,
+    [Timestamp]               DATETIME               NOT NULL,
+    [Payload]                 VARBINARY (MAX)        NOT NULL,
+    [Items]                   VARBINARY (MAX)        NOT NULL,
+    CONSTRAINT [PK_Command] PRIMARY KEY CLUSTERED ([CommandId] ASC)
 )
 GO
-CREATE UNIQUE INDEX [IX_Event_VersionIndex] ON [dbo].[Event] ([AggregateRootId], [Version])
+CREATE TABLE [dbo].[Event] (
+    [Sequence]                BIGINT IDENTITY (1, 1) NOT NULL,
+    [AggregateRootTypeCode]   INT                    NOT NULL,
+    [AggregateRootId]         NVARCHAR (32)          NOT NULL,
+    [Version]                 INT                    NOT NULL,
+    [CommitId]                NVARCHAR (64)          NOT NULL,
+    [ProcessId]               NVARCHAR (32)          NULL,
+    [Timestamp]               DATETIME               NOT NULL,
+    [Events]                  VARBINARY (MAX)        NOT NULL,
+    [Items]                   VARBINARY (MAX)        NOT NULL,
+    CONSTRAINT [PK_Event] PRIMARY KEY CLUSTERED ([AggregateRootId] ASC, [Version] ASC)
+)
 GO
-CREATE UNIQUE INDEX [IX_Event_CommitIndex]  ON [dbo].[Event] ([AggregateRootId], [CommitId])
+CREATE TABLE [dbo].[EventPublishInfo] (
+    [AggregateRootId]  NVARCHAR (36) NOT NULL,
+    [PublishedVersion] INT           NOT NULL,
+    CONSTRAINT [PK_EventPublishInfo] PRIMARY KEY CLUSTERED ([AggregateRootId] ASC)
+)
 GO
-
-CREATE TABLE [dbo].[EventPublishInfo](
-    [AggregateRootId] [nvarchar](36) NOT NULL,
-    [PublishedVersion] [int] NOT NULL,
- CONSTRAINT [PK_EventPublishInfo] PRIMARY KEY CLUSTERED 
-(
-    [AggregateRootId] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-
-CREATE TABLE [dbo].[EventHandleInfo](
-    [EventId] [nvarchar](36) NOT NULL,
-    [EventHandlerTypeCode] [int] NOT NULL,
- CONSTRAINT [PK_EventHandleInfo] PRIMARY KEY CLUSTERED 
-(
-    [EventId] ASC,
-    [EventHandlerTypeCode] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
+CREATE TABLE [dbo].[EventHandleInfo] (
+    [EventId]              NVARCHAR (36)  NOT NULL,
+    [EventHandlerTypeCode] INT NOT NULL,
+    CONSTRAINT [PK_EventHandleInfo] PRIMARY KEY CLUSTERED ([EventId] ASC, [EventHandlerTypeCode] ASC)
+)
 GO
 
 ----------------------------------------------------------------------------------------------

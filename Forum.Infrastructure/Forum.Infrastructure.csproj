@@ -46,11 +46,8 @@
     <Compile Include="DefaultIdentityGenerator.cs" />
     <Compile Include="Assert.cs" />
     <Compile Include="ConfigSettings.cs" />
-    <Compile Include="Exceptions\DuplicateAccountNameException.cs" />
     <Compile Include="ErrorCodes.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Exceptions\InvalidArgumentException.cs" />
-    <Compile Include="Exceptions\InvalidRegistrationStatusException.cs" />
     <Compile Include="IIdentityGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

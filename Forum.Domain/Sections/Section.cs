@@ -16,9 +16,9 @@ namespace Forum.Domain.Sections
             RaiseEvent(new SectionCreatedEvent(Id, name));
         }
 
-        public void Update(string name)
+        public void ChangeName(string name)
         {
-            RaiseEvent(new SectionUpdatedEvent(Id, name));
+            RaiseEvent(new SectionNameChangedEvent(Id, name));
         }
 
         private void Handle(SectionCreatedEvent evnt)
@@ -26,7 +26,7 @@ namespace Forum.Domain.Sections
             Id = evnt.AggregateRootId;
             Name = evnt.Name;
         }
-        private void Handle(SectionUpdatedEvent evnt)
+        private void Handle(SectionNameChangedEvent evnt)
         {
             Name = evnt.Name;
         }

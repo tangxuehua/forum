@@ -11,21 +11,18 @@ namespace Forum.Domain.Tests
     {
         public CommandTypeCodeProvider()
         {
-            RegisterType<StartRegistrationCommand>(100);
-            RegisterType<ConfirmRegistrationCommand>(101);
-            RegisterType<CancelRegistrationCommand>(102);
-            RegisterType<CompleteRegistrationCommand>(103);
+            RegisterType<RegisterNewAccountCommand>(100);
+            RegisterType<ConfirmAccountCommand>(101);
+            RegisterType<RejectAccountCommand>(102);
 
-            RegisterType<CreateAccountCommand>(200);
+            RegisterType<CreateSectionCommand>(200);
+            RegisterType<ChangeSectionNameCommand>(201);
 
-            RegisterType<CreateSectionCommand>(300);
-            RegisterType<UpdateSectionCommand>(301);
+            RegisterType<CreatePostCommand>(300);
+            RegisterType<UpdatePostCommand>(301);
 
-            RegisterType<CreatePostCommand>(400);
-            RegisterType<UpdatePostCommand>(401);
-
-            RegisterType<CreateReplyCommand>(500);
-            RegisterType<UpdateReplyBodyCommand>(501);
+            RegisterType<CreateReplyCommand>(400);
+            RegisterType<ChangeReplyBodyCommand>(401);
         }
     }
 }

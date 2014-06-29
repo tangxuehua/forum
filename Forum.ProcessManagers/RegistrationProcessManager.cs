@@ -1,75 +1,34 @@
-﻿using System.Data.SqlClient;
-using ECommon.Components;
-using ECommon.Dapper;
+﻿using ECommon.Components;
 using ENode.Eventing;
-using ENode.Infrastructure.Exceptions;
 using Forum.Commands.Accounts;
 using Forum.Domain.Accounts;
 using Forum.Infrastructure;
 
 namespace Forum.ProcessManagers
 {
+    /// <summary>注册流程管理器，负责实现注册的流程
+    /// </summary>
     [Component(LifeStyle.Singleton)]
-    public class RegistrationProcessManager :
-        IEventHandler<RegistrationStartedEvent>,
-        IEventHandler<RegistrationConfirmedEvent>,
-        IEventHandler<AccountCreatedEvent>
+    public class RegistrationProcessManager : IEventHandler<NewAccountRegisteredEvent>
     {
-        public void Handle(IEventContext context, RegistrationStartedEvent evnt)
+        private ValidateAccountService _validateAccountService;
+
+        public RegistrationProcessManager(ValidateAccountService validateAccountService)
         {
-            try
-            {
-                AddRegistration(evnt.AccountInfo);
-                context.AddCommand(new ConfirmRegistrationCommand(context.ProcessId, evnt.AggregateRootId));
-            }
-            catch (DuplicateAccountNameException)
-            {
-                context.AddCommand(new CancelRegistrationCommand(context.ProcessId, evnt.AggregateRootId, ErrorCodes.RegistrationDuplicateAccount));
-            }
-        }
-        public void Handle(IEventContext context, RegistrationConfirmedEvent evnt)
-        {
-            var registration = context.Get<Registration>(evnt.AggregateRootId);
-            var command = new CreateAccountCommand(context.ProcessId, registration.AccountInfo.Name, registration.AccountInfo.Password);
-            command.Items["RegistrationId"] = evnt.AggregateRootId;
-            context.AddCommand(command);
-        }
-        public void Handle(IEventContext context, AccountCreatedEvent evnt)
-        {
-            var registrationId = context.Items["RegistrationId"];
-            var command = new CompleteRegistrationCommand(context.ProcessId, registrationId);
-            command.Items["AccountId"] = evnt.AggregateRootId;
-            context.AddCommand(command);
+            _validateAccountService = validateAccountService;
         }
 
-        private void AddRegistration(AccountInfo accountInfo)
+        public void Handle(IEventContext context, NewAccountRegisteredEvent evnt)
         {
-            using (var connection = GetConnection())
+            var result = _validateAccountService.ValidateAccountNameUniqueness(evnt.AccountInfo.Name, evnt.AggregateRootId);
+            if (result == AccountNameUniquenessValidateResult.Success)
             {
-                try
-                {
-                    connection.Insert(new
-                    {
-                        AccountName = accountInfo.Name,
-                        AccountPassword = accountInfo.Password
-                    }, Constants.RegistrationTable);
-                }
-                catch (SqlException ex)
-                {
-                    if (ex.Number == 2627)
-                    {
-                        if (ex.Message.Contains(Constants.RegistrationTablePrimaryKeyName))
-                        {
-                            throw new DuplicateAccountNameException(accountInfo.Name, ex);
-                        }
-                    }
-                    throw;
-                }
+                context.AddCommand(new ConfirmAccountCommand(evnt.AggregateRootId));
             }
-        }
-        private SqlConnection GetConnection()
-        {
-            return new SqlConnection(ConfigSettings.ConnectionString);
+            else if (result == AccountNameUniquenessValidateResult.DuplicateAccountName)
+            {
+                context.AddCommand(new RejectAccountCommand(evnt.AggregateRootId, ErrorCodes.DuplicateAccount));
+            }
         }
     }
 }

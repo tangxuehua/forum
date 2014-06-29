@@ -21,7 +21,7 @@ namespace Forum.CommandService
         {
             InitializeComponent();
             InitializeENode();
-            _logger = ObjectContainer.Resolve<ILoggerFactory>().Create("Forum.CommandService");
+            _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(GetType().FullName);
             _logger.Info("Service initialized.");
         }
 
@@ -29,10 +29,7 @@ namespace Forum.CommandService
         {
             try
             {
-                _configuration
-                    .StartRetryCommandService()
-                    .StartWaitingCommandService()
-                    .StartEQueue();
+                _configuration.StartENode().StartEQueue();
             }
             catch (Exception ex)
             {
@@ -62,7 +59,9 @@ namespace Forum.CommandService
             {
                 Assembly.Load("Forum.Infrastructure"),
                 Assembly.Load("Forum.Domain"),
-                Assembly.Load("Forum.CommandHandlers")
+                Assembly.Load("Forum.Domain.Dapper"),
+                Assembly.Load("Forum.CommandHandlers"),
+                Assembly.Load("Forum.ProcessManagers")
             };
 
             _configuration = Configuration
@@ -74,8 +73,11 @@ namespace Forum.CommandService
                 .CreateENode()
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
-                .UseSqlServerEventStore(ConfigSettings.ConnectionString)
                 .SetProviders()
+                .UseSqlServerCommandStore(ConfigSettings.ConnectionString)
+                .UseSqlServerEventStore(ConfigSettings.ConnectionString)
+                .UseSqlServerEventPublishInfoStore(ConfigSettings.ConnectionString)
+                .UseSqlServerEventHandleInfoStore(ConfigSettings.ConnectionString)
                 .UseEQueue()
                 .InitializeBusinessAssemblies(assemblies);
         }

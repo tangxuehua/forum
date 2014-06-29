@@ -1,7 +1,6 @@
 ﻿using System;
 using ENode.Domain;
 using Forum.Infrastructure;
-using Forum.Infrastructure.Exceptions;
 
 namespace Forum.Domain.Replies
 {
@@ -23,15 +22,15 @@ namespace Forum.Domain.Replies
             Assert.IsNotNullOrWhiteSpace("回复内容", body);
             if (parent != null && id == parent.Id)
             {
-                throw new InvalidArgumentException("回复的parentId不能是当前回复的Id:{0}", id);
+                throw new ArgumentException(string.Format("回复的parentId不能是当前回复的Id:{0}", id));
             }
             RaiseEvent(new ReplyCreatedEvent(Id, postId, parent == null ? null : parent.Id, authorId, body, DateTime.Now));
         }
 
-        public void UpdateBody(string body)
+        public void ChangeBody(string body)
         {
             Assert.IsNotNullOrWhiteSpace("回复内容", body);
-            RaiseEvent(new ReplyBodyUpdatedEvent(Id, body));
+            RaiseEvent(new ReplyBodyChangedEvent(Id, body));
         }
 
         private void Handle(ReplyCreatedEvent evnt)
@@ -42,7 +41,7 @@ namespace Forum.Domain.Replies
             Body = evnt.Body;
             AuthorId = evnt.AuthorId;
         }
-        private void Handle(ReplyBodyUpdatedEvent evnt)
+        private void Handle(ReplyBodyChangedEvent evnt)
         {
             Body = evnt.Body;
         }

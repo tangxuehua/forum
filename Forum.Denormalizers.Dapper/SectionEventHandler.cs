@@ -9,7 +9,7 @@ namespace Forum.Denormalizers.Dapper
     [Component(LifeStyle.Singleton)]
     public class SectionEventHandler : BaseEventHandler,
         IEventHandler<SectionCreatedEvent>,
-        IEventHandler<SectionUpdatedEvent>
+        IEventHandler<SectionNameChangedEvent>
     {
         public void Handle(IEventContext context, SectionCreatedEvent evnt)
         {
@@ -26,7 +26,7 @@ namespace Forum.Denormalizers.Dapper
                     }, Constants.SectionTable);
             }
         }
-        public void Handle(IEventContext context, SectionUpdatedEvent evnt)
+        public void Handle(IEventContext context, SectionNameChangedEvent evnt)
         {
             TryUpdateRecord(connection =>
             {

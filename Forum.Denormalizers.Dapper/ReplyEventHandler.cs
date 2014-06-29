@@ -9,7 +9,7 @@ namespace Forum.Denormalizers.Dapper
     [Component(LifeStyle.Singleton)]
     public class ReplyEventHandler : BaseEventHandler,
         IEventHandler<ReplyCreatedEvent>,
-        IEventHandler<ReplyBodyUpdatedEvent>
+        IEventHandler<ReplyBodyChangedEvent>
     {
         public void Handle(IEventContext context, ReplyCreatedEvent evnt)
         {
@@ -30,7 +30,7 @@ namespace Forum.Denormalizers.Dapper
                     Constants.ReplyTable);
             }
         }
-        public void Handle(IEventContext context, ReplyBodyUpdatedEvent evnt)
+        public void Handle(IEventContext context, ReplyBodyChangedEvent evnt)
         {
             TryUpdateRecord(connection =>
             {

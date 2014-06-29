@@ -16,15 +16,10 @@ namespace Forum.EventService.Providers
 
         public EventTopicProvider()
         {
-            RegisterTopic("AccountEventTopic",
-                typeof(RegistrationStartedEvent),
-                typeof(RegistrationConfirmedEvent),
-                typeof(AccountCreatedEvent),
-                typeof(RegistrationCompletedEvent),
-                typeof(RegistrationCanceledEvent));
-            RegisterTopic("SectionEventTopic", typeof(SectionCreatedEvent), typeof(SectionUpdatedEvent));
+            RegisterTopic("AccountEventTopic", typeof(NewAccountRegisteredEvent), typeof(AccountConfirmedEvent), typeof(AccountRejectedEvent));
+            RegisterTopic("SectionEventTopic", typeof(SectionCreatedEvent), typeof(SectionNameChangedEvent));
             RegisterTopic("PostEventTopic", typeof(PostCreatedEvent), typeof(PostUpdatedEvent));
-            RegisterTopic("ReplyEventTopic", typeof(ReplyCreatedEvent), typeof(ReplyBodyUpdatedEvent));
+            RegisterTopic("ReplyEventTopic", typeof(ReplyCreatedEvent), typeof(ReplyBodyChangedEvent));
         }
 
         public string GetTopic(EventStream eventStream)

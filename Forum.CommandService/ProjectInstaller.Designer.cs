@@ -39,7 +39,7 @@
             // 
             // serviceInstaller1
             // 
-            this.serviceInstaller1.Description = "Service to process the forum commands.";
+            this.serviceInstaller1.Description = "Service to process forum commands.";
             this.serviceInstaller1.DisplayName = "Forum.CommandService";
             this.serviceInstaller1.ServiceName = "Forum.CommandService";
             // 

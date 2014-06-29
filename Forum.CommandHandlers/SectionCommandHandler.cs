@@ -9,7 +9,7 @@ namespace Forum.CommandHandlers
     [Component(LifeStyle.Singleton)]
     public class SectionCommandHandler :
         ICommandHandler<CreateSectionCommand>,
-        ICommandHandler<UpdateSectionCommand>
+        ICommandHandler<ChangeSectionNameCommand>
     {
         private readonly AggregateRootFactory _factory;
 
@@ -22,9 +22,9 @@ namespace Forum.CommandHandlers
         {
             context.Add(_factory.CreateSection(command.Name));
         }
-        public void Handle(ICommandContext context, UpdateSectionCommand command)
+        public void Handle(ICommandContext context, ChangeSectionNameCommand command)
         {
-            context.Get<Section>(command.AggregateRootId).Update(command.Name);
+            context.Get<Section>(command.AggregateRootId).ChangeName(command.Name);
         }
     }
 }

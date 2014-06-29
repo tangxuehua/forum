@@ -11,21 +11,9 @@ namespace Forum.CommandService.Providers
     {
         public EventTypeCodeProvider()
         {
-            RegisterType<RegistrationStartedEvent>(100);
-            RegisterType<RegistrationConfirmedEvent>(101);
-            RegisterType<RegistrationCompletedEvent>(102);
-            RegisterType<RegistrationCanceledEvent>(103);
-
-            RegisterType<AccountCreatedEvent>(200);
-
-            RegisterType<SectionCreatedEvent>(300);
-            RegisterType<SectionUpdatedEvent>(301);
-
-            RegisterType<PostCreatedEvent>(400);
-            RegisterType<PostUpdatedEvent>(401);
-
-            RegisterType<ReplyCreatedEvent>(500);
-            RegisterType<ReplyBodyUpdatedEvent>(501);
+            RegisterType<NewAccountRegisteredEvent>(100);
+            RegisterType<AccountConfirmedEvent>(101);
+            RegisterType<AccountRejectedEvent>(102);
         }
     }
 }

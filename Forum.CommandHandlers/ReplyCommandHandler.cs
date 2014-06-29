@@ -9,7 +9,7 @@ namespace Forum.CommandHandlers
     [Component(LifeStyle.Singleton)]
     public class ReplyCommandHandler :
         ICommandHandler<CreateReplyCommand>,
-        ICommandHandler<UpdateReplyBodyCommand>
+        ICommandHandler<ChangeReplyBodyCommand>
     {
         private readonly AggregateRootFactory _factory;
 
@@ -22,9 +22,9 @@ namespace Forum.CommandHandlers
         {
             context.Add(_factory.CreateReply(command.PostId, command.ParentId, command.AuthorId, command.Body));
         }
-        public void Handle(ICommandContext context, UpdateReplyBodyCommand command)
+        public void Handle(ICommandContext context, ChangeReplyBodyCommand command)
         {
-            context.Get<Reply>(command.AggregateRootId).UpdateBody(command.Body);
+            context.Get<Reply>(command.AggregateRootId).ChangeBody(command.Body);
         }
     }
 }

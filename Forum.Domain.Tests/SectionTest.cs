@@ -35,7 +35,7 @@ namespace Forum.Domain.Tests
 
             var name2 = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new UpdateSectionCommand(result.AggregateRootId, name2)).Wait();
+            _commandService.Execute(new ChangeSectionNameCommand(result.AggregateRootId, name2)).Wait();
 
             var section = _memoryCache.Get<Section>(result.AggregateRootId);
 
