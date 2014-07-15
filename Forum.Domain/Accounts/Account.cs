@@ -4,11 +4,12 @@ using Forum.Infrastructure;
 
 namespace Forum.Domain.Accounts
 {
+    /// <summary>账号聚合根
+    /// </summary>
     [Serializable]
     public class Account : AggregateRoot<string>
     {
         public AccountInfo AccountInfo { get; private set; }
-        public AccountStatus Status { get; private set; }
 
         public Account(string id, AccountInfo accountInfo)
             : base(id)
@@ -19,34 +20,10 @@ namespace Forum.Domain.Accounts
             RaiseEvent(new NewAccountRegisteredEvent(Id, accountInfo));
         }
 
-        public void Confirm()
-        {
-            if (Status == AccountStatus.NewRegistered)
-            {
-                RaiseEvent(new AccountConfirmedEvent(Id, AccountInfo));
-            }
-        }
-        public void Reject(int reasonCode)
-        {
-            if (Status == AccountStatus.NewRegistered)
-            {
-                RaiseEvent(new AccountRejectedEvent(Id, reasonCode));
-            }
-        }
-
         private void Handle(NewAccountRegisteredEvent evnt)
         {
             Id = evnt.AggregateRootId;
             AccountInfo = evnt.AccountInfo;
-            Status = AccountStatus.NewRegistered;
-        }
-        private void Handle(AccountConfirmedEvent evnt)
-        {
-            Status = AccountStatus.Confirmed;
-        }
-        private void Handle(AccountRejectedEvent evnt)
-        {
-            Status = AccountStatus.Rejected;
         }
     }
 
@@ -63,13 +40,5 @@ namespace Forum.Domain.Accounts
             Name = name;
             Password = password;
         }
-    }
-    /// <summary>账号状态
-    /// </summary>
-    public enum AccountStatus
-    {
-        NewRegistered = 1,
-        Confirmed,
-        Rejected,
     }
 }

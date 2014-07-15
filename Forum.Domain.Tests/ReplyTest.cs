@@ -38,11 +38,11 @@ namespace Forum.Domain.Tests
             var authorId = ObjectId.GenerateNewStringId();
             var body = ObjectId.GenerateNewStringId();
 
-            var id1 = _commandService.Execute(new CreateReplyCommand(postId, null, body, authorId)).WaitResult<CommandResult>(10000).AggregateRootId;
+            var id1 = _commandService.Execute(new CreateReplyCommand(postId, null, body, authorId), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000).AggregateRootId;
 
             var body2 = ObjectId.GenerateNewStringId();
 
-            var id2 = _commandService.Execute(new CreateReplyCommand(postId, id1, body2, authorId)).WaitResult<CommandResult>(10000).AggregateRootId;
+            var id2 = _commandService.Execute(new CreateReplyCommand(postId, id1, body2, authorId), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000).AggregateRootId;
 
             var reply = _memoryCache.Get<Reply>(id2);
 
@@ -61,11 +61,11 @@ namespace Forum.Domain.Tests
             var authorId = ObjectId.GenerateNewStringId();
             var body = ObjectId.GenerateNewStringId();
 
-            var id = _commandService.Execute(new CreateReplyCommand(postId, null, body, authorId)).WaitResult<CommandResult>(10000).AggregateRootId;
+            var id = _commandService.Execute(new CreateReplyCommand(postId, null, body, authorId), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000).AggregateRootId;
 
             var body2 = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new ChangeReplyBodyCommand(id, body2)).Wait();
+            _commandService.Execute(new ChangeReplyBodyCommand(id, body2), CommandReturnType.EventHandled).Wait();
 
             var reply = _memoryCache.Get<Reply>(id);
 

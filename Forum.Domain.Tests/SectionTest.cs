@@ -15,7 +15,7 @@ namespace Forum.Domain.Tests
         {
             var name = ObjectId.GenerateNewStringId();
 
-            var result = _commandService.Execute(new CreateSectionCommand(name)).WaitResult<CommandResult>(10000);
+            var result = _commandService.Execute(new CreateSectionCommand(name), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000);
 
             Assert.AreEqual(CommandStatus.Success, result.Status);
             Assert.IsNotNull(result.AggregateRootId);
@@ -31,11 +31,11 @@ namespace Forum.Domain.Tests
         {
             var name = ObjectId.GenerateNewStringId();
 
-            var result = _commandService.Execute(new CreateSectionCommand(name)).WaitResult<CommandResult>(10000);
+            var result = _commandService.Execute(new CreateSectionCommand(name), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000);
 
             var name2 = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new ChangeSectionNameCommand(result.AggregateRootId, name2)).Wait();
+            _commandService.Execute(new ChangeSectionNameCommand(result.AggregateRootId, name2), CommandReturnType.EventHandled).Wait();
 
             var section = _memoryCache.Get<Section>(result.AggregateRootId);
 

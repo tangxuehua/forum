@@ -14,7 +14,7 @@ namespace Forum.Web.Extensions
         public static ENodeConfiguration SetProviders(this ENodeConfiguration enodeConfiguration)
         {
             var configuration = enodeConfiguration.GetCommonConfiguration();
-            configuration.SetDefault<ICommandTopicProvider, CommandTopicProvider>();
+            configuration.SetDefault<ITopicProvider<ICommand>, CommandTopicProvider>();
             configuration.SetDefault<ICommandTypeCodeProvider, CommandTypeCodeProvider>();
             return enodeConfiguration;
         }

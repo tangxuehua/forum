@@ -12,8 +12,6 @@ namespace Forum.Domain.Tests
         public EventTypeCodeProvider()
         {
             RegisterType<NewAccountRegisteredEvent>(100);
-            RegisterType<AccountConfirmedEvent>(101);
-            RegisterType<AccountRejectedEvent>(102);
 
             RegisterType<SectionCreatedEvent>(200);
             RegisterType<SectionNameChangedEvent>(201);

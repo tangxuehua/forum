@@ -61,6 +61,10 @@
       <Project>{5a4055c3-89bc-4149-8a6d-06ce985080c9}</Project>
       <Name>Forum.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Forum.Infrastructure\Forum.Infrastructure.csproj">
+      <Project>{86985782-8588-48da-81ab-ffd3b855c73c}</Project>
+      <Name>Forum.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -46,8 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accounts\RejectAccountCommand.cs" />
-    <Compile Include="Accounts\ConfirmAccountCommand.cs" />
     <Compile Include="Accounts\RegisterNewAccountCommand.cs" />
     <Compile Include="Posts\UpdatePostCommand.cs" />
     <Compile Include="Posts\CreatePostCommand.cs" />

@@ -1,10 +1,11 @@
 ﻿namespace Forum.Domain.Accounts
 {
-    /// <summary>用于存储账号的唯一索引信息，记录了账号的名称和账号ID，账号名称有唯一性约束
+    /// <summary>对账号索引信息的抽象接口，用于存储账号的唯一索引信息，实现账号名称的唯一性约束
     /// </summary>
     public interface IAccountIndexStore
     {
-        AccountNameUniquenessValidateResult AddAccountNameIndex(string accountName, string accountId);
-        string GetAccountId(string accountName);
+        AccountIndex FindByAccountId(string accountId);
+        AccountIndex FindByAccountName(string accountName);
+        void Add(AccountIndex index);
     }
 }

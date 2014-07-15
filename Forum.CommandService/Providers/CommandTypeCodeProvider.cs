@@ -12,8 +12,6 @@ namespace Forum.CommandService.Providers
         public CommandTypeCodeProvider()
         {
             RegisterType<RegisterNewAccountCommand>(100);
-            RegisterType<ConfirmAccountCommand>(101);
-            RegisterType<RejectAccountCommand>(102);
 
             RegisterType<CreateSectionCommand>(200);
             RegisterType<ChangeSectionNameCommand>(201);

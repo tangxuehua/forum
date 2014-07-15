@@ -10,34 +10,42 @@ namespace Forum.Domain.Dapper
     [Component(LifeStyle.Singleton)]
     public class AccountIndexStore : IAccountIndexStore
     {
-        public AccountNameUniquenessValidateResult AddAccountNameIndex(string accountName, string accountId)
+        public AccountIndex FindByAccountId(string accountId)
         {
             using (var connection = GetConnection())
             {
-                try
+                connection.Open();
+                var data = connection.QueryList(new { AccountId = accountId }, Constants.AccountIndexTable).SingleOrDefault();
+                if (data != null)
                 {
-                    connection.Insert(new
-                    {
-                        AccountName = accountName,
-                        AccountId = accountId
-                    }, Constants.AccountNameIndexTable);
-                    return AccountNameUniquenessValidateResult.Success;
+                    var indexId = data.IndexId as string;
+                    var accountName = data.AccountName as string;
+                    return new AccountIndex(indexId, accountId, accountName);
                 }
-                catch (SqlException ex)
-                {
-                    if (ex.Number == 2627 && ex.Message.Contains(Constants.AccountNameIndexTablePrimaryKey))
-                    {
-                        return AccountNameUniquenessValidateResult.DuplicateAccountName;
-                    }
-                    throw;
-                }
+                return null;
             }
         }
-        public string GetAccountId(string accountName)
+        public AccountIndex FindByAccountName(string accountName)
         {
             using (var connection = GetConnection())
             {
-                return connection.QueryList<string>(new { AccountName = accountName }, Constants.AccountNameIndexTable, "AccountId").SingleOrDefault();
+                connection.Open();
+                var data = connection.QueryList(new { AccountName = accountName }, Constants.AccountIndexTable).SingleOrDefault();
+                if (data != null)
+                {
+                    var indexId = data.IndexId as string;
+                    var accountId = data.AccountId as string;
+                    return new AccountIndex(indexId, accountId, accountName);
+                }
+                return null;
+            }
+        }
+        public void Add(AccountIndex index)
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                connection.Insert(index, Constants.AccountIndexTable);
             }
         }
 

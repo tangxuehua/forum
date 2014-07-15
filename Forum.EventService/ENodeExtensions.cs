@@ -1,11 +1,8 @@
-﻿using System.Linq;
-using ECommon.Components;
-using ENode.Commanding;
+﻿using ECommon.Components;
+using ECommon.Extensions;
 using ENode.Configurations;
-using ENode.Domain;
 using ENode.EQueue;
 using ENode.Eventing;
-using EQueue.Clients.Consumers;
 using EQueue.Configurations;
 using Forum.EventService.Providers;
 
@@ -18,7 +15,7 @@ namespace Forum.EventService
         public static ENodeConfiguration SetProviders(this ENodeConfiguration enodeConfiguration)
         {
             var configuration = enodeConfiguration.GetCommonConfiguration();
-            configuration.SetDefault<IEventTopicProvider, EventTopicProvider>();
+            configuration.SetDefault<ITopicProvider<IDomainEvent>, EventTopicProvider>();
             configuration.SetDefault<IEventTypeCodeProvider, EventTypeCodeProvider>();
             configuration.SetDefault<IEventHandlerTypeCodeProvider, EventHandlerTypeCodeProvider>();
             return enodeConfiguration;
@@ -29,11 +26,9 @@ namespace Forum.EventService
 
             configuration.RegisterEQueueComponents();
 
-            _eventConsumer = new EventConsumer(id: "DenormalizerEventConsumer", groupName: "DenormalizerEventConsumerGroup", domainEventHandledMessageSender: new DomainEventHandledMessageSender("sys_dehmsp_denormalizer"));
+            _eventConsumer = new EventConsumer();
 
-            var eventTopicProvider = ObjectContainer.Resolve<IEventTopicProvider>() as EventTopicProvider;
-
-            eventTopicProvider.GetAllEventTopics().ToList().ForEach(topic => _eventConsumer.Subscribe(topic));
+            ObjectContainer.Resolve<ITopicProvider<IDomainEvent>>().GetAllTopics().ForEach(topic => _eventConsumer.Subscribe(topic));
 
             return enodeConfiguration;
         }

@@ -29,8 +29,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.CommandService", "For
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.EventService", "Forum.EventService\Forum.EventService.csproj", "{B29D46C2-A4D4-492E-A154-03F7DF07BA86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.ProcessManagers", "Forum.ProcessManagers\Forum.ProcessManagers.csproj", "{BDF262AF-7287-492E-AEFF-FD8612E88834}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Domain.Dapper", "Forum.Domain.Dapper\Forum.Domain.Dapper.csproj", "{6AD347F8-D02E-4AAA-A72B-C4AD93971986}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{F81032E5-B6FE-4697-93C4-53F5A54E8C82}"
@@ -92,10 +90,6 @@ Global
 		{B29D46C2-A4D4-492E-A154-03F7DF07BA86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B29D46C2-A4D4-492E-A154-03F7DF07BA86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B29D46C2-A4D4-492E-A154-03F7DF07BA86}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BDF262AF-7287-492E-AEFF-FD8612E88834}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BDF262AF-7287-492E-AEFF-FD8612E88834}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BDF262AF-7287-492E-AEFF-FD8612E88834}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BDF262AF-7287-492E-AEFF-FD8612E88834}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6AD347F8-D02E-4AAA-A72B-C4AD93971986}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6AD347F8-D02E-4AAA-A72B-C4AD93971986}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AD347F8-D02E-4AAA-A72B-C4AD93971986}.Release|Any CPU.ActiveCfg = Release|Any CPU

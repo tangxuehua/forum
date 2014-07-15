@@ -17,9 +17,9 @@ namespace Forum.Domain.Tests
             var name = ObjectId.GenerateNewStringId();
             var password = ObjectId.GenerateNewStringId();
 
-            var result = _commandService.StartProcess(new RegisterNewAccountCommand(name, password)).WaitResult<ProcessResult>(10000);
+            var result = _commandService.Execute(new RegisterNewAccountCommand(name, password), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000);
 
-            Assert.AreEqual(ProcessStatus.Success, result.Status);
+            Assert.AreEqual(CommandStatus.Success, result.Status);
 
             var account = ObjectContainer.Resolve<IAccountQueryService>().Find(name);
             Assert.IsNotNull(account);
@@ -33,11 +33,11 @@ namespace Forum.Domain.Tests
             var name = ObjectId.GenerateNewStringId();
             var password = ObjectId.GenerateNewStringId();
 
-            _commandService.StartProcess(new RegisterNewAccountCommand(name, password)).WaitResult<ProcessResult>(10000);
-            var result = _commandService.StartProcess(new RegisterNewAccountCommand(name, password)).WaitResult<ProcessResult>(10000);
+            _commandService.Execute(new RegisterNewAccountCommand(name, password), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000);
+            var result = _commandService.Execute(new RegisterNewAccountCommand(name, password), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000);
 
-            Assert.AreEqual(ProcessStatus.Failed, result.Status);
-            Assert.AreEqual(Forum.Infrastructure.ErrorCodes.DuplicateAccount, result.ErrorCode);
+            Assert.AreEqual(CommandStatus.Failed, result.Status);
+            Assert.AreEqual("重复的账号名称：" + name, result.ErrorMessage);
         }
     }
 }

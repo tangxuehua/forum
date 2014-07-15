@@ -8,6 +8,8 @@ using ECommon.JsonNet;
 using ECommon.Log4Net;
 using ECommon.Logging;
 using ENode.Configurations;
+using ENode.Infrastructure;
+using Forum.Domain.Accounts;
 using Forum.Infrastructure;
 
 namespace Forum.CommandService
@@ -21,6 +23,7 @@ namespace Forum.CommandService
         {
             InitializeComponent();
             InitializeENode();
+            InitializeCommandService();
             _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(GetType().FullName);
             _logger.Info("Service initialized.");
         }
@@ -51,6 +54,10 @@ namespace Forum.CommandService
             }
         }
 
+        private void InitializeCommandService()
+        {
+            ObjectContainer.Resolve<ILockService>().AddLockKey(typeof(Account).Name);
+        }
         private void InitializeENode()
         {
             ConfigSettings.Initialize();
@@ -60,8 +67,7 @@ namespace Forum.CommandService
                 Assembly.Load("Forum.Infrastructure"),
                 Assembly.Load("Forum.Domain"),
                 Assembly.Load("Forum.Domain.Dapper"),
-                Assembly.Load("Forum.CommandHandlers"),
-                Assembly.Load("Forum.ProcessManagers")
+                Assembly.Load("Forum.CommandHandlers")
             };
 
             _configuration = Configuration
@@ -74,6 +80,7 @@ namespace Forum.CommandService
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
                 .SetProviders()
+                .UseSqlServerLockService(ConfigSettings.ConnectionString)
                 .UseSqlServerCommandStore(ConfigSettings.ConnectionString)
                 .UseSqlServerEventStore(ConfigSettings.ConnectionString)
                 .UseSqlServerEventPublishInfoStore(ConfigSettings.ConnectionString)

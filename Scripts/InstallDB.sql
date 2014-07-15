@@ -2,15 +2,12 @@
 --Tables used by Forum.
 ----------------------------------------------------------------------------------------------
 
-CREATE TABLE [dbo].[AccountNameIndex](
-    [AccountName] [nvarchar](128) NOT NULL,
-    [AccountId] [nvarchar](32) NOT NULL,
-    [Sequence] [bigint] IDENTITY(1,1) NOT NULL,
- CONSTRAINT [PK_AccountNameIndex] PRIMARY KEY CLUSTERED 
-(
-    [AccountName] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
+CREATE TABLE [dbo].[AccountIndex] (
+    [IndexId]        NVARCHAR (32)           NOT NULL,
+    [AccountId]      NVARCHAR (32)           NOT NULL,
+    [AccountName]    NVARCHAR (64)           NOT NULL,
+    CONSTRAINT [PK_AccountIndex] PRIMARY KEY CLUSTERED ([IndexId] ASC)
+)
 GO
 CREATE TABLE [dbo].[Account](
     [Id] [nvarchar](32) NOT NULL,

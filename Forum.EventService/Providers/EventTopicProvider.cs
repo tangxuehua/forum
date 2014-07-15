@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ENode.EQueue;
+﻿using ENode.EQueue;
 using ENode.Eventing;
 using Forum.Domain.Accounts;
 using Forum.Domain.Posts;
@@ -10,33 +7,14 @@ using Forum.Domain.Sections;
 
 namespace Forum.EventService.Providers
 {
-    public class EventTopicProvider : IEventTopicProvider
+    public class EventTopicProvider : AbstractTopicProvider<IDomainEvent>
     {
-        private IDictionary<Type, string> _topicDict = new Dictionary<Type, string>();
-
         public EventTopicProvider()
         {
-            RegisterTopic("AccountEventTopic", typeof(NewAccountRegisteredEvent), typeof(AccountConfirmedEvent), typeof(AccountRejectedEvent));
+            RegisterTopic("AccountEventTopic", typeof(NewAccountRegisteredEvent));
             RegisterTopic("SectionEventTopic", typeof(SectionCreatedEvent), typeof(SectionNameChangedEvent));
             RegisterTopic("PostEventTopic", typeof(PostCreatedEvent), typeof(PostUpdatedEvent));
             RegisterTopic("ReplyEventTopic", typeof(ReplyCreatedEvent), typeof(ReplyBodyChangedEvent));
-        }
-
-        public string GetTopic(EventStream eventStream)
-        {
-            return _topicDict[eventStream.Events.First().GetType()];
-        }
-        public IEnumerable<string> GetAllEventTopics()
-        {
-            return _topicDict.Values.Distinct();
-        }
-
-        private void RegisterTopic(string topic, params Type[] eventTypes)
-        {
-            foreach (var eventType in eventTypes)
-            {
-                _topicDict.Add(eventType, topic);
-            }
         }
     }
 }

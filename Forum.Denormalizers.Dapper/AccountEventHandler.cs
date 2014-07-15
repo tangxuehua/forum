@@ -7,9 +7,9 @@ using Forum.Infrastructure;
 namespace Forum.Denormalizers.Dapper
 {
     [Component(LifeStyle.Singleton)]
-    public class AccountEventHandler : BaseEventHandler, IEventHandler<AccountConfirmedEvent>
+    public class AccountEventHandler : BaseEventHandler, IEventHandler<NewAccountRegisteredEvent>
     {
-        public void Handle(IEventContext context, AccountConfirmedEvent evnt)
+        public void Handle(IEventContext context, NewAccountRegisteredEvent evnt)
         {
             using (var connection = GetConnection())
             {

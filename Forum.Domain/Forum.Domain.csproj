@@ -46,12 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accounts\ValidateAccountService.cs" />
+    <Compile Include="Accounts\AccountIndex.cs" />
     <Compile Include="Accounts\IAccountIndexStore.cs" />
     <Compile Include="AggregateRootFactory.cs" />
     <Compile Include="Accounts\Account.cs" />
-    <Compile Include="Accounts\AccountRejectedEvent.cs" />
-    <Compile Include="Accounts\AccountConfirmedEvent.cs" />
     <Compile Include="Accounts\NewAccountRegisteredEvent.cs" />
     <Compile Include="Posts\Post.cs" />
     <Compile Include="Posts\PostCreatedEvent.cs" />

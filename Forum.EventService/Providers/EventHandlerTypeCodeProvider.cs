@@ -8,10 +8,10 @@ namespace Forum.EventService.Providers
     {
         public EventHandlerTypeCodeProvider()
         {
-            RegisterType<AccountEventHandler>(101);
-            RegisterType<SectionEventHandler>(102);
-            RegisterType<PostEventHandler>(103);
-            RegisterType<ReplyEventHandler>(104);
+            RegisterType<AccountEventHandler>(100);
+            RegisterType<SectionEventHandler>(101);
+            RegisterType<PostEventHandler>(102);
+            RegisterType<ReplyEventHandler>(103);
         }
     }
 }

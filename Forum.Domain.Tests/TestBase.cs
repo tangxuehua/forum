@@ -7,6 +7,8 @@ using ECommon.Log4Net;
 using ENode.Commanding;
 using ENode.Configurations;
 using ENode.Domain;
+using ENode.Infrastructure;
+using Forum.Domain.Accounts;
 using Forum.Infrastructure;
 using NUnit.Framework;
 
@@ -33,7 +35,6 @@ namespace Forum.Domain.Tests
                     Assembly.Load("Forum.Domain"),
                     Assembly.Load("Forum.Domain.Dapper"),
                     Assembly.Load("Forum.CommandHandlers"),
-                    Assembly.Load("Forum.ProcessManagers"),
                     Assembly.Load("Forum.Denormalizers.Dapper"),
                     Assembly.Load("Forum.QueryServices"),
                     Assembly.Load("Forum.QueryServices.Dapper"),
@@ -50,6 +51,7 @@ namespace Forum.Domain.Tests
                     .RegisterENodeComponents()
                     .RegisterBusinessComponents(assemblies)
                     .SetProviders()
+                    .UseSqlServerLockService(ConfigSettings.ConnectionString)
                     .UseSqlServerCommandStore(ConfigSettings.ConnectionString)
                     .UseSqlServerEventStore(ConfigSettings.ConnectionString)
                     .UseEQueue()
@@ -61,7 +63,7 @@ namespace Forum.Domain.Tests
             _commandService = ObjectContainer.Resolve<ICommandService>();
             _memoryCache = ObjectContainer.Resolve<IMemoryCache>();
 
-            var code = ObjectContainer.Resolve<ICommandTypeCodeProvider>().GetTypeCode(typeof(Forum.Commands.Accounts.RegisterNewAccountCommand));
+            ObjectContainer.Resolve<ILockService>().AddLockKey(typeof(Account).Name);
         }
     }
 }

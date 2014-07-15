@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ENode.Commanding;
+﻿using ENode.Commanding;
 using ENode.EQueue;
 using Forum.Commands.Accounts;
 using Forum.Commands.Posts;
@@ -10,33 +7,14 @@ using Forum.Commands.Sections;
 
 namespace Forum.Domain.Tests
 {
-    public class CommandTopicProvider : ICommandTopicProvider
+    public class CommandTopicProvider : AbstractTopicProvider<ICommand>
     {
-        private IDictionary<Type, string> _topicDict = new Dictionary<Type, string>();
-
         public CommandTopicProvider()
         {
-            RegisterTopic("AccountCommandTopic", typeof(RegisterNewAccountCommand), typeof(ConfirmAccountCommand), typeof(RejectAccountCommand));
+            RegisterTopic("AccountCommandTopic", typeof(RegisterNewAccountCommand));
             RegisterTopic("SectionCommandTopic", typeof(CreateSectionCommand), typeof(ChangeSectionNameCommand));
             RegisterTopic("PostCommandTopic", typeof(CreatePostCommand), typeof(UpdatePostCommand));
             RegisterTopic("ReplyCommandTopic", typeof(CreateReplyCommand), typeof(ChangeReplyBodyCommand));
-        }
-
-        public string GetTopic(ICommand command)
-        {
-            return _topicDict[command.GetType()];
-        }
-        public IEnumerable<string> GetAllCommandTopics()
-        {
-            return _topicDict.Values.Distinct();
-        }
-
-        private void RegisterTopic(string topic, params Type[] commandTypes)
-        {
-            foreach (var commandType in commandTypes)
-            {
-                _topicDict.Add(commandType, topic);
-            }
         }
     }
 }

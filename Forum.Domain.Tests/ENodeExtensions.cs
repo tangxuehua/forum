@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
 using ECommon.Components;
+using ECommon.Extensions;
 using ECommon.Logging;
 using ECommon.Scheduling;
 using ENode.Commanding;
@@ -26,10 +27,10 @@ namespace Forum.Domain.Tests
         public static ENodeConfiguration SetProviders(this ENodeConfiguration enodeConfiguration)
         {
             var configuration = enodeConfiguration.GetCommonConfiguration();
-            configuration.SetDefault<ICommandTopicProvider, CommandTopicProvider>();
+            configuration.SetDefault<ITopicProvider<ICommand>, CommandTopicProvider>();
             configuration.SetDefault<ICommandTypeCodeProvider, CommandTypeCodeProvider>();
             configuration.SetDefault<IAggregateRootTypeCodeProvider, AggregateRootTypeCodeProvider>();
-            configuration.SetDefault<IEventTopicProvider, EventTopicProvider>();
+            configuration.SetDefault<ITopicProvider<IDomainEvent>, EventTopicProvider>();
             configuration.SetDefault<IEventTypeCodeProvider, EventTypeCodeProvider>();
             configuration.SetDefault<IEventHandlerTypeCodeProvider, EventHandlerTypeCodeProvider>();
             return enodeConfiguration;
@@ -51,11 +52,8 @@ namespace Forum.Domain.Tests
             _commandConsumer = new CommandConsumer();
             _eventConsumer = new EventConsumer();
 
-            var commandTopicProvider = ObjectContainer.Resolve<ICommandTopicProvider>() as CommandTopicProvider;
-            var eventTopicProvider = ObjectContainer.Resolve<IEventTopicProvider>() as EventTopicProvider;
-
-            commandTopicProvider.GetAllCommandTopics().ToList().ForEach(topic => _commandConsumer.Subscribe(topic));
-            eventTopicProvider.GetAllEventTopics().ToList().ForEach(topic => _eventConsumer.Subscribe(topic));
+            ObjectContainer.Resolve<ITopicProvider<ICommand>>().GetAllTopics().ForEach(topic => _commandConsumer.Subscribe(topic));
+            ObjectContainer.Resolve<ITopicProvider<IDomainEvent>>().GetAllTopics().ForEach(topic => _eventConsumer.Subscribe(topic));
 
             return enodeConfiguration;
         }
@@ -77,11 +75,8 @@ namespace Forum.Domain.Tests
         {
             var scheduleService = ObjectContainer.Resolve<IScheduleService>();
             var waitHandle = new ManualResetEvent(false);
-            var commandTopicProvider = ObjectContainer.Resolve<ICommandTopicProvider>() as CommandTopicProvider;
-            var eventTopicProvider = ObjectContainer.Resolve<IEventTopicProvider>() as EventTopicProvider;
-
-            var totalCommandTopicCount = commandTopicProvider.GetAllCommandTopics().Count();
-            var totalEventTopicCount = eventTopicProvider.GetAllEventTopics().Count();
+            var totalCommandTopicCount = ObjectContainer.Resolve<ITopicProvider<ICommand>>().GetAllTopics().Count();
+            var totalEventTopicCount = ObjectContainer.Resolve<ITopicProvider<IDomainEvent>>().GetAllTopics().Count();
 
             var logger = ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(ENodeExtensions).Name);
             logger.Info("Waiting for all consumer load balance complete, please wait for a moment...");
@@ -93,8 +88,8 @@ namespace Forum.Domain.Tests
                 var domainEventHandledMessageConsumerAllocatedQueues = _commandResultProcessor.DomainEventHandledMessageConsumer.GetCurrentQueues();
                 if (eventConsumerAllocatedQueues.Count() == totalCommandTopicCount * _broker.Setting.DefaultTopicQueueCount
                     && commandConsumerAllocatedQueues.Count() == totalEventTopicCount * _broker.Setting.DefaultTopicQueueCount
-                    && executedCommandMessageConsumerAllocatedQueues.Count() == 1
-                    && domainEventHandledMessageConsumerAllocatedQueues.Count() == 1)
+                    && executedCommandMessageConsumerAllocatedQueues.Count() == 4
+                    && domainEventHandledMessageConsumerAllocatedQueues.Count() == 4)
                 {
                     waitHandle.Set();
                 }
