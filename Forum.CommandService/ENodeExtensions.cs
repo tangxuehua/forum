@@ -5,7 +5,6 @@ using ENode.Configurations;
 using ENode.Domain;
 using ENode.EQueue;
 using ENode.Eventing;
-using EQueue.Clients.Consumers;
 using EQueue.Configurations;
 using Forum.CommandService.Providers;
 using EQueueCommandService = ENode.EQueue.CommandService;
@@ -38,7 +37,7 @@ namespace Forum.CommandService
             configuration.RegisterEQueueComponents();
 
             _commandService = new EQueueCommandService();
-            configuration.SetDefault<ICommandService, EQueueCommandService>(_commandService);
+            configuration.SetDefault<IProcessCommandSender, EQueueCommandService>(_commandService);
 
             _eventPublisher = new EventPublisher();
             configuration.SetDefault<IEventPublisher, EventPublisher>(_eventPublisher);

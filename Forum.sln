@@ -33,6 +33,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.ProcessManagers", "Fo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Domain.Dapper", "Forum.Domain.Dapper\Forum.Domain.Dapper.csproj", "{6AD347F8-D02E-4AAA-A72B-C4AD93971986}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{F81032E5-B6FE-4697-93C4-53F5A54E8C82}"
+	ProjectSection(SolutionItems) = preProject
+		Scripts\InstallDB.sql = Scripts\InstallDB.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
