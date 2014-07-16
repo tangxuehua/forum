@@ -14,7 +14,7 @@ namespace Forum.CommandHandlers
     {
         private readonly AggregateRootFactory _factory;
         private readonly ILockService _lockService;
-        private IAccountIndexStore _indexStore;
+        private readonly IAccountIndexStore _indexStore;
 
         public AccountCommandHandler(AggregateRootFactory factory, ILockService lockService, IAccountIndexStore indexStore)
         {
