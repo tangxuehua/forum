@@ -15,7 +15,7 @@ How to run this forum
 --------
 1. 打开Forum.sln解决方案，启用Nuget还原，编译解决方案；
 2. 新建一个空的数据库，叫Forum；
-3. 在新建的数据库中运行Forum.Infrastructure项目中的InstallDB.sql脚本，创建所有的表；
+3. 在新建的数据库中运行Scripts目录下的InstallDB.sql脚本，创建所有的表；
 4. 修改Forum.BrokerService、Forum.CommandService、Forum.EventService、Forum.Web、Forum.Domain.Tests这些项目的配置文件中的connectionString；
    确保能连接上面新建的Forum数据库；
 5. 1）通过命令InstallUtil安装Forum.BrokerService、Forum.CommandService、Forum.EventService这三个Windows服务；
