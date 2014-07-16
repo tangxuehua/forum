@@ -47,7 +47,7 @@
     <Compile Include="Assert.cs" />
     <Compile Include="ConfigSettings.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="DuplicationAccountException.cs" />
+    <Compile Include="DuplicateAccountException.cs" />
     <Compile Include="IIdentityGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
