@@ -42,7 +42,7 @@ namespace Forum.Web.Controllers
         [HttpGet]
         public ActionResult Detail(string id)
         {
-            ViewBag.CurrentAccountId = _contextService.CurrentAccount.AccountId;
+            ViewBag.CurrentAccountId = _contextService.CurrentAccount != null ? _contextService.CurrentAccount.AccountId : null;
             return View(_queryService.Find(id).ToDetailViewModel());
         }
         [HttpGet]
