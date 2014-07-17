@@ -40,6 +40,27 @@
             msg(result.errorMsg);
         });
     };
+    $scope.showEditReplyDialog = function (replyId) {
+        $scope.errorMsg = '';
+
+        $http({
+            method: 'GET',
+            url: '/reply/find',
+            cache: false,
+            params: { id: replyId, option: 'simple', random: Math.random() }
+        })
+        .success(function (result, status, headers, config) {
+            if (result.success) {
+                $scope.editingReply = result.data;
+                $("#float-box-editingReply").modal("show");
+            } else {
+                msg(result.errorMsg);
+            }
+        })
+        .error(function (result, status, headers, config) {
+            msg(result.errorMsg);
+        });
+    };
 
     $scope.submitReply = function () {
         if (isStringEmpty($scope.newReply.body)) {
@@ -82,6 +103,28 @@
             method: 'POST',
             url: '/post/update',
             data: $scope.editingPost
+        })
+        .success(function (result, status, headers, config) {
+            if (result.success) {
+                window.location.reload();
+            } else {
+                $scope.errorMsg = result.errorMsg;
+            }
+        })
+        .error(function (result, status, headers, config) {
+            $scope.errorMsg = result.errorMsg;
+        });
+    };
+    $scope.updateReply = function () {
+        if (isStringEmpty($scope.editingReply.body)) {
+            $scope.errorMsg = '回复内容不能为空';
+            return false;
+        }
+
+        $http({
+            method: 'POST',
+            url: '/reply/update',
+            data: $scope.editingReply
         })
         .success(function (result, status, headers, config) {
             if (result.success) {

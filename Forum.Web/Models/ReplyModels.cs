@@ -23,6 +23,7 @@ namespace Forum.Web.Models
     public class EditReplyModel
     {
         public string Id { get; set; }
+        public string AuthorId { get; set; }
         public string Body { get; set; }
     }
 }

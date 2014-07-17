@@ -45,8 +45,9 @@
     <Compile Include="DTOs\ReplyInfo.cs" />
     <Compile Include="DTOs\PageInfo.cs" />
     <Compile Include="IAccountQueryService.cs" />
-    <Compile Include="ISectionQueryService.cs" />
     <Compile Include="IPostQueryService.cs" />
+    <Compile Include="ISectionQueryService.cs" />
+    <Compile Include="IReplyQueryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

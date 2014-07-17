@@ -45,11 +45,10 @@ namespace Forum.Web.Controllers
         }
         public ActionResult Find(string id, string option)
         {
-            var post = _queryService.FindDynamic(id, option);
             return Json(new
             {
                 success = true,
-                data = post
+                data = _queryService.FindDynamic(id, option)
             }, JsonRequestBehavior.AllowGet);
         }
 

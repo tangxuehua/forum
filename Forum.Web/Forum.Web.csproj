@@ -167,7 +167,7 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\PostModels.cs" />
-    <Compile Include="Models\ReplyModel.cs" />
+    <Compile Include="Models\ReplyModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\CommandTopicProvider.cs" />
     <Compile Include="Providers\CommandTypeCodeProvider.cs" />
