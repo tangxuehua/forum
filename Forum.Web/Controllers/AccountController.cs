@@ -28,11 +28,11 @@ namespace Forum.Web.Controllers
             _queryService = queryService;
         }
 
+        [HttpGet]
         public ActionResult Register()
         {
             return View();
         }
-
         [HttpPost]
         [AjaxValidateAntiForgeryToken]
         [AsyncTimeout(5000)]
@@ -52,13 +52,12 @@ namespace Forum.Web.Controllers
             _authenticationService.SignIn(result.AggregateRootId, model.AccountName, false);
             return Json(new { success = true });
         }
-
+        [HttpGet]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-
         [HttpPost]
         [AjaxValidateAntiForgeryToken]
         [AsyncTimeout(5000)]
@@ -79,7 +78,6 @@ namespace Forum.Web.Controllers
 
             return Json(new { success = true });
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
@@ -87,12 +85,6 @@ namespace Forum.Web.Controllers
         {
             _authenticationService.SignOut();
             return RedirectToAction("Index", "Home");
-        }
-
-        [Authorize]
-        public ActionResult ControlPanel()
-        {
-            return View();
         }
 
         private ActionResult RedirectToLocal(string returnUrl)

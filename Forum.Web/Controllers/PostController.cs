@@ -26,6 +26,7 @@ namespace Forum.Web.Controllers
             _contextService = contextService;
         }
 
+        [HttpGet]
         public ActionResult Index(string sectionId, string authorId, int? pageIndex)
         {
             var posts = _queryService.Find(
@@ -38,11 +39,13 @@ namespace Forum.Web.Controllers
 
             return View(posts.Select(x => x.ToListViewModel()));
         }
+        [HttpGet]
         public ActionResult Detail(string id)
         {
             ViewBag.CurrentAccountId = _contextService.CurrentAccount.AccountId;
             return View(_queryService.Find(id).ToDetailViewModel());
         }
+        [HttpGet]
         public ActionResult Find(string id, string option)
         {
             return Json(new
@@ -51,7 +54,6 @@ namespace Forum.Web.Controllers
                 data = _queryService.FindDynamic(id, option)
             }, JsonRequestBehavior.AllowGet);
         }
-
         [HttpPost]
         [AjaxAuthorize]
         [AjaxValidateAntiForgeryToken]
@@ -72,7 +74,6 @@ namespace Forum.Web.Controllers
 
             return Json(new { success = true });
         }
-
         [HttpPost]
         [AjaxAuthorize]
         [AjaxValidateAntiForgeryToken]

@@ -144,12 +144,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Section\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\SectionAdminController.cs" />
     <Compile Include="Extensions\JsonHandlerAttribute.cs" />
     <Compile Include="Extensions\JsonNetResult.cs" />
     <Compile Include="Extensions\AjaxAuthorizeAttribute.cs" />
@@ -167,6 +167,7 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\PostModels.cs" />
+    <Compile Include="Models\SectionModels.cs" />
     <Compile Include="Models\ReplyModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\CommandTopicProvider.cs" />
@@ -194,6 +195,7 @@
     <Content Include="Content\bootstrap\js\bootstrap.js" />
     <Content Include="Content\bootstrap\js\bootstrap.min.js" />
     <Content Include="Content\controllers\login-controller.js" />
+    <Content Include="Content\controllers\section-controller.js" />
     <Content Include="Content\controllers\register-controller.js" />
     <Content Include="Content\controllers\post-detail-controller.js" />
     <Content Include="Content\controllers\post-controller.js" />
@@ -216,7 +218,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ControlPanel.cshtml" />
+    <Content Include="Views\SectionAdmin\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Post\Index.cshtml" />
@@ -227,6 +229,7 @@
     <Content Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Shared\SectionBarbarPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Forum.Commands\Forum.Commands.csproj">

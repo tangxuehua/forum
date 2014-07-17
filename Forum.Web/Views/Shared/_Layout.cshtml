@@ -23,24 +23,7 @@
     </nav>
     <div class="row">
         <div class="col-lg-2 sidebar-left">
-            <div class="sidebar-nav">
-                <div class="navbar navbar-default" role="navigation">
-                    <div class="navbar-collapse collapse sidebar-navbar-collapse">
-                        <ul class="nav navbar-nav">
-                            <li class="active"><a href="#">Menu Item 1</a></li>
-                            <li><a href="#">Menu Item 2</a></li>
-                            <li><a href="#">Menu Item 3</a></li>
-                            <li><a href="#">Menu Item 4</a></li>
-                            <li><a href="#">Menu Item 2</a></li>
-                            <li><a href="#">Menu Item 3</a></li>
-                            <li><a href="#">Menu Item 4</a></li>
-                            <li><a href="#">Menu Item 2</a></li>
-                            <li><a href="#">Menu Item 3</a></li>
-                            <li><a href="#">Menu Item 4</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            @{Html.RenderAction("Index", "Section");}
         </div>
         <div class="col-lg-10 content">
             @RenderBody()

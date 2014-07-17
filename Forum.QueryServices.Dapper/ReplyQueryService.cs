@@ -20,14 +20,5 @@ namespace Forum.QueryServices.Dapper
             }
             throw new Exception("Invalid find option:" + option);
         }
-
-        private static string FormatValue(object value)
-        {
-            if (value is DBNull || value == null)
-            {
-                return string.Empty;
-            }
-            return value.ToString();
-        }
     }
 }

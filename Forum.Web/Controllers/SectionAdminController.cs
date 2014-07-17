@@ -1,7 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using ENode.Commanding;
-using Forum.Commands.Replies;
+using Forum.Commands.Sections;
 using Forum.QueryServices;
 using Forum.Web.Extensions;
 using Forum.Web.Models;
@@ -9,19 +10,25 @@ using Forum.Web.Services;
 
 namespace Forum.Web.Controllers
 {
-    public class ReplyController : Controller
+    public class SectionAdminController : Controller
     {
         private readonly ICommandService _commandService;
+        private readonly ISectionQueryService _queryService;
         private readonly IContextService _contextService;
-        private readonly IReplyQueryService _queryService;
 
-        public ReplyController(ICommandService commandService, IContextService contextService, IReplyQueryService queryService)
+        public SectionAdminController(ICommandService commandService, ISectionQueryService queryService, IContextService contextService)
         {
             _commandService = commandService;
-            _contextService = contextService;
             _queryService = queryService;
+            _contextService = contextService;
         }
 
+        [HttpGet]
+        public ActionResult Index()
+        {
+            var sections = _queryService.FindAll();
+            return View(sections.Select(x => x.ToViewModel(null)));
+        }
         [HttpGet]
         public ActionResult Find(string id, string option)
         {
@@ -35,14 +42,14 @@ namespace Forum.Web.Controllers
         [AjaxAuthorize]
         [AjaxValidateAntiForgeryToken]
         [AsyncTimeout(5000)]
-        public async Task<ActionResult> Create(CreateReplyModel model)
+        public async Task<ActionResult> Create(CreateSectionModel model)
         {
-            var result = await _commandService.SendAsync(
-                new CreateReplyCommand(
-                    model.PostId,
-                    model.ParentId,
-                    model.Body,
-                    _contextService.CurrentAccount.AccountId));
+            if (_contextService.CurrentAccount.AccountName != "admin")
+            {
+                return Json(new { success = false, errorMsg = "只有系统管理员才能新建版块。" });
+            }
+
+            var result = await _commandService.SendAsync(new CreateSectionCommand(model.Name));
 
             if (result.Status == CommandSendStatus.Failed)
             {
@@ -55,14 +62,14 @@ namespace Forum.Web.Controllers
         [AjaxAuthorize]
         [AjaxValidateAntiForgeryToken]
         [AsyncTimeout(5000)]
-        public async Task<ActionResult> Update(EditReplyModel model)
+        public async Task<ActionResult> Update(EditSectionModel model)
         {
-            if (model.AuthorId != _contextService.CurrentAccount.AccountId)
+            if (_contextService.CurrentAccount.AccountName != "admin")
             {
-                return Json(new { success = false, errorMsg = "您不是回复的作者，不能编辑该回复。" });
+                return Json(new { success = false, errorMsg = "只有系统管理员才能修改版块。" });
             }
 
-            var result = await _commandService.SendAsync(new ChangeReplyBodyCommand(model.Id, model.Body));
+            var result = await _commandService.SendAsync(new ChangeSectionNameCommand(model.Id, model.Name));
 
             if (result.Status == CommandSendStatus.Failed)
             {

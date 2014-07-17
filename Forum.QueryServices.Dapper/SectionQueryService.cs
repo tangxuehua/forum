@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ECommon.Components;
 using ECommon.Dapper;
 using Forum.Infrastructure;
@@ -15,6 +17,17 @@ namespace Forum.QueryServices.Dapper
             {
                 return connection.QueryList<SectionInfo>(null, Constants.SectionTable);
             }
+        }
+        public dynamic FindDynamic(string id, string option)
+        {
+            if (option == "simple")
+            {
+                using (var connection = GetConnection())
+                {
+                    return connection.QueryList(new { Id = id }, Constants.SectionTable, "id,name").SingleOrDefault();
+                }
+            }
+            throw new Exception("Invalid find option:" + option);
         }
     }
 }

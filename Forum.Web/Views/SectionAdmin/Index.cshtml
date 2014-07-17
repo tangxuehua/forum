@@ -1,0 +1,97 @@
+﻿@model IEnumerable<Forum.Web.Models.SectionModel>
+@{
+    ViewBag.Title = "ENode论坛后台管理-版块列表";
+    Layout = "~/Views/Shared/_SimpleLayout.cshtml";
+}
+<div ng-controller="SectionController">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th width="90%" class="vertical-center">
+                    名称
+                </th>
+                <th>
+                    操作
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var currentSection in Model)
+            {
+                <tr>
+                    <td class="vertical-center">
+                        @currentSection.Name
+                    </td>
+                    <td>
+                        <a href="#" ng-click="showEditSectionDialog('@currentSection.Id')">编辑</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button class="btn btn-primary btn-lg" data-toggle="modal" ng-click="showNewSectionDialog()">新建版块</button>
+    <div class="modal fade" id="float-box-newSection">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">新建版块</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">名称</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="name" class="form-control" ng-model="newSection.name" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-9">
+                                <span class="error" ng-show="errorMsg != ''">{{errorMsg}}</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="createSection()">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <div class="modal fade" id="float-box-editSection">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">修改版块</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">名称</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="name" class="form-control" ng-model="editingSection.name" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-9">
+                                <span class="error" ng-show="errorMsg != ''">{{errorMsg}}</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="updateSection()">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/content/controllers/section-controller.js")"></script>
+}

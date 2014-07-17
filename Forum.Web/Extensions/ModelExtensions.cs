@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Forum.QueryServices.DTOs;
 using Forum.Web.Models;
 
@@ -63,6 +62,20 @@ namespace Forum.Web.Extensions
                 }
                 model.Replies = replyList;
             }
+
+            return model;
+        }
+        public static SectionModel ToViewModel(this SectionInfo sectionInfo, string currentSectionId)
+        {
+            var model = new SectionModel();
+            if (sectionInfo == null)
+            {
+                return model;
+            }
+
+            model.Id = sectionInfo.Id;
+            model.Name = sectionInfo.Name;
+            model.IsActive = sectionInfo.Id == currentSectionId;
 
             return model;
         }

@@ -9,5 +9,11 @@ namespace Forum.QueryServices
         /// </summary>
         /// <returns></returns>
         IEnumerable<SectionInfo> FindAll();
+        /// <summary>Find a single section, returns the dynamic data.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="option"></param>
+        /// <returns></returns>
+        dynamic FindDynamic(string id, string option);
     }
 }
