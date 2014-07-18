@@ -15,10 +15,19 @@ namespace Forum.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetAll(string sectionId)
+        public ActionResult Index(string sectionId)
         {
             var sections = _queryService.FindAll();
             return PartialView("SectionNavbarPartial", sections.Select(x => x.ToViewModel(sectionId)));
+        }
+        [HttpGet]
+        public ActionResult GetAll()
+        {
+            return Json(new
+            {
+                success = true,
+                data = _queryService.FindAll()
+            }, JsonRequestBehavior.AllowGet);
         }
     }
 }
