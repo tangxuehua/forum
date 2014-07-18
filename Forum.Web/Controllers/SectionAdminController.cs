@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using ENode.Commanding;
@@ -27,6 +28,10 @@ namespace Forum.Web.Controllers
         [Authorize]
         public ActionResult Index()
         {
+            if (_contextService.CurrentAccount.AccountName != "admin")
+            {
+                return View("NoPermission");
+            }
             var sections = _queryService.FindAll();
             return View(sections.Select(x => x.ToViewModel(null)));
         }
