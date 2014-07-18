@@ -22,19 +22,9 @@ namespace Forum.Domain
             _accountIndexStore = accountIndexStore;
         }
 
-        public Account CreateAccount(string accountIndexId, string name, string password)
+        public Account CreateAccount(string name, string password)
         {
-            var account = new Account(_identityGenerator.GetNextIdentity(), new AccountInfo(name, password));
-            var accountIndex = _accountIndexStore.FindByAccountName(name);
-            if (accountIndex == null)
-            {
-                _accountIndexStore.Add(new AccountIndex(accountIndexId, account.Id, name));
-            }
-            else if (accountIndex.IndexId != accountIndexId)
-            {
-                throw new DuplicateAccountException(name);
-            }
-            return account;
+            return new Account(_identityGenerator.GetNextIdentity(), name, password);
         }
         public Section CreateSection(string name)
         {

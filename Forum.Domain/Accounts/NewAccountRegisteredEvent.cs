@@ -6,12 +6,14 @@ namespace Forum.Domain.Accounts
     [Serializable]
     public class NewAccountRegisteredEvent : DomainEvent<string>
     {
-        public AccountInfo AccountInfo { get; private set; }
+        public string Name { get; private set; }
+        public string Password { get; private set; }
 
-        public NewAccountRegisteredEvent(string accountId, AccountInfo accountInfo)
+        public NewAccountRegisteredEvent(string accountId, string name, string password)
             : base(accountId)
         {
-            AccountInfo = accountInfo;
+            Name = name;
+            Password = password;
         }
     }
 }

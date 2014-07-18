@@ -4,7 +4,6 @@
     /// </summary>
     public interface IAccountIndexStore
     {
-        AccountIndex FindByAccountId(string accountId);
         AccountIndex FindByAccountName(string accountName);
         void Add(AccountIndex index);
     }
