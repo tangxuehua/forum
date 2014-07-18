@@ -9,7 +9,7 @@
 
     $scope.submit = function () {
         if (isStringEmpty($scope.loginAccount.accountName)) {
-            $scope.errorMsg = '请输入用户名';
+            $scope.errorMsg = '请输入账号';
             return false;
         }
         if (isStringEmpty($scope.loginAccount.password)) {

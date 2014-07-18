@@ -44,7 +44,7 @@ namespace Forum.Web.Controllers
             {
                 if (result.ExceptionTypeName == typeof(DuplicateAccountException).Name)
                 {
-                    return Json(new { success = false, errorMsg = "该用户已被注册，请用其他账号注册。" });
+                    return Json(new { success = false, errorMsg = "该账号已被注册，请用其他账号注册。" });
                 }
                 return Json(new { success = false, errorMsg = result.ErrorMessage });
             }
@@ -67,7 +67,7 @@ namespace Forum.Web.Controllers
 
             if (account == null)
             {
-                return Json(new { success = false, errorMsg = "用户名不存在" });
+                return Json(new { success = false, errorMsg = "账号不存在" });
             }
             else if (account.Password != model.Password)
             {
