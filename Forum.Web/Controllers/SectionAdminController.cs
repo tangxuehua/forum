@@ -24,6 +24,7 @@ namespace Forum.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult Index()
         {
             var sections = _queryService.FindAll();

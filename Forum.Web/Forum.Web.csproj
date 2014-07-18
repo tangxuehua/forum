@@ -229,7 +229,7 @@
     <Content Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Shared\SectionBarbarPartial.cshtml" />
+    <Content Include="Views\Shared\SectionNavbarPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Forum.Commands\Forum.Commands.csproj">
