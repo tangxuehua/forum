@@ -22,7 +22,10 @@
                 {
                     <a href="#" ng-click="showEditPostDialog()" style="margin-left:5px">编辑</a>
                 }
+                @if (HttpContext.Current.Request.IsAuthenticated)
+                {
                 <a href="#" ng-click="showNewReplyDialog()">回复</a>
+                }
             </div>
         </div>
         <div class="post-item-body">
@@ -48,9 +51,12 @@
                 <div class="pull-right">
                     @if (reply.AuthorId == ViewBag.CurrentAccountId)
                     {
-                        <a href="#" ng-click="showEditReplyDialog('@reply.Id')" style="margin-left:5px">编辑</a>
+                    <a href="#" ng-click="showEditReplyDialog('@reply.Id')" style="margin-left:5px">编辑</a>
                     }
+                    @if (HttpContext.Current.Request.IsAuthenticated)
+                    {
                     <a href="#" ng-click="showNewSubReplyDialog('@reply.Id')">回复</a>
+                    }
                 </div>
             </div>
             <div class="reply-item-body">
@@ -58,8 +64,10 @@
             </div>
         </div>
     }
-
-    <button class="btn btn-primary btn-lg" data-toggle="modal" ng-click="showNewReplyDialog()">发表回复</button>
+    @if (HttpContext.Current.Request.IsAuthenticated)
+    {
+        <button class="btn btn-primary btn-lg" data-toggle="modal" ng-click="showNewReplyDialog()">发表回复</button>
+    }
     <div class="modal fade" id="float-box-editingPost">
         <div class="modal-dialog">
             <div class="modal-content">

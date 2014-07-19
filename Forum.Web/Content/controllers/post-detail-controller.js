@@ -79,7 +79,8 @@
         })
         .success(function (result, status, headers, config) {
             if (result.success) {
-                window.location.reload();
+                showAutoCloseAlert();
+                $("#float-box-newReply").modal("hide");
             } else {
                 $scope.errorMsg = result.errorMsg;
             }
@@ -106,7 +107,8 @@
         })
         .success(function (result, status, headers, config) {
             if (result.success) {
-                window.location.reload();
+                showAutoCloseAlert();
+                $("#float-box-editingPost").modal("hide");
             } else {
                 $scope.errorMsg = result.errorMsg;
             }
@@ -128,7 +130,8 @@
         })
         .success(function (result, status, headers, config) {
             if (result.success) {
-                window.location.reload();
+                showAutoCloseAlert();
+                $("#float-box-editingReply").modal("hide");
             } else {
                 $scope.errorMsg = result.errorMsg;
             }

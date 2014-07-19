@@ -66,7 +66,10 @@
             }
         </tbody>
     </table>
-    <button class="btn btn-primary btn-lg" data-toggle="modal" ng-click="showNewPostDialog()">发表帖子</button>
+    @if (HttpContext.Current.Request.IsAuthenticated)
+    {
+        <button class="btn btn-primary btn-lg" data-toggle="modal" ng-click="showNewPostDialog()">发表帖子</button>
+    }
     <div class="modal fade" id="float-box-newPost">
         <div class="modal-dialog">
             <div class="modal-content">

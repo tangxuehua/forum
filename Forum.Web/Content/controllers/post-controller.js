@@ -52,7 +52,8 @@
         })
         .success(function (result, status, headers, config) {
             if (result.success) {
-                window.location.reload();
+                showAutoCloseAlert();
+                $("#float-box-newPost").modal("hide");
             } else {
                 $scope.errorMsg = result.errorMsg;
             }

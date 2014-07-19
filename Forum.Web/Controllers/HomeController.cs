@@ -6,7 +6,7 @@ namespace Forum.Web.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("index", "post");
         }
     }
 }

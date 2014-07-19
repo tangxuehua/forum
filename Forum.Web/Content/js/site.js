@@ -28,6 +28,13 @@ var isStringEmpty = function (input) {
     return false;
 };
 
+function showAutoCloseAlert() {
+    $('#alert_placeholder').append('<div class="alert alert-success fade in" id="success-alert"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Success! </strong>Please refresh the page after a few seconds to see the changes.</div>');
+    setTimeout(function () {
+        $('#alert_placeholder').children('.alert:first-child').remove();
+    }, 2000);
+}
+
 var app = angular.module('forum', []);
 app.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
