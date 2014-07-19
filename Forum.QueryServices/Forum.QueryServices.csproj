@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTOs\AccountInfo.cs" />
+    <Compile Include="DTOs\PostQueryResult.cs" />
     <Compile Include="DTOs\SectionInfo.cs" />
     <Compile Include="DTOs\PostInfo.cs" />
     <Compile Include="DTOs\PostQueryOption.cs" />

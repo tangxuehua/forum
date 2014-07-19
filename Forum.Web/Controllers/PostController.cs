@@ -7,6 +7,7 @@ using ENode.Commanding;
 using Forum.Commands.Posts;
 using Forum.QueryServices;
 using Forum.QueryServices.DTOs;
+using Forum.Web.Controls;
 using Forum.Web.Extensions;
 using Forum.Web.Models;
 using Forum.Web.Services;
@@ -27,17 +28,19 @@ namespace Forum.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(string sectionId, string authorId, int? pageIndex)
+        public ActionResult Index(string sectionId, string authorId, int? page)
         {
-            var posts = _queryService.Find(
+            var pageIndex = page == null ? 1 : page.Value;
+            var result = _queryService.Find(
                 new PostQueryOption
                 {
                     SectionId = sectionId,
                     AuthorId = authorId,
-                    PageInfo = new PageInfo(pageIndex == null ? 1 : pageIndex.Value)
+                    PageInfo = new PageInfo(pageIndex)
                 });
-
-            return View(posts.Select(x => x.ToListViewModel()));
+            ViewBag.SectionId = sectionId;
+            ViewBag.Pager = Pager.Items(result.TotalCount).PerPage(20).Move(pageIndex).Segment(5).Center();
+            return View(result.Posts.Select(x => x.ToListViewModel()));
         }
         [HttpGet]
         public ActionResult Detail(string id)

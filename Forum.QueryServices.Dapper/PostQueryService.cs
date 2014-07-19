@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using ECommon.Components;
 using ECommon.Dapper;
@@ -11,7 +10,7 @@ namespace Forum.QueryServices.Dapper
     [Component(LifeStyle.Singleton)]
     public class PostQueryService : BaseQueryService, IPostQueryService
     {
-        public IEnumerable<PostInfo> Find(PostQueryOption option)
+        public PostQueryResult Find(PostQueryOption option)
         {
             object condition = null;
             var wherePart = string.Empty;
@@ -34,6 +33,9 @@ namespace Forum.QueryServices.Dapper
 
             using (var connection = GetConnection())
             {
+                var countSql = string.Format(@"SELECT COUNT(1) FROM {0} p {1}", Constants.PostTable, wherePart);
+                var totalCount = connection.Query<int>(countSql, condition).Single();
+
                 var pageIndex = option.PageInfo.PageIndex;
                 var pageSize = option.PageInfo.PageSize;
                 var sql = string.Format(@"
@@ -69,7 +71,7 @@ namespace Forum.QueryServices.Dapper
                     }
                 }
 
-                return posts;
+                return new PostQueryResult { Posts = posts, TotalCount = totalCount };
             }
         }
         public PostInfo Find(string postId)

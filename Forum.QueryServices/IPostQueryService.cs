@@ -9,7 +9,7 @@ namespace Forum.QueryServices
         /// </summary>
         /// <param name="option"></param>
         /// <returns></returns>
-        IEnumerable<PostInfo> Find(PostQueryOption option);
+        PostQueryResult Find(PostQueryOption option);
         /// <summary>Find a single post.
         /// </summary>
         /// <param name="postId"></param>

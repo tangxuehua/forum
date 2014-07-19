@@ -27,6 +27,13 @@
     margin-bottom: 10px;
 }
 
+.pager {
+    text-align: right;
+}
+.pager a {
+    text-align: right;
+    margin-left: 5px;
+}
 .error {
     color: #b94a48;
 }

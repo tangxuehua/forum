@@ -7,7 +7,7 @@
         $scope.newPost = {
             subject: '',
             body: '',
-            sectionId: ''
+            sectionId: sectionId
         };
         if ($scope.sections.length > 0) {
             $("#float-box-newPost").modal("show");

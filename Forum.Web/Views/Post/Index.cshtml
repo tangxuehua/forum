@@ -66,6 +66,28 @@
             }
         </tbody>
     </table>
+    <div class="pager">
+        @{
+            Forum.Web.Controls.Pager pager = ViewBag.Pager;
+
+            if (pager.HasPreviousPage)
+            {
+                @Html.ActionLink("<<", "index", new { page = pager.FirstPageIndex });
+                @Html.ActionLink("<", "index", new { page = pager.PreviousPageIndex });
+            }
+
+            foreach (int page in ViewBag.Pager)
+            {
+                @Html.ActionLink(page.ToString(), "index", new { page = page });
+            }
+
+            if (pager.HasNextPage)
+            {
+                @Html.ActionLink(">", "index", new { page = pager.NextPageIndex });
+                @Html.ActionLink(">>", "index", new { page = pager.LastPageIndex });
+            }
+        }
+    </div>
     @if (HttpContext.Current.Request.IsAuthenticated)
     {
         <button class="btn btn-primary btn-lg" data-toggle="modal" ng-click="showNewPostDialog()">发表帖子</button>
@@ -115,5 +137,8 @@
 </div>
 
 @section Scripts {
+    <script type="text/javascript">
+        var sectionId = '@ViewBag.SectionId';
+    </script>
     <script type="text/javascript" src="@Url.Content("~/content/controllers/post-controller.js")"></script>
 }
