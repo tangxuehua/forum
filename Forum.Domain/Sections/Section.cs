@@ -13,6 +13,10 @@ namespace Forum.Domain.Sections
             : base(id)
         {
             Assert.IsNotNullOrWhiteSpace("版块名称", name);
+            if (name.Length > 128)
+            {
+                throw new Exception("版块名称长度不能超过128");
+            }
             RaiseEvent(new SectionCreatedEvent(Id, name));
         }
 

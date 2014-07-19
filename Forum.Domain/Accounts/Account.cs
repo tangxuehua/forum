@@ -17,6 +17,14 @@ namespace Forum.Domain.Accounts
         {
             Assert.IsNotNullOrWhiteSpace("账号", name);
             Assert.IsNotNullOrWhiteSpace("密码", password);
+            if (name.Length > 128)
+            {
+                throw new Exception("账号长度不能超过128");
+            }
+            if (password.Length > 128)
+            {
+                throw new Exception("密码长度不能超过128");
+            }
             RaiseEvent(new NewAccountRegisteredEvent(Id, name, password));
         }
 

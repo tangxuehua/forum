@@ -20,6 +20,10 @@ namespace Forum.Domain.Replies
             Assert.IsNotNullOrWhiteSpace("被回复的帖子", postId);
             Assert.IsNotNullOrWhiteSpace("回复作者", authorId);
             Assert.IsNotNullOrWhiteSpace("回复内容", body);
+            if (body.Length > 1000)
+            {
+                throw new Exception("回复内容长度不能超过1000");
+            }
             if (parent != null && id == parent.Id)
             {
                 throw new ArgumentException(string.Format("回复的parentId不能是当前回复的Id:{0}", id));
@@ -30,6 +34,10 @@ namespace Forum.Domain.Replies
         public void ChangeBody(string body)
         {
             Assert.IsNotNullOrWhiteSpace("回复内容", body);
+            if (body.Length > 1000)
+            {
+                throw new Exception("回复内容长度不能超过1000");
+            }
             RaiseEvent(new ReplyBodyChangedEvent(Id, body));
         }
 
