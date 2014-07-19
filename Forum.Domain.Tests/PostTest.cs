@@ -85,7 +85,7 @@ namespace Forum.Domain.Tests
 
             for (var pageIndex = 1; pageIndex <= totalPostCount / pageSize; pageIndex++)
             {
-                var posts = queryService.Find(new PostQueryOption { SectionId = sectionId, PageInfo = new PageInfo { PageIndex = pageIndex, PageSize = pageSize } }).ToList();
+                var posts = queryService.Find(new PostQueryOption { SectionId = sectionId, PageInfo = new PageInfo { PageIndex = pageIndex, PageSize = pageSize } }).Posts.ToList();
                 Assert.AreEqual(replyCountPerPost, posts.Count());
                 var expectedPostIds = postIds.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
                 for (var i = 0; i < pageSize; i++)
