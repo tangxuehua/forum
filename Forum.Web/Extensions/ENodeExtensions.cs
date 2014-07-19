@@ -1,7 +1,9 @@
-﻿using ENode.Commanding;
+﻿using System;
+using ENode.Commanding;
 using ENode.Configurations;
 using ENode.EQueue;
 using ENode.EQueue.Commanding;
+using EQueue.Clients.Consumers;
 using EQueue.Configurations;
 using Forum.Web.Providers;
 

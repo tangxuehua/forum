@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewBag.Title</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    @Styles.Render("~/content/bootstrap/css")
-    @Styles.Render("~/content/css")
+    @Styles.Render("~/content/bootstrap/css/t")
+    @Styles.Render("~/content/css/t")
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -48,11 +48,11 @@
         }
         var requestVerificationToken = '@TokenHeaderValue()';
     </script>
-    @Scripts.Render("~/content/jquery")
-    @Scripts.Render("~/content/bootstrap/js")
-    @Scripts.Render("~/content/angularjs")
-    @Scripts.Render("~/content/bootbox")
-    @Scripts.Render("~/content/js")
+    @Scripts.Render("~/content/jquery/t")
+    @Scripts.Render("~/content/bootstrap/js/t")
+    @Scripts.Render("~/content/angularjs/t")
+    @Scripts.Render("~/content/bootbox/t")
+    @Scripts.Render("~/content/js/t")
     @RenderSection("Scripts", required: false)
 </body>
 </html>

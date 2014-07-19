@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Net;
 using System.Web.Mvc;
+using ECommon.Components;
+using ECommon.Logging;
 
 namespace Forum.Web.Extensions
 {
@@ -9,6 +11,9 @@ namespace Forum.Web.Extensions
     {
         public override void OnException(ExceptionContext filterContext)
         {
+            var errorMessage = GetErrorMessage(filterContext);
+            ObjectContainer.Resolve<ILoggerFactory>().Create(GetType().Name).Error(errorMessage, filterContext.Exception);
+
             if (filterContext.HttpContext.Request.IsAjaxRequest())
             {
                 filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
@@ -17,7 +22,7 @@ namespace Forum.Web.Extensions
                     Data = new
                     {
                         success = false,
-                        errorMsg = GetErrorMessage(filterContext)
+                        errorMsg = errorMessage
                     },
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };
