@@ -31,6 +31,7 @@ namespace Forum.Web.Controllers
         public ActionResult Index(string sectionId, string authorId, int? page)
         {
             var pageIndex = page == null ? 1 : page.Value;
+            if (pageIndex <= 0) pageIndex = 1;
             var result = _queryService.Find(
                 new PostQueryOption
                 {
