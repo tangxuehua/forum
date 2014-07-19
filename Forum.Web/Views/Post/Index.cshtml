@@ -69,22 +69,24 @@
     <div class="pager">
         @{
             Forum.Web.Controls.Pager pager = ViewBag.Pager;
+            string authorId = ViewBag.AuthorId;
+            string sectionId = ViewBag.SectionId;
 
             if (pager.HasPreviousPage)
             {
-                @Html.ActionLink("<<", "index", new { page = pager.FirstPageIndex });
-                @Html.ActionLink("<", "index", new { page = pager.PreviousPageIndex });
+                @Html.ActionLink("<<", "index", new { authorId = authorId, sectionId = sectionId, page = pager.FirstPageIndex });
+                @Html.ActionLink("<", "index", new { authorId = authorId, sectionId = sectionId, page = pager.PreviousPageIndex });
             }
 
             foreach (int page in ViewBag.Pager)
             {
-                @Html.ActionLink(page.ToString(), "index", new { page = page });
+                @Html.ActionLink(page.ToString(), "index", new { authorId = authorId, sectionId = sectionId, page = page });
             }
 
             if (pager.HasNextPage)
             {
-                @Html.ActionLink(">", "index", new { page = pager.NextPageIndex });
-                @Html.ActionLink(">>", "index", new { page = pager.LastPageIndex });
+                @Html.ActionLink(">", "index", new { authorId = authorId, sectionId = sectionId, page = pager.NextPageIndex });
+                @Html.ActionLink(">>", "index", new { authorId = authorId, sectionId = sectionId, page = pager.LastPageIndex });
             }
         }
     </div>

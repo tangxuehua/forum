@@ -39,6 +39,7 @@ namespace Forum.Web.Controllers
                     PageInfo = new PageInfo(pageIndex)
                 });
             ViewBag.SectionId = sectionId;
+            ViewBag.AuthorId = authorId;
             ViewBag.Pager = Pager.Items(result.TotalCount).PerPage(20).Move(pageIndex).Segment(5).Center();
             return View(result.Posts.Select(x => x.ToListViewModel()));
         }
