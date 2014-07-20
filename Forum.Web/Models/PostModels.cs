@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Forum.Web.Models
 {
@@ -34,15 +32,22 @@ namespace Forum.Web.Models
     }
     public class CreatePostModel
     {
+        [Required(ErrorMessage = "请输入帖子标题。")]
         public string Subject { get; set; }
+        [Required(ErrorMessage = "请输入帖子内容。")]
         public string Body { get; set; }
+        [Required(ErrorMessage = "请选择帖子所属版块。")]
         public string SectionId { get; set; }
     }
     public class EditPostModel
     {
+        [Required(ErrorMessage = "帖子ID不能为空。")]
         public string Id { get; set; }
+        [Required(ErrorMessage = "帖子作者ID不能为空。")]
         public string AuthorId { get; set; }
+        [Required(ErrorMessage = "请输入帖子标题。")]
         public string Subject { get; set; }
+        [Required(ErrorMessage = "请输入帖子内容。")]
         public string Body { get; set; }
     }
 }

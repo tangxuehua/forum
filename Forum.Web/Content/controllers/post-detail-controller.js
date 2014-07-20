@@ -64,11 +64,11 @@
 
     $scope.submitReply = function () {
         if (isStringEmpty($scope.newReply.body)) {
-            $scope.errorMsg = '请输入回复内容';
+            $scope.errorMsg = '请输入回复内容。';
             return false;
         }
         if (isStringEmpty($scope.newReply.postId)) {
-            $scope.errorMsg = '回复对应的帖子不能为空';
+            $scope.errorMsg = '回复对应的帖子ID不能为空。';
             return false;
         }
 
@@ -92,11 +92,11 @@
 
     $scope.updatePost = function () {
         if (isStringEmpty($scope.editingPost.subject)) {
-            $scope.errorMsg = '帖子标题不能为空';
+            $scope.errorMsg = '请输入帖子标题。';
             return false;
         }
         if (isStringEmpty($scope.editingPost.body)) {
-            $scope.errorMsg = '帖子内容不能为空';
+            $scope.errorMsg = '请输入帖子内容。';
             return false;
         }
 
@@ -119,7 +119,7 @@
     };
     $scope.updateReply = function () {
         if (isStringEmpty($scope.editingReply.body)) {
-            $scope.errorMsg = '回复内容不能为空';
+            $scope.errorMsg = '请输入回复内容。';
             return false;
         }
 

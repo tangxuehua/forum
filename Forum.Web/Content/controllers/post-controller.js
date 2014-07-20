@@ -33,15 +33,15 @@
 
     $scope.submitPost = function () {
         if (isStringEmpty($scope.newPost.sectionId)) {
-            $scope.errorMsg = '请选择帖子所属版块';
+            $scope.errorMsg = '请选择帖子所属版块。';
             return false;
         }
         if (isStringEmpty($scope.newPost.subject)) {
-            $scope.errorMsg = '请输入帖子标题';
+            $scope.errorMsg = '请输入帖子标题。';
             return false;
         }
         if (isStringEmpty($scope.newPost.body)) {
-            $scope.errorMsg = '请输入帖子内容';
+            $scope.errorMsg = '请输入帖子内容。';
             return false;
         }
 

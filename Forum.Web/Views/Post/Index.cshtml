@@ -34,7 +34,7 @@
                         @Html.ActionLink(post.Subject, "detail", new { id = post.Id }, new { target = "_blank" })
                     </td>
                     <td class="text-center vertical-center">
-                        @Html.ActionLink(post.AuthorName, "index", new { authorId = post.AuthorId }, new { target = "_blank" })
+                        @Html.ActionLink(post.AuthorName, "index", new { authorId = post.AuthorId })
                     </td>
                     <td class="text-center vertical-center">
                         @post.CreatedOn
@@ -45,7 +45,7 @@
                     <td class="text-center vertical-center">
                         @if (post.MostRecentReply != null)
                         {
-                            @Html.ActionLink(post.MostRecentReply.AuthorName, "index", new { authorId = post.MostRecentReply.AuthorId }, new { target = "_blank" })
+                            @Html.ActionLink(post.MostRecentReply.AuthorName, "index", new { authorId = post.MostRecentReply.AuthorId })
                         }
                         else
                         {
@@ -118,7 +118,7 @@
                         <div class="form-group">
                             <label for="body" class="col-sm-2 control-label">内容</label>
                             <div class="col-sm-9">
-                                <textarea id="body" maxlength="1000" class="form-control" ng-model="newPost.body" maxlength="2000" rows="5"></textarea>
+                                <textarea id="body" maxlength="1000" class="form-control" ng-model="newPost.body" rows="5"></textarea>
                             </div>
                         </div>
                         <div class="form-group">

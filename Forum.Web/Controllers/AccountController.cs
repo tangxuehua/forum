@@ -1,10 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
-using ECommon.Utilities;
 using ENode.Commanding;
 using Forum.Commands.Accounts;
 using Forum.Infrastructure;
@@ -67,11 +63,11 @@ namespace Forum.Web.Controllers
 
             if (account == null)
             {
-                return Json(new { success = false, errorMsg = "账号不存在" });
+                return Json(new { success = false, errorMsg = "账号不存在。" });
             }
             else if (account.Password != model.Password)
             {
-                return Json(new { success = false, errorMsg = "密码输入错误" });
+                return Json(new { success = false, errorMsg = "密码不正确。" });
             }
 
             _authenticationService.SignIn(account.Id, model.AccountName, model.RememberMe);

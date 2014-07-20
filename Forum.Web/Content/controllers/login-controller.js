@@ -4,16 +4,16 @@
     $scope.loginAccount = {
         accountName: '',
         password: '',
-        rememberMe: ''
+        rememberMe: 'false'
     };
 
     $scope.submit = function () {
         if (isStringEmpty($scope.loginAccount.accountName)) {
-            $scope.errorMsg = '请输入账号';
+            $scope.errorMsg = '请输入账号。';
             return false;
         }
         if (isStringEmpty($scope.loginAccount.password)) {
-            $scope.errorMsg = '请输入密码';
+            $scope.errorMsg = '请输入密码。';
             return false;
         }
 

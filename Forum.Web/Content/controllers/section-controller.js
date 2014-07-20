@@ -32,7 +32,7 @@
 
     $scope.createSection = function () {
         if (isStringEmpty($scope.newSection.name)) {
-            $scope.errorMsg = '请输入版块名称';
+            $scope.errorMsg = '请输入版块名称。';
             return false;
         }
 
@@ -54,7 +54,7 @@
     };
     $scope.updateSection = function () {
         if (isStringEmpty($scope.editingSection.name)) {
-            $scope.errorMsg = '版块名称不能为空';
+            $scope.errorMsg = '请输入版块名称。';
             return false;
         }
 

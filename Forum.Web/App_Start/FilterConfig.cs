@@ -8,6 +8,7 @@ namespace Forum.Web
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleExceptionAttribute());
+            filters.Add(new ValidateModelStateAttribute());
             filters.Add(new JsonHandlerAttribute());
         }
     }
