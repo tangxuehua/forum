@@ -4,7 +4,7 @@
     $scope.loginAccount = {
         accountName: '',
         password: '',
-        rememberMe: 'false'
+        rememberMe: ''
     };
 
     $scope.submit = function () {
