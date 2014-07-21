@@ -40,7 +40,7 @@ namespace Forum.QueryServices.Dapper
                 var pageSize = option.PageInfo.PageSize;
                 var sql = string.Format(@"
                         SELECT * FROM (
-                            SELECT ROW_NUMBER() OVER (ORDER BY p.Sequence) AS RowNumber, p.*, a.Name as AuthorName, r.ReplyCount, r.MostRecentReplySequence
+                            SELECT ROW_NUMBER() OVER (ORDER BY p.Sequence desc) AS RowNumber, p.*, a.Name as AuthorName, r.ReplyCount, r.MostRecentReplySequence
                             FROM {0} p
                             LEFT JOIN {1} a ON p.AuthorId = a.Id
                             LEFT JOIN (SELECT PostId, COUNT(*) AS ReplyCount, MAX(Sequence) AS MostRecentReplySequence FROM {2} GROUP BY PostId) r on r.PostId = p.Id
