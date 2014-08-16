@@ -8,13 +8,11 @@ namespace Forum.Domain.Accounts
     [Component(LifeStyle.Singleton)]
     public class RegisterAccountService
     {
-        private readonly IIdentityGenerator _identityGenerator;
-        private readonly IAccountIndexStore _accountIndexStore;
         private readonly AggregateRootFactory _factory;
+        private readonly IAccountIndexStore _accountIndexStore;
 
-        public RegisterAccountService(IIdentityGenerator identityGenerator, AggregateRootFactory factory, IAccountIndexStore accountIndexStore)
+        public RegisterAccountService(AggregateRootFactory factory, IAccountIndexStore accountIndexStore)
         {
-            _identityGenerator = identityGenerator;
             _factory = factory;
             _accountIndexStore = accountIndexStore;
         }
