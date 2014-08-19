@@ -17,12 +17,12 @@ namespace Forum.Domain.Sections
             {
                 throw new Exception("版块名称长度不能超过128");
             }
-            RaiseEvent(new SectionCreatedEvent(Id, name));
+            ApplyEvent(new SectionCreatedEvent(Id, name));
         }
 
         public void ChangeName(string name)
         {
-            RaiseEvent(new SectionNameChangedEvent(Id, name));
+            ApplyEvent(new SectionNameChangedEvent(Id, name));
         }
 
         private void Handle(SectionCreatedEvent evnt)

@@ -29,7 +29,7 @@ namespace Forum.Domain.Posts
             {
                 throw new Exception("帖子内容长度不能超过1000");
             }
-            RaiseEvent(new PostCreatedEvent(Id, subject, body, sectionId, authorId));
+            ApplyEvent(new PostCreatedEvent(Id, subject, body, sectionId, authorId));
         }
 
         public void Update(string subject, string body)
@@ -44,7 +44,7 @@ namespace Forum.Domain.Posts
             {
                 throw new Exception("帖子内容长度不能超过1000");
             }
-            RaiseEvent(new PostUpdatedEvent(Id, subject, body));
+            ApplyEvent(new PostUpdatedEvent(Id, subject, body));
         }
 
         private void Handle(PostCreatedEvent evnt)

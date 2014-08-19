@@ -28,7 +28,7 @@ namespace Forum.Domain.Replies
             {
                 throw new ArgumentException(string.Format("回复的parentId不能是当前回复的Id:{0}", id));
             }
-            RaiseEvent(new ReplyCreatedEvent(Id, postId, parent == null ? null : parent.Id, authorId, body, DateTime.Now));
+            ApplyEvent(new ReplyCreatedEvent(Id, postId, parent == null ? null : parent.Id, authorId, body, DateTime.Now));
         }
 
         public void ChangeBody(string body)
@@ -38,7 +38,7 @@ namespace Forum.Domain.Replies
             {
                 throw new Exception("回复内容长度不能超过1000");
             }
-            RaiseEvent(new ReplyBodyChangedEvent(Id, body));
+            ApplyEvent(new ReplyBodyChangedEvent(Id, body));
         }
 
         private void Handle(ReplyCreatedEvent evnt)

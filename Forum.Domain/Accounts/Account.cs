@@ -25,7 +25,7 @@ namespace Forum.Domain.Accounts
             {
                 throw new Exception("密码长度不能超过128");
             }
-            RaiseEvent(new NewAccountRegisteredEvent(Id, name, password));
+            ApplyEvent(new NewAccountRegisteredEvent(Id, name, password));
         }
 
         private void Handle(NewAccountRegisteredEvent evnt)
