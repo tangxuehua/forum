@@ -32,12 +32,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ECommon, Version=1.3.3.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon, Version=1.3.4.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.1.3.3\lib\net40\ECommon.dll</HintPath>
+      <HintPath>..\packages\ECommon.1.3.4\lib\net40\ECommon.dll</HintPath>
     </Reference>
-    <Reference Include="ENode">
-      <HintPath>..\packages\ENode.2.3.9\lib\net40\ENode.dll</HintPath>
+    <Reference Include="ENode, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ENode.2.4.0\lib\net40\ENode.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
