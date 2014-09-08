@@ -56,13 +56,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ENode.2.4.1\lib\net40\ENode.dll</HintPath>
     </Reference>
-    <Reference Include="ENode.EQueue, Version=1.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ENode.EQueue, Version=1.4.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ENode.EQueue.1.4.4\lib\net40\ENode.EQueue.dll</HintPath>
+      <HintPath>..\packages\ENode.EQueue.1.4.5\lib\net40\ENode.EQueue.dll</HintPath>
     </Reference>
-    <Reference Include="EQueue, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="EQueue, Version=1.2.8.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EQueue.1.2.6\lib\net40\EQueue.dll</HintPath>
+      <HintPath>..\packages\EQueue.1.2.8\lib\net40\EQueue.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
