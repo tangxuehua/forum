@@ -3,12 +3,14 @@
 ----------------------------------------------------------------------------------------------
 
 CREATE TABLE [dbo].[AccountIndex] (
-    [IndexId]        NVARCHAR (32)           NOT NULL,
-    [AccountId]      NVARCHAR (32)           NOT NULL,
-    [AccountName]    NVARCHAR (64)           NOT NULL,
+    [IndexId]     NVARCHAR (32) NOT NULL,
+    [AccountId]   NVARCHAR (32) NOT NULL,
+    [AccountName] NVARCHAR (64) NOT NULL,
     CONSTRAINT [PK_AccountIndex] PRIMARY KEY CLUSTERED ([IndexId] ASC)
 )
 GO
+CREATE UNIQUE INDEX [IX_AccountIndex_AccountName] ON [dbo].[AccountIndex] ([AccountName])
+
 CREATE TABLE [dbo].[Account](
     [Id] [nvarchar](32) NOT NULL,
     [Sequence] [bigint] IDENTITY(1,1) NOT NULL,

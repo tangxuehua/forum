@@ -13,13 +13,11 @@ namespace Forum.Domain
     {
         private readonly IIdentityGenerator _identityGenerator;
         private readonly IRepository _repository;
-        private readonly IAccountIndexStore _accountIndexStore;
 
-        public AggregateRootFactory(IIdentityGenerator identityGenerator, IRepository repository, IAccountIndexStore accountIndexStore)
+        public AggregateRootFactory(IIdentityGenerator identityGenerator, IRepository repository)
         {
             _identityGenerator = identityGenerator;
             _repository = repository;
-            _accountIndexStore = accountIndexStore;
         }
 
         public Account CreateAccount(string name, string password)

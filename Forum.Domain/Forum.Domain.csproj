@@ -47,8 +47,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts\AccountIndex.cs" />
-    <Compile Include="Accounts\RegisterAccountService.cs" />
-    <Compile Include="Accounts\IAccountIndexStore.cs" />
+    <Compile Include="Accounts\RegisterAccountIndexService.cs" />
+    <Compile Include="Accounts\IAccountIndexRepository.cs" />
     <Compile Include="AggregateRootFactory.cs" />
     <Compile Include="Accounts\Account.cs" />
     <Compile Include="Accounts\NewAccountRegisteredEvent.cs" />
