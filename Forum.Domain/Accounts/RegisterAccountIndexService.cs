@@ -23,17 +23,12 @@ namespace Forum.Domain.Accounts
         /// <returns></returns>
         public void RegisterAccountIndex(string indexId, string accountId, string accountName)
         {
-            var accountIndex = _accountIndexRepository.FindByIndexId(indexId);
-            if (accountIndex != null)
-            {
-                return;
-            }
-            accountIndex = _accountIndexRepository.FindByAccountName(accountName);
+            var accountIndex = _accountIndexRepository.FindByAccountName(accountName);
             if (accountIndex == null)
             {
                 _accountIndexRepository.Add(new AccountIndex(indexId, accountId, accountName));
             }
-            else
+            else if (accountIndex.IndexId != indexId)
             {
                 throw new DuplicateAccountException(accountName);
             }
