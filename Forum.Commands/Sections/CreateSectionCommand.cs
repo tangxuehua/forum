@@ -4,7 +4,7 @@ using ENode.Commanding;
 namespace Forum.Commands.Sections
 {
     [Serializable]
-    public class CreateSectionCommand : Command<string>, ICreatingAggregateCommand
+    public class CreateSectionCommand : AggregateCommand<string>, ICreatingAggregateCommand
     {
         public string Name { get; set; }
 

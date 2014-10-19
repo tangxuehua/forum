@@ -5,6 +5,7 @@ using ENode.Configurations;
 using ENode.Domain;
 using ENode.EQueue;
 using ENode.Eventing;
+using ENode.Infrastructure;
 using EQueue.Configurations;
 using Forum.CommandService.Providers;
 
@@ -19,9 +20,9 @@ namespace Forum.CommandService
         {
             var configuration = enodeConfiguration.GetCommonConfiguration();
             configuration.SetDefault<ITopicProvider<ICommand>, CommandTopicProvider>();
-            configuration.SetDefault<ICommandTypeCodeProvider, CommandTypeCodeProvider>();
-            configuration.SetDefault<IAggregateRootTypeCodeProvider, AggregateRootTypeCodeProvider>();
-            configuration.SetDefault<ITopicProvider<IDomainEvent>, EventTopicProvider>();
+            configuration.SetDefault<ITypeCodeProvider<ICommand>, CommandTypeCodeProvider>();
+            configuration.SetDefault<ITypeCodeProvider<IAggregateRoot>, AggregateRootTypeCodeProvider>();
+            configuration.SetDefault<ITopicProvider<IEvent>, EventTopicProvider>();
             return enodeConfiguration;
         }
 
@@ -32,7 +33,9 @@ namespace Forum.CommandService
             configuration.RegisterEQueueComponents();
 
             _eventPublisher = new EventPublisher();
-            configuration.SetDefault<IEventPublisher, EventPublisher>(_eventPublisher);
+
+            configuration.SetDefault<IMessagePublisher<EventStream>, EventPublisher>(_eventPublisher);
+            configuration.SetDefault<IMessagePublisher<DomainEventStream>, EventPublisher>(_eventPublisher);
 
             _commandConsumer = new CommandConsumer();
             ObjectContainer.Resolve<ITopicProvider<ICommand>>().GetAllTopics().ForEach(topic => _commandConsumer.Subscribe(topic));

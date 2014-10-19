@@ -7,7 +7,7 @@ using Forum.Domain.Sections;
 
 namespace Forum.EventService.Providers
 {
-    public class EventTopicProvider : AbstractTopicProvider<IDomainEvent>
+    public class EventTopicProvider : AbstractTopicProvider<IEvent>
     {
         public EventTopicProvider()
         {

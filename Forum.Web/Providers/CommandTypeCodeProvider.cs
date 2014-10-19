@@ -7,7 +7,7 @@ using Forum.Commands.Sections;
 
 namespace Forum.Web.Providers
 {
-    public class CommandTypeCodeProvider : AbstractTypeCodeProvider, ICommandTypeCodeProvider
+    public class CommandTypeCodeProvider : AbstractTypeCodeProvider<ICommand>, ITypeCodeProvider<ICommand>
     {
         public CommandTypeCodeProvider()
         {

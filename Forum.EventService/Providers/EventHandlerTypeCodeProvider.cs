@@ -4,7 +4,7 @@ using Forum.Denormalizers.Dapper;
 
 namespace Forum.EventService.Providers
 {
-    public class EventHandlerTypeCodeProvider : AbstractTypeCodeProvider, IEventHandlerTypeCodeProvider
+    public class EventHandlerTypeCodeProvider : AbstractTypeCodeProvider<IEventHandler>, ITypeCodeProvider<IEventHandler>
     {
         public EventHandlerTypeCodeProvider()
         {

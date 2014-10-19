@@ -10,21 +10,6 @@ namespace Forum.Domain.Dapper
     [Component(LifeStyle.Singleton)]
     public class AccountIndexRepository : IAccountIndexRepository
     {
-        public AccountIndex FindByIndexId(string indexId)
-        {
-            using (var connection = GetConnection())
-            {
-                connection.Open();
-                var data = connection.QueryList(new { IndexId = indexId }, Constants.AccountIndexTable).SingleOrDefault();
-                if (data != null)
-                {
-                    var accountId = data.AccountId as string;
-                    var accountName = data.AccountName as string;
-                    return new AccountIndex(indexId, accountId, accountName);
-                }
-                return null;
-            }
-        }
         public AccountIndex FindByAccountName(string accountName)
         {
             using (var connection = GetConnection())

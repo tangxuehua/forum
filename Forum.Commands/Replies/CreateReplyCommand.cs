@@ -4,7 +4,7 @@ using ENode.Commanding;
 namespace Forum.Commands.Replies
 {
     [Serializable]
-    public class CreateReplyCommand : Command<string>, ICreatingAggregateCommand
+    public class CreateReplyCommand : AggregateCommand<string>, ICreatingAggregateCommand
     {
         public string PostId { get; private set; }
         public string ParentId { get; private set; }

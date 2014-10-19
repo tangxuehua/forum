@@ -3,6 +3,7 @@ using ENode.Commanding;
 using ENode.Configurations;
 using ENode.EQueue;
 using ENode.EQueue.Commanding;
+using ENode.Infrastructure;
 using EQueue.Clients.Consumers;
 using EQueue.Configurations;
 using Forum.Web.Providers;
@@ -17,7 +18,7 @@ namespace Forum.Web.Extensions
         {
             var configuration = enodeConfiguration.GetCommonConfiguration();
             configuration.SetDefault<ITopicProvider<ICommand>, CommandTopicProvider>();
-            configuration.SetDefault<ICommandTypeCodeProvider, CommandTypeCodeProvider>();
+            configuration.SetDefault<ITypeCodeProvider<ICommand>, CommandTypeCodeProvider>();
             return enodeConfiguration;
         }
         public static ENodeConfiguration UseEQueue(this ENodeConfiguration enodeConfiguration)
@@ -29,6 +30,7 @@ namespace Forum.Web.Extensions
             _commandService = new CommandService(new CommandResultProcessor());
 
             configuration.SetDefault<ICommandService, CommandService>(_commandService);
+            configuration.SetDefault<IProcessCommandSender, CommandService>(_commandService);
 
             return enodeConfiguration;
         }

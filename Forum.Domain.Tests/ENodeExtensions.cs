@@ -10,6 +10,7 @@ using ENode.Domain;
 using ENode.EQueue;
 using ENode.EQueue.Commanding;
 using ENode.Eventing;
+using ENode.Infrastructure;
 using EQueue.Broker;
 using EQueue.Configurations;
 
@@ -28,11 +29,11 @@ namespace Forum.Domain.Tests
         {
             var configuration = enodeConfiguration.GetCommonConfiguration();
             configuration.SetDefault<ITopicProvider<ICommand>, CommandTopicProvider>();
-            configuration.SetDefault<ICommandTypeCodeProvider, CommandTypeCodeProvider>();
-            configuration.SetDefault<IAggregateRootTypeCodeProvider, AggregateRootTypeCodeProvider>();
-            configuration.SetDefault<ITopicProvider<IDomainEvent>, EventTopicProvider>();
-            configuration.SetDefault<IEventTypeCodeProvider, EventTypeCodeProvider>();
-            configuration.SetDefault<IEventHandlerTypeCodeProvider, EventHandlerTypeCodeProvider>();
+            configuration.SetDefault<ITopicProvider<IEvent>, EventTopicProvider>();
+            configuration.SetDefault<ITypeCodeProvider<ICommand>, CommandTypeCodeProvider>();
+            configuration.SetDefault<ITypeCodeProvider<IAggregateRoot>, AggregateRootTypeCodeProvider>();
+            configuration.SetDefault<ITypeCodeProvider<IEvent>, EventTypeCodeProvider>();
+            configuration.SetDefault<ITypeCodeProvider<IEventHandler>, EventHandlerTypeCodeProvider>();
             return enodeConfiguration;
         }
         public static ENodeConfiguration UseEQueue(this ENodeConfiguration enodeConfiguration)
@@ -47,13 +48,15 @@ namespace Forum.Domain.Tests
             _eventPublisher = new EventPublisher();
 
             configuration.SetDefault<ICommandService, CommandService>(_commandService);
-            configuration.SetDefault<IEventPublisher, EventPublisher>(_eventPublisher);
+            configuration.SetDefault<IProcessCommandSender, CommandService>(_commandService);
+            configuration.SetDefault<IMessagePublisher<EventStream>, EventPublisher>(_eventPublisher);
+            configuration.SetDefault<IMessagePublisher<DomainEventStream>, EventPublisher>(_eventPublisher);
 
             _commandConsumer = new CommandConsumer();
             _eventConsumer = new EventConsumer();
 
             ObjectContainer.Resolve<ITopicProvider<ICommand>>().GetAllTopics().ForEach(topic => _commandConsumer.Subscribe(topic));
-            ObjectContainer.Resolve<ITopicProvider<IDomainEvent>>().GetAllTopics().ForEach(topic => _eventConsumer.Subscribe(topic));
+            ObjectContainer.Resolve<ITopicProvider<IEvent>>().GetAllTopics().ForEach(topic => _eventConsumer.Subscribe(topic));
 
             return enodeConfiguration;
         }
@@ -76,7 +79,7 @@ namespace Forum.Domain.Tests
             var scheduleService = ObjectContainer.Resolve<IScheduleService>();
             var waitHandle = new ManualResetEvent(false);
             var totalCommandTopicCount = ObjectContainer.Resolve<ITopicProvider<ICommand>>().GetAllTopics().Count();
-            var totalEventTopicCount = ObjectContainer.Resolve<ITopicProvider<IDomainEvent>>().GetAllTopics().Count();
+            var totalEventTopicCount = ObjectContainer.Resolve<ITopicProvider<IEvent>>().GetAllTopics().Count();
 
             var logger = ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(ENodeExtensions).Name);
             logger.Info("Waiting for all consumer load balance complete, please wait for a moment...");

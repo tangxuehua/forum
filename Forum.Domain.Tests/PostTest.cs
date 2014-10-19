@@ -80,6 +80,7 @@ namespace Forum.Domain.Tests
                 }
                 postIds.Add(postId);
             }
+            postIds.Reverse();
 
             var queryService = ObjectContainer.Resolve<IPostQueryService>();
 

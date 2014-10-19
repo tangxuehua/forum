@@ -7,7 +7,7 @@ using Forum.Domain.Sections;
 
 namespace Forum.Domain.Tests
 {
-    public class EventTypeCodeProvider : AbstractTypeCodeProvider, IEventTypeCodeProvider
+    public class EventTypeCodeProvider : AbstractTypeCodeProvider<IEvent>, ITypeCodeProvider<IEvent>
     {
         public EventTypeCodeProvider()
         {

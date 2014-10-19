@@ -3,6 +3,7 @@ using ECommon.Extensions;
 using ENode.Configurations;
 using ENode.EQueue;
 using ENode.Eventing;
+using ENode.Infrastructure;
 using EQueue.Configurations;
 using Forum.EventService.Providers;
 
@@ -15,9 +16,9 @@ namespace Forum.EventService
         public static ENodeConfiguration SetProviders(this ENodeConfiguration enodeConfiguration)
         {
             var configuration = enodeConfiguration.GetCommonConfiguration();
-            configuration.SetDefault<ITopicProvider<IDomainEvent>, EventTopicProvider>();
-            configuration.SetDefault<IEventTypeCodeProvider, EventTypeCodeProvider>();
-            configuration.SetDefault<IEventHandlerTypeCodeProvider, EventHandlerTypeCodeProvider>();
+            configuration.SetDefault<ITopicProvider<IEvent>, EventTopicProvider>();
+            configuration.SetDefault<ITypeCodeProvider<IEvent>, EventTypeCodeProvider>();
+            configuration.SetDefault<ITypeCodeProvider<IEventHandler>, EventHandlerTypeCodeProvider>();
             return enodeConfiguration;
         }
         public static ENodeConfiguration UseEQueue(this ENodeConfiguration enodeConfiguration)
@@ -28,7 +29,7 @@ namespace Forum.EventService
 
             _eventConsumer = new EventConsumer();
 
-            ObjectContainer.Resolve<ITopicProvider<IDomainEvent>>().GetAllTopics().ForEach(topic => _eventConsumer.Subscribe(topic));
+            ObjectContainer.Resolve<ITopicProvider<IEvent>>().GetAllTopics().ForEach(topic => _eventConsumer.Subscribe(topic));
 
             return enodeConfiguration;
         }
