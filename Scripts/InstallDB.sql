@@ -147,6 +147,7 @@ CREATE TABLE [dbo].[Message](
     [Topic] [varchar](128) NOT NULL,
     [QueueId] [int] NOT NULL,
     [QueueOffset] [bigint] NOT NULL,
+    [Code] [int] NOT NULL,
     [Body] [varbinary](max) NOT NULL,
     [StoredTime] [datetime] NOT NULL,
  CONSTRAINT [PK_Message] PRIMARY KEY CLUSTERED 
