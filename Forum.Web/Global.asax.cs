@@ -10,6 +10,7 @@ using ECommon.Components;
 using ECommon.Configurations;
 using ECommon.JsonNet;
 using ECommon.Log4Net;
+using ECommon.Logging;
 using ENode.Configurations;
 using Forum.Infrastructure;
 using Forum.Web.Extensions;
@@ -18,6 +19,10 @@ namespace Forum.Web
 {
     public class MvcApplication : HttpApplication
     {
+        private ILogger _logger;
+        private Configuration _ecommonConfiguration;
+        private ENodeConfiguration _enodeConfiguration;
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -25,10 +30,23 @@ namespace Forum.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            InitializeECommon();
             InitializeENode();
         }
 
-        private static void InitializeENode()
+        private void InitializeECommon()
+        {
+            _ecommonConfiguration = Configuration
+                .Create()
+                .UseAutofac()
+                .RegisterCommonComponents()
+                .UseLog4Net()
+                .UseJsonNet();
+
+            _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(GetType().FullName);
+            _logger.Info("ECommon initialized.");
+        }
+        private void InitializeENode()
         {
             ConfigSettings.Initialize();
 
@@ -39,12 +57,7 @@ namespace Forum.Web
                 Assembly.Load("Forum.Web")
             };
 
-            Configuration
-                .Create()
-                .UseAutofac()
-                .RegisterCommonComponents()
-                .UseLog4Net()
-                .UseJsonNet()
+            _enodeConfiguration = _ecommonConfiguration
                 .CreateENode()
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
@@ -54,8 +67,9 @@ namespace Forum.Web
                 .StartEQueue();
 
             RegisterControllers();
+            _logger.Info("ENode initialized.");
         }
-        private static void RegisterControllers()
+        private void RegisterControllers()
         {
             var webAssembly = Assembly.GetExecutingAssembly();
             var container = (ObjectContainer.Current as AutofacObjectContainer).Container;

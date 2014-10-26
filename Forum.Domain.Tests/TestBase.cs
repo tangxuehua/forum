@@ -20,7 +20,7 @@ namespace Forum.Domain.Tests
         protected ICommandService _commandService;
         protected IMemoryCache _memoryCache;
         private static bool _initialized;
-        protected static ENodeConfiguration _configuration;
+        protected static ENodeConfiguration _enodeConfiguration;
 
         [TestFixtureSetUp]
         public void SetUp()
@@ -41,19 +41,24 @@ namespace Forum.Domain.Tests
                     Assembly.Load("Forum.Domain.Tests")
                 };
 
-                _configuration = Configuration
+                var setting = new ConfigurationSetting
+                {
+                    SqlServerDefaultConnectionString = ConfigSettings.ConnectionString
+                };
+
+                _enodeConfiguration = Configuration
                     .Create()
                     .UseAutofac()
                     .RegisterCommonComponents()
                     .UseLog4Net()
                     .UseJsonNet()
-                    .CreateENode()
+                    .CreateENode(setting)
                     .RegisterENodeComponents()
                     .RegisterBusinessComponents(assemblies)
                     .SetProviders()
-                    .UseSqlServerLockService(ConfigSettings.ConnectionString)
-                    .UseSqlServerCommandStore(ConfigSettings.ConnectionString)
-                    .UseSqlServerEventStore(ConfigSettings.ConnectionString)
+                    .UseSqlServerLockService()
+                    .UseSqlServerCommandStore()
+                    .UseSqlServerEventStore()
                     .UseEQueue()
                     .InitializeBusinessAssemblies(assemblies)
                     .StartENode()

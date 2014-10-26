@@ -15,14 +15,23 @@ namespace Forum.BrokerService
     public partial class Service1 : ServiceBase
     {
         private ILogger _logger;
+        private Configuration _ecommonConfiguration;
         private BrokerController _broker;
 
         public Service1()
         {
             InitializeComponent();
-            InitializeEQueue();
-            _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(GetType().FullName);
-            _logger.Info("Service initialized.");
+            InitializeECommon();
+
+            try
+            {
+                InitializeEQueue();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+                throw;
+            }
         }
 
         protected override void OnStart(string[] args)
@@ -37,7 +46,6 @@ namespace Forum.BrokerService
                 throw;
             }
         }
-
         protected override void OnStop()
         {
             try
@@ -54,6 +62,17 @@ namespace Forum.BrokerService
             }
         }
 
+        private void InitializeECommon()
+        {
+            _ecommonConfiguration = Configuration
+                .Create()
+                .UseAutofac()
+                .RegisterCommonComponents()
+                .UseLog4Net()
+                .UseJsonNet();
+            _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(GetType().FullName);
+            _logger.Info("ECommon initialized.");
+        }
         private void InitializeEQueue()
         {
             ConfigSettings.Initialize();
@@ -68,17 +87,13 @@ namespace Forum.BrokerService
                 ConnectionString = ConfigSettings.ConnectionString
             };
 
-            Configuration
-                .Create()
-                .UseAutofac()
-                .RegisterCommonComponents()
-                .UseLog4Net()
-                .UseJsonNet()
+            _ecommonConfiguration
                 .RegisterEQueueComponents()
                 .UseSqlServerMessageStore(messageStoreSetting)
                 .UseSqlServerOffsetManager(offsetManagerSetting);
 
             _broker = new BrokerController();
+            _logger.Info("EQueue initialized.");
         }
     }
 }

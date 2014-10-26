@@ -17,22 +17,31 @@ namespace Forum.CommandService
     public partial class Service1 : ServiceBase
     {
         private ILogger _logger;
-        private ENodeConfiguration _configuration;
+        private Configuration _ecommonConfiguration;
+        private ENodeConfiguration _enodeConfiguration;
 
         public Service1()
         {
             InitializeComponent();
-            InitializeENode();
-            InitializeCommandService();
-            _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(GetType().FullName);
-            _logger.Info("Service initialized.");
+            InitializeECommon();
+
+            try
+            {
+                InitializeENode();
+                InitializeCommandService();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+                throw;
+            }
         }
 
         protected override void OnStart(string[] args)
         {
             try
             {
-                _configuration.StartENode().StartEQueue();
+                _enodeConfiguration.StartENode().StartEQueue();
             }
             catch (Exception ex)
             {
@@ -40,12 +49,11 @@ namespace Forum.CommandService
                 throw;
             }
         }
-
         protected override void OnStop()
         {
             try
             {
-                _configuration.ShutdownEQueue();
+                _enodeConfiguration.ShutdownEQueue();
             }
             catch (Exception ex)
             {
@@ -54,9 +62,16 @@ namespace Forum.CommandService
             }
         }
 
-        private void InitializeCommandService()
+        private void InitializeECommon()
         {
-            ObjectContainer.Resolve<ILockService>().AddLockKey(typeof(Account).Name);
+            _ecommonConfiguration = Configuration
+                .Create()
+                .UseAutofac()
+                .RegisterCommonComponents()
+                .UseLog4Net()
+                .UseJsonNet();
+            _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(GetType().FullName);
+            _logger.Info("ECommon initialized.");
         }
         private void InitializeENode()
         {
@@ -69,24 +84,29 @@ namespace Forum.CommandService
                 Assembly.Load("Forum.Domain.Dapper"),
                 Assembly.Load("Forum.CommandHandlers")
             };
+            var setting = new ConfigurationSetting
+            {
+                SqlServerDefaultConnectionString = ConfigSettings.ConnectionString
+            };
 
-            _configuration = Configuration
-                .Create()
-                .UseAutofac()
-                .RegisterCommonComponents()
-                .UseLog4Net()
-                .UseJsonNet()
-                .CreateENode()
+            _enodeConfiguration = _ecommonConfiguration
+                .CreateENode(setting)
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
                 .SetProviders()
-                .UseSqlServerLockService(ConfigSettings.ConnectionString)
-                .UseSqlServerCommandStore(ConfigSettings.ConnectionString)
-                .UseSqlServerEventStore(ConfigSettings.ConnectionString)
-                .UseSqlServerEventPublishInfoStore(ConfigSettings.ConnectionString)
-                .UseSqlServerEventHandleInfoStore(ConfigSettings.ConnectionString)
+                .UseSqlServerLockService()
+                .UseSqlServerCommandStore()
+                .UseSqlServerEventStore()
+                .UseSqlServerEventPublishInfoStore()
+                .UseSqlServerEventHandleInfoStore()
                 .UseEQueue()
                 .InitializeBusinessAssemblies(assemblies);
+            _logger.Info("ENode initialized.");
+        }
+        private void InitializeCommandService()
+        {
+            ObjectContainer.Resolve<ILockService>().AddLockKey(typeof(Account).Name);
+            _logger.Info("Command service initialized.");
         }
     }
 }

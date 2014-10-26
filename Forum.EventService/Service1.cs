@@ -15,21 +15,30 @@ namespace Forum.EventService
     public partial class Service1 : ServiceBase
     {
         private ILogger _logger;
-        private ENodeConfiguration _configuration;
+        private Configuration _ecommonConfiguration;
+        private ENodeConfiguration _enodeConfiguration;
 
         public Service1()
         {
             InitializeComponent();
-            InitializeENode();
-            _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(GetType().FullName);
-            _logger.Info("Service initialized.");
+            InitializeECommon();
+
+            try
+            {
+                InitializeENode();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+                throw;
+            }
         }
 
         protected override void OnStart(string[] args)
         {
             try
             {
-                _configuration.StartEQueue();
+                _enodeConfiguration.StartEQueue();
             }
             catch (Exception ex)
             {
@@ -37,12 +46,11 @@ namespace Forum.EventService
                 throw;
             }
         }
-
         protected override void OnStop()
         {
             try
             {
-                _configuration.ShutdownEQueue();
+                _enodeConfiguration.ShutdownEQueue();
             }
             catch (Exception ex)
             {
@@ -51,6 +59,17 @@ namespace Forum.EventService
             }
         }
 
+        private void InitializeECommon()
+        {
+            _ecommonConfiguration = Configuration
+                .Create()
+                .UseAutofac()
+                .RegisterCommonComponents()
+                .UseLog4Net()
+                .UseJsonNet();
+            _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(GetType().FullName);
+            _logger.Info("ECommon initialized.");
+        }
         private void InitializeENode()
         {
             ConfigSettings.Initialize();
@@ -61,21 +80,21 @@ namespace Forum.EventService
                 Assembly.Load("Forum.Domain"),
                 Assembly.Load("Forum.Denormalizers.Dapper")
             };
+            var setting = new ConfigurationSetting
+            {
+                SqlServerDefaultConnectionString = ConfigSettings.ConnectionString
+            };
 
-            _configuration = Configuration
-                .Create()
-                .UseAutofac()
-                .RegisterCommonComponents()
-                .UseLog4Net()
-                .UseJsonNet()
-                .CreateENode()
+            _enodeConfiguration = _ecommonConfiguration
+                .CreateENode(setting)
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
-                .UseSqlServerEventPublishInfoStore(ConfigSettings.ConnectionString)
-                .UseSqlServerEventHandleInfoStore(ConfigSettings.ConnectionString)
+                .UseSqlServerEventPublishInfoStore()
+                .UseSqlServerEventHandleInfoStore()
                 .SetProviders()
                 .UseEQueue()
                 .InitializeBusinessAssemblies(assemblies);
+            _logger.Info("ENode initialized.");
         }
     }
 }
