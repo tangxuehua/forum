@@ -6,7 +6,7 @@ using Forum.Domain.Posts;
 
 namespace Forum.CommandHandlers
 {
-    [Component(LifeStyle.Singleton)]
+    [Component]
     public class PostCommandHandler :
         ICommandHandler<CreatePostCommand>,
         ICommandHandler<UpdatePostCommand>

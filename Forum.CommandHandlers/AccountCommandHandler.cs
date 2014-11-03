@@ -7,7 +7,7 @@ using Forum.Domain.Accounts;
 
 namespace Forum.CommandHandlers
 {
-    [Component(LifeStyle.Singleton)]
+    [Component]
     public class AccountCommandHandler :
         ICommandHandler<RegisterNewAccountCommand>
     {

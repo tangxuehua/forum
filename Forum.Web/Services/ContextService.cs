@@ -4,7 +4,7 @@ using ECommon.Components;
 
 namespace Forum.Web.Services
 {
-    [Component(LifeStyle.Singleton)]
+    [Component]
     public class ContextService : IContextService
     {
         public AccountIdentity CurrentAccount

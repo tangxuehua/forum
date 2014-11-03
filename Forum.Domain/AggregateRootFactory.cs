@@ -8,7 +8,7 @@ using Forum.Infrastructure;
 
 namespace Forum.Domain
 {
-    [Component(LifeStyle.Singleton)]
+    [Component]
     public class AggregateRootFactory
     {
         private readonly IIdentityGenerator _identityGenerator;

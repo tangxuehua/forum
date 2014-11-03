@@ -6,7 +6,7 @@ using Forum.QueryServices.DTOs;
 
 namespace Forum.QueryServices.Dapper
 {
-    [Component(LifeStyle.Singleton)]
+    [Component]
     public class AccountQueryService : BaseQueryService, IAccountQueryService
     {
         public AccountInfo Find(string name)

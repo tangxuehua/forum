@@ -3,7 +3,7 @@ using ECommon.Utilities;
 
 namespace Forum.Infrastructure
 {
-    [Component(LifeStyle.Singleton)]
+    [Component]
     public class DefaultIdentityGenerator : IIdentityGenerator
     {
         public string GetNextIdentity()

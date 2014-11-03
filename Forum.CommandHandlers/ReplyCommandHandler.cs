@@ -6,7 +6,7 @@ using Forum.Domain.Replies;
 
 namespace Forum.CommandHandlers
 {
-    [Component(LifeStyle.Singleton)]
+    [Component]
     public class ReplyCommandHandler :
         ICommandHandler<CreateReplyCommand>,
         ICommandHandler<ChangeReplyBodyCommand>

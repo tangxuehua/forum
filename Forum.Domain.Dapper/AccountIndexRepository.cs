@@ -7,7 +7,7 @@ using Forum.Infrastructure;
 
 namespace Forum.Domain.Dapper
 {
-    [Component(LifeStyle.Singleton)]
+    [Component]
     public class AccountIndexRepository : IAccountIndexRepository
     {
         public AccountIndex FindByAccountName(string accountName)

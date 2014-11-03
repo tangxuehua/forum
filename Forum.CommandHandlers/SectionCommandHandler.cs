@@ -6,7 +6,7 @@ using Forum.Domain.Sections;
 
 namespace Forum.CommandHandlers
 {
-    [Component(LifeStyle.Singleton)]
+    [Component]
     public class SectionCommandHandler :
         ICommandHandler<CreateSectionCommand>,
         ICommandHandler<ChangeSectionNameCommand>

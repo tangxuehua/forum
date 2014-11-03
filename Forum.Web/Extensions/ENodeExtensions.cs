@@ -1,10 +1,8 @@
-﻿using System;
-using ENode.Commanding;
+﻿using ENode.Commanding;
 using ENode.Configurations;
 using ENode.EQueue;
 using ENode.EQueue.Commanding;
 using ENode.Infrastructure;
-using EQueue.Clients.Consumers;
 using EQueue.Configurations;
 using Forum.Web.Providers;
 
@@ -30,7 +28,6 @@ namespace Forum.Web.Extensions
             _commandService = new CommandService(new CommandResultProcessor());
 
             configuration.SetDefault<ICommandService, CommandService>(_commandService);
-            configuration.SetDefault<IProcessCommandSender, CommandService>(_commandService);
 
             return enodeConfiguration;
         }

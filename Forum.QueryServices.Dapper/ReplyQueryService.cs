@@ -6,7 +6,7 @@ using Forum.Infrastructure;
 
 namespace Forum.QueryServices.Dapper
 {
-    [Component(LifeStyle.Singleton)]
+    [Component]
     public class ReplyQueryService : BaseQueryService, IReplyQueryService
     {
         public dynamic FindDynamic(string id, string option)

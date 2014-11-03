@@ -5,7 +5,7 @@ namespace Forum.Domain.Accounts
 {
     /// <summary>注册账号索引领域服务，封装账号注册时关于账号名唯一的业务规则
     /// </summary>
-    [Component(LifeStyle.Singleton)]
+    [Component]
     public class RegisterAccountIndexService
     {
         private readonly IAccountIndexRepository _accountIndexRepository;

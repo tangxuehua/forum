@@ -6,7 +6,7 @@ using Forum.Infrastructure;
 
 namespace Forum.Denormalizers.Dapper
 {
-    [Component(LifeStyle.Singleton)]
+    [Component]
     public class SectionEventHandler : BaseEventHandler,
         IEventHandler<SectionCreatedEvent>,
         IEventHandler<SectionNameChangedEvent>

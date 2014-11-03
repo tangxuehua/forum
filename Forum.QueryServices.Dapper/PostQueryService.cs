@@ -7,7 +7,7 @@ using Forum.QueryServices.DTOs;
 
 namespace Forum.QueryServices.Dapper
 {
-    [Component(LifeStyle.Singleton)]
+    [Component]
     public class PostQueryService : BaseQueryService, IPostQueryService
     {
         public PostQueryResult Find(PostQueryOption option)

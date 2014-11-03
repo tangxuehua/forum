@@ -6,7 +6,7 @@ using Forum.Infrastructure;
 
 namespace Forum.Denormalizers.Dapper
 {
-    [Component(LifeStyle.Singleton)]
+    [Component]
     public class AccountEventHandler : BaseEventHandler, IEventHandler<NewAccountRegisteredEvent>
     {
         public void Handle(IEventContext context, NewAccountRegisteredEvent evnt)

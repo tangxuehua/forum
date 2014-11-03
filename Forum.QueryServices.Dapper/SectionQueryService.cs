@@ -8,7 +8,7 @@ using Forum.QueryServices.DTOs;
 
 namespace Forum.QueryServices.Dapper
 {
-    [Component(LifeStyle.Singleton)]
+    [Component]
     public class SectionQueryService : BaseQueryService, ISectionQueryService
     {
         public IEnumerable<SectionInfo> FindAll()

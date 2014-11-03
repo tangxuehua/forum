@@ -48,7 +48,6 @@ namespace Forum.Domain.Tests
             _eventPublisher = new EventPublisher();
 
             configuration.SetDefault<ICommandService, CommandService>(_commandService);
-            configuration.SetDefault<IProcessCommandSender, CommandService>(_commandService);
             configuration.SetDefault<IMessagePublisher<EventStream>, EventPublisher>(_eventPublisher);
             configuration.SetDefault<IMessagePublisher<DomainEventStream>, EventPublisher>(_eventPublisher);
 
