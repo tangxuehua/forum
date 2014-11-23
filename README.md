@@ -9,7 +9,6 @@ How to run this forum
 先决条件
 --------
 1. Visual Studio 2013 + Sql Server数据库;
-2. 确保5000,5001这2个端口已开;
 
 编译运行
 --------
