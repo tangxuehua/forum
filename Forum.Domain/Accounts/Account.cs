@@ -9,8 +9,8 @@ namespace Forum.Domain.Accounts
     [Serializable]
     public class Account : AggregateRoot<string>
     {
-        public string _name;
-        public string _password;
+        private string _name;
+        private string _password;
 
         public Account(string id, string name, string password)
             : base(id)

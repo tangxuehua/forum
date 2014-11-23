@@ -9,10 +9,10 @@ namespace Forum.Domain.Replies
     [Serializable]
     public class Reply : AggregateRoot<string>
     {
-        public string _postId;
-        public string _parentId;
-        public string _authorId;
-        public string _body;
+        private string _postId;
+        private string _parentId;
+        private string _authorId;
+        private string _body;
 
         public Reply(string id, string postId, Reply parent, string authorId, string body)
             : base(id)

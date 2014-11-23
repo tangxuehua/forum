@@ -9,10 +9,10 @@ namespace Forum.Domain.Posts
     [Serializable]
     public class Post : AggregateRoot<string>
     {
-        public string _subject;
-        public string _body;
-        public string _sectionId;
-        public string _authorId;
+        private string _subject;
+        private string _body;
+        private string _sectionId;
+        private string _authorId;
 
         public Post(string id, string subject, string body, string sectionId, string authorId)
             : base(id)

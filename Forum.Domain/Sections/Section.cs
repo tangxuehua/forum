@@ -7,7 +7,7 @@ namespace Forum.Domain.Sections
     [Serializable]
     public class Section : AggregateRoot<string>
     {
-        public string _name;
+        private string _name;
 
         public Section(string id, string name)
             : base(id)
