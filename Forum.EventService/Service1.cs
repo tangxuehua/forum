@@ -78,7 +78,8 @@ namespace Forum.EventService
             {
                 Assembly.Load("Forum.Infrastructure"),
                 Assembly.Load("Forum.Domain"),
-                Assembly.Load("Forum.Denormalizers.Dapper")
+                Assembly.Load("Forum.Denormalizers.Dapper"),
+                Assembly.Load("Forum.EventService")
             };
             var setting = new ConfigurationSetting
             {
@@ -91,9 +92,9 @@ namespace Forum.EventService
                 .RegisterBusinessComponents(assemblies)
                 .UseSqlServerEventPublishInfoStore()
                 .UseSqlServerEventHandleInfoStore()
-                .SetProviders()
                 .UseEQueue()
-                .InitializeBusinessAssemblies(assemblies);
+                .InitializeBusinessAssemblies(assemblies)
+                .StartENode(NodeType.EventProcessor);
             _logger.Info("ENode initialized.");
         }
     }

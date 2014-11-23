@@ -17,18 +17,18 @@ namespace Forum.Domain.Tests
             var authorId = ObjectId.GenerateNewStringId();
             var body = ObjectId.GenerateNewStringId();
 
-            var result = _commandService.Execute(new CreateReplyCommand(postId, null, body, authorId)).WaitResult<CommandResult>(10000);
+            var result = _commandService.Execute(new CreateReplyCommand(postId, null, body, authorId), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000);
 
             Assert.AreEqual(CommandStatus.Success, result.Status);
             Assert.IsNotNull(result.AggregateRootId);
 
-            var reply = _memoryCache.Get<Reply>(result.AggregateRootId);
+            var reply = _replyQueryService.FindDynamic(result.AggregateRootId, "simple");
 
             Assert.NotNull(reply);
-            Assert.AreEqual(result.AggregateRootId, reply.Id);
-            Assert.AreEqual(postId, reply.PostId);
-            Assert.AreEqual(authorId, reply.AuthorId);
-            Assert.AreEqual(body, reply.Body);
+            Assert.AreEqual(result.AggregateRootId, reply.id);
+            Assert.AreEqual(postId, reply.postId);
+            Assert.AreEqual(authorId, reply.authorId);
+            Assert.AreEqual(body, reply.body);
         }
 
         [Test]
@@ -44,14 +44,14 @@ namespace Forum.Domain.Tests
 
             var id2 = _commandService.Execute(new CreateReplyCommand(postId, id1, body2, authorId), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000).AggregateRootId;
 
-            var reply = _memoryCache.Get<Reply>(id2);
+            var reply = _replyQueryService.FindDynamic(id2, "simple");
 
             Assert.NotNull(reply);
-            Assert.AreEqual(id2, reply.Id);
-            Assert.AreEqual(postId, reply.PostId);
-            Assert.AreEqual(authorId, reply.AuthorId);
-            Assert.AreEqual(id1, reply.ParentId);
-            Assert.AreEqual(body2, reply.Body);
+            Assert.AreEqual(id2, reply.id);
+            Assert.AreEqual(postId, reply.postId);
+            Assert.AreEqual(authorId, reply.authorId);
+            Assert.AreEqual(id1, reply.parentId);
+            Assert.AreEqual(body2, reply.body);
         }
 
         [Test]
@@ -67,13 +67,13 @@ namespace Forum.Domain.Tests
 
             _commandService.Execute(new ChangeReplyBodyCommand(id, body2), CommandReturnType.EventHandled).Wait();
 
-            var reply = _memoryCache.Get<Reply>(id);
+            var reply = _replyQueryService.FindDynamic(id, "simple");
 
             Assert.NotNull(reply);
-            Assert.AreEqual(id, reply.Id);
-            Assert.AreEqual(postId, reply.PostId);
-            Assert.AreEqual(authorId, reply.AuthorId);
-            Assert.AreEqual(body2, reply.Body);
+            Assert.AreEqual(id, reply.id);
+            Assert.AreEqual(postId, reply.postId);
+            Assert.AreEqual(authorId, reply.authorId);
+            Assert.AreEqual(body2, reply.body);
         }
     }
 }

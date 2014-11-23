@@ -20,11 +20,11 @@ namespace Forum.Domain.Tests
             Assert.AreEqual(CommandStatus.Success, result.Status);
             Assert.IsNotNull(result.AggregateRootId);
 
-            var section = _memoryCache.Get<Section>(result.AggregateRootId);
+            var section = _sectionQueryService.FindDynamic(result.AggregateRootId, "simple");
 
             Assert.NotNull(section);
-            Assert.AreEqual(result.AggregateRootId, section.Id);
-            Assert.AreEqual(name, section.Name);
+            Assert.AreEqual(result.AggregateRootId, section.id);
+            Assert.AreEqual(name, section.name);
         }
         [Test]
         public void update_section_test()
@@ -37,11 +37,11 @@ namespace Forum.Domain.Tests
 
             _commandService.Execute(new ChangeSectionNameCommand(result.AggregateRootId, name2), CommandReturnType.EventHandled).Wait();
 
-            var section = _memoryCache.Get<Section>(result.AggregateRootId);
+            var section = _sectionQueryService.FindDynamic(result.AggregateRootId, "simple");
 
             Assert.NotNull(section);
-            Assert.AreEqual(result.AggregateRootId, section.Id);
-            Assert.AreEqual(name2, section.Name);
+            Assert.AreEqual(result.AggregateRootId, section.id);
+            Assert.AreEqual(name2, section.name);
         }
     }
 }

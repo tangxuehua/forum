@@ -1,5 +1,6 @@
-﻿using ENode.Commanding;
-using ENode.Infrastructure;
+﻿using ECommon.Components;
+using ENode.Commanding;
+using ENode.Infrastructure.Impl;
 using Forum.Commands.Accounts;
 using Forum.Commands.Posts;
 using Forum.Commands.Replies;
@@ -7,7 +8,8 @@ using Forum.Commands.Sections;
 
 namespace Forum.CommandService.Providers
 {
-    public class CommandTypeCodeProvider : AbstractTypeCodeProvider<ICommand>, ITypeCodeProvider<ICommand>
+    [Component]
+    public class CommandTypeCodeProvider : DefaultTypeCodeProvider<ICommand>
     {
         public CommandTypeCodeProvider()
         {

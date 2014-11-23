@@ -1,5 +1,6 @@
-﻿using ENode.Eventing;
-using ENode.Infrastructure;
+﻿using ECommon.Components;
+using ENode.Eventing;
+using ENode.Infrastructure.Impl;
 using Forum.Domain.Accounts;
 using Forum.Domain.Posts;
 using Forum.Domain.Replies;
@@ -7,7 +8,8 @@ using Forum.Domain.Sections;
 
 namespace Forum.EventService.Providers
 {
-    public class EventTypeCodeProvider : AbstractTypeCodeProvider<IEvent>, ITypeCodeProvider<IEvent>
+    [Component]
+    public class EventTypeCodeProvider : DefaultTypeCodeProvider<IEvent>
     {
         public EventTypeCodeProvider()
         {

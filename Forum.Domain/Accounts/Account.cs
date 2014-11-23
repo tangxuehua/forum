@@ -9,8 +9,8 @@ namespace Forum.Domain.Accounts
     [Serializable]
     public class Account : AggregateRoot<string>
     {
-        public string Name { get; private set; }
-        public string Password { get; private set; }
+        public string _name;
+        public string _password;
 
         public Account(string id, string name, string password)
             : base(id)
@@ -25,14 +25,14 @@ namespace Forum.Domain.Accounts
             {
                 throw new Exception("密码长度不能超过128");
             }
-            ApplyEvent(new NewAccountRegisteredEvent(Id, name, password));
+            ApplyEvent(new NewAccountRegisteredEvent(id, name, password));
         }
 
         private void Handle(NewAccountRegisteredEvent evnt)
         {
-            Id = evnt.AggregateRootId;
-            Name = evnt.Name;
-            Password = evnt.Password;
+            _id = evnt.AggregateRootId;
+            _name = evnt.Name;
+            _password = evnt.Password;
         }
     }
 }

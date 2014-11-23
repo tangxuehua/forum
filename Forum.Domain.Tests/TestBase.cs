@@ -10,6 +10,7 @@ using ENode.Domain;
 using ENode.Infrastructure;
 using Forum.Domain.Accounts;
 using Forum.Infrastructure;
+using Forum.QueryServices;
 using NUnit.Framework;
 
 namespace Forum.Domain.Tests
@@ -18,7 +19,9 @@ namespace Forum.Domain.Tests
     public class TestBase
     {
         protected ICommandService _commandService;
-        protected IMemoryCache _memoryCache;
+        protected ISectionQueryService _sectionQueryService;
+        protected IPostQueryService _postQueryService;
+        protected IReplyQueryService _replyQueryService;
         private static bool _initialized;
         protected static ENodeConfiguration _enodeConfiguration;
 
@@ -55,18 +58,19 @@ namespace Forum.Domain.Tests
                     .CreateENode(setting)
                     .RegisterENodeComponents()
                     .RegisterBusinessComponents(assemblies)
-                    .SetProviders()
                     .UseSqlServerLockService()
                     .UseSqlServerCommandStore()
                     .UseSqlServerEventStore()
                     .UseEQueue()
                     .InitializeBusinessAssemblies(assemblies)
-                    .StartENode()
+                    .StartENode(NodeType.CommandProcessor | NodeType.EventProcessor)
                     .StartEQueue();
                 _initialized = true;
             }
             _commandService = ObjectContainer.Resolve<ICommandService>();
-            _memoryCache = ObjectContainer.Resolve<IMemoryCache>();
+            _sectionQueryService = ObjectContainer.Resolve<ISectionQueryService>();
+            _postQueryService = ObjectContainer.Resolve<IPostQueryService>();
+            _replyQueryService = ObjectContainer.Resolve<IReplyQueryService>();
 
             ObjectContainer.Resolve<ILockService>().AddLockKey(typeof(Account).Name);
         }

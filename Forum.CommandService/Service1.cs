@@ -41,7 +41,7 @@ namespace Forum.CommandService
         {
             try
             {
-                _enodeConfiguration.StartENode().StartEQueue();
+                _enodeConfiguration.StartENode(NodeType.CommandProcessor).StartEQueue();
             }
             catch (Exception ex)
             {
@@ -82,7 +82,8 @@ namespace Forum.CommandService
                 Assembly.Load("Forum.Infrastructure"),
                 Assembly.Load("Forum.Domain"),
                 Assembly.Load("Forum.Domain.Dapper"),
-                Assembly.Load("Forum.CommandHandlers")
+                Assembly.Load("Forum.CommandHandlers"),
+                Assembly.Load("Forum.CommandService")
             };
             var setting = new ConfigurationSetting
             {
@@ -93,7 +94,6 @@ namespace Forum.CommandService
                 .CreateENode(setting)
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
-                .SetProviders()
                 .UseSqlServerLockService()
                 .UseSqlServerCommandStore()
                 .UseSqlServerEventStore()

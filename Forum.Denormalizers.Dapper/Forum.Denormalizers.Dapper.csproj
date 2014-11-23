@@ -36,9 +36,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ECommon.1.3.8\lib\net40\ECommon.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.4.7.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ENode, Version=2.5.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ENode.2.4.7\lib\net40\ENode.dll</HintPath>
+      <HintPath>..\packages\ENode.2.5.2\lib\net40\ENode.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -47,12 +47,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountEventHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="BaseEventHandler.cs" />
-    <Compile Include="SectionEventHandler.cs" />
+    <Compile Include="PostEventHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AccountEventHandler.cs" />
-    <Compile Include="PostEventHandler.cs" />
-    <Compile Include="ReplyEventHandler.cs" />
+    <Compile Include="ReplyEventHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SectionEventHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Forum.Domain\Forum.Domain.csproj">

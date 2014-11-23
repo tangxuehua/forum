@@ -4,7 +4,6 @@ using ENode.EQueue;
 using ENode.EQueue.Commanding;
 using ENode.Infrastructure;
 using EQueue.Configurations;
-using Forum.Web.Providers;
 
 namespace Forum.Web.Extensions
 {
@@ -12,13 +11,6 @@ namespace Forum.Web.Extensions
     {
         private static CommandService _commandService;
 
-        public static ENodeConfiguration SetProviders(this ENodeConfiguration enodeConfiguration)
-        {
-            var configuration = enodeConfiguration.GetCommonConfiguration();
-            configuration.SetDefault<ITopicProvider<ICommand>, CommandTopicProvider>();
-            configuration.SetDefault<ITypeCodeProvider<ICommand>, CommandTypeCodeProvider>();
-            return enodeConfiguration;
-        }
         public static ENodeConfiguration UseEQueue(this ENodeConfiguration enodeConfiguration)
         {
             var configuration = enodeConfiguration.GetCommonConfiguration();

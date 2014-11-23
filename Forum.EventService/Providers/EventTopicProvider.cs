@@ -1,4 +1,5 @@
-﻿using ENode.EQueue;
+﻿using ECommon.Components;
+using ENode.EQueue;
 using ENode.Eventing;
 using Forum.Domain.Accounts;
 using Forum.Domain.Posts;
@@ -7,6 +8,7 @@ using Forum.Domain.Sections;
 
 namespace Forum.EventService.Providers
 {
+    [Component]
     public class EventTopicProvider : AbstractTopicProvider<IEvent>
     {
         public EventTopicProvider()
