@@ -3,9 +3,7 @@ using ECommon.Extensions;
 using ENode.Configurations;
 using ENode.EQueue;
 using ENode.Eventing;
-using ENode.Infrastructure;
 using EQueue.Configurations;
-using Forum.EventService.Providers;
 
 namespace Forum.EventService
 {
@@ -13,14 +11,6 @@ namespace Forum.EventService
     {
         private static EventConsumer _eventConsumer;
 
-        public static ENodeConfiguration SetProviders(this ENodeConfiguration enodeConfiguration)
-        {
-            var configuration = enodeConfiguration.GetCommonConfiguration();
-            configuration.SetDefault<ITopicProvider<IEvent>, EventTopicProvider>();
-            configuration.SetDefault<ITypeCodeProvider<IEvent>, EventTypeCodeProvider>();
-            configuration.SetDefault<ITypeCodeProvider<IEventHandler>, EventHandlerTypeCodeProvider>();
-            return enodeConfiguration;
-        }
         public static ENodeConfiguration UseEQueue(this ENodeConfiguration enodeConfiguration)
         {
             var configuration = enodeConfiguration.GetCommonConfiguration();

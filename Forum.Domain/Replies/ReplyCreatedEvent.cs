@@ -14,6 +14,7 @@ namespace Forum.Domain.Replies
         public string Body { get; private set; }
         public DateTime CreatedOn { get; private set; }
 
+        private ReplyCreatedEvent() { }
         public ReplyCreatedEvent(string id, string postId, string parentId, string authorId, string body, DateTime createdOn) : base(id)
         {
             PostId = postId;

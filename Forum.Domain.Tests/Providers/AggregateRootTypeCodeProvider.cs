@@ -1,5 +1,6 @@
-﻿using ENode.Domain;
-using ENode.Infrastructure;
+﻿using ECommon.Components;
+using ENode.Domain;
+using ENode.Infrastructure.Impl;
 using Forum.Domain.Accounts;
 using Forum.Domain.Posts;
 using Forum.Domain.Replies;
@@ -7,7 +8,8 @@ using Forum.Domain.Sections;
 
 namespace Forum.Domain.Tests
 {
-    public class AggregateRootTypeCodeProvider : AbstractTypeCodeProvider<IAggregateRoot>, ITypeCodeProvider<IAggregateRoot>
+    [Component]
+    public class AggregateRootTypeCodeProvider : DefaultTypeCodeProvider<IAggregateRoot>
     {
         public AggregateRootTypeCodeProvider()
         {

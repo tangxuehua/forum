@@ -1,6 +1,7 @@
 ﻿using ECommon.Components;
 using ECommon.Dapper;
 using ENode.Eventing;
+using ENode.Infrastructure;
 using Forum.Domain.Accounts;
 using Forum.Infrastructure;
 
@@ -9,7 +10,7 @@ namespace Forum.Denormalizers.Dapper
     [Component]
     public class AccountEventHandler : BaseEventHandler, IEventHandler<NewAccountRegisteredEvent>
     {
-        public void Handle(IEventContext context, NewAccountRegisteredEvent evnt)
+        public void Handle(IHandlingContext context, NewAccountRegisteredEvent evnt)
         {
             using (var connection = GetConnection())
             {

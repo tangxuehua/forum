@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Forum.BrokerService
 {
@@ -14,12 +10,17 @@ namespace Forum.BrokerService
         /// </summary>
         static void Main()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[] 
-            { 
-                new Service1() 
-            };
-            ServiceBase.Run(ServicesToRun);
+            if (!Environment.UserInteractive)
+            {
+                ServiceBase.Run(new Service1());
+            }
+            else
+            {
+                Bootstrap.Initialize();
+                Bootstrap.Start();
+                Console.WriteLine("Press enter to exit...");
+                Console.ReadLine();
+            }
         }
     }
 }

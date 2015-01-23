@@ -41,7 +41,8 @@ namespace Forum.Web
                 .UseAutofac()
                 .RegisterCommonComponents()
                 .UseLog4Net()
-                .UseJsonNet();
+                .UseJsonNet()
+                .RegisterUnhandledExceptionHandler();
 
             _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(GetType().FullName);
             _logger.Info("ECommon initialized.");
@@ -61,7 +62,6 @@ namespace Forum.Web
                 .CreateENode()
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
-                .SetProviders()
                 .UseEQueue()
                 .InitializeBusinessAssemblies(assemblies)
                 .StartEQueue();

@@ -49,7 +49,7 @@ namespace Forum.Domain.Posts
 
         private void Handle(PostCreatedEvent evnt)
         {
-            Id = evnt.AggregateRootId;
+            _id = evnt.AggregateRootId;
             Subject = evnt.Subject;
             Body = evnt.Body;
             SectionId = evnt.SectionId;

@@ -6,7 +6,7 @@ using Forum.Domain.Posts;
 using Forum.Domain.Replies;
 using Forum.Domain.Sections;
 
-namespace Forum.Domain.Tests
+namespace Forum.CommandService.Providers
 {
     [Component]
     public class EventTypeCodeProvider : DefaultTypeCodeProvider<IEvent>

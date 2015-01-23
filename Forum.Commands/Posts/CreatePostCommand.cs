@@ -11,6 +11,7 @@ namespace Forum.Commands.Posts
         public string SectionId { get; private set; }
         public string AuthorId { get; private set; }
 
+        private CreatePostCommand() { }
         public CreatePostCommand(string subject, string body, string sectionId, string authorId)
         {
             Subject = subject;

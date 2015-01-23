@@ -1,6 +1,7 @@
 ﻿using ECommon.Components;
 using ECommon.Dapper;
 using ENode.Eventing;
+using ENode.Infrastructure;
 using Forum.Domain.Posts;
 using Forum.Infrastructure;
 
@@ -11,7 +12,7 @@ namespace Forum.Denormalizers.Dapper
         IEventHandler<PostCreatedEvent>,
         IEventHandler<PostUpdatedEvent>
     {
-        public void Handle(IEventContext context, PostCreatedEvent evnt)
+        public void Handle(IHandlingContext context, PostCreatedEvent evnt)
         {
             using (var connection = GetConnection())
             {
@@ -29,7 +30,7 @@ namespace Forum.Denormalizers.Dapper
                     }, Constants.PostTable);
             }
         }
-        public void Handle(IEventContext context, PostUpdatedEvent evnt)
+        public void Handle(IHandlingContext context, PostUpdatedEvent evnt)
         {
             TryUpdateRecord(connection =>
             {

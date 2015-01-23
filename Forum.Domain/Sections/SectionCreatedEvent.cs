@@ -8,6 +8,7 @@ namespace Forum.Domain.Sections
     {
         public string Name { get; private set; }
 
+        private SectionCreatedEvent() { }
         public SectionCreatedEvent(string sectionId, string name)
             : base(sectionId)
         {

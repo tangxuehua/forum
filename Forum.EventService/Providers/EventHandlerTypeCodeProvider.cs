@@ -1,10 +1,12 @@
-﻿using ENode.Eventing;
-using ENode.Infrastructure;
+﻿using ECommon.Components;
+using ENode.Eventing;
+using ENode.Infrastructure.Impl;
 using Forum.Denormalizers.Dapper;
 
 namespace Forum.EventService.Providers
 {
-    public class EventHandlerTypeCodeProvider : AbstractTypeCodeProvider<IEventHandler>, ITypeCodeProvider<IEventHandler>
+    [Component]
+    public class EventHandlerTypeCodeProvider : DefaultTypeCodeProvider<IEventHandler>
     {
         public EventHandlerTypeCodeProvider()
         {

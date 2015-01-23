@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Dapper;
 using ECommon.Components;
 using ECommon.Dapper;
 using Forum.Infrastructure;

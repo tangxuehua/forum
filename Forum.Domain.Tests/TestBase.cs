@@ -10,65 +10,59 @@ using ENode.Domain;
 using ENode.Infrastructure;
 using Forum.Domain.Accounts;
 using Forum.Infrastructure;
-using NUnit.Framework;
 
 namespace Forum.Domain.Tests
 {
-    [TestFixture]
-    public class TestBase
+    public abstract class TestBase
     {
-        protected ICommandService _commandService;
-        protected IMemoryCache _memoryCache;
-        private static bool _initialized;
-        protected static ENodeConfiguration _enodeConfiguration;
+        protected static ICommandService _commandService;
+        protected static IMemoryCache _memoryCache;
 
-        [TestFixtureSetUp]
-        public void SetUp()
+        static TestBase()
         {
-            if (!_initialized)
-            {
-                ConfigSettings.Initialize();
-
-                var assemblies = new[]
-                {
-                    Assembly.Load("Forum.Infrastructure"),
-                    Assembly.Load("Forum.Domain"),
-                    Assembly.Load("Forum.Domain.Dapper"),
-                    Assembly.Load("Forum.CommandHandlers"),
-                    Assembly.Load("Forum.Denormalizers.Dapper"),
-                    Assembly.Load("Forum.QueryServices"),
-                    Assembly.Load("Forum.QueryServices.Dapper"),
-                    Assembly.Load("Forum.Domain.Tests")
-                };
-
-                var setting = new ConfigurationSetting
-                {
-                    SqlServerDefaultConnectionString = ConfigSettings.ConnectionString
-                };
-
-                _enodeConfiguration = Configuration
-                    .Create()
-                    .UseAutofac()
-                    .RegisterCommonComponents()
-                    .UseLog4Net()
-                    .UseJsonNet()
-                    .CreateENode(setting)
-                    .RegisterENodeComponents()
-                    .RegisterBusinessComponents(assemblies)
-                    .SetProviders()
-                    .UseSqlServerLockService()
-                    .UseSqlServerCommandStore()
-                    .UseSqlServerEventStore()
-                    .UseEQueue()
-                    .InitializeBusinessAssemblies(assemblies)
-                    .StartENode()
-                    .StartEQueue();
-                _initialized = true;
-            }
+            ConfigSettings.Initialize();
+            InitializeENode();
             _commandService = ObjectContainer.Resolve<ICommandService>();
             _memoryCache = ObjectContainer.Resolve<IMemoryCache>();
-
             ObjectContainer.Resolve<ILockService>().AddLockKey(typeof(Account).Name);
+        }
+
+        private static void InitializeENode()
+        {
+            var assemblies = new[]
+            {
+                Assembly.Load("Forum.Infrastructure"),
+                Assembly.Load("Forum.Domain"),
+                Assembly.Load("Forum.Domain.Dapper"),
+                Assembly.Load("Forum.CommandHandlers"),
+                Assembly.Load("Forum.Denormalizers.Dapper"),
+                Assembly.Load("Forum.QueryServices"),
+                Assembly.Load("Forum.QueryServices.Dapper"),
+                Assembly.Load("Forum.Domain.Tests")
+            };
+
+            var setting = new ConfigurationSetting
+            {
+                SqlServerDefaultConnectionString = ConfigSettings.ConnectionString
+            };
+
+            Configuration
+                .Create()
+                .UseAutofac()
+                .RegisterCommonComponents()
+                .UseLog4Net()
+                .UseJsonNet()
+                .RegisterUnhandledExceptionHandler()
+                .CreateENode(setting)
+                .RegisterENodeComponents()
+                .RegisterBusinessComponents(assemblies)
+                .UseSqlServerLockService()
+                .UseSqlServerCommandStore()
+                .UseSqlServerEventStore()
+                .UseEQueue()
+                .InitializeBusinessAssemblies(assemblies)
+                .StartENode(NodeType.CommandProcessor | NodeType.EventProcessor)
+                .StartEQueue();
         }
     }
 }

@@ -43,7 +43,7 @@ namespace Forum.Domain.Replies
 
         private void Handle(ReplyCreatedEvent evnt)
         {
-            Id = evnt.AggregateRootId;
+            _id = evnt.AggregateRootId;
             PostId = evnt.PostId;
             ParentId = evnt.ParentId;
             Body = evnt.Body;

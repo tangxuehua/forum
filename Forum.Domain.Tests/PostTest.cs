@@ -38,6 +38,7 @@ namespace Forum.Domain.Tests
             Assert.AreEqual(authorId, post.AuthorId);
             Assert.AreEqual(sectionId, post.SectionId);
         }
+
         [Test]
         public void update_post_test()
         {

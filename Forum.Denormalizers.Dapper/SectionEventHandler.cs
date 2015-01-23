@@ -1,6 +1,7 @@
 ﻿using ECommon.Components;
 using ECommon.Dapper;
 using ENode.Eventing;
+using ENode.Infrastructure;
 using Forum.Domain.Sections;
 using Forum.Infrastructure;
 
@@ -11,7 +12,7 @@ namespace Forum.Denormalizers.Dapper
         IEventHandler<SectionCreatedEvent>,
         IEventHandler<SectionNameChangedEvent>
     {
-        public void Handle(IEventContext context, SectionCreatedEvent evnt)
+        public void Handle(IHandlingContext context, SectionCreatedEvent evnt)
         {
             using (var connection = GetConnection())
             {
@@ -26,7 +27,7 @@ namespace Forum.Denormalizers.Dapper
                     }, Constants.SectionTable);
             }
         }
-        public void Handle(IEventContext context, SectionNameChangedEvent evnt)
+        public void Handle(IHandlingContext context, SectionNameChangedEvent evnt)
         {
             TryUpdateRecord(connection =>
             {

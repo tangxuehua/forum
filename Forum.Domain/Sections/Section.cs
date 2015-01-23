@@ -27,7 +27,7 @@ namespace Forum.Domain.Sections
 
         private void Handle(SectionCreatedEvent evnt)
         {
-            Id = evnt.AggregateRootId;
+            _id = evnt.AggregateRootId;
             Name = evnt.Name;
         }
         private void Handle(SectionNameChangedEvent evnt)

@@ -1,4 +1,5 @@
-﻿using ENode.Commanding;
+﻿using ECommon.Components;
+using ENode.Commanding;
 using ENode.EQueue;
 using Forum.Commands.Accounts;
 using Forum.Commands.Posts;
@@ -7,6 +8,7 @@ using Forum.Commands.Sections;
 
 namespace Forum.Domain.Tests
 {
+    [Component]
     public class CommandTopicProvider : AbstractTopicProvider<ICommand>
     {
         public CommandTopicProvider()

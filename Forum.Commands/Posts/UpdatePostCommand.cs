@@ -9,6 +9,7 @@ namespace Forum.Commands.Posts
         public string Subject { get; private set; }
         public string Body { get; private set; }
 
+        private UpdatePostCommand() { }
         public UpdatePostCommand(string id, string subject, string body) : base(id)
         {
             Subject = subject;

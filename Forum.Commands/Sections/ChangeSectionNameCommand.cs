@@ -8,6 +8,7 @@ namespace Forum.Commands.Sections
     {
         public string Name { get; set; }
 
+        private ChangeSectionNameCommand() { }
         public ChangeSectionNameCommand(string id, string name) : base(id)
         {
             Name = name;

@@ -6,7 +6,6 @@ using ECommon.Logging;
 using ECommon.Scheduling;
 using ENode.Commanding;
 using ENode.Configurations;
-using ENode.Domain;
 using ENode.EQueue;
 using ENode.EQueue.Commanding;
 using ENode.Eventing;
@@ -25,17 +24,6 @@ namespace Forum.Domain.Tests
         private static EventConsumer _eventConsumer;
         private static CommandResultProcessor _commandResultProcessor;
 
-        public static ENodeConfiguration SetProviders(this ENodeConfiguration enodeConfiguration)
-        {
-            var configuration = enodeConfiguration.GetCommonConfiguration();
-            configuration.SetDefault<ITopicProvider<ICommand>, CommandTopicProvider>();
-            configuration.SetDefault<ITopicProvider<IEvent>, EventTopicProvider>();
-            configuration.SetDefault<ITypeCodeProvider<ICommand>, CommandTypeCodeProvider>();
-            configuration.SetDefault<ITypeCodeProvider<IAggregateRoot>, AggregateRootTypeCodeProvider>();
-            configuration.SetDefault<ITypeCodeProvider<IEvent>, EventTypeCodeProvider>();
-            configuration.SetDefault<ITypeCodeProvider<IEventHandler>, EventHandlerTypeCodeProvider>();
-            return enodeConfiguration;
-        }
         public static ENodeConfiguration UseEQueue(this ENodeConfiguration enodeConfiguration)
         {
             var configuration = enodeConfiguration.GetCommonConfiguration();
@@ -48,8 +36,8 @@ namespace Forum.Domain.Tests
             _eventPublisher = new EventPublisher();
 
             configuration.SetDefault<ICommandService, CommandService>(_commandService);
-            configuration.SetDefault<IMessagePublisher<EventStream>, EventPublisher>(_eventPublisher);
-            configuration.SetDefault<IMessagePublisher<DomainEventStream>, EventPublisher>(_eventPublisher);
+            configuration.SetDefault<IPublisher<EventStream>, EventPublisher>(_eventPublisher);
+            configuration.SetDefault<IPublisher<DomainEventStream>, EventPublisher>(_eventPublisher);
 
             _commandConsumer = new CommandConsumer();
             _eventConsumer = new EventConsumer();

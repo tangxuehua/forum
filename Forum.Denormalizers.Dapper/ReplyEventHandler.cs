@@ -1,6 +1,7 @@
 ﻿using ECommon.Components;
 using ECommon.Dapper;
 using ENode.Eventing;
+using ENode.Infrastructure;
 using Forum.Domain.Replies;
 using Forum.Infrastructure;
 
@@ -11,7 +12,7 @@ namespace Forum.Denormalizers.Dapper
         IEventHandler<ReplyCreatedEvent>,
         IEventHandler<ReplyBodyChangedEvent>
     {
-        public void Handle(IEventContext context, ReplyCreatedEvent evnt)
+        public void Handle(IHandlingContext context, ReplyCreatedEvent evnt)
         {
             using (var connection = GetConnection())
             {
@@ -30,7 +31,7 @@ namespace Forum.Denormalizers.Dapper
                     Constants.ReplyTable);
             }
         }
-        public void Handle(IEventContext context, ReplyBodyChangedEvent evnt)
+        public void Handle(IHandlingContext context, ReplyBodyChangedEvent evnt)
         {
             TryUpdateRecord(connection =>
             {

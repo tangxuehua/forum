@@ -30,7 +30,7 @@ namespace Forum.Domain.Accounts
 
         private void Handle(NewAccountRegisteredEvent evnt)
         {
-            Id = evnt.AggregateRootId;
+            _id = evnt.AggregateRootId;
             Name = evnt.Name;
             Password = evnt.Password;
         }

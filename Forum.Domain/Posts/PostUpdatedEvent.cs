@@ -11,6 +11,7 @@ namespace Forum.Domain.Posts
         public string Subject { get; private set; }
         public string Body { get; private set; }
 
+        private PostUpdatedEvent() { }
         public PostUpdatedEvent(string postId, string subject, string body) : base(postId)
         {
             Subject = subject;

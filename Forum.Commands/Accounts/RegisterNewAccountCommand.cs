@@ -9,6 +9,7 @@ namespace Forum.Commands.Accounts
         public string Name { get; private set; }
         public string Password { get; private set; }
 
+        private RegisterNewAccountCommand() { }
         public RegisterNewAccountCommand(string name, string password)
         {
             Name = name;

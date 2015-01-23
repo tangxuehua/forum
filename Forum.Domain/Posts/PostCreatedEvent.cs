@@ -13,6 +13,7 @@ namespace Forum.Domain.Posts
         public string SectionId { get; private set; }
         public string AuthorId { get; private set; }
 
+        private PostCreatedEvent() { }
         public PostCreatedEvent(string postId, string subject, string body, string sectionId, string authorId) : base(postId)
         {
             Subject = subject;

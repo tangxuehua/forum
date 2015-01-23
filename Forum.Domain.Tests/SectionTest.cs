@@ -1,4 +1,6 @@
-﻿using ECommon.Extensions;
+﻿using ECommon.Components;
+using ECommon.Extensions;
+using ECommon.Logging;
 using ECommon.Utilities;
 using ENode.Commanding;
 using Forum.Commands.Sections;
@@ -35,7 +37,9 @@ namespace Forum.Domain.Tests
 
             var name2 = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new ChangeSectionNameCommand(result.AggregateRootId, name2), CommandReturnType.EventHandled).Wait();
+            var result2 = _commandService.Execute(new ChangeSectionNameCommand(result.AggregateRootId, name2), CommandReturnType.EventHandled).WaitResult<CommandResult>(1000000);
+
+            Assert.AreEqual(CommandStatus.Success, result2.Status);
 
             var section = _memoryCache.Get<Section>(result.AggregateRootId);
 
