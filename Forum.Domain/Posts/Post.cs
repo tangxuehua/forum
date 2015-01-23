@@ -9,10 +9,10 @@ namespace Forum.Domain.Posts
     [Serializable]
     public class Post : AggregateRoot<string>
     {
-        public string Subject { get; private set; }
-        public string Body { get; private set; }
-        public string SectionId { get; private set; }
-        public string AuthorId { get; private set; }
+        private string _subject;
+        private string _body;
+        private string _sectionId;
+        private string _authorId;
 
         public Post(string id, string subject, string body, string sectionId, string authorId)
             : base(id)
@@ -29,7 +29,7 @@ namespace Forum.Domain.Posts
             {
                 throw new Exception("帖子内容长度不能超过1000");
             }
-            ApplyEvent(new PostCreatedEvent(Id, subject, body, sectionId, authorId));
+            ApplyEvent(new PostCreatedEvent(id, subject, body, sectionId, authorId));
         }
 
         public void Update(string subject, string body)
@@ -50,15 +50,15 @@ namespace Forum.Domain.Posts
         private void Handle(PostCreatedEvent evnt)
         {
             _id = evnt.AggregateRootId;
-            Subject = evnt.Subject;
-            Body = evnt.Body;
-            SectionId = evnt.SectionId;
-            AuthorId = evnt.AuthorId;
+            _subject = evnt.Subject;
+            _body = evnt.Body;
+            _sectionId = evnt.SectionId;
+            _authorId = evnt.AuthorId;
         }
         private void Handle(PostUpdatedEvent evnt)
         {
-            Subject = evnt.Subject;
-            Body = evnt.Body;
+            _subject = evnt.Subject;
+            _body = evnt.Body;
         }
     }
 }

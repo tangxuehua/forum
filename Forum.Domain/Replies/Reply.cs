@@ -9,10 +9,10 @@ namespace Forum.Domain.Replies
     [Serializable]
     public class Reply : AggregateRoot<string>
     {
-        public string PostId { get; private set; }
-        public string ParentId { get; private set; }
-        public string AuthorId { get; private set; }
-        public string Body { get; private set; }
+        private string _postId;
+        private string _parentId;
+        private string _authorId;
+        private string _body;
 
         public Reply(string id, string postId, Reply parent, string authorId, string body)
             : base(id)
@@ -44,14 +44,14 @@ namespace Forum.Domain.Replies
         private void Handle(ReplyCreatedEvent evnt)
         {
             _id = evnt.AggregateRootId;
-            PostId = evnt.PostId;
-            ParentId = evnt.ParentId;
-            Body = evnt.Body;
-            AuthorId = evnt.AuthorId;
+            _postId = evnt.PostId;
+            _parentId = evnt.ParentId;
+            _body = evnt.Body;
+            _authorId = evnt.AuthorId;
         }
         private void Handle(ReplyBodyChangedEvent evnt)
         {
-            Body = evnt.Body;
+            _body = evnt.Body;
         }
     }
 }

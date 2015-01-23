@@ -10,20 +10,25 @@ using ENode.Domain;
 using ENode.Infrastructure;
 using Forum.Domain.Accounts;
 using Forum.Infrastructure;
+using Forum.QueryServices;
 
 namespace Forum.Domain.Tests
 {
     public abstract class TestBase
     {
         protected static ICommandService _commandService;
-        protected static IMemoryCache _memoryCache;
+        protected static ISectionQueryService _sectionQueryService;
+        protected static IPostQueryService _postQueryService;
+        protected static IReplyQueryService _replyQueryService;
 
         static TestBase()
         {
             ConfigSettings.Initialize();
             InitializeENode();
             _commandService = ObjectContainer.Resolve<ICommandService>();
-            _memoryCache = ObjectContainer.Resolve<IMemoryCache>();
+            _sectionQueryService = ObjectContainer.Resolve<ISectionQueryService>();
+            _postQueryService = ObjectContainer.Resolve<IPostQueryService>();
+            _replyQueryService = ObjectContainer.Resolve<IReplyQueryService>();
             ObjectContainer.Resolve<ILockService>().AddLockKey(typeof(Account).Name);
         }
 

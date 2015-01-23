@@ -7,7 +7,7 @@ namespace Forum.Domain.Sections
     [Serializable]
     public class Section : AggregateRoot<string>
     {
-        public string Name { get; private set; }
+        private string _name;
 
         public Section(string id, string name)
             : base(id)
@@ -28,11 +28,11 @@ namespace Forum.Domain.Sections
         private void Handle(SectionCreatedEvent evnt)
         {
             _id = evnt.AggregateRootId;
-            Name = evnt.Name;
+            _name = evnt.Name;
         }
         private void Handle(SectionNameChangedEvent evnt)
         {
-            Name = evnt.Name;
+            _name = evnt.Name;
         }
     }
 }
