@@ -12,6 +12,7 @@ namespace Forum.Denormalizers.Dapper
     {
         public void Handle(IHandlingContext context, NewAccountRegisteredEvent evnt)
         {
+            //throw new IOException("test io exception");
             TryInsertRecord(connection =>
             {
                 connection.Insert(
