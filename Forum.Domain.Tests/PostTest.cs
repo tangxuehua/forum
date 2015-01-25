@@ -24,7 +24,7 @@ namespace Forum.Domain.Tests
             var body = ObjectId.GenerateNewStringId();
             var sectionId = ObjectId.GenerateNewStringId();
 
-            var result = _commandService.Execute(new CreatePostCommand(subject, body, sectionId, authorId), CommandReturnType.EventHandled).WaitResult<CommandResult>(1000000);
+            var result = _commandService.Execute(new CreatePostCommand(subject, body, sectionId, authorId), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000);
 
             Assert.AreEqual(CommandStatus.Success, result.Status);
             Assert.IsNotNull(result.AggregateRootId);

@@ -34,7 +34,7 @@ namespace Forum.EventService
         {
             try
             {
-                _enodeConfiguration.StartENode(NodeType.EventProcessor).StartEQueue();
+                _enodeConfiguration.StartENode(NodeType.EventProcessor | NodeType.MessageProcessor).StartEQueue();
             }
             catch (Exception ex)
             {
@@ -87,7 +87,7 @@ namespace Forum.EventService
                 .CreateENode(setting)
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
-                .UseSqlServerEventPublishInfoStore()
+                .UseSqlServerAggregatePublishVersionStore()
                 .UseSqlServerMessageHandleRecordStore()
                 .UseEQueue()
                 .InitializeBusinessAssemblies(assemblies);

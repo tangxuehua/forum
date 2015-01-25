@@ -45,6 +45,9 @@
     <Reference Include="ECommon.Dapper">
       <HintPath>..\packages\ECommon.Dapper.1.4.0\lib\net45\ECommon.Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="ENode">
+      <HintPath>..\packages\ENode.2.5.5\lib\net45\ENode.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />

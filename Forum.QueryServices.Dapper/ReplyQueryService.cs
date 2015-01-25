@@ -15,7 +15,7 @@ namespace Forum.QueryServices.Dapper
             {
                 using (var connection = GetConnection())
                 {
-                    return connection.QueryList(new { Id = id }, Constants.ReplyTable, "id,body,postId,parentId,authorId").SingleOrDefault();
+                    return connection.QueryList(new { Id = id }, Constants.ReplyTable, "id,body,postId,parentId,authorId,createdOn").SingleOrDefault();
                 }
             }
             throw new Exception("Invalid find option:" + option);

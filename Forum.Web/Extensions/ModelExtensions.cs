@@ -16,6 +16,7 @@ namespace Forum.Web.Extensions
             model.AuthorName = string.IsNullOrEmpty(postInfo.AuthorName) ? postInfo.AuthorId : postInfo.AuthorName;
             model.CreatedOn = postInfo.CreatedOn.ToString("MM-dd HH:mm");
             model.ReplyCount = postInfo.ReplyCount;
+            model.LastUpdateTime = postInfo.LastUpdateTime.ToString("MM-dd HH:mm");
             if (!string.IsNullOrEmpty(postInfo.MostRecentReplyId))
             {
                 model.MostRecentReply = new ReplyModel
@@ -23,7 +24,7 @@ namespace Forum.Web.Extensions
                     Id = postInfo.MostRecentReplyId,
                     AuthorId = postInfo.MostRecentReplierId,
                     AuthorName = string.IsNullOrEmpty(postInfo.MostRecentReplierName) ? postInfo.MostRecentReplierId : postInfo.MostRecentReplierName,
-                    CreatedOn = postInfo.MostRecentReplyCreatedOn.ToString("MM-dd HH:mm")
+                    CreatedOn = postInfo.LastUpdateTime.ToString("MM-dd HH:mm")
                 };
             }
 

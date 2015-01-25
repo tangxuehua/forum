@@ -1,8 +1,10 @@
-﻿using ECommon.Extensions;
+﻿using System.Threading;
+using ECommon.Extensions;
 using ECommon.Utilities;
 using ENode.Commanding;
+using Forum.Commands.Accounts;
+using Forum.Commands.Posts;
 using Forum.Commands.Replies;
-using Forum.Domain.Replies;
 using NUnit.Framework;
 
 namespace Forum.Domain.Tests
@@ -13,22 +15,45 @@ namespace Forum.Domain.Tests
         [Test]
         public void create_reply_test1()
         {
-            var postId = ObjectId.GenerateNewStringId();
-            var authorId = ObjectId.GenerateNewStringId();
+            //创建账号
+            var name = ObjectId.GenerateNewStringId();
+            var password = ObjectId.GenerateNewStringId();
+            var result = _commandService.Execute(new RegisterNewAccountCommand(name, password), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000);
+            Assert.AreEqual(CommandStatus.Success, result.Status);
+
+            //发表帖子
+            var authorId = result.AggregateRootId;
+            var subject = ObjectId.GenerateNewStringId();
             var body = ObjectId.GenerateNewStringId();
-
-            var result = _commandService.Execute(new CreateReplyCommand(postId, null, body, authorId), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000);
-
+            var sectionId = ObjectId.GenerateNewStringId();
+            result = _commandService.Execute(new CreatePostCommand(subject, body, sectionId, authorId), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000);
             Assert.AreEqual(CommandStatus.Success, result.Status);
             Assert.IsNotNull(result.AggregateRootId);
 
-            var reply = _replyQueryService.FindDynamic(result.AggregateRootId, "simple");
+            //发表回复
+            var postId = result.AggregateRootId;
+            result = _commandService.Execute(new CreateReplyCommand(postId, null, body, authorId), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000);
 
+            //验证回复信息
+            Assert.AreEqual(CommandStatus.Success, result.Status);
+            Assert.IsNotNull(result.AggregateRootId);
+            var replyId = result.AggregateRootId;
+            var reply = _replyQueryService.FindDynamic(replyId, "simple");
             Assert.NotNull(reply);
-            Assert.AreEqual(result.AggregateRootId, reply.id);
+            Assert.AreEqual(replyId, reply.id);
             Assert.AreEqual(postId, reply.postId);
             Assert.AreEqual(authorId, reply.authorId);
             Assert.AreEqual(body, reply.body);
+
+            //停顿3s后验证帖子统计信息
+            Thread.Sleep(3000);
+            var postInfo = _postQueryService.Find(postId);
+            Assert.NotNull(postInfo);
+            Assert.AreEqual(replyId, postInfo.MostRecentReplyId);
+            Assert.AreEqual(authorId, postInfo.MostRecentReplierId);
+            Assert.AreEqual(name, postInfo.MostRecentReplierName);
+            Assert.AreEqual(reply.createdOn, postInfo.LastUpdateTime);
+            Assert.AreEqual(1, postInfo.ReplyCount);
         }
 
         [Test]

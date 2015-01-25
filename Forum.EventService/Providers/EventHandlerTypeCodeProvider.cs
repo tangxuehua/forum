@@ -14,6 +14,7 @@ namespace Forum.EventService.Providers
             RegisterType<SectionEventHandler>(101);
             RegisterType<PostEventHandler>(102);
             RegisterType<ReplyEventHandler>(103);
+            RegisterType<ReplyCreatedMessageSender>(104);
         }
     }
 }

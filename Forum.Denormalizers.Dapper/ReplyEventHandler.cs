@@ -8,13 +8,13 @@ using Forum.Infrastructure;
 namespace Forum.Denormalizers.Dapper
 {
     [Component]
-    public class ReplyEventHandler : BaseEventHandler,
+    public class ReplyEventHandler : BaseHandler,
         IEventHandler<ReplyCreatedEvent>,
         IEventHandler<ReplyBodyChangedEvent>
     {
         public void Handle(IHandlingContext context, ReplyCreatedEvent evnt)
         {
-            using (var connection = GetConnection())
+            TryInsertRecord(connection =>
             {
                 connection.Insert(
                     new
@@ -29,13 +29,13 @@ namespace Forum.Denormalizers.Dapper
                         Version = evnt.Version
                     },
                     Constants.ReplyTable);
-            }
+            }, "InsertReply");
         }
         public void Handle(IHandlingContext context, ReplyBodyChangedEvent evnt)
         {
-            TryUpdateRecord(connection =>
+            TryDBAction(connection =>
             {
-                return connection.Update(
+                connection.Update(
                     new
                     {
                         Body = evnt.Body,
@@ -47,7 +47,7 @@ namespace Forum.Denormalizers.Dapper
                         Id = evnt.AggregateRootId,
                         Version = evnt.Version - 1
                     }, Constants.ReplyTable);
-            });
+            }, "UpdateReplyBody");
         }
     }
 }

@@ -66,7 +66,7 @@ namespace Forum.Domain.Tests
                 .UseSqlServerEventStore()
                 .UseEQueue()
                 .InitializeBusinessAssemblies(assemblies)
-                .StartENode(NodeType.CommandProcessor | NodeType.EventProcessor)
+                .StartENode()
                 .StartEQueue();
         }
     }

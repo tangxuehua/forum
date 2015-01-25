@@ -15,14 +15,14 @@
                 <th width="10%" class="text-center vertical-center">
                     发帖时间
                 </th>
+                <th width="10%" class="text-center vertical-center">
+                    更新时间
+                </th>
                 <th width="8%" class="text-center vertical-center">
                     回复数
                 </th>
                 <th width="10%" class="text-center vertical-center">
                     回复人
-                </th>
-                <th width="10%" class="text-center vertical-center">
-                    回复时间
                 </th>
             </tr>
         </thead>
@@ -40,22 +40,15 @@
                         @post.CreatedOn
                     </td>
                     <td class="text-center vertical-center">
+                        @post.LastUpdateTime
+                    </td>
+                    <td class="text-center vertical-center">
                         @post.ReplyCount
                     </td>
                     <td class="text-center vertical-center">
                         @if (post.MostRecentReply != null)
                         {
                             @Html.ActionLink(post.MostRecentReply.AuthorName, "index", new { authorId = post.MostRecentReply.AuthorId })
-                        }
-                        else
-                        {
-                            @Html.Raw("-")
-                        }
-                    </td>
-                    <td class="text-center vertical-center">
-                        @if (post.MostRecentReply != null)
-                        {
-                            @post.MostRecentReply.CreatedOn
                         }
                         else
                         {

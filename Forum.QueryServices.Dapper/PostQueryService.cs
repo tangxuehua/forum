@@ -41,35 +41,22 @@ namespace Forum.QueryServices.Dapper
                 var pageSize = option.PageInfo.PageSize;
                 var sql = string.Format(@"
                         SELECT * FROM (
-                            SELECT ROW_NUMBER() OVER (ORDER BY p.Sequence desc) AS RowNumber, p.*, a.Name as AuthorName, r.ReplyCount, r.MostRecentReplySequence
+                            SELECT ROW_NUMBER() OVER (ORDER BY p.LastUpdateTime desc) AS RowNumber, p.*, a1.Name as AuthorName, a2.Name as MostRecentReplierName
                             FROM {0} p
-                            LEFT JOIN {1} a ON p.AuthorId = a.Id
-                            LEFT JOIN (SELECT PostId, COUNT(*) AS ReplyCount, MAX(Sequence) AS MostRecentReplySequence FROM {2} GROUP BY PostId) r on r.PostId = p.Id
-                            {3}) AS Total
-                        WHERE RowNumber >= {4} AND RowNumber <= {5}",
-                    Constants.PostTable, Constants.AccountTable, Constants.ReplyTable, wherePart, (pageIndex - 1) * pageSize + 1, pageIndex * pageSize);
+                            LEFT JOIN {1} a1 ON p.AuthorId = a1.Id
+                            LEFT JOIN {1} a2 ON p.MostRecentReplierId = a2.Id
+                            {2}) AS Total
+                        WHERE RowNumber >= {3} AND RowNumber <= {4}",
+                    Constants.PostTable, Constants.AccountTable, wherePart, (pageIndex - 1) * pageSize + 1, pageIndex * pageSize);
 
                 var posts = connection.Query<PostInfo>(sql, condition);
 
-                var sequenceIds = string.Join(",", posts.Select(x => x.MostRecentReplySequence));
-                if (sequenceIds.Count() > 0)
+                foreach (var post in posts)
                 {
-                    sql = string.Format(@"
-                        select r.Id, r.Sequence, r.AuthorId, a.Name as AuthorName, r.CreatedOn from {0} r left join {1} a on r.AuthorId = a.Id where r.Sequence in ({2})",
-                            Constants.ReplyTable, Constants.AccountTable, sequenceIds);
-                    var replies = connection.Query(sql);
-                    foreach (var post in posts)
-                    {
-                        post.AuthorName = FormatValue(post.AuthorName);
-                        var mostRecentReply = replies.SingleOrDefault(x => x.Sequence == post.MostRecentReplySequence);
-                        if (mostRecentReply != null)
-                        {
-                            post.MostRecentReplyId = FormatValue(mostRecentReply.Id);
-                            post.MostRecentReplierId = FormatValue(mostRecentReply.AuthorId);
-                            post.MostRecentReplierName = FormatValue(mostRecentReply.AuthorName);
-                            post.MostRecentReplyCreatedOn = mostRecentReply.CreatedOn;
-                        }
-                    }
+                    post.AuthorName = FormatValue(post.AuthorName);
+                    post.MostRecentReplyId = FormatValue(post.MostRecentReplyId);
+                    post.MostRecentReplierId = FormatValue(post.MostRecentReplierId);
+                    post.MostRecentReplierName = FormatValue(post.MostRecentReplierName);
                 }
 
                 return new PostQueryResult { Posts = posts, TotalCount = totalCount };
@@ -102,7 +89,7 @@ namespace Forum.QueryServices.Dapper
                             post.MostRecentReplyId = FormatValue(mostRecentReply.Id);
                             post.MostRecentReplierId = FormatValue(mostRecentReply.AuthorId);
                             post.MostRecentReplierName = FormatValue(mostRecentReply.AuthorName);
-                            post.MostRecentReplyCreatedOn = mostRecentReply.CreatedOn;
+                            post.LastUpdateTime = mostRecentReply.CreatedOn;
                         }
 
                         return post;

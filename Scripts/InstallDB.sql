@@ -1,7 +1,6 @@
 ﻿----------------------------------------------------------------------------------------------
 --Tables used by Forum.
 ----------------------------------------------------------------------------------------------
-
 CREATE TABLE [dbo].[AccountIndex] (
     [IndexId]     NVARCHAR (32) NOT NULL,
     [AccountId]   NVARCHAR (32) NOT NULL,
@@ -49,6 +48,10 @@ CREATE TABLE [dbo].[Post](
     [SectionId] [nvarchar](32) NOT NULL,
     [CreatedOn] [datetime] NOT NULL,
     [UpdatedOn] [datetime] NOT NULL,
+    [MostRecentReplyId] [nvarchar](32) NULL,
+    [MostRecentReplierId] [nvarchar](32) NULL,
+    [ReplyCount] [bigint] NOT NULL,
+    [LastUpdateTime] [datetime] NOT NULL,
     [Version] [bigint] NOT NULL,
  CONSTRAINT [PK_Post] PRIMARY KEY CLUSTERED 
 (

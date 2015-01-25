@@ -94,7 +94,7 @@ namespace Forum.CommandService
                 .UseSqlServerLockService()
                 .UseSqlServerCommandStore()
                 .UseSqlServerEventStore()
-                .UseSqlServerEventPublishInfoStore()
+                .UseSqlServerAggregatePublishVersionStore()
                 .UseSqlServerMessageHandleRecordStore()
                 .UseEQueue()
                 .InitializeBusinessAssemblies(assemblies);

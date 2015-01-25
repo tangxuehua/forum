@@ -48,17 +48,14 @@ namespace Forum.QueryServices.DTOs
         /// <summary>最近一个回复ID
         /// </summary>
         public string MostRecentReplyId { get; set; }
-        /// <summary>最近一个回复的Sequence
-        /// </summary>
-        public long MostRecentReplySequence { get; set; }
         /// <summary>最近一个回复的作者ID
         /// </summary>
         public string MostRecentReplierId { get; set; }
         /// <summary>最近一个回复的作者名称
         /// </summary>
         public string MostRecentReplierName { get; set; }
-        /// <summary>最近一个回复的创建时间
+        /// <summary>最近一个回复的创建时间，如果没有回复，则为帖子创建时间
         /// </summary>
-        public DateTime MostRecentReplyCreatedOn { get; set; }
+        public DateTime LastUpdateTime { get; set; }
     }
 }

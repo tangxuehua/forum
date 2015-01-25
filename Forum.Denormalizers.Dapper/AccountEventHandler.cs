@@ -8,11 +8,11 @@ using Forum.Infrastructure;
 namespace Forum.Denormalizers.Dapper
 {
     [Component]
-    public class AccountEventHandler : BaseEventHandler, IEventHandler<NewAccountRegisteredEvent>
+    public class AccountEventHandler : BaseHandler, IEventHandler<NewAccountRegisteredEvent>
     {
         public void Handle(IHandlingContext context, NewAccountRegisteredEvent evnt)
         {
-            using (var connection = GetConnection())
+            TryInsertRecord(connection =>
             {
                 connection.Insert(
                     new
@@ -24,7 +24,7 @@ namespace Forum.Denormalizers.Dapper
                         UpdatedOn = evnt.Timestamp,
                         Version = evnt.Version
                     }, Constants.AccountTable);
-            }
+            }, "InsertAccount");
         }
     }
 }
