@@ -262,7 +262,6 @@
     <Content Include="Views\Shared\SectionNavbar.cshtml" />
     <Content Include="Views\Shared\NoPermission.cshtml" />
     <None Include="Properties\PublishProfiles\default.pubxml" />
-    <None Include="Properties\PublishProfiles\forumconfig.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Forum.Commands\Forum.Commands.csproj">
