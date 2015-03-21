@@ -13,6 +13,7 @@ namespace Forum.Domain.Replies
         private string _parentId;
         private string _authorId;
         private string _body;
+        private DateTime _createdOn;
 
         public Reply(string id, string postId, Reply parent, string authorId, string body)
             : base(id)
@@ -28,7 +29,7 @@ namespace Forum.Domain.Replies
             {
                 throw new ArgumentException(string.Format("回复的parentId不能是当前回复的Id:{0}", id));
             }
-            ApplyEvent(new ReplyCreatedEvent(Id, postId, parent == null ? null : parent.Id, authorId, body, DateTime.Now));
+            ApplyEvent(new ReplyCreatedEvent(this, postId, parent == null ? null : parent.Id, authorId, body));
         }
 
         public void ChangeBody(string body)
@@ -38,7 +39,15 @@ namespace Forum.Domain.Replies
             {
                 throw new Exception("回复内容长度不能超过1000");
             }
-            ApplyEvent(new ReplyBodyChangedEvent(Id, body));
+            ApplyEvent(new ReplyBodyChangedEvent(this, body));
+        }
+        public string GetAuthorId()
+        {
+            return _authorId;
+        }
+        public DateTime GetCreateTime()
+        {
+            return _createdOn;
         }
 
         private void Handle(ReplyCreatedEvent evnt)
@@ -48,6 +57,7 @@ namespace Forum.Domain.Replies
             _parentId = evnt.ParentId;
             _body = evnt.Body;
             _authorId = evnt.AuthorId;
+            _createdOn = evnt.Timestamp;
         }
         private void Handle(ReplyBodyChangedEvent evnt)
         {

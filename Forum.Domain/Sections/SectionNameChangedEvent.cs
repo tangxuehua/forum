@@ -9,8 +9,8 @@ namespace Forum.Domain.Sections
         public string Name { get; private set; }
 
         private SectionNameChangedEvent() { }
-        public SectionNameChangedEvent(string sectionId, string name)
-            : base(sectionId)
+        public SectionNameChangedEvent(Section section, string name)
+            : base(section)
         {
             Name = name;
         }

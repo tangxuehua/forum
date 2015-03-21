@@ -4,7 +4,7 @@ using ENode.Commanding;
 namespace Forum.Commands.Replies
 {
     [Serializable]
-    public class ChangeReplyBodyCommand : AggregateCommand<string>
+    public class ChangeReplyBodyCommand : Command
     {
         public string Body { get; set; }
 

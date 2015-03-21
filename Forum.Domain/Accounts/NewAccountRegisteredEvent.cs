@@ -10,8 +10,8 @@ namespace Forum.Domain.Accounts
         public string Password { get; private set; }
 
         private NewAccountRegisteredEvent() { }
-        public NewAccountRegisteredEvent(string accountId, string name, string password)
-            : base(accountId)
+        public NewAccountRegisteredEvent(Account account, string name, string password)
+            : base(account)
         {
             Name = name;
             Password = password;

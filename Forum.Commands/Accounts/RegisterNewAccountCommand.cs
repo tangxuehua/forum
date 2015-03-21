@@ -4,7 +4,7 @@ using ENode.Commanding;
 namespace Forum.Commands.Accounts
 {
     [Serializable]
-    public class RegisterNewAccountCommand : AggregateCommand<string>, ICreatingAggregateCommand
+    public class RegisterNewAccountCommand : Command
     {
         public string Name { get; private set; }
         public string Password { get; private set; }

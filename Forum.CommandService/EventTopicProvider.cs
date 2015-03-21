@@ -6,16 +6,16 @@ using Forum.Domain.Posts;
 using Forum.Domain.Replies;
 using Forum.Domain.Sections;
 
-namespace Forum.EventService.Providers
+namespace Forum.CommandService.Providers
 {
     [Component]
-    public class EventTopicProvider : AbstractTopicProvider<IEvent>
+    public class EventTopicProvider : AbstractTopicProvider<IDomainEvent>
     {
         public EventTopicProvider()
         {
             RegisterTopic("AccountEventTopic", typeof(NewAccountRegisteredEvent));
             RegisterTopic("SectionEventTopic", typeof(SectionCreatedEvent), typeof(SectionNameChangedEvent));
-            RegisterTopic("PostEventTopic", typeof(PostCreatedEvent), typeof(PostUpdatedEvent));
+            RegisterTopic("PostEventTopic", typeof(PostCreatedEvent), typeof(PostUpdatedEvent), typeof(PostReplyStatisticInfoChangedEvent));
             RegisterTopic("ReplyEventTopic", typeof(ReplyCreatedEvent), typeof(ReplyBodyChangedEvent));
         }
     }

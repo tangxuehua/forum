@@ -3,6 +3,7 @@ using ECommon.Extensions;
 using ECommon.Logging;
 using ECommon.Utilities;
 using ENode.Commanding;
+using ENode.Infrastructure;
 using Forum.Commands.Sections;
 using Forum.Domain.Sections;
 using NUnit.Framework;
@@ -17,7 +18,7 @@ namespace Forum.Domain.Tests
         {
             var name = ObjectId.GenerateNewStringId();
 
-            var result = _commandService.Execute(new CreateSectionCommand(name), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000);
+            var result = ExecuteCommand(new CreateSectionCommand(name));
 
             Assert.AreEqual(CommandStatus.Success, result.Status);
             Assert.IsNotNull(result.AggregateRootId);
@@ -32,12 +33,9 @@ namespace Forum.Domain.Tests
         public void update_section_test()
         {
             var name = ObjectId.GenerateNewStringId();
-
-            var result = _commandService.Execute(new CreateSectionCommand(name), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000);
-
+            var result = ExecuteCommand(new CreateSectionCommand(name));
             var name2 = ObjectId.GenerateNewStringId();
-
-            var result2 = _commandService.Execute(new ChangeSectionNameCommand(result.AggregateRootId, name2), CommandReturnType.EventHandled).WaitResult<CommandResult>(1000000);
+            var result2 = ExecuteCommand(new ChangeSectionNameCommand(result.AggregateRootId, name2));
 
             Assert.AreEqual(CommandStatus.Success, result2.Status);
 

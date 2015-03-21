@@ -4,7 +4,7 @@ using ENode.Commanding;
 namespace Forum.Commands.Posts
 {
     [Serializable]
-    public class UpdatePostCommand : AggregateCommand<string>
+    public class UpdatePostCommand : Command
     {
         public string Subject { get; private set; }
         public string Body { get; private set; }

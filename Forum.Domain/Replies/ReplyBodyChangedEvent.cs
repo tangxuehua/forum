@@ -11,7 +11,7 @@ namespace Forum.Domain.Replies
         public string Body { get; private set; }
 
         private ReplyBodyChangedEvent() { }
-        public ReplyBodyChangedEvent(string id, string body) : base(id)
+        public ReplyBodyChangedEvent(Reply reply, string body) : base(reply)
         {
             Body = body;
         }

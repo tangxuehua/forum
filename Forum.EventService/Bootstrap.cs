@@ -34,11 +34,11 @@ namespace Forum.EventService
         {
             try
             {
-                _enodeConfiguration.StartENode(NodeType.EventProcessor | NodeType.MessageProcessor).StartEQueue();
+                _enodeConfiguration.StartEQueue();
             }
             catch (Exception ex)
             {
-                _logger.Error("ENode or EQueue start failed.", ex);
+                _logger.Error("EQueue start failed.", ex);
                 throw;
             }
         }
@@ -76,6 +76,7 @@ namespace Forum.EventService
                 Assembly.Load("Forum.Infrastructure"),
                 Assembly.Load("Forum.Domain"),
                 Assembly.Load("Forum.Denormalizers.Dapper"),
+                Assembly.Load("Forum.ProcessManagers"),
                 Assembly.Load("Forum.EventService")
             };
             var setting = new ConfigurationSetting
@@ -87,7 +88,8 @@ namespace Forum.EventService
                 .CreateENode(setting)
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
-                .UseSqlServerAggregatePublishVersionStore()
+                .RegisterAllTypeCodes()
+                .UseSqlServerSequenceMessagePublishedVersionStore()
                 .UseSqlServerMessageHandleRecordStore()
                 .UseEQueue()
                 .InitializeBusinessAssemblies(assemblies);

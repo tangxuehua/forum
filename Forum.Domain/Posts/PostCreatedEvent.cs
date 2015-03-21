@@ -14,7 +14,7 @@ namespace Forum.Domain.Posts
         public string AuthorId { get; private set; }
 
         private PostCreatedEvent() { }
-        public PostCreatedEvent(string postId, string subject, string body, string sectionId, string authorId) : base(postId)
+        public PostCreatedEvent(Post post, string subject, string body, string sectionId, string authorId) : base(post)
         {
             Subject = subject;
             Body = body;

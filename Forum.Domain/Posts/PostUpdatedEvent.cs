@@ -12,7 +12,7 @@ namespace Forum.Domain.Posts
         public string Body { get; private set; }
 
         private PostUpdatedEvent() { }
-        public PostUpdatedEvent(string postId, string subject, string body) : base(postId)
+        public PostUpdatedEvent(Post post, string subject, string body) : base(post)
         {
             Subject = subject;
             Body = body;

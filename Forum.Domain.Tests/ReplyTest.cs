@@ -2,6 +2,7 @@
 using ECommon.Extensions;
 using ECommon.Utilities;
 using ENode.Commanding;
+using ENode.Infrastructure;
 using Forum.Commands.Accounts;
 using Forum.Commands.Posts;
 using Forum.Commands.Replies;
@@ -18,7 +19,7 @@ namespace Forum.Domain.Tests
             //创建账号
             var name = ObjectId.GenerateNewStringId();
             var password = ObjectId.GenerateNewStringId();
-            var result = _commandService.Execute(new RegisterNewAccountCommand(name, password), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000);
+            var result = ExecuteCommand(new RegisterNewAccountCommand(name, password));
             Assert.AreEqual(CommandStatus.Success, result.Status);
 
             //发表帖子
@@ -26,13 +27,13 @@ namespace Forum.Domain.Tests
             var subject = ObjectId.GenerateNewStringId();
             var body = ObjectId.GenerateNewStringId();
             var sectionId = ObjectId.GenerateNewStringId();
-            result = _commandService.Execute(new CreatePostCommand(subject, body, sectionId, authorId), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000);
+            result = ExecuteCommand(new CreatePostCommand(subject, body, sectionId, authorId));
             Assert.AreEqual(CommandStatus.Success, result.Status);
             Assert.IsNotNull(result.AggregateRootId);
 
             //发表回复
             var postId = result.AggregateRootId;
-            result = _commandService.Execute(new CreateReplyCommand(postId, null, body, authorId), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000);
+            result = ExecuteCommand(new CreateReplyCommand(postId, null, body, authorId));
 
             //验证回复信息
             Assert.AreEqual(CommandStatus.Success, result.Status);
@@ -63,11 +64,11 @@ namespace Forum.Domain.Tests
             var authorId = ObjectId.GenerateNewStringId();
             var body = ObjectId.GenerateNewStringId();
 
-            var id1 = _commandService.Execute(new CreateReplyCommand(postId, null, body, authorId), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000).AggregateRootId;
+            var id1 = ExecuteCommand(new CreateReplyCommand(postId, null, body, authorId)).AggregateRootId;
 
             var body2 = ObjectId.GenerateNewStringId();
 
-            var id2 = _commandService.Execute(new CreateReplyCommand(postId, id1, body2, authorId), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000).AggregateRootId;
+            var id2 = ExecuteCommand(new CreateReplyCommand(postId, id1, body2, authorId)).AggregateRootId;
 
             var reply = _replyQueryService.FindDynamic(id2, "simple");
 
@@ -86,11 +87,11 @@ namespace Forum.Domain.Tests
             var authorId = ObjectId.GenerateNewStringId();
             var body = ObjectId.GenerateNewStringId();
 
-            var id = _commandService.Execute(new CreateReplyCommand(postId, null, body, authorId), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000).AggregateRootId;
+            var id = ExecuteCommand(new CreateReplyCommand(postId, null, body, authorId)).AggregateRootId;
 
             var body2 = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new ChangeReplyBodyCommand(id, body2), CommandReturnType.EventHandled).Wait();
+            ExecuteCommand(new ChangeReplyBodyCommand(id, body2));
 
             var reply = _replyQueryService.FindDynamic(id, "simple");
 

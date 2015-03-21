@@ -1,5 +1,4 @@
 ﻿using ECommon.Components;
-using ECommon.Extensions;
 using ECommon.Utilities;
 using ENode.Commanding;
 using Forum.Commands.Accounts;
@@ -17,7 +16,7 @@ namespace Forum.Domain.Tests
             var name = ObjectId.GenerateNewStringId();
             var password = ObjectId.GenerateNewStringId();
 
-            var result = _commandService.Execute(new RegisterNewAccountCommand(name, password), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000);
+            var result = ExecuteCommand(new RegisterNewAccountCommand(name, password));
 
             Assert.AreEqual(CommandStatus.Success, result.Status);
 
@@ -33,8 +32,8 @@ namespace Forum.Domain.Tests
             var name = ObjectId.GenerateNewStringId();
             var password = ObjectId.GenerateNewStringId();
 
-            _commandService.Execute(new RegisterNewAccountCommand(name, password), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000);
-            var result = _commandService.Execute(new RegisterNewAccountCommand(name, password), CommandReturnType.EventHandled).WaitResult<CommandResult>(10000);
+            ExecuteCommand(new RegisterNewAccountCommand(name, password));
+            var result = ExecuteCommand(new RegisterNewAccountCommand(name, password));
 
             Assert.AreEqual(CommandStatus.Failed, result.Status);
             Assert.AreEqual("重复的账号名称：" + name, result.ErrorMessage);

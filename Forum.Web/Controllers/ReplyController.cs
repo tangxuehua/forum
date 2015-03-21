@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using ENode.Commanding;
+using ENode.Infrastructure;
 using Forum.Commands.Replies;
 using Forum.QueryServices;
 using Forum.Web.Extensions;
@@ -44,7 +45,7 @@ namespace Forum.Web.Controllers
                     model.Body,
                     _contextService.CurrentAccount.AccountId));
 
-            if (result.Status == CommandSendStatus.Failed)
+            if (result.Status != AsyncTaskStatus.Success)
             {
                 return Json(new { success = false, errorMsg = result.ErrorMessage });
             }
@@ -64,7 +65,7 @@ namespace Forum.Web.Controllers
 
             var result = await _commandService.SendAsync(new ChangeReplyBodyCommand(model.Id, model.Body));
 
-            if (result.Status == CommandSendStatus.Failed)
+            if (result.Status != AsyncTaskStatus.Success)
             {
                 return Json(new { success = false, errorMsg = result.ErrorMessage });
             }

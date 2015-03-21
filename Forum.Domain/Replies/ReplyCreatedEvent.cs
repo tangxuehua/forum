@@ -12,16 +12,15 @@ namespace Forum.Domain.Replies
         public string ParentId { get; private set; }
         public string AuthorId { get; private set; }
         public string Body { get; private set; }
-        public DateTime CreatedOn { get; private set; }
 
         private ReplyCreatedEvent() { }
-        public ReplyCreatedEvent(string id, string postId, string parentId, string authorId, string body, DateTime createdOn) : base(id)
+        public ReplyCreatedEvent(Reply reply, string postId, string parentId, string authorId, string body)
+            : base(reply)
         {
             PostId = postId;
             ParentId = parentId;
             AuthorId = authorId;
             Body = body;
-            CreatedOn = createdOn;
         }
     }
 }

@@ -37,11 +37,11 @@ namespace Forum.CommandService
         {
             try
             {
-                _enodeConfiguration.StartENode(NodeType.CommandProcessor).StartEQueue();
+                _enodeConfiguration.StartEQueue();
             }
             catch (Exception ex)
             {
-                _logger.Error("ENode or EQueue start failed.", ex);
+                _logger.Error("EQueue start failed.", ex);
                 throw;
             }
         }
@@ -91,10 +91,11 @@ namespace Forum.CommandService
                 .CreateENode(setting)
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
+                .RegisterAllTypeCodes()
                 .UseSqlServerLockService()
                 .UseSqlServerCommandStore()
                 .UseSqlServerEventStore()
-                .UseSqlServerAggregatePublishVersionStore()
+                .UseSqlServerSequenceMessagePublishedVersionStore()
                 .UseSqlServerMessageHandleRecordStore()
                 .UseEQueue()
                 .InitializeBusinessAssemblies(assemblies);

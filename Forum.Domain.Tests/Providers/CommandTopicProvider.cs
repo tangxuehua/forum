@@ -15,7 +15,7 @@ namespace Forum.Domain.Tests
         {
             RegisterTopic("AccountCommandTopic", typeof(RegisterNewAccountCommand));
             RegisterTopic("SectionCommandTopic", typeof(CreateSectionCommand), typeof(ChangeSectionNameCommand));
-            RegisterTopic("PostCommandTopic", typeof(CreatePostCommand), typeof(UpdatePostCommand));
+            RegisterTopic("PostCommandTopic", typeof(CreatePostCommand), typeof(UpdatePostCommand), typeof(AcceptNewReplyCommand));
             RegisterTopic("ReplyCommandTopic", typeof(CreateReplyCommand), typeof(ChangeReplyBodyCommand));
         }
     }

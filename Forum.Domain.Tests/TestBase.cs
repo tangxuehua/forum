@@ -2,6 +2,7 @@
 using ECommon.Autofac;
 using ECommon.Components;
 using ECommon.Configurations;
+using ECommon.Extensions;
 using ECommon.JsonNet;
 using ECommon.Log4Net;
 using ENode.Commanding;
@@ -32,6 +33,11 @@ namespace Forum.Domain.Tests
             ObjectContainer.Resolve<ILockService>().AddLockKey(typeof(Account).Name);
         }
 
+        protected CommandResult ExecuteCommand(ICommand command)
+        {
+            return _commandService.ExecuteAsync(command, CommandReturnType.EventHandled).WaitResult<AsyncTaskResult<CommandResult>>(10000).Data;
+        }
+
         private static void InitializeENode()
         {
             var assemblies = new[]
@@ -41,6 +47,7 @@ namespace Forum.Domain.Tests
                 Assembly.Load("Forum.Domain.Dapper"),
                 Assembly.Load("Forum.CommandHandlers"),
                 Assembly.Load("Forum.Denormalizers.Dapper"),
+                Assembly.Load("Forum.ProcessManagers"),
                 Assembly.Load("Forum.QueryServices"),
                 Assembly.Load("Forum.QueryServices.Dapper"),
                 Assembly.Load("Forum.Domain.Tests")
@@ -61,12 +68,12 @@ namespace Forum.Domain.Tests
                 .CreateENode(setting)
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
+                .RegisterAllTypeCodes()
                 .UseSqlServerLockService()
                 .UseSqlServerCommandStore()
                 .UseSqlServerEventStore()
                 .UseEQueue()
                 .InitializeBusinessAssemblies(assemblies)
-                .StartENode()
                 .StartEQueue();
         }
     }

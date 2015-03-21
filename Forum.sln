@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Commands", "Forum.Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Infrastructure", "Forum.Infrastructure\Forum.Infrastructure.csproj", "{86985782-8588-48DA-81AB-FFD3B855C73C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Denormalizers.Dapper", "Forum.Denormalizers.Dapper\Forum.Denormalizers.Dapper.csproj", "{433DD072-0748-4440-BA1B-4A0D6E507D3B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.QueryServices.Dapper", "Forum.QueryServices.Dapper\Forum.QueryServices.Dapper.csproj", "{228E2C43-CD92-4B49-817D-3FBFBB9C50C4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Domain", "Forum.Domain\Forum.Domain.csproj", "{5A4055C3-89BC-4149-8A6D-06CE985080C9}"
@@ -35,6 +33,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{F810
 	ProjectSection(SolutionItems) = preProject
 		Scripts\InstallDB.sql = Scripts\InstallDB.sql
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Denormalizers.Dapper", "Forum.Denormalizers.Dapper\Forum.Denormalizers.Dapper.csproj", "{433DD072-0748-4440-BA1B-4A0D6E507D3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.ProcessManagers", "Forum.ProcessManagers\Forum.ProcessManagers.csproj", "{9790A5C5-38E6-4318-97F1-A07E3B2CBD8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,10 +64,6 @@ Global
 		{86985782-8588-48DA-81AB-FFD3B855C73C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86985782-8588-48DA-81AB-FFD3B855C73C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86985782-8588-48DA-81AB-FFD3B855C73C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{433DD072-0748-4440-BA1B-4A0D6E507D3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{433DD072-0748-4440-BA1B-4A0D6E507D3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{433DD072-0748-4440-BA1B-4A0D6E507D3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{433DD072-0748-4440-BA1B-4A0D6E507D3B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{228E2C43-CD92-4B49-817D-3FBFBB9C50C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{228E2C43-CD92-4B49-817D-3FBFBB9C50C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{228E2C43-CD92-4B49-817D-3FBFBB9C50C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -94,6 +92,14 @@ Global
 		{6AD347F8-D02E-4AAA-A72B-C4AD93971986}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AD347F8-D02E-4AAA-A72B-C4AD93971986}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AD347F8-D02E-4AAA-A72B-C4AD93971986}.Release|Any CPU.Build.0 = Release|Any CPU
+		{433DD072-0748-4440-BA1B-4A0D6E507D3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{433DD072-0748-4440-BA1B-4A0D6E507D3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{433DD072-0748-4440-BA1B-4A0D6E507D3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{433DD072-0748-4440-BA1B-4A0D6E507D3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9790A5C5-38E6-4318-97F1-A07E3B2CBD8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9790A5C5-38E6-4318-97F1-A07E3B2CBD8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9790A5C5-38E6-4318-97F1-A07E3B2CBD8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9790A5C5-38E6-4318-97F1-A07E3B2CBD8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
