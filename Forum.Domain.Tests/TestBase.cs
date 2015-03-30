@@ -72,6 +72,8 @@ namespace Forum.Domain.Tests
                 .UseSqlServerLockService()
                 .UseSqlServerCommandStore()
                 .UseSqlServerEventStore()
+                .UseSqlServerSequenceMessagePublishedVersionStore()
+                .UseSqlServerMessageHandleRecordStore()
                 .UseEQueue()
                 .InitializeBusinessAssemblies(assemblies)
                 .StartEQueue();
