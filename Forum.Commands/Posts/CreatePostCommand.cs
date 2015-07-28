@@ -12,7 +12,7 @@ namespace Forum.Commands.Posts
         public string AuthorId { get; private set; }
 
         private CreatePostCommand() { }
-        public CreatePostCommand(string subject, string body, string sectionId, string authorId)
+        public CreatePostCommand(string id, string subject, string body, string sectionId, string authorId) : base(id)
         {
             Subject = subject;
             Body = body;

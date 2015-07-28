@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using ECommon.IO;
+using ECommon.Utilities;
 using ENode.Commanding;
 using ENode.Infrastructure;
 using Forum.Commands.Replies;
@@ -40,6 +42,7 @@ namespace Forum.Web.Controllers
         {
             var result = await _commandService.SendAsync(
                 new CreateReplyCommand(
+                    ObjectId.GenerateNewStringId(),
                     model.PostId,
                     model.ParentId,
                     model.Body,

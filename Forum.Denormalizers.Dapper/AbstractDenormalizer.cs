@@ -2,23 +2,13 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using ECommon.Components;
-using ECommon.Logging;
-using ENode.Infrastructure;
+using ECommon.IO;
 using Forum.Infrastructure;
 
 namespace Forum.Denormalizers.Dapper
 {
     public abstract class AbstractDenormalizer
     {
-        private static readonly IOHelper _ioHelper = ObjectContainer.Resolve<IOHelper>();
-        protected readonly ILogger _logger;
-
-        public AbstractDenormalizer()
-        {
-            _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(GetType().FullName);
-        }
-
         protected async Task<AsyncTaskResult> TryInsertRecordAsync(Func<IDbConnection, Task<long>> action)
         {
             try

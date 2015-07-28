@@ -35,9 +35,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ECommon, Version=1.4.3.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon, Version=1.4.9.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.1.4.3\lib\net45\ECommon.dll</HintPath>
+      <HintPath>..\packages\ECommon.1.4.9\lib\net45\ECommon.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -47,12 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultIdentityGenerator.cs" />
     <Compile Include="Assert.cs" />
     <Compile Include="ConfigSettings.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DuplicateAccountException.cs" />
-    <Compile Include="IIdentityGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

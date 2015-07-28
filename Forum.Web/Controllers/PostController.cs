@@ -3,6 +3,8 @@ using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using ECommon.IO;
+using ECommon.Utilities;
 using ENode.Commanding;
 using ENode.Infrastructure;
 using Forum.Commands.Posts;
@@ -68,6 +70,7 @@ namespace Forum.Web.Controllers
         {
             var result = await _commandService.SendAsync(
                 new CreatePostCommand(
+                    ObjectId.GenerateNewStringId(),
                     model.Subject,
                     model.Body,
                     model.SectionId,

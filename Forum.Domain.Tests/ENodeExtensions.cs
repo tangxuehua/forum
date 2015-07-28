@@ -1,8 +1,10 @@
 ﻿using System.Linq;
+using System.Net;
 using System.Threading;
 using ECommon.Components;
 using ECommon.Logging;
 using ECommon.Scheduling;
+using ECommon.Utilities;
 using ENode.Commanding;
 using ENode.Configurations;
 using ENode.EQueue;
@@ -87,8 +89,8 @@ namespace Forum.Domain.Tests
 
             configuration.RegisterEQueueComponents();
 
-            _broker = new BrokerController();
-            _commandResultProcessor = new CommandResultProcessor();
+            _broker = BrokerController.Create();
+            _commandResultProcessor = new CommandResultProcessor(new IPEndPoint(SocketUtils.GetLocalIPV4(), 9000));
             _commandService = new CommandService(_commandResultProcessor);
             _eventPublisher = new DomainEventPublisher();
 
@@ -138,12 +140,8 @@ namespace Forum.Domain.Tests
             {
                 var eventConsumerAllocatedQueues = _eventConsumer.Consumer.GetCurrentQueues();
                 var commandConsumerAllocatedQueues = _commandConsumer.Consumer.GetCurrentQueues();
-                var executedCommandMessageConsumerAllocatedQueues = _commandResultProcessor.CommandExecutedMessageConsumer.GetCurrentQueues();
-                var domainEventHandledMessageConsumerAllocatedQueues = _commandResultProcessor.DomainEventHandledMessageConsumer.GetCurrentQueues();
-                if (eventConsumerAllocatedQueues.Count() == totalCommandTopicCount * _broker.Setting.DefaultTopicQueueCount
-                    && commandConsumerAllocatedQueues.Count() == totalEventTopicCount * _broker.Setting.DefaultTopicQueueCount
-                    && executedCommandMessageConsumerAllocatedQueues.Count() == 4
-                    && domainEventHandledMessageConsumerAllocatedQueues.Count() == 4)
+                if (eventConsumerAllocatedQueues.Count() == totalCommandTopicCount * _broker.Setting.TopicDefaultQueueCount
+                    && commandConsumerAllocatedQueues.Count() == totalEventTopicCount * _broker.Setting.TopicDefaultQueueCount)
                 {
                     waitHandle.Set();
                 }

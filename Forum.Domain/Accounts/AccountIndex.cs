@@ -4,13 +4,11 @@
     /// </summary>
     public class AccountIndex
     {
-        public string IndexId { get; private set; }
         public string AccountId { get; private set; }
         public string AccountName { get; private set; }
 
-        public AccountIndex(string indexId, string accountId, string accountName)
+        public AccountIndex(string accountId, string accountName)
         {
-            IndexId = indexId;
             AccountId = accountId;
             AccountName = accountName;
         }

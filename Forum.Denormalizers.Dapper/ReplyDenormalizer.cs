@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using ECommon.Components;
 using ECommon.Dapper;
-using ENode.Eventing;
+using ECommon.IO;
 using ENode.Infrastructure;
 using Forum.Domain.Replies;
 using Forum.Infrastructure;

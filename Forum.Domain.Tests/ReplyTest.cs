@@ -19,7 +19,7 @@ namespace Forum.Domain.Tests
             //创建账号
             var name = ObjectId.GenerateNewStringId();
             var password = ObjectId.GenerateNewStringId();
-            var result = ExecuteCommand(new RegisterNewAccountCommand(name, password));
+            var result = ExecuteCommand(new RegisterNewAccountCommand(ObjectId.GenerateNewStringId(), name, password));
             Assert.AreEqual(CommandStatus.Success, result.Status);
 
             //发表帖子
@@ -27,13 +27,13 @@ namespace Forum.Domain.Tests
             var subject = ObjectId.GenerateNewStringId();
             var body = ObjectId.GenerateNewStringId();
             var sectionId = ObjectId.GenerateNewStringId();
-            result = ExecuteCommand(new CreatePostCommand(subject, body, sectionId, authorId));
+            result = ExecuteCommand(new CreatePostCommand(ObjectId.GenerateNewStringId(), subject, body, sectionId, authorId));
             Assert.AreEqual(CommandStatus.Success, result.Status);
             Assert.IsNotNull(result.AggregateRootId);
 
             //发表回复
             var postId = result.AggregateRootId;
-            result = ExecuteCommand(new CreateReplyCommand(postId, null, body, authorId));
+            result = ExecuteCommand(new CreateReplyCommand(ObjectId.GenerateNewStringId(), postId, null, body, authorId));
 
             //验证回复信息
             Assert.AreEqual(CommandStatus.Success, result.Status);
@@ -64,11 +64,11 @@ namespace Forum.Domain.Tests
             var authorId = ObjectId.GenerateNewStringId();
             var body = ObjectId.GenerateNewStringId();
 
-            var id1 = ExecuteCommand(new CreateReplyCommand(postId, null, body, authorId)).AggregateRootId;
+            var id1 = ExecuteCommand(new CreateReplyCommand(ObjectId.GenerateNewStringId(), postId, null, body, authorId)).AggregateRootId;
 
             var body2 = ObjectId.GenerateNewStringId();
 
-            var id2 = ExecuteCommand(new CreateReplyCommand(postId, id1, body2, authorId)).AggregateRootId;
+            var id2 = ExecuteCommand(new CreateReplyCommand(ObjectId.GenerateNewStringId(), postId, id1, body2, authorId)).AggregateRootId;
 
             var reply = _replyQueryService.FindDynamic(id2, "simple");
 
@@ -87,7 +87,7 @@ namespace Forum.Domain.Tests
             var authorId = ObjectId.GenerateNewStringId();
             var body = ObjectId.GenerateNewStringId();
 
-            var id = ExecuteCommand(new CreateReplyCommand(postId, null, body, authorId)).AggregateRootId;
+            var id = ExecuteCommand(new CreateReplyCommand(ObjectId.GenerateNewStringId(), postId, null, body, authorId)).AggregateRootId;
 
             var body2 = ObjectId.GenerateNewStringId();
 

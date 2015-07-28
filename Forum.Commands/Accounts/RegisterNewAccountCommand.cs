@@ -10,7 +10,7 @@ namespace Forum.Commands.Accounts
         public string Password { get; private set; }
 
         private RegisterNewAccountCommand() { }
-        public RegisterNewAccountCommand(string name, string password)
+        public RegisterNewAccountCommand(string id, string name, string password) : base(id)
         {
             Name = name;
             Password = password;

@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using ECommon.IO;
+using ECommon.Utilities;
 using ENode.Commanding;
 using ENode.Infrastructure;
 using Forum.Commands.Sections;
@@ -56,7 +58,7 @@ namespace Forum.Web.Controllers
                 return Json(new { success = false, errorMsg = "只有系统管理员才能新建版块。" });
             }
 
-            var result = await _commandService.SendAsync(new CreateSectionCommand(model.Name));
+            var result = await _commandService.SendAsync(new CreateSectionCommand(ObjectId.GenerateNewStringId(), model.Name));
 
             if (result.Status != AsyncTaskStatus.Success)
             {

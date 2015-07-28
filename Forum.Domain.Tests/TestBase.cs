@@ -3,6 +3,7 @@ using ECommon.Autofac;
 using ECommon.Components;
 using ECommon.Configurations;
 using ECommon.Extensions;
+using ECommon.IO;
 using ECommon.JsonNet;
 using ECommon.Log4Net;
 using ENode.Commanding;

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using ECommon.Components;
 using ECommon.Dapper;
+using ECommon.IO;
 using ENode.Infrastructure;
 using Forum.Domain.Accounts;
 using Forum.Infrastructure;

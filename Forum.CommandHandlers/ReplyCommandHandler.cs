@@ -11,16 +11,14 @@ namespace Forum.CommandHandlers
         ICommandHandler<CreateReplyCommand>,
         ICommandHandler<ChangeReplyBodyCommand>
     {
-        private readonly AggregateRootFactory _factory;
-
-        public ReplyCommandHandler(AggregateRootFactory factory)
-        {
-            _factory = factory;
-        }
-
         public void Handle(ICommandContext context, CreateReplyCommand command)
         {
-            context.Add(_factory.CreateReply(command.PostId, command.ParentId, command.AuthorId, command.Body));
+            Reply parent = null;
+            if (!string.IsNullOrEmpty(command.ParentId))
+            {
+                parent = context.Get<Reply>(command.ParentId);
+            }
+            context.Add(new Reply(command.AggregateRootId, command.PostId, parent, command.AuthorId, command.Body));
         }
         public void Handle(ICommandContext context, ChangeReplyBodyCommand command)
         {

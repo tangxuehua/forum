@@ -16,7 +16,7 @@ namespace Forum.Domain.Tests
             var name = ObjectId.GenerateNewStringId();
             var password = ObjectId.GenerateNewStringId();
 
-            var result = ExecuteCommand(new RegisterNewAccountCommand(name, password));
+            var result = ExecuteCommand(new RegisterNewAccountCommand(ObjectId.GenerateNewStringId(), name, password));
 
             Assert.AreEqual(CommandStatus.Success, result.Status);
 
@@ -32,8 +32,8 @@ namespace Forum.Domain.Tests
             var name = ObjectId.GenerateNewStringId();
             var password = ObjectId.GenerateNewStringId();
 
-            ExecuteCommand(new RegisterNewAccountCommand(name, password));
-            var result = ExecuteCommand(new RegisterNewAccountCommand(name, password));
+            ExecuteCommand(new RegisterNewAccountCommand(ObjectId.GenerateNewStringId(), name, password));
+            var result = ExecuteCommand(new RegisterNewAccountCommand(ObjectId.GenerateNewStringId(), name, password));
 
             Assert.AreEqual(CommandStatus.Failed, result.Status);
             Assert.AreEqual("重复的账号名称：" + name, result.ErrorMessage);

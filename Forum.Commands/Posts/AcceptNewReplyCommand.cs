@@ -9,8 +9,7 @@ namespace Forum.Commands.Posts
         public string ReplyId { get; private set; }
 
         private AcceptNewReplyCommand() { }
-        public AcceptNewReplyCommand(string id, string replyId)
-            : base(id)
+        public AcceptNewReplyCommand(string id, string replyId) : base(id)
         {
             ReplyId = replyId;
         }

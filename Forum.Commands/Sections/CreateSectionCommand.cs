@@ -9,7 +9,7 @@ namespace Forum.Commands.Sections
         public string Name { get; set; }
 
         private CreateSectionCommand() { }
-        public CreateSectionCommand(string name)
+        public CreateSectionCommand(string id, string name) : base(id)
         {
             Name = name;
         }

@@ -12,7 +12,7 @@ namespace Forum.Commands.Replies
         public string AuthorId { get; private set; }
 
         private CreateReplyCommand() { }
-        public CreateReplyCommand(string postId, string parentId, string body, string authorId)
+        public CreateReplyCommand(string id, string postId, string parentId, string body, string authorId) : base(id)
         {
             PostId = postId;
             ParentId = parentId;

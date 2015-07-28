@@ -18,7 +18,7 @@ namespace Forum.Domain.Tests
         {
             var name = ObjectId.GenerateNewStringId();
 
-            var result = ExecuteCommand(new CreateSectionCommand(name));
+            var result = ExecuteCommand(new CreateSectionCommand(ObjectId.GenerateNewStringId(), name));
 
             Assert.AreEqual(CommandStatus.Success, result.Status);
             Assert.IsNotNull(result.AggregateRootId);
@@ -33,7 +33,7 @@ namespace Forum.Domain.Tests
         public void update_section_test()
         {
             var name = ObjectId.GenerateNewStringId();
-            var result = ExecuteCommand(new CreateSectionCommand(name));
+            var result = ExecuteCommand(new CreateSectionCommand(ObjectId.GenerateNewStringId(), name));
             var name2 = ObjectId.GenerateNewStringId();
             var result2 = ExecuteCommand(new ChangeSectionNameCommand(result.AggregateRootId, name2));
 

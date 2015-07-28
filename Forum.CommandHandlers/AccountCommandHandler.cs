@@ -2,7 +2,6 @@
 using ENode.Commanding;
 using ENode.Infrastructure;
 using Forum.Commands.Accounts;
-using Forum.Domain;
 using Forum.Domain.Accounts;
 
 namespace Forum.CommandHandlers
@@ -11,13 +10,11 @@ namespace Forum.CommandHandlers
     public class AccountCommandHandler :
         ICommandHandler<RegisterNewAccountCommand>
     {
-        private readonly AggregateRootFactory _factory;
         private readonly ILockService _lockService;
         private readonly RegisterAccountIndexService _registerAccountIndexService;
 
-        public AccountCommandHandler(AggregateRootFactory factory, ILockService lockService, RegisterAccountIndexService registerAccountIndexService)
+        public AccountCommandHandler(ILockService lockService, RegisterAccountIndexService registerAccountIndexService)
         {
-            _factory = factory;
             _lockService = lockService;
             _registerAccountIndexService = registerAccountIndexService;
         }
@@ -26,9 +23,8 @@ namespace Forum.CommandHandlers
         {
             _lockService.ExecuteInLock(typeof(Account).Name, () =>
             {
-                var account = _factory.CreateAccount(command.Name, command.Password);
-                _registerAccountIndexService.RegisterAccountIndex(command.Id, account.Id, command.Name);
-                context.Add(account);
+                _registerAccountIndexService.RegisterAccountIndex(command.AggregateRootId, command.Name);
+                context.Add(new Account(command.AggregateRootId, command.Name, command.Password));
             });
         }
     }

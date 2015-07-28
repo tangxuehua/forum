@@ -1,4 +1,6 @@
-﻿using ECommon.Components;
+﻿using System.Net;
+using ECommon.Components;
+using ECommon.Utilities;
 using ENode.Commanding;
 using ENode.Configurations;
 using ENode.EQueue;
@@ -42,7 +44,7 @@ namespace Forum.Web.Extensions
 
             configuration.RegisterEQueueComponents();
 
-            _commandService = new CommandService(new CommandResultProcessor());
+            _commandService = new CommandService(new CommandResultProcessor(new IPEndPoint(SocketUtils.GetLocalIPV4(), 9000)));
 
             configuration.SetDefault<ICommandService, CommandService>(_commandService);
 

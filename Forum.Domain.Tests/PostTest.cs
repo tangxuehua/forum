@@ -25,7 +25,7 @@ namespace Forum.Domain.Tests
             var body = ObjectId.GenerateNewStringId();
             var sectionId = ObjectId.GenerateNewStringId();
 
-            var result = ExecuteCommand(new CreatePostCommand(subject, body, sectionId, authorId));
+            var result = ExecuteCommand(new CreatePostCommand(ObjectId.GenerateNewStringId(), subject, body, sectionId, authorId));
 
             Assert.AreEqual(CommandStatus.Success, result.Status);
             Assert.IsNotNull(result.AggregateRootId);
@@ -47,7 +47,7 @@ namespace Forum.Domain.Tests
             var body = ObjectId.GenerateNewStringId();
             var sectionId = ObjectId.GenerateNewStringId();
 
-            var postId = ExecuteCommand(new CreatePostCommand(subject, body, sectionId, authorId)).AggregateRootId;
+            var postId = ExecuteCommand(new CreatePostCommand(ObjectId.GenerateNewStringId(), subject, body, sectionId, authorId)).AggregateRootId;
 
             var subject2 = ObjectId.GenerateNewStringId();
             var body2 = ObjectId.GenerateNewStringId();
@@ -74,10 +74,10 @@ namespace Forum.Domain.Tests
 
             for (var i = 0; i < totalPostCount; i++)
             {
-                var postId = ExecuteCommand(new CreatePostCommand(subject, body, sectionId, authorId)).AggregateRootId;
+                var postId = ExecuteCommand(new CreatePostCommand(ObjectId.GenerateNewStringId(), subject, body, sectionId, authorId)).AggregateRootId;
                 for (var j = 0; j < replyCountPerPost; j++)
                 {
-                    ExecuteCommand(new CreateReplyCommand(postId, null, body, authorId));
+                    ExecuteCommand(new CreateReplyCommand(ObjectId.GenerateNewStringId(), postId, null, body, authorId));
                 }
                 postIds.Add(postId);
             }
@@ -107,10 +107,10 @@ namespace Forum.Domain.Tests
             var authorName = ObjectId.GenerateNewStringId();
             var authorPassword = ObjectId.GenerateNewStringId();
 
-            var authorId = ExecuteCommand(new RegisterNewAccountCommand(authorName, authorPassword)).AggregateRootId;
-            var postId = ExecuteCommand(new CreatePostCommand(subject, body, sectionId, authorId)).AggregateRootId;
-            ExecuteCommand(new CreateReplyCommand(postId, null, body, ObjectId.GenerateNewStringId()));
-            var secondReplyId = ExecuteCommand(new CreateReplyCommand(postId, null, body, authorId)).AggregateRootId;
+            var authorId = ExecuteCommand(new RegisterNewAccountCommand(ObjectId.GenerateNewStringId(), authorName, authorPassword)).AggregateRootId;
+            var postId = ExecuteCommand(new CreatePostCommand(ObjectId.GenerateNewStringId(), subject, body, sectionId, authorId)).AggregateRootId;
+            ExecuteCommand(new CreateReplyCommand(ObjectId.GenerateNewStringId(), postId, null, body, ObjectId.GenerateNewStringId()));
+            var secondReplyId = ExecuteCommand(new CreateReplyCommand(ObjectId.GenerateNewStringId(), postId, null, body, authorId)).AggregateRootId;
 
             var queryService = ObjectContainer.Resolve<IPostQueryService>();
 

@@ -17,18 +17,17 @@ namespace Forum.Domain.Accounts
 
         /// <summary>注册账号索引
         /// </summary>
-        /// <param name="indexId"></param>
         /// <param name="accountId"></param>
         /// <param name="accountName"></param>
         /// <returns></returns>
-        public void RegisterAccountIndex(string indexId, string accountId, string accountName)
+        public void RegisterAccountIndex(string accountId, string accountName)
         {
             var accountIndex = _accountIndexRepository.FindByAccountName(accountName);
             if (accountIndex == null)
             {
-                _accountIndexRepository.Add(new AccountIndex(indexId, accountId, accountName));
+                _accountIndexRepository.Add(new AccountIndex(accountId, accountName));
             }
-            else if (accountIndex.IndexId != indexId)
+            else if (accountIndex.AccountId != accountId)
             {
                 throw new DuplicateAccountException(accountName);
             }

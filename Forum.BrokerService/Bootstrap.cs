@@ -74,10 +74,14 @@ namespace Forum.BrokerService
         {
             ConfigSettings.Initialize();
 
+            var queueStoreSetting = new SqlServerQueueStoreSetting
+            {
+                ConnectionString = ConfigSettings.ConnectionString
+            };
             var messageStoreSetting = new SqlServerMessageStoreSetting
             {
                 ConnectionString = ConfigSettings.ConnectionString,
-                DeleteMessageHourOfDay = -1
+                MessageLogFilePath = "/equeue_message_logs"
             };
             var offsetManagerSetting = new SqlServerOffsetManagerSetting
             {
@@ -86,10 +90,11 @@ namespace Forum.BrokerService
 
             _ecommonConfiguration
                 .RegisterEQueueComponents()
+                .UseSqlServerQueueStore(queueStoreSetting)
                 .UseSqlServerMessageStore(messageStoreSetting)
                 .UseSqlServerOffsetManager(offsetManagerSetting);
 
-            _broker = new BrokerController();
+            _broker = BrokerController.Create();
             _logger.Info("EQueue initialized.");
         }
     }
