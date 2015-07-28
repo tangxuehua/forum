@@ -6,7 +6,6 @@ namespace Forum.Domain.Accounts
 {
     /// <summary>账号聚合根
     /// </summary>
-    [Serializable]
     public class Account : AggregateRoot<string>
     {
         private string _name;

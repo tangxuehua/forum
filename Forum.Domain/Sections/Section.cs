@@ -4,7 +4,6 @@ using Forum.Infrastructure;
 
 namespace Forum.Domain.Sections
 {
-    [Serializable]
     public class Section : AggregateRoot<string>
     {
         private string _name;

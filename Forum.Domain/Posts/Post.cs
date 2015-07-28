@@ -8,7 +8,6 @@ namespace Forum.Domain.Posts
 {
     /// <summary>帖子聚合根
     /// </summary>
-    [Serializable]
     public class Post : AggregateRoot<string>
     {
         private string _subject;

@@ -6,7 +6,6 @@ namespace Forum.Domain.Replies
 {
     /// <summary>回复聚合根
     /// </summary>
-    [Serializable]
     public class Reply : AggregateRoot<string>
     {
         private string _postId;

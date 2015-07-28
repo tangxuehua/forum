@@ -3,7 +3,6 @@ using ENode.Commanding;
 
 namespace Forum.Commands.Accounts
 {
-    [Serializable]
     public class RegisterNewAccountCommand : Command
     {
         public string Name { get; private set; }

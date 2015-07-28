@@ -3,7 +3,6 @@ using ENode.Commanding;
 
 namespace Forum.Commands.Replies
 {
-    [Serializable]
     public class CreateReplyCommand : Command
     {
         public string PostId { get; private set; }

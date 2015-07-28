@@ -3,7 +3,6 @@ using ENode.Commanding;
 
 namespace Forum.Commands.Posts
 {
-    [Serializable]
     public class UpdatePostCommand : Command
     {
         public string Subject { get; private set; }

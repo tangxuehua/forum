@@ -3,7 +3,6 @@ using ENode.Commanding;
 
 namespace Forum.Commands.Sections
 {
-    [Serializable]
     public class CreateSectionCommand : Command
     {
         public string Name { get; set; }

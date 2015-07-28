@@ -3,7 +3,6 @@ using ENode.Eventing;
 
 namespace Forum.Domain.Accounts
 {
-    [Serializable]
     public class NewAccountRegisteredEvent : DomainEvent<string>
     {
         public string Name { get; private set; }
