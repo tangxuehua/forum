@@ -11,19 +11,19 @@ namespace Forum.CommandHandlers
         ICommandHandler<RegisterNewAccountCommand>
     {
         private readonly ILockService _lockService;
-        private readonly RegisterAccountIndexService _registerAccountIndexService;
+        private readonly RegisterAccountService _registerAccountService;
 
-        public AccountCommandHandler(ILockService lockService, RegisterAccountIndexService registerAccountIndexService)
+        public AccountCommandHandler(ILockService lockService, RegisterAccountService registerAccountService)
         {
             _lockService = lockService;
-            _registerAccountIndexService = registerAccountIndexService;
+            _registerAccountService = registerAccountService;
         }
 
         public void Handle(ICommandContext context, RegisterNewAccountCommand command)
         {
             _lockService.ExecuteInLock(typeof(Account).Name, () =>
             {
-                _registerAccountIndexService.RegisterAccountIndex(command.AggregateRootId, command.Name);
+                _registerAccountService.RegisterAccount(command.AggregateRootId, command.Name);
                 context.Add(new Account(command.AggregateRootId, command.Name, command.Password));
             });
         }
