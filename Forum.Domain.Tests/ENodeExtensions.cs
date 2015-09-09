@@ -140,8 +140,8 @@ namespace Forum.Domain.Tests
             {
                 var eventConsumerAllocatedQueues = _eventConsumer.Consumer.GetCurrentQueues();
                 var commandConsumerAllocatedQueues = _commandConsumer.Consumer.GetCurrentQueues();
-                if (eventConsumerAllocatedQueues.Count() == totalCommandTopicCount * _broker.Setting.TopicDefaultQueueCount
-                    && commandConsumerAllocatedQueues.Count() == totalEventTopicCount * _broker.Setting.TopicDefaultQueueCount)
+                if (eventConsumerAllocatedQueues.Count() == totalEventTopicCount * _broker.Setting.TopicDefaultQueueCount
+                    && commandConsumerAllocatedQueues.Count() ==  totalCommandTopicCount* _broker.Setting.TopicDefaultQueueCount)
                 {
                     waitHandle.Set();
                 }
