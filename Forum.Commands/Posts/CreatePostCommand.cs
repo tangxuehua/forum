@@ -1,8 +1,10 @@
 ﻿using System;
 using ENode.Commanding;
+using ENode.Infrastructure;
 
 namespace Forum.Commands.Posts
 {
+    [Code(12)]
     public class CreatePostCommand : Command
     {
         public string Subject { get; private set; }

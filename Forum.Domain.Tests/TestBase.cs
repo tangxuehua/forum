@@ -6,9 +6,9 @@ using ECommon.Extensions;
 using ECommon.IO;
 using ECommon.JsonNet;
 using ECommon.Log4Net;
+using ECommon.Logging;
 using ENode.Commanding;
 using ENode.Configurations;
-using ENode.Domain;
 using ENode.Infrastructure;
 using Forum.Domain.Accounts;
 using Forum.Infrastructure;
@@ -22,6 +22,7 @@ namespace Forum.Domain.Tests
         protected static ISectionQueryService _sectionQueryService;
         protected static IPostQueryService _postQueryService;
         protected static IReplyQueryService _replyQueryService;
+        protected static ILogger _logger;
 
         static TestBase()
         {
@@ -31,12 +32,18 @@ namespace Forum.Domain.Tests
             _sectionQueryService = ObjectContainer.Resolve<ISectionQueryService>();
             _postQueryService = ObjectContainer.Resolve<IPostQueryService>();
             _replyQueryService = ObjectContainer.Resolve<IReplyQueryService>();
+            _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(TestBase).Name);
             ObjectContainer.Resolve<ILockService>().AddLockKey(typeof(Account).Name);
         }
 
         protected CommandResult ExecuteCommand(ICommand command)
         {
-            return _commandService.ExecuteAsync(command, CommandReturnType.EventHandled).WaitResult<AsyncTaskResult<CommandResult>>(10000).Data;
+            var result = _commandService.ExecuteAsync(command, CommandReturnType.EventHandled).WaitResult<AsyncTaskResult<CommandResult>>(10000);
+            if (result.Status != AsyncTaskStatus.Success)
+            {
+                _logger.ErrorFormat("Command execute failed, errorMessage: " + result.ErrorMessage);
+            }
+            return result.Data;
         }
 
         private static void InitializeENode()
@@ -44,6 +51,7 @@ namespace Forum.Domain.Tests
             var assemblies = new[]
             {
                 Assembly.Load("Forum.Infrastructure"),
+                Assembly.Load("Forum.Commands"),
                 Assembly.Load("Forum.Domain"),
                 Assembly.Load("Forum.Domain.Dapper"),
                 Assembly.Load("Forum.CommandHandlers"),
@@ -56,7 +64,7 @@ namespace Forum.Domain.Tests
 
             var setting = new ConfigurationSetting
             {
-                SqlServerDefaultConnectionString = ConfigSettings.ConnectionString
+                SqlDefaultConnectionString = ConfigSettings.ConnectionString
             };
 
             Configuration
@@ -69,7 +77,6 @@ namespace Forum.Domain.Tests
                 .CreateENode(setting)
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
-                .RegisterAllTypeCodes()
                 .UseSqlServerLockService()
                 .UseSqlServerCommandStore()
                 .UseSqlServerEventStore()

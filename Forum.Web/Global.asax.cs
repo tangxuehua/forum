@@ -53,6 +53,7 @@ namespace Forum.Web
 
             var assemblies = new[]
             {
+                Assembly.Load("Forum.Commands"),
                 Assembly.Load("Forum.QueryServices"),
                 Assembly.Load("Forum.QueryServices.Dapper"),
                 Assembly.Load("Forum.Web")
@@ -62,7 +63,6 @@ namespace Forum.Web
                 .CreateENode()
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
-                .RegisterAllTypeCodes()
                 .UseEQueue()
                 .InitializeBusinessAssemblies(assemblies)
                 .StartEQueue();

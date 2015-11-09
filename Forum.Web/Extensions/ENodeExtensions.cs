@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using ECommon.Components;
+using ECommon.Socketing;
 using ECommon.Utilities;
 using ENode.Commanding;
 using ENode.Configurations;
@@ -19,25 +20,6 @@ namespace Forum.Web.Extensions
     {
         private static CommandService _commandService;
 
-        public static ENodeConfiguration RegisterAllTypeCodes(this ENodeConfiguration enodeConfiguration)
-        {
-            var provider = ObjectContainer.Resolve<ITypeCodeProvider>() as DefaultTypeCodeProvider;
-
-            //commands
-            provider.RegisterType<RegisterNewAccountCommand>(11000);
-
-            provider.RegisterType<CreateSectionCommand>(11100);
-            provider.RegisterType<ChangeSectionNameCommand>(11101);
-
-            provider.RegisterType<CreatePostCommand>(11200);
-            provider.RegisterType<UpdatePostCommand>(11201);
-            provider.RegisterType<AcceptNewReplyCommand>(11202);
-
-            provider.RegisterType<CreateReplyCommand>(11300);
-            provider.RegisterType<ChangeReplyBodyCommand>(11301);
-
-            return enodeConfiguration;
-        }
         public static ENodeConfiguration UseEQueue(this ENodeConfiguration enodeConfiguration)
         {
             var configuration = enodeConfiguration.GetCommonConfiguration();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ENode.Domain;
+using ENode.Infrastructure;
 using Forum.Domain.Replies;
 using Forum.Infrastructure;
 
@@ -8,6 +9,7 @@ namespace Forum.Domain.Posts
 {
     /// <summary>帖子聚合根
     /// </summary>
+    [Code(11)]
     public class Post : AggregateRoot<string>
     {
         private string _subject;

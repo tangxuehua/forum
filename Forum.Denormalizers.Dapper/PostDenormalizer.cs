@@ -9,6 +9,7 @@ using Forum.Infrastructure;
 namespace Forum.Denormalizers.Dapper
 {
     [Component]
+    [Code(11)]
     public class PostDenormalizer : AbstractDenormalizer,
         IMessageHandler<PostCreatedEvent>,
         IMessageHandler<PostUpdatedEvent>,

@@ -1,10 +1,12 @@
 ﻿using System;
 using ENode.Eventing;
+using ENode.Infrastructure;
 
 namespace Forum.Domain.Replies
 {
     /// <summary>表示回复已创建的领域事件
     /// </summary>
+    [Code(14)]
     public class ReplyCreatedEvent : DomainEvent<string>
     {
         public string PostId { get; private set; }

@@ -1,9 +1,11 @@
 ﻿using System;
 using ENode.Domain;
+using ENode.Infrastructure;
 using Forum.Infrastructure;
 
 namespace Forum.Domain.Sections
 {
+    [Code(13)]
     public class Section : AggregateRoot<string>
     {
         private string _name;

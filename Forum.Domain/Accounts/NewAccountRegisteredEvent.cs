@@ -1,8 +1,10 @@
 ﻿using System;
 using ENode.Eventing;
+using ENode.Infrastructure;
 
 namespace Forum.Domain.Accounts
 {
+    [Code(10)]
     public class NewAccountRegisteredEvent : DomainEvent<string>
     {
         public string Name { get; private set; }

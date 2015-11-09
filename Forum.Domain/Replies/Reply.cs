@@ -1,11 +1,13 @@
 ﻿using System;
 using ENode.Domain;
+using ENode.Infrastructure;
 using Forum.Infrastructure;
 
 namespace Forum.Domain.Replies
 {
     /// <summary>回复聚合根
     /// </summary>
+    [Code(12)]
     public class Reply : AggregateRoot<string>
     {
         private string _postId;

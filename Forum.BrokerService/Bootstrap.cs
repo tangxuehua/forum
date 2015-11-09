@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using ECommon.Autofac;
 using ECommon.Components;
 using ECommon.Configurations;
@@ -7,14 +8,14 @@ using ECommon.Log4Net;
 using ECommon.Logging;
 using EQueue.Broker;
 using EQueue.Configurations;
-using Forum.Infrastructure;
+using ECommonConfiguration = ECommon.Configurations.Configuration;
 
 namespace Forum.BrokerService
 {
     public class Bootstrap
     {
         private static ILogger _logger;
-        private static Configuration _ecommonConfiguration;
+        private static ECommonConfiguration _ecommonConfiguration;
         private static BrokerController _broker;
 
         public static void Initialize()
@@ -60,7 +61,7 @@ namespace Forum.BrokerService
 
         private static void InitializeECommon()
         {
-            _ecommonConfiguration = Configuration
+            _ecommonConfiguration = ECommonConfiguration
                 .Create()
                 .UseAutofac()
                 .RegisterCommonComponents()
@@ -72,29 +73,9 @@ namespace Forum.BrokerService
         }
         private static void InitializeEQueue()
         {
-            ConfigSettings.Initialize();
-
-            var queueStoreSetting = new SqlServerQueueStoreSetting
-            {
-                ConnectionString = ConfigSettings.ConnectionString
-            };
-            var messageStoreSetting = new SqlServerMessageStoreSetting
-            {
-                ConnectionString = ConfigSettings.ConnectionString,
-                MessageLogFilePath = "/equeue_message_logs"
-            };
-            var offsetManagerSetting = new SqlServerOffsetManagerSetting
-            {
-                ConnectionString = ConfigSettings.ConnectionString
-            };
-
-            _ecommonConfiguration
-                .RegisterEQueueComponents()
-                .UseSqlServerQueueStore(queueStoreSetting)
-                .UseSqlServerMessageStore(messageStoreSetting)
-                .UseSqlServerOffsetManager(offsetManagerSetting);
-
-            _broker = BrokerController.Create();
+            _ecommonConfiguration.RegisterEQueueComponents();
+            var storePath = ConfigurationManager.AppSettings["equeueStorePath"];
+            _broker = BrokerController.Create(new BrokerSetting(storePath));
             _logger.Info("EQueue initialized.");
         }
     }

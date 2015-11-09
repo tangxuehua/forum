@@ -3,7 +3,6 @@ using System.Web.Mvc;
 using ECommon.IO;
 using ECommon.Utilities;
 using ENode.Commanding;
-using ENode.Infrastructure;
 using Forum.Commands.Replies;
 using Forum.QueryServices;
 using Forum.Web.Extensions;
@@ -40,13 +39,13 @@ namespace Forum.Web.Controllers
         [AsyncTimeout(5000)]
         public async Task<ActionResult> Create(CreateReplyModel model)
         {
-            var result = await _commandService.SendAsync(
+            var result = await _commandService.ExecuteAsync(
                 new CreateReplyCommand(
                     ObjectId.GenerateNewStringId(),
                     model.PostId,
                     model.ParentId,
                     model.Body,
-                    _contextService.CurrentAccount.AccountId));
+                    _contextService.CurrentAccount.AccountId), CommandReturnType.EventHandled);
 
             if (result.Status != AsyncTaskStatus.Success)
             {

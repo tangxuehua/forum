@@ -39,40 +39,45 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.3.4.0\lib\net40\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=3.5.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Dapper">
-      <HintPath>..\packages\Dapper.1.38\lib\net45\Dapper.dll</HintPath>
+      <HintPath>..\packages\Dapper.1.42\lib\net45\Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon, Version=1.4.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon, Version=1.5.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.1.4.9\lib\net45\ECommon.dll</HintPath>
+      <HintPath>..\packages\ECommon.1.5.5\lib\net45\ECommon.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon.Autofac, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon.Autofac, Version=1.5.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.Autofac.1.4.2\lib\net45\ECommon.Autofac.dll</HintPath>
+      <HintPath>..\packages\ECommon.Autofac.1.5.5\lib\net45\ECommon.Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon.Dapper, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon.Dapper, Version=1.5.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.Dapper.1.4.2\lib\net45\ECommon.Dapper.dll</HintPath>
+      <HintPath>..\packages\ECommon.Dapper.1.5.5\lib\net45\ECommon.Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon.JsonNet, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon.JsonNet, Version=1.5.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.JsonNet.1.4.2\lib\net45\ECommon.JsonNet.dll</HintPath>
+      <HintPath>..\packages\ECommon.JsonNet.1.5.5\lib\net45\ECommon.JsonNet.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon.Log4Net, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon.Log4Net, Version=1.5.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.Log4Net.1.4.2\lib\net45\ECommon.Log4Net.dll</HintPath>
+      <HintPath>..\packages\ECommon.Log4Net.1.5.5\lib\net45\ECommon.Log4Net.dll</HintPath>
     </Reference>
-    <Reference Include="EQueue, Version=1.4.7.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="EQueue, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EQueue.1.4.7\lib\net45\EQueue.dll</HintPath>
+      <HintPath>..\packages\EQueue.2.0.3\lib\net45\EQueue.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
@@ -101,7 +106,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

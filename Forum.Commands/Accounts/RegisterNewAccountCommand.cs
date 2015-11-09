@@ -1,8 +1,10 @@
 ﻿using System;
 using ENode.Commanding;
+using ENode.Infrastructure;
 
 namespace Forum.Commands.Accounts
 {
+    [Code(10)]
     public class RegisterNewAccountCommand : Command
     {
         public string Name { get; private set; }

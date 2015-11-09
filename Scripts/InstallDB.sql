@@ -79,14 +79,13 @@ GO
 ----------------------------------------------------------------------------------------------
 --Tables used by ENode.
 ----------------------------------------------------------------------------------------------
-
 CREATE TABLE [dbo].[Command] (
     [Sequence]                BIGINT IDENTITY (1, 1) NOT NULL,
     [CommandId]               NVARCHAR (36)          NOT NULL,
     [AggregateRootId]         NVARCHAR (36)          NULL,
-    [Message]                 NVARCHAR (MAX)         NULL,
+    [MessagePayload]          NVARCHAR (MAX)         NULL,
     [MessageTypeCode]         INT                    NOT NULL,
-    [Timestamp]               DATETIME               NOT NULL,
+    [CreatedOn]               DATETIME               NOT NULL,
     CONSTRAINT [PK_Command] PRIMARY KEY CLUSTERED ([CommandId] ASC)
 )
 GO
@@ -96,7 +95,7 @@ CREATE TABLE [dbo].[EventStream] (
     [AggregateRootId]         NVARCHAR (36)          NOT NULL,
     [Version]                 INT                    NOT NULL,
     [CommandId]               NVARCHAR (36)          NOT NULL,
-    [Timestamp]               DATETIME               NOT NULL,
+    [CreatedOn]               DATETIME               NOT NULL,
     [Events]                  NVARCHAR (MAX)         NOT NULL,
     CONSTRAINT [PK_EventStream] PRIMARY KEY CLUSTERED ([AggregateRootId] ASC, [Version] ASC)
 )
@@ -109,7 +108,7 @@ CREATE TABLE [dbo].[SequenceMessagePublishedVersion] (
     [AggregateRootTypeCode]   INT                    NOT NULL,
     [AggregateRootId]         NVARCHAR (36)          NOT NULL,
     [PublishedVersion]        INT                    NOT NULL,
-    [Timestamp]               DATETIME               NOT NULL,
+    [CreatedOn]               DATETIME               NOT NULL,
     CONSTRAINT [PK_SequenceMessagePublishedVersion] PRIMARY KEY CLUSTERED ([ProcessorName] ASC, [AggregateRootId] ASC, [PublishedVersion] ASC)
 )
 GO
@@ -121,7 +120,7 @@ CREATE TABLE [dbo].[MessageHandleRecord] (
     [AggregateRootTypeCode]     INT                    NOT NULL,
     [AggregateRootId]           NVARCHAR (36)          NULL,
     [Version]                   INT                    NULL,
-    [Timestamp]                 DATETIME               NOT NULL,
+    [CreatedOn]                 DATETIME               NOT NULL,
     CONSTRAINT [PK_MessageHandleRecord] PRIMARY KEY CLUSTERED ([MessageId] ASC, [HandlerTypeCode] ASC)
 )
 GO
@@ -135,7 +134,7 @@ CREATE TABLE [dbo].[TwoMessageHandleRecord] (
     [AggregateRootTypeCode]     INT                    NOT NULL,
     [AggregateRootId]           NVARCHAR (36)          NULL,
     [Version]                   INT                    NULL,
-    [Timestamp]                 DATETIME               NOT NULL,
+    [CreatedOn]                 DATETIME               NOT NULL,
     CONSTRAINT [PK_TwoMessageHandleRecord] PRIMARY KEY CLUSTERED ([MessageId1] ASC, [MessageId2] ASC, [HandlerTypeCode] ASC)
 )
 GO
@@ -151,7 +150,7 @@ CREATE TABLE [dbo].[ThreeMessageHandleRecord] (
     [AggregateRootTypeCode]     INT                    NOT NULL,
     [AggregateRootId]           NVARCHAR (36)          NULL,
     [Version]                   INT                    NULL,
-    [Timestamp]                 DATETIME               NOT NULL,
+    [CreatedOn]                 DATETIME               NOT NULL,
     CONSTRAINT [PK_ThreeMessageHandleRecord] PRIMARY KEY CLUSTERED ([MessageId1] ASC, [MessageId2] ASC, [MessageId3] ASC, [HandlerTypeCode] ASC)
 )
 GO
@@ -161,68 +160,12 @@ CREATE TABLE [dbo].[Snapshot] (
     [AggregateRootId]        NVARCHAR (36)           NOT NULL,
     [Version]                INT                     NOT NULL,
     [Payload]                VARBINARY (MAX)         NOT NULL,
-    [Timestamp]              DATETIME                NOT NULL,
+    [CreatedOn]              DATETIME                NOT NULL,
     CONSTRAINT [PK_Snapshot] PRIMARY KEY CLUSTERED ([AggregateRootId] ASC, [Version] ASC)
 )
 GO
-CREATE TABLE [dbo].[Lock] (
-    [LockKey]                NVARCHAR (128)          NOT NULL,
-    CONSTRAINT [PK_Lock] PRIMARY KEY CLUSTERED ([LockKey] ASC)
+CREATE TABLE [dbo].[LockKey] (
+    [Name]                   NVARCHAR (128)          NOT NULL,
+    CONSTRAINT [PK_LockKey] PRIMARY KEY CLUSTERED ([Name] ASC)
 )
-GO
-
-----------------------------------------------------------------------------------------------
---Tables used by EQueue.
-----------------------------------------------------------------------------------------------
-
-CREATE TABLE [dbo].[Queue](
-    [Topic] [varchar](128) NOT NULL,
-    [QueueId] [int] NOT NULL,
-    [Status] [int] NOT NULL,
-    [CreatedTime] [datetime] NOT NULL,
-    [UpdatedTime] [datetime] NOT NULL,
- CONSTRAINT [PK_Queue] PRIMARY KEY CLUSTERED 
-(
-    [Topic] ASC,
-    [QueueId] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-
-CREATE TABLE [dbo].[Message](
-    [MessageOffset] [bigint] NOT NULL,
-    [MessageId] [varchar](32) NOT NULL,
-    [Topic] [varchar](128) NOT NULL,
-    [QueueId] [int] NOT NULL,
-    [QueueOffset] [bigint] NOT NULL,
-    [Code] [int] NOT NULL,
-    [Body] [varbinary](max) NOT NULL,
-    [CreatedTime] [datetime] NOT NULL,
-    [ArrivedTime] [datetime] NOT NULL,
-    [StoredTime] [datetime] NOT NULL,
-    [RoutingKey] [varchar](128) NOT NULL,
- CONSTRAINT [PK_Message] PRIMARY KEY CLUSTERED 
-(
-    [MessageOffset] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-CREATE NONCLUSTERED INDEX [IX_Message_QueueIndex] ON [dbo].[Message]([Topic] ASC, [QueueId] ASC, [QueueOffset] ASC)
-GO
-
-CREATE TABLE [dbo].[QueueOffset](
-    [Version] [bigint] NOT NULL,
-    [ConsumerGroup] [nvarchar](128) NOT NULL,
-    [Topic] [nvarchar](128) NOT NULL,
-    [QueueId] [int] NOT NULL,
-    [QueueOffset] [bigint] NOT NULL,
-    [Timestamp] [datetime] NOT NULL,
- CONSTRAINT [PK_QueueOffset] PRIMARY KEY CLUSTERED 
-(
-    [ConsumerGroup] ASC,
-    [Topic] ASC,
-    [QueueId] ASC,
-    [Version] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
 GO

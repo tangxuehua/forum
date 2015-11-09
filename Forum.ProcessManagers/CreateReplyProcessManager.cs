@@ -9,6 +9,7 @@ using Forum.Domain.Replies;
 namespace Forum.ProcessManagers
 {
     [Component]
+    [Code(101)]
     public class CreateReplyProcessManager : IMessageHandler<ReplyCreatedEvent>
     {
         private ICommandService _commandService;

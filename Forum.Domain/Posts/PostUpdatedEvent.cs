@@ -1,10 +1,12 @@
 ﻿using System;
 using ENode.Eventing;
+using ENode.Infrastructure;
 
 namespace Forum.Domain.Posts
 {
     /// <summary>表示帖子已修改的领域事件
     /// </summary>
+    [Code(12)]
     public class PostUpdatedEvent : DomainEvent<string>
     {
         public string Subject { get; private set; }

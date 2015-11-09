@@ -1,11 +1,13 @@
 ﻿using System;
 using ENode.Domain;
+using ENode.Infrastructure;
 using Forum.Infrastructure;
 
 namespace Forum.Domain.Accounts
 {
     /// <summary>账号聚合根
     /// </summary>
+    [Code(10)]
     public class Account : AggregateRoot<string>
     {
         private string _name;

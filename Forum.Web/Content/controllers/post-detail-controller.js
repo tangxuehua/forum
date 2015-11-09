@@ -79,8 +79,9 @@
         })
         .success(function (result, status, headers, config) {
             if (result.success) {
-                showAutoCloseAlert();
-                $("#float-box-newReply").modal("hide");
+                //showAutoCloseAlert();
+                //$("#float-box-newReply").modal("hide");
+                window.location.reload();
             } else {
                 $scope.errorMsg = result.errorMsg;
             }

@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using ECommon.IO;
 using ECommon.Utilities;
 using ENode.Commanding;
 using Forum.Commands.Accounts;
@@ -36,6 +37,11 @@ namespace Forum.Web.Controllers
         public async Task<ActionResult> Register(RegisterModel model, CancellationToken token)
         {
             var result = await _commandService.ExecuteAsync(new RegisterNewAccountCommand(ObjectId.GenerateNewStringId(), model.AccountName, model.Password), CommandReturnType.EventHandled);
+            if (result.Status != AsyncTaskStatus.Success)
+            {
+                return Json(new { success = false, errorMsg = result.ErrorMessage });
+            }
+
             var commandResult = result.Data;
             if (commandResult.Status == CommandStatus.Failed)
             {

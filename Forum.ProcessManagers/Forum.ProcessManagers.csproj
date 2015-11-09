@@ -32,21 +32,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dapper, Version=1.38.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Dapper, Version=1.42.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Dapper.1.38\lib\net45\Dapper.dll</HintPath>
+      <HintPath>..\packages\Dapper.1.42\lib\net45\Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon, Version=1.4.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon, Version=1.5.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.1.4.9\lib\net45\ECommon.dll</HintPath>
+      <HintPath>..\packages\ECommon.1.5.5\lib\net45\ECommon.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon.Dapper, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ECommon.Dapper, Version=1.5.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.Dapper.1.4.2\lib\net45\ECommon.Dapper.dll</HintPath>
+      <HintPath>..\packages\ECommon.Dapper.1.5.5\lib\net45\ECommon.Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ENode, Version=2.6.7.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ENode.2.6.2\lib\net45\ENode.dll</HintPath>
+      <HintPath>..\packages\ENode.2.6.7\lib\net45\ENode.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />

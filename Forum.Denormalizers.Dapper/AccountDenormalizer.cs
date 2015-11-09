@@ -9,6 +9,7 @@ using Forum.Infrastructure;
 namespace Forum.Denormalizers.Dapper
 {
     [Component]
+    [Code(10)]
     public class AccountDenormalizer : AbstractDenormalizer, IMessageHandler<NewAccountRegisteredEvent>
     {
         public Task<AsyncTaskResult> HandleAsync(NewAccountRegisteredEvent evnt)
