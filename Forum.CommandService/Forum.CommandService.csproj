@@ -66,13 +66,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ecommon.log4net.1.5.5\lib\net45\ECommon.Log4Net.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.6.8.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ENode, Version=2.6.9.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ENode.2.6.8\lib\net45\ENode.dll</HintPath>
+      <HintPath>..\packages\ENode.2.6.9\lib\net45\ENode.dll</HintPath>
     </Reference>
-    <Reference Include="ENode.EQueue, Version=1.6.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ENode.EQueue, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\enode.equeue.1.6.9\lib\net45\ENode.EQueue.dll</HintPath>
+      <HintPath>..\packages\enode.equeue.1.7.0\lib\net45\ENode.EQueue.dll</HintPath>
     </Reference>
     <Reference Include="EQueue, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
