@@ -1,7 +1,11 @@
 ﻿@if (Request.IsAuthenticated)
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><span style="display:block;margin-top:10px;">@Html.Raw("Hi " + User.Identity.Name + ",")</span></li>
+        <li>
+            <span style="display: block; margin-top: 10px; display: inline-block; margin-right: 3px;">Hi</span>
+            <span style="display: block; margin-top: 10px; display: inline-block;">@User.Identity.Name</span>
+            <span style="display: block; margin-top: 10px; display: inline-block; margin-right: 5px;">,</span>
+        </li>
         @if (User.Identity.Name == "admin")
         {
             <li>@Html.ActionLink("版块管理", "index", "sectionadmin", routeValues: null, htmlAttributes: null)</li>
