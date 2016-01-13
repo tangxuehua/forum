@@ -36,7 +36,8 @@ namespace Forum.Web.Controllers
         [AsyncTimeout(5000)]
         public async Task<ActionResult> Register(RegisterModel model, CancellationToken token)
         {
-            var result = await _commandService.ExecuteAsync(new RegisterNewAccountCommand(ObjectId.GenerateNewStringId(), model.AccountName, model.Password), CommandReturnType.EventHandled);
+            string pwd = PasswordHash.PasswordHash.CreateHash(model.Password);
+            var result = await _commandService.ExecuteAsync(new RegisterNewAccountCommand(ObjectId.GenerateNewStringId(), model.AccountName, pwd), CommandReturnType.EventHandled);
             if (result.Status != AsyncTaskStatus.Success)
             {
                 return Json(new { success = false, errorMsg = result.ErrorMessage });
@@ -45,7 +46,7 @@ namespace Forum.Web.Controllers
             var commandResult = result.Data;
             if (commandResult.Status == CommandStatus.Failed)
             {
-                if (commandResult.ExceptionTypeName == typeof(DuplicateAccountException).Name)
+                if (commandResult.ResultType == typeof(DuplicateAccountException).Name)
                 {
                     return Json(new { success = false, errorMsg = "该账号已被注册，请用其他账号注册。" });
                 }
@@ -72,7 +73,7 @@ namespace Forum.Web.Controllers
             {
                 return Json(new { success = false, errorMsg = "账号不存在。" });
             }
-            else if (account.Password != model.Password)
+            else if (!PasswordHash.PasswordHash.ValidatePassword(model.Password, account.Password))
             {
                 return Json(new { success = false, errorMsg = "密码不正确。" });
             }

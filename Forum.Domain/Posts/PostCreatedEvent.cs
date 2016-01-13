@@ -6,7 +6,6 @@ namespace Forum.Domain.Posts
 {
     /// <summary>表示帖子已创建的领域事件
     /// </summary>
-    [Code(11)]
     public class PostCreatedEvent : DomainEvent<string>
     {
         public string Subject { get; private set; }
@@ -15,7 +14,7 @@ namespace Forum.Domain.Posts
         public string AuthorId { get; private set; }
 
         private PostCreatedEvent() { }
-        public PostCreatedEvent(Post post, string subject, string body, string sectionId, string authorId) : base(post)
+        public PostCreatedEvent(string subject, string body, string sectionId, string authorId)
         {
             Subject = subject;
             Body = body;

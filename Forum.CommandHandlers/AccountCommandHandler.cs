@@ -6,7 +6,6 @@ using Forum.Domain.Accounts;
 
 namespace Forum.CommandHandlers
 {
-    [Component]
     public class AccountCommandHandler :
         ICommandHandler<RegisterNewAccountCommand>
     {

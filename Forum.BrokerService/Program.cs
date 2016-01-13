@@ -18,8 +18,27 @@ namespace Forum.BrokerService
             {
                 Bootstrap.Initialize();
                 Bootstrap.Start();
+
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Initialize success...");
+                Console.ResetColor();
+                Console.WriteLine();
+
                 Console.WriteLine("Press enter to exit...");
-                Console.ReadLine();
+                var line = Console.ReadLine();
+                while (line != "exit")
+                {
+                    switch (line)
+                    {
+                        case "cls":
+                            Console.Clear();
+                            break;
+                        default:
+                            break;
+                    }
+                    line = Console.ReadLine();
+                }
             }
         }
     }

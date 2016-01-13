@@ -6,7 +6,6 @@ namespace Forum.Domain.Replies
 {
     /// <summary>表示回复已创建的领域事件
     /// </summary>
-    [Code(14)]
     public class ReplyCreatedEvent : DomainEvent<string>
     {
         public string PostId { get; private set; }
@@ -15,8 +14,7 @@ namespace Forum.Domain.Replies
         public string Body { get; private set; }
 
         private ReplyCreatedEvent() { }
-        public ReplyCreatedEvent(Reply reply, string postId, string parentId, string authorId, string body)
-            : base(reply)
+        public ReplyCreatedEvent( string postId, string parentId, string authorId, string body)
         {
             PostId = postId;
             ParentId = parentId;

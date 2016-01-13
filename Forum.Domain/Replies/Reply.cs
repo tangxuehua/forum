@@ -7,7 +7,6 @@ namespace Forum.Domain.Replies
 {
     /// <summary>回复聚合根
     /// </summary>
-    [Code(12)]
     public class Reply : AggregateRoot<string>
     {
         private string _postId;
@@ -30,7 +29,7 @@ namespace Forum.Domain.Replies
             {
                 throw new ArgumentException(string.Format("回复的parentId不能是当前回复的Id:{0}", id));
             }
-            ApplyEvent(new ReplyCreatedEvent(this, postId, parent == null ? null : parent.Id, authorId, body));
+            ApplyEvent(new ReplyCreatedEvent( postId, parent == null ? null : parent.Id, authorId, body));
         }
 
         public void ChangeBody(string body)
@@ -40,7 +39,7 @@ namespace Forum.Domain.Replies
             {
                 throw new Exception("回复内容长度不能超过1000");
             }
-            ApplyEvent(new ReplyBodyChangedEvent(this, body));
+            ApplyEvent(new ReplyBodyChangedEvent( body));
         }
         public string GetAuthorId()
         {
@@ -53,7 +52,6 @@ namespace Forum.Domain.Replies
 
         private void Handle(ReplyCreatedEvent evnt)
         {
-            _id = evnt.AggregateRootId;
             _postId = evnt.PostId;
             _parentId = evnt.ParentId;
             _body = evnt.Body;

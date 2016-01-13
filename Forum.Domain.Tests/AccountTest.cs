@@ -36,7 +36,7 @@ namespace Forum.Domain.Tests
             var result = ExecuteCommand(new RegisterNewAccountCommand(ObjectId.GenerateNewStringId(), name, password));
 
             Assert.AreEqual(CommandStatus.Failed, result.Status);
-            Assert.AreEqual("重复的账号名称：" + name, result.ErrorMessage);
+            Assert.AreEqual("重复的账号名称：" + name, result.Result);
         }
     }
 }

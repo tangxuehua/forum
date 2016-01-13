@@ -5,7 +5,6 @@ using Forum.Infrastructure;
 
 namespace Forum.Domain.Sections
 {
-    [Code(13)]
     public class Section : AggregateRoot<string>
     {
         private string _name;
@@ -18,17 +17,16 @@ namespace Forum.Domain.Sections
             {
                 throw new Exception("版块名称长度不能超过128");
             }
-            ApplyEvent(new SectionCreatedEvent(this, name));
+            ApplyEvent(new SectionCreatedEvent(name));
         }
 
         public void ChangeName(string name)
         {
-            ApplyEvent(new SectionNameChangedEvent(this, name));
+            ApplyEvent(new SectionNameChangedEvent( name));
         }
 
         private void Handle(SectionCreatedEvent evnt)
         {
-            _id = evnt.AggregateRootId;
             _name = evnt.Name;
         }
         private void Handle(SectionNameChangedEvent evnt)

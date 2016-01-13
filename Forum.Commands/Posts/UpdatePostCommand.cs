@@ -4,7 +4,6 @@ using ENode.Infrastructure;
 
 namespace Forum.Commands.Posts
 {
-    [Code(13)]
     public class UpdatePostCommand : Command
     {
         public string Subject { get; private set; }

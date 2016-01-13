@@ -7,7 +7,6 @@ using Forum.Domain.Replies;
 
 namespace Forum.CommandHandlers
 {
-    [Component]
     public class PostCommandHandler :
         ICommandHandler<CreatePostCommand>,
         ICommandHandler<UpdatePostCommand>,

@@ -38,7 +38,7 @@ namespace Forum.Domain.Dapper
 
         private SqlConnection GetConnection()
         {
-            return new SqlConnection(ConfigSettings.ConnectionString);
+            return new SqlConnection(ConfigSettings.ForumConnectionString);
         }
     }
 }

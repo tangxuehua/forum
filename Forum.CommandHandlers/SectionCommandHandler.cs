@@ -5,7 +5,6 @@ using Forum.Domain.Sections;
 
 namespace Forum.CommandHandlers
 {
-    [Component]
     public class SectionCommandHandler :
         ICommandHandler<CreateSectionCommand>,
         ICommandHandler<ChangeSectionNameCommand>

@@ -8,7 +8,7 @@ namespace Forum.QueryServices.Dapper
     {
         protected IDbConnection GetConnection()
         {
-            return new SqlConnection(ConfigSettings.ConnectionString);
+            return new SqlConnection(ConfigSettings.ForumConnectionString);
         }
     }
 }

@@ -4,7 +4,6 @@ using ENode.Infrastructure;
 
 namespace Forum.Commands.Replies
 {
-    [Code(14)]
     public class CreateReplyCommand : Command
     {
         public string PostId { get; private set; }

@@ -38,7 +38,7 @@ namespace Forum.Denormalizers.Dapper
         }
         protected IDbConnection GetConnection()
         {
-            return new SqlConnection(ConfigSettings.ConnectionString);
+            return new SqlConnection(ConfigSettings.ForumConnectionString);
         }
     }
 }

@@ -82,7 +82,7 @@ namespace Forum.EventService
             };
             var setting = new ConfigurationSetting
             {
-                SqlDefaultConnectionString = ConfigSettings.ConnectionString
+                SqlDefaultConnectionString = ConfigSettings.ENodeConnectionString
             };
 
             _enodeConfiguration = _ecommonConfiguration

@@ -64,7 +64,7 @@ namespace Forum.Domain.Tests
 
             var setting = new ConfigurationSetting
             {
-                SqlDefaultConnectionString = ConfigSettings.ConnectionString
+                SqlDefaultConnectionString = ConfigSettings.ENodeConnectionString
             };
 
             Configuration

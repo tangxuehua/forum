@@ -7,7 +7,6 @@ namespace Forum.Domain.Accounts
 {
     /// <summary>账号聚合根
     /// </summary>
-    [Code(10)]
     public class Account : AggregateRoot<string>
     {
         private string _name;
@@ -26,12 +25,11 @@ namespace Forum.Domain.Accounts
             {
                 throw new Exception("密码长度不能超过128");
             }
-            ApplyEvent(new NewAccountRegisteredEvent(this, name, password));
+            ApplyEvent(new NewAccountRegisteredEvent( name, password));
         }
 
         private void Handle(NewAccountRegisteredEvent evnt)
         {
-            _id = evnt.AggregateRootId;
             _name = evnt.Name;
             _password = evnt.Password;
         }

@@ -85,7 +85,7 @@ namespace Forum.CommandService
             };
             var setting = new ConfigurationSetting
             {
-                SqlDefaultConnectionString = ConfigSettings.ConnectionString
+                SqlDefaultConnectionString = ConfigSettings.ENodeConnectionString
             };
 
             _enodeConfiguration = _ecommonConfiguration
