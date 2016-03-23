@@ -35,7 +35,7 @@ namespace Forum.Domain.Tests
             var name = ObjectId.GenerateNewStringId();
             var result = ExecuteCommand(new CreateSectionCommand(ObjectId.GenerateNewStringId(), name));
             var name2 = ObjectId.GenerateNewStringId();
-            var result2 = ExecuteCommand(new ChangeSectionNameCommand(result.AggregateRootId, name2));
+            var result2 = ExecuteCommand(new ChangeSectionNameCommand(result.AggregateRootId, name2,""));
 
             Assert.AreEqual(CommandStatus.Success, result2.Status);
 

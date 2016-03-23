@@ -17,14 +17,19 @@ namespace Forum.Web.Controllers
     public class PostController : Controller
     {
         private readonly ICommandService _commandService;
-        private readonly IPostQueryService _queryService;
+        private readonly IPostQueryService _postQueryService;
         private readonly IContextService _contextService;
+        private readonly ISectionQueryService _sectionQueryService;
 
-        public PostController(ICommandService commandService, IPostQueryService queryService, IContextService contextService)
+        public PostController(ICommandService commandService
+            , IPostQueryService queryService
+            , IContextService contextService
+            , ISectionQueryService sectionqueryService)
         {
             _commandService = commandService;
-            _queryService = queryService;
+            _postQueryService = queryService;
             _contextService = contextService;
+            _sectionQueryService = sectionqueryService;
         }
 
         [HttpGet]
@@ -32,14 +37,15 @@ namespace Forum.Web.Controllers
         {
             var pageIndex = page == null ? 1 : page.Value;
             if (pageIndex <= 0) pageIndex = 1;
-            var result = _queryService.Find(
+            var result = _postQueryService.Find(
                 new PostQueryOption
                 {
                     SectionId = sectionId,
                     AuthorId = authorId,
                     PageInfo = new PageInfo(pageIndex)
                 });
-            ViewBag.SectionId = sectionId;
+
+            ViewBag.Section = _sectionQueryService.FindInculdeStatisticById(sectionId).ToViewModel(sectionId);
             ViewBag.AuthorId = authorId;
             ViewBag.Pager = Pager.Items(result.TotalCount).PerPage(20).Move(pageIndex).Segment(5).Center();
             return View(result.Posts.Select(x => x.ToListViewModel()));
@@ -48,7 +54,7 @@ namespace Forum.Web.Controllers
         public ActionResult Detail(string id)
         {
             ViewBag.CurrentAccountId = _contextService.CurrentAccount != null ? _contextService.CurrentAccount.AccountId : null;
-            return View(_queryService.Find(id).ToDetailViewModel());
+            return View(_postQueryService.Find(id).ToDetailViewModel());
         }
         [HttpGet]
         public ActionResult Find(string id, string option)
@@ -56,13 +62,25 @@ namespace Forum.Web.Controllers
             return Json(new
             {
                 success = true,
-                data = _queryService.FindDynamic(id, option)
+                data = _postQueryService.FindDynamic(id, option)
             }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Create(string sectionId)
+        {
+            var section = _sectionQueryService.FindInculdeStatisticById(sectionId).ToViewModel(sectionId);
+            return View(new PostDetailModel()
+            {
+                SectionId = section.Id,
+                SectionName = section.Name
+            });
         }
         [HttpPost]
         [AjaxAuthorize]
         [AjaxValidateAntiForgeryToken]
         [AsyncTimeout(5000)]
+        [ValidateInput(false)]
         public async Task<ActionResult> Create(CreatePostModel model)
         {
             var result = await _commandService.SendAsync(
@@ -80,10 +98,18 @@ namespace Forum.Web.Controllers
 
             return Json(new { success = true });
         }
+
+        [HttpGet]
+        public ActionResult Update(string id)
+        {
+            var model = _postQueryService.Find(id).ToDetailViewModel();
+            return View(model);
+        }
         [HttpPost]
         [AjaxAuthorize]
         [AjaxValidateAntiForgeryToken]
         [AsyncTimeout(5000)]
+        [ValidateInput(false)]
         public async Task<ActionResult> Update(EditPostModel model)
         {
             if (model.AuthorId != _contextService.CurrentAccount.AccountId)

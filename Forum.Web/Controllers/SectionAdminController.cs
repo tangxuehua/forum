@@ -76,7 +76,7 @@ namespace Forum.Web.Controllers
                 return Json(new { success = false, errorMsg = "只有系统管理员才能修改版块。" });
             }
 
-            var result = await _commandService.SendAsync(new ChangeSectionNameCommand(model.Id, model.Name));
+            var result = await _commandService.SendAsync(new ChangeSectionNameCommand(model.Id, model.Name, model.Description));
 
             if (result.Status != AsyncTaskStatus.Success)
             {
