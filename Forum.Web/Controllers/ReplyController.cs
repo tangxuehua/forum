@@ -37,6 +37,7 @@ namespace Forum.Web.Controllers
         [AjaxAuthorize]
         [AjaxValidateAntiForgeryToken]
         [AsyncTimeout(5000)]
+        [ValidateInput(false)]
         public async Task<ActionResult> Create(CreateReplyModel model)
         {
             var result = await _commandService.ExecuteAsync(
@@ -58,6 +59,7 @@ namespace Forum.Web.Controllers
         [AjaxAuthorize]
         [AjaxValidateAntiForgeryToken]
         [AsyncTimeout(5000)]
+        [ValidateInput(false)]
         public async Task<ActionResult> Update(EditReplyModel model)
         {
             if (model.AuthorId != _contextService.CurrentAccount.AccountId)

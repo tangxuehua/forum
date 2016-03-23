@@ -1,51 +1,121 @@
-﻿@model IEnumerable<Forum.Web.Models.PostListModel>
+﻿@using Forum.Web.Models
+@model IEnumerable<PostListModel>
 @{
     ViewBag.Title = "ENode论坛-帖子列表";
+    var sectionModel = ViewBag.Section as SectionAndStatisticModel;
 }
-<div ng-controller="PostController">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th width="52%" class="vertical-center">
-                    标题
-                </th>
-                <th width="10%" class="text-center vertical-center">
-                    发帖人
-                </th>
-                <th width="10%" class="text-center vertical-center">
-                    发帖时间
-                </th>
-                <th width="10%" class="text-center vertical-center">
-                    更新时间
-                </th>
-                <th width="8%" class="text-center vertical-center">
-                    回复数
-                </th>
-                <th width="10%" class="text-center vertical-center">
-                    回复人
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var post in Model)
-            {
-                <tr>
-                    <td class="vertical-center">
-                        @Html.ActionLink(post.Subject, "detail", new { id = post.Id }, new { target = "_blank" })
-                    </td>
-                    <td class="text-center vertical-center">
+@if (sectionModel.IsActive)
+{
+    @Html.Partial("_BreadcrupbPartial", new List<Tuple<string, string>>()
+    {
+        new Tuple<string, string>("/post/index?sectionId="+sectionModel.Id,sectionModel.Name)
+    })
+}
+else
+{
+    @Html.Partial("_BreadcrupbPartial", new List<Tuple<string, string>>())
+}
+
+<div class="ibox-content forum-container">
+    @if (sectionModel.IsActive)
+    {
+        <div class="forum-title">
+            <div class="row">
+                <div class="pull-right forum-desc">
+                    <samll>总帖子数： @sectionModel.PostCount</samll>
+                </div>
+                @if (HttpContext.Current.Request.IsAuthenticated)
+                {
+                    <a href="/post/create?sectionId=@sectionModel.Id" class="btn btn-info ">
+                        <i class="fa fa-pencil-square-o"></i> 发帖
+                    </a>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="forum-title">
+            <div class="row">
+                <a href="javascript:history.go(-1);" class="btn btn-info ">
+                    <i class="fa fa-pencil-square-o"></i> 返回
+                </a>
+            </div>
+        </div>
+    }
+
+    <div class="forum-item">
+        <div class="row">
+            <div class="col-sm-7">
+                <div>
+                    <small>标题</small>
+                </div>
+            </div>
+            <div class="col-sm-1 forum-info">
+                <div>
+                    <small>发帖人</small>
+                </div>
+            </div>
+            <div class="col-sm-1 forum-info">
+                <div>
+                    <small>发帖时间</small>
+                </div>
+            </div>
+            <div class="col-sm-1 forum-info">
+                <div>
+                    <small>更新时间</small>
+                </div>
+            </div>
+            <div class="col-sm-1 forum-info">
+                <div>
+                    <small>回复数</small>
+                </div>
+            </div>
+            <div class="col-sm-1 forum-info">
+                <div>
+                    <small>回复人</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @foreach (var post in Model)
+    {
+        <div class="forum-item">
+            <div class="row">
+                <div class="col-sm-7">
+                    <div class="forum-icon">
+                        <i class="fa fa-bookmark"></i>
+                    </div>
+                    @Html.ActionLink(post.Subject, "detail"
+                    , new { id = post.Id }, new
+                    {
+                        @class = "forum-item-title",
+                        //target = "_blank"
+                    })
+                </div>
+                <div class="col-sm-1 forum-info">
+                    <span class="views-number">
                         @Html.ActionLink(post.AuthorName, "index", new { authorId = post.AuthorId })
-                    </td>
-                    <td class="text-center vertical-center">
+                    </span>
+                </div>
+                <div class="col-sm-1 forum-info">
+                    <span class="views-number">
                         @post.CreatedOn
-                    </td>
-                    <td class="text-center vertical-center">
+                    </span>
+                </div>
+                <div class="col-sm-1 forum-info">
+                    <span class="views-number">
                         @post.LastUpdateTime
-                    </td>
-                    <td class="text-center vertical-center">
+                    </span>
+                </div>
+                <div class="col-sm-1 forum-info">
+                    <span class="views-number">
                         @post.ReplyCount
-                    </td>
-                    <td class="text-center vertical-center">
+                    </span>
+                </div>
+                <div class="col-sm-1 forum-info">
+                    <span class="views-number">
                         @if (post.MostRecentReply != null)
                         {
                             @Html.ActionLink(post.MostRecentReply.AuthorName, "index", new { authorId = post.MostRecentReply.AuthorId })
@@ -54,86 +124,10 @@
                         {
                             @Html.Raw("-")
                         }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <div class="pager">
-        @{
-            Forum.Web.Controls.Pager pager = ViewBag.Pager;
-            string authorId = ViewBag.AuthorId;
-            string sectionId = ViewBag.SectionId;
-
-            if (pager.HasPreviousPage)
-            {
-                @Html.ActionLink("<<", "index", new { authorId = authorId, sectionId = sectionId, page = pager.FirstPageIndex });
-                @Html.ActionLink("<", "index", new { authorId = authorId, sectionId = sectionId, page = pager.PreviousPageIndex });
-            }
-
-            foreach (int page in ViewBag.Pager)
-            {
-                @Html.ActionLink(page.ToString(), "index", new { authorId = authorId, sectionId = sectionId, page = page });
-            }
-
-            if (pager.HasNextPage)
-            {
-                @Html.ActionLink(">", "index", new { authorId = authorId, sectionId = sectionId, page = pager.NextPageIndex });
-                @Html.ActionLink(">>", "index", new { authorId = authorId, sectionId = sectionId, page = pager.LastPageIndex });
-            }
-        }
-    </div>
-    @if (HttpContext.Current.Request.IsAuthenticated)
-    {
-        <button class="btn btn-primary btn-lg" data-toggle="modal" ng-click="showNewPostDialog()">发表帖子</button>
+                    </span>
+                </div>
+            </div>
+        </div>
     }
-    <div class="modal fade" id="float-box-newPost">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">发表帖子</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label for="sectionId" class="col-sm-2 control-label">版块</label>
-                            <div class="col-sm-6">
-                                <select id="sectionId" class="form-control" ng-model="newPost.sectionId" ng-options="section.Id as section.Name for section in sections"><option value="">-- 选择版块 --</option></select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="subject" class="col-sm-2 control-label">标题</label>
-                            <div class="col-sm-9">
-                                <input type="text" maxlength="256" id="subject" class="form-control" ng-model="newPost.subject" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="body" class="col-sm-2 control-label">内容</label>
-                            <div class="col-sm-9">
-                                <textarea id="body" maxlength="1000" class="form-control" ng-model="newPost.body" rows="5"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label"></label>
-                            <div class="col-sm-9">
-                                <span class="error" ng-show="errorMsg != ''">{{errorMsg}}</span>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" ng-click="submitPost()">提交</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-</div>
 
-@section Scripts {
-    <script type="text/javascript">
-        var sectionId = '@ViewBag.SectionId';
-    </script>
-    <script type="text/javascript" src="@Url.Content("~/content/controllers/post-controller.js")"></script>
-}
+</div>

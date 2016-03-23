@@ -67,9 +67,9 @@ namespace Forum.QueryServices.Dapper
             using (var connection = GetConnection())
             {
                 var sql = string.Format(@"
-                        select p.*, a1.Name as AuthorName from {0} p left join {1} a1 on p.AuthorId = a1.Id where p.Id = @PostId
-                        select r.*, a2.Name as AuthorName from {2} r left join {1} a2 on r.AuthorId = a2.Id where r.PostId = @PostId order by r.Sequence asc",
-                        Constants.PostTable, Constants.AccountTable, Constants.ReplyTable);
+                        select p.*,s.Name as SectionName,a1.Name as AuthorName from {0} p left join {1} a1 on p.AuthorId = a1.Id left join {3} s on p.SectionId=s.Id where p.Id = @PostId
+                        select r.*,a2.Name as AuthorName from {2} r left join {1} a2 on r.AuthorId = a2.Id where r.PostId = @PostId order by r.Sequence asc",
+                        Constants.PostTable, Constants.AccountTable, Constants.ReplyTable,Constants.SectionTable);
 
                 using (var multi = connection.QueryMultiple(sql, new { PostId = postId }))
                 {

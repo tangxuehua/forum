@@ -27,6 +27,9 @@ namespace Forum.QueryServices.DTOs
         /// <summary>所属版块ID
         /// </summary>
         public string SectionId { get; set; }
+        /// <summary>所属版块Name
+        /// </summary>
+        public string SectionName { get; set; }
         /// <summary>作者ID
         /// </summary>
         public string AuthorId { get; set; }

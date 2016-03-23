@@ -12,6 +12,7 @@ namespace Forum.Web.Extensions
             model.Id = postInfo.Id;
             model.Subject = postInfo.Subject;
             model.SectionId = postInfo.SectionId;
+            model.SectionName = postInfo.SectionName;
             model.AuthorId = postInfo.AuthorId;
             model.AuthorName = string.IsNullOrEmpty(postInfo.AuthorName) ? postInfo.AuthorId : postInfo.AuthorName;
             model.CreatedOn = postInfo.CreatedOn.ToString("MM-dd HH:mm");
@@ -45,6 +46,8 @@ namespace Forum.Web.Extensions
             model.AuthorName = string.IsNullOrEmpty(postInfo.AuthorName) ? postInfo.AuthorId : postInfo.AuthorName;
             model.CreatedOn = postInfo.CreatedOn.ToString("MM-dd HH:mm");
             model.ReplyCount = postInfo.ReplyCount;
+            model.SectionId = postInfo.SectionId;
+            model.SectionName = postInfo.SectionName;
             if (postInfo.ReplyList != null)
             {
                 var replyList = new List<ReplyModel>();
@@ -76,8 +79,25 @@ namespace Forum.Web.Extensions
 
             model.Id = sectionInfo.Id;
             model.Name = sectionInfo.Name;
+            model.Description = sectionInfo.Description;
             model.IsActive = sectionInfo.Id == currentSectionId;
 
+            return model;
+        }
+        public static SectionAndStatisticModel ToViewModel(this SectionAndStatistic instance, string currentSectionId)
+        {
+            var model = new SectionAndStatisticModel();
+            if (instance == null)
+            {
+                return model;
+            }
+
+            model.Id = instance.Id;
+            model.Name = instance.Name;
+            model.Description = instance.Description;
+            model.IsActive = instance.Id == currentSectionId;
+            model.PostCount = instance.PostCount;
+            model.ReplyCount = instance.ReplyCount;
             return model;
         }
     }

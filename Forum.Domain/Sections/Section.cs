@@ -20,9 +20,9 @@ namespace Forum.Domain.Sections
             ApplyEvent(new SectionCreatedEvent(name));
         }
 
-        public void ChangeName(string name)
+        public void ChangeNameAndDescription(string name, string description)
         {
-            ApplyEvent(new SectionNameChangedEvent( name));
+            ApplyEvent(new SectionNameChangedEvent(name, description));
         }
 
         private void Handle(SectionCreatedEvent evnt)
