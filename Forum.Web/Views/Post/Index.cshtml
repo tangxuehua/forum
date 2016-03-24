@@ -88,11 +88,11 @@ else
                         <i class="fa fa-bookmark"></i>
                     </div>
                     @Html.ActionLink(post.Subject, "detail"
-                    , new { id = post.Id }, new
-                    {
-                        @class = "forum-item-title",
-                        //target = "_blank"
-                    })
+                        , new { id = post.Id }, new
+                        {
+                            @class = "forum-item-title",
+                            //target = "_blank"
+                        })
                 </div>
                 <div class="col-sm-1 forum-info">
                     <span class="views-number">
@@ -127,7 +127,34 @@ else
                     </span>
                 </div>
             </div>
+
         </div>
     }
+
+    <div class="pagination pull-right ">
+        @{
+            Forum.Web.Controls.Pager pager = ViewBag.Pager;
+            string authorId = ViewBag.AuthorId;
+            string sectionId = ViewBag.SectionId;
+
+            if (pager.HasPreviousPage)
+            {
+                <li>@Html.ActionLink("<<", "index", new {authorId = authorId, sectionId = sectionId, page = pager.FirstPageIndex})</li>
+                <li>@Html.ActionLink("<", "index", new {authorId = authorId, sectionId = sectionId, page = pager.PreviousPageIndex})</li>
+            }
+
+            foreach (int page in ViewBag.Pager)
+            {
+                <li>@Html.ActionLink(page.ToString(), "index", new {authorId = authorId, sectionId = sectionId, page = page})</li>
+            }
+
+            if (pager.HasNextPage)
+            {
+                <li>@Html.ActionLink(">", "index", new {authorId = authorId, sectionId = sectionId, page = pager.NextPageIndex})</li>
+                <li>@Html.ActionLink(">>", "index", new {authorId = authorId, sectionId = sectionId, page = pager.LastPageIndex})</li>
+            }
+        }
+    </div>
+    <div class="clearfix"></div>
 
 </div>
