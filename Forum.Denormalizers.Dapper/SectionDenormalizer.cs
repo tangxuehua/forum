@@ -34,6 +34,7 @@ namespace Forum.Denormalizers.Dapper
                 {
                     Name = evnt.Name,
                     UpdatedOn = evnt.Timestamp,
+                    Description=evnt.Description,
                     Version = evnt.Version
                 }, new
                 {

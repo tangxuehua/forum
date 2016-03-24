@@ -1,0 +1,30 @@
+﻿@model Forum.Web.Models.PostDetailModel
+
+@Html.HiddenFor(model => model.SectionId)
+@Html.HiddenFor(model => model.AuthorId)
+@Html.HiddenFor(model => model.AuthorName)
+<div class="form-group">
+    <label class=" control-label">主题</label>
+    @Html.TextBoxFor(model => model.Subject
+    , new
+    {
+        @class = "form-control help-block m-b-none"
+    })
+</div>
+<div class="form-group">
+    @Html.TextAreaFor(model => model.Body
+    , new
+    {
+        @placeholder = "这里输入内容",
+        @autofocus = ""
+    })
+</div>
+
+<script>
+    window.onload =function () {
+        var editor = new Simditor({
+            toolbar: ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment'],
+            textarea: $('#Body')
+        });
+    };
+</script>

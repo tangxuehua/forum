@@ -1,0 +1,38 @@
+﻿@model List<Tuple<string, string>>
+
+<div class="ibox-title">
+    <ol class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="/home/index">
+                @if (Model == null || Model.Count == 0)
+                {
+                    <strong>主页</strong>
+                }
+                else
+                {
+                    @:主页
+                }
+            </a>
+        </li>
+        @if (Model != null)
+        {
+            for (var i = 0; i < Model.Count; i++)
+            {
+                <li>
+                    <a href="@Model[i].Item1">
+                        @if (i == Model.Count - 1)
+                        {
+                            <strong>@Model[i].Item2</strong>
+                        }
+                        else
+                        {
+                            @Model[i].Item2
+                        }
+                    </a>
+                </li>
+            }
+
+        }
+    </ol>
+</div>

@@ -60,7 +60,7 @@ namespace Forum.Web.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return View(new LoginModel());
         }
         [HttpPost]
         [AjaxValidateAntiForgeryToken]
@@ -82,7 +82,6 @@ namespace Forum.Web.Controllers
 
             return Json(new { success = true });
         }
-        [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
         public ActionResult LogOff()
