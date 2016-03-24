@@ -10,7 +10,7 @@ namespace Forum.Denormalizers.Dapper
 {
     public class SectionDenormalizer : AbstractDenormalizer,
         IMessageHandler<SectionCreatedEvent>,
-        IMessageHandler<SectionNameChangedEvent>
+        IMessageHandler<SectionChangedEvent>
     {
         public Task<AsyncTaskResult> HandleAsync(SectionCreatedEvent evnt)
         {
@@ -26,7 +26,7 @@ namespace Forum.Denormalizers.Dapper
                 }, Constants.SectionTable);
             });
         }
-        public Task<AsyncTaskResult> HandleAsync(SectionNameChangedEvent evnt)
+        public Task<AsyncTaskResult> HandleAsync(SectionChangedEvent evnt)
         {
             return TryUpdateRecordAsync(connection =>
             {

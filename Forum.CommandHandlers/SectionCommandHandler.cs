@@ -1,5 +1,4 @@
-﻿using ECommon.Components;
-using ENode.Commanding;
+﻿using ENode.Commanding;
 using Forum.Commands.Sections;
 using Forum.Domain.Sections;
 
@@ -11,7 +10,7 @@ namespace Forum.CommandHandlers
     {
         public void Handle(ICommandContext context, CreateSectionCommand command)
         {
-            context.Add(new Section(command.AggregateRootId, command.Name));
+            context.Add(new Section(command.AggregateRootId, command.Name, command.Description));
         }
         public void Handle(ICommandContext context, ChangeSectionNameCommand command)
         {

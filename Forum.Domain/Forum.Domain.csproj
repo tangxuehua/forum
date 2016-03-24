@@ -89,8 +89,8 @@
     <Compile Include="Replies\ReplyBodyChangedEvent.cs" />
     <Compile Include="Replies\ReplyCreatedEvent.cs" />
     <Compile Include="Sections\Section.cs" />
+    <Compile Include="Sections\SectionChangedEvent.cs" />
     <Compile Include="Sections\SectionCreatedEvent.cs" />
-    <Compile Include="Sections\SectionNameChangedEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Forum.Infrastructure\Forum.Infrastructure.csproj">

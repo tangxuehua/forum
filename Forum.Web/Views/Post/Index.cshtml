@@ -139,19 +139,19 @@ else
 
             if (pager.HasPreviousPage)
             {
-                <li>@Html.ActionLink("<<", "index", new {authorId = authorId, sectionId = sectionId, page = pager.FirstPageIndex})</li>
-                <li>@Html.ActionLink("<", "index", new {authorId = authorId, sectionId = sectionId, page = pager.PreviousPageIndex})</li>
+                <li>@Html.ActionLink("<<", "index", new { authorId = authorId, sectionId = sectionId, page = pager.FirstPageIndex })</li>
+                <li>@Html.ActionLink("<", "index", new { authorId = authorId, sectionId = sectionId, page = pager.PreviousPageIndex })</li>
             }
 
             foreach (int page in ViewBag.Pager)
             {
-                <li>@Html.ActionLink(page.ToString(), "index", new {authorId = authorId, sectionId = sectionId, page = page})</li>
+                <li>@Html.ActionLink(page.ToString(), "index", new { authorId = authorId, sectionId = sectionId, page = page })</li>
             }
 
             if (pager.HasNextPage)
             {
-                <li>@Html.ActionLink(">", "index", new {authorId = authorId, sectionId = sectionId, page = pager.NextPageIndex})</li>
-                <li>@Html.ActionLink(">>", "index", new {authorId = authorId, sectionId = sectionId, page = pager.LastPageIndex})</li>
+                <li>@Html.ActionLink(">", "index", new { authorId = authorId, sectionId = sectionId, page = pager.NextPageIndex })</li>
+                <li>@Html.ActionLink(">>", "index", new { authorId = authorId, sectionId = sectionId, page = pager.LastPageIndex })</li>
             }
         }
     </div>
