@@ -35,7 +35,7 @@ namespace Forum.EventService
                             Console.Clear();
                             break;
                         default:
-                            break;
+                            return;
                     }
                     line = Console.ReadLine();
                 }

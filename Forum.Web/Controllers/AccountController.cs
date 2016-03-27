@@ -52,7 +52,7 @@ namespace Forum.Web.Controllers
                 {
                     return Json(new { success = false, errorMsg = "该账号已被注册，请用其他账号注册。" });
                 }
-                return Json(new { success = false, errorMsg = result.ErrorMessage });
+                return Json(new { success = false, errorMsg = commandResult.Result });
             }
 
             _authenticationService.SignIn(commandResult.AggregateRootId, model.AccountName, false);

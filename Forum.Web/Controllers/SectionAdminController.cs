@@ -58,11 +58,16 @@ namespace Forum.Web.Controllers
                 return Json(new { success = false, errorMsg = "只有系统管理员才能新建版块。" });
             }
 
-            var result = await _commandService.SendAsync(new CreateSectionCommand(ObjectId.GenerateNewStringId(), model.Name, model.Description));
+            var result = await _commandService.ExecuteAsync(new CreateSectionCommand(ObjectId.GenerateNewStringId(), model.Name, model.Description));
 
             if (result.Status != AsyncTaskStatus.Success)
             {
                 return Json(new { success = false, errorMsg = result.ErrorMessage });
+            }
+            var commandResult = result.Data;
+            if (commandResult.Status == CommandStatus.Failed)
+            {
+                return Json(new { success = false, errorMsg = commandResult.Result });
             }
 
             return Json(new { success = true });
@@ -78,11 +83,16 @@ namespace Forum.Web.Controllers
                 return Json(new { success = false, errorMsg = "只有系统管理员才能修改版块。" });
             }
 
-            var result = await _commandService.SendAsync(new ChangeSectionCommand(model.Id, model.Name, model.Description));
+            var result = await _commandService.ExecuteAsync(new ChangeSectionCommand(model.Id, model.Name, model.Description));
 
             if (result.Status != AsyncTaskStatus.Success)
             {
                 return Json(new { success = false, errorMsg = result.ErrorMessage });
+            }
+            var commandResult = result.Data;
+            if (commandResult.Status == CommandStatus.Failed)
+            {
+                return Json(new { success = false, errorMsg = commandResult.Result });
             }
 
             return Json(new { success = true });

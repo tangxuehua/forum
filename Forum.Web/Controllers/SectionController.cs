@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using Forum.QueryServices;
 using Forum.Web.Extensions;
-using Forum.Web.Models;
 
 namespace Forum.Web.Controllers
 {

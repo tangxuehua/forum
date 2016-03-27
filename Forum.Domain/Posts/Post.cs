@@ -29,9 +29,9 @@ namespace Forum.Domain.Posts
             {
                 throw new Exception("帖子标题长度不能超过256");
             }
-            if (body.Length > 1000)
+            if (body.Length > 4000)
             {
-                throw new Exception("帖子内容长度不能超过1000");
+                throw new Exception("帖子内容长度不能超过4000");
             }
             ApplyEvent(new PostCreatedEvent( subject, body, sectionId, authorId));
         }
@@ -44,9 +44,9 @@ namespace Forum.Domain.Posts
             {
                 throw new Exception("帖子标题长度不能超过256");
             }
-            if (body.Length > 1000)
+            if (body.Length > 4000)
             {
-                throw new Exception("帖子内容长度不能超过1000");
+                throw new Exception("帖子内容长度不能超过4000");
             }
             ApplyEvent(new PostUpdatedEvent( subject, body));
         }

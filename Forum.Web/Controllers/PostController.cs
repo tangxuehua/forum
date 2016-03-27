@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using ECommon.IO;
@@ -82,7 +83,7 @@ namespace Forum.Web.Controllers
         [ValidateInput(false)]
         public async Task<ActionResult> Create(CreatePostModel model)
         {
-            var result = await _commandService.SendAsync(
+            var result = await _commandService.ExecuteAsync(
                 new CreatePostCommand(
                     ObjectId.GenerateNewStringId(),
                     model.Subject,
@@ -93,6 +94,11 @@ namespace Forum.Web.Controllers
             if (result.Status != AsyncTaskStatus.Success)
             {
                 return Json(new { success = false, errorMsg = result.ErrorMessage });
+            }
+            var commandResult = result.Data;
+            if (commandResult.Status == CommandStatus.Failed)
+            {
+                return Json(new { success = false, errorMsg = commandResult.Result });
             }
 
             return Json(new { success = true });
@@ -115,11 +121,16 @@ namespace Forum.Web.Controllers
                 return Json(new { success = false, errorMsg = "您不是帖子的作者，不能编辑该帖子。" });
             }
 
-            var result = await _commandService.SendAsync(new UpdatePostCommand(model.Id, model.Subject, model.Body));
+            var result = await _commandService.ExecuteAsync(new UpdatePostCommand(model.Id, model.Subject, model.Body));
 
             if (result.Status != AsyncTaskStatus.Success)
             {
                 return Json(new { success = false, errorMsg = result.ErrorMessage });
+            }
+            var commandResult = result.Data;
+            if (commandResult.Status == CommandStatus.Failed)
+            {
+                return Json(new { success = false, errorMsg = commandResult.Result });
             }
 
             return Json(new { success = true });
