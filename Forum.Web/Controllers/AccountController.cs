@@ -19,7 +19,9 @@ namespace Forum.Web.Controllers
         private readonly ICommandService _commandService;
         private readonly IAccountQueryService _queryService;
 
-        public AccountController(IAuthenticationService authenticationService, ICommandService commandService, IAccountQueryService queryService)
+        public AccountController(IAuthenticationService authenticationService
+            , ICommandService commandService
+            , IAccountQueryService queryService)
         {
             _authenticationService = authenticationService;
             _commandService = commandService;
@@ -60,7 +62,7 @@ namespace Forum.Web.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return View(new LoginModel());
         }
         [HttpPost]
         [AjaxValidateAntiForgeryToken]
@@ -82,21 +84,11 @@ namespace Forum.Web.Controllers
 
             return Json(new { success = true });
         }
-        [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
         public ActionResult LogOff()
         {
             _authenticationService.SignOut();
-            return RedirectToAction("Index", "Home");
-        }
-
-        private ActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
             return RedirectToAction("Index", "Home");
         }
     }

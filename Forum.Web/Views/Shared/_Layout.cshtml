@@ -1,59 +1,43 @@
 ﻿<!DOCTYPE html>
 <html lang="zh" id="forum" ng-app="forum">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@ViewBag.Title</title>
-    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    @Styles.Render("~/content/bootstrap/css/t")
-    @Styles.Render("~/content/css/t")
+
+    @Html.Partial("_CommonPartial")
+
 </head>
-<body>
-    <nav class="navbar navbar-default">
-        <div class="site-header">
-            <div class="collapse navbar-collapse navbar-left">
-                <a class="site-brand" href="/"></a>
-                <a class="site-name" href="/">ENode Forum</a>
-            </div>
-            <div class="collapse navbar-collapse">
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </nav>
+<body class="gray-bg">
+
     <div class="row">
-        <div class="col-lg-2 sidebar-left">
-            @{Html.RenderAction("Index", "Section");}
-        </div>
-        <div class="col-lg-10 content">
-            <div id="alert_placeholder"></div>
-            @RenderBody()
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="wrapper wrapper-content animated fadeInRight">
+                        <div class="ibox-content m-b-sm border-bottom">
+                            <div class="pull-left m-r-md p-xs ">
+                                <a href="/home/index"><i class="fa fa-globe text-navy mid-icon"></i></a>
+                            </div>
+                            <div class="p-xs pull-left">
+                                <h2>欢迎来到ENode论坛</h2>
+                                <span>你可以自由选择你感兴趣的话题。</span>
+                            </div>
+                            @Html.Partial("_LoginPartial")
+                            <div style="clear: both"></div>
+                        </div>
+                        @RenderBody()
+
+                        <div class="ibox-content  m-t-sm text-center">
+                            <p>Developed by netfocus.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <hr>
-            <footer class="text-center">
-                <p>Developed by netfocus.</p>
-            </footer>
-        </div>
-    </div>
+    @Scripts.Render("~/content/js/global")
     <script>
-        @functions{
-            string TokenHeaderValue()
-            {
-                string cookieToken, formToken;
-                AntiForgery.GetTokens(null, out cookieToken, out formToken);
-                return cookieToken + ":" + formToken;
-            }
-        }
-        var requestVerificationToken = '@TokenHeaderValue()';
+        toastr.options.positionClass = 'toast-top-center';
     </script>
-    @Scripts.Render("~/content/jquery/t")
-    @Scripts.Render("~/content/bootstrap/js/t")
-    @Scripts.Render("~/content/angularjs/t")
-    @Scripts.Render("~/content/bootbox/t")
-    @Scripts.Render("~/content/js/t")
-    @RenderSection("Scripts", required: false)
+    @RenderSection("Script", false)
+
 </body>
 </html>

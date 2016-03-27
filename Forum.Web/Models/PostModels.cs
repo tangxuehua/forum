@@ -14,6 +14,7 @@ namespace Forum.Web.Models
         public int ReplyCount { get; set; }
         public string LastUpdateTime { get; set; }
         public ReplyModel MostRecentReply { get; set; }
+        public string SectionName { get; set; }
     }
     public class PostDetailModel
     {
@@ -24,6 +25,8 @@ namespace Forum.Web.Models
         public string AuthorName { get; set; }
         public string CreatedOn { get; set; }
         public int ReplyCount { get; set; }
+        public string SectionId { get; set; }
+        public string SectionName { get; set; }
         public IEnumerable<ReplyModel> Replies { get; set; }
 
         public PostDetailModel()

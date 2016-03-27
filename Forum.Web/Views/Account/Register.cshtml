@@ -1,49 +1,82 @@
 ﻿@model Forum.Web.Models.RegisterModel
 @{
-    ViewBag.Title = "ENode论坛-新用户注册";
-    Layout = "~/Views/Shared/_SimpleLayout.cshtml";
+    ViewBag.Title = "ENode论坛-用户注册";
+    Layout = "/Views/Shared/_SimpleLayout.cshtml";
 }
 
-<center>
-    <div class="register_wrapper" ng-controller="RegisterController">
-        <form class="form-horizontal" role="form">
-            <fieldset>
-                <legend>新用户注册</legend>
-                <div class="form-group">
-                    <label for="accountName" class="col-sm-2 control-label">账号</label>
-                    <div class="col-sm-6">
-                        <input type="text" maxlength="128" id="accountName" class="form-control" ng-model="newAccount.accountName" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="password" class="col-sm-2 control-label">密码</label>
-                    <div class="col-sm-6">
-                        <input type="password" maxlength="128" id="password" class="form-control" ng-model="newAccount.password" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="password" class="col-sm-2 control-label">密码确认</label>
-                    <div class="col-sm-6">
-                        <input type="password" maxlength="128" id="confirmPassword" class="form-control" ng-model="newAccount.confirmPassword" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label"></label>
-                    <div class="col-sm-6">
-                        <span class="error" ng-show="errorMsg != ''">{{errorMsg}}</span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label"></label>
-                    <div class="col-sm-6">
-                        <button type="button" class="btn btn-primary" ng-click="submit()">提交</button>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
+<div class="middle-box text-center loginscreen   animated fadeInDown">
+    <div>
+        <div>
+            <h1 class="logo-name">ENODE</h1>
+        </div>
+        <h3>欢迎注册 ENode</h3>
+        <p>创建一个新账户</p>
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new
+        {
+            @class = "m-t",
+            @id = "form"
+        }))
+        {
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.AccountName, new
+                {
+                    @class = "form-control",
+                    @placeholder = "请输入用户名",
+                    @required = "",
+                    @data_msg_required = "<i class='fa fa-times-circle'></i> 请输入用户名"
+                })
+            </div>
+            <div class="form-group">
+                @Html.PasswordFor(model => model.Password, new
+                {
+                    @class = "form-control",
+                    @placeholder = "请输入密码",
+                    @required = "",
+                    @data_msg_required = "<i class='fa fa-times-circle'></i> 请输入密码"
+                })
+            </div>
+            <div class="form-group">
+                @Html.PasswordFor(model => model.ConfirmPassword, new
+                {
+                    @class = "form-control",
+                    @placeholder = "请再次输入密码",
+                    @required = "",
+                    @data_msg_required = "<i class='fa fa-times-circle'></i> 请再次输入密码"
+                })
+            </div>
+            <button type="button" class="btn btn-primary block full-width m-b" onclick="submitForm()">注 册</button>
+            <p class="text-muted text-center">
+                <small>已经有账户了？</small>
+                @Html.ActionLink("点此登录", "Login", "Account")
+                |
+                <a href="/"><small>返回首页</small></a>
+            </p>
+        }
     </div>
-</center>
+</div>
 
-@section Scripts {
-    <script type="text/javascript" src="@Url.Content("~/content/controllers/register-controller.js")"></script>
+@section Script{
+    <script>
+        function submitForm() {
+            com.submitForm({
+                isValid: true,
+                $form: $("#form"),
+                headers: { "RequestVerificationToken": requestVerificationToken },
+                success: function(result) {
+                    if (result.success) {
+                        var url = '/account/login';
+                        toastr.success('注册成功!点击马上跳转!', null, {
+                            timeOut: 2000,
+                            progressBar: true,
+                            onHidden: function () { location.href = url; },
+                            onclick: function () { location.href = url; }
+                        });
+                    } else {
+                        toastr.error(result.errorMsg);
+                    }
+                },
+                error: function (result) { toastr.error(result.responseJSON.errorMsg); }
+            });
+        }
+    </script>
 }

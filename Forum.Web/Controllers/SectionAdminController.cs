@@ -18,7 +18,9 @@ namespace Forum.Web.Controllers
         private readonly ISectionQueryService _queryService;
         private readonly IContextService _contextService;
 
-        public SectionAdminController(ICommandService commandService, ISectionQueryService queryService, IContextService contextService)
+        public SectionAdminController(ICommandService commandService
+            , ISectionQueryService queryService
+            , IContextService contextService)
         {
             _commandService = commandService;
             _queryService = queryService;
@@ -56,7 +58,7 @@ namespace Forum.Web.Controllers
                 return Json(new { success = false, errorMsg = "只有系统管理员才能新建版块。" });
             }
 
-            var result = await _commandService.SendAsync(new CreateSectionCommand(ObjectId.GenerateNewStringId(), model.Name));
+            var result = await _commandService.SendAsync(new CreateSectionCommand(ObjectId.GenerateNewStringId(), model.Name, model.Description));
 
             if (result.Status != AsyncTaskStatus.Success)
             {
@@ -76,7 +78,7 @@ namespace Forum.Web.Controllers
                 return Json(new { success = false, errorMsg = "只有系统管理员才能修改版块。" });
             }
 
-            var result = await _commandService.SendAsync(new ChangeSectionNameCommand(model.Id, model.Name));
+            var result = await _commandService.SendAsync(new ChangeSectionCommand(model.Id, model.Name, model.Description));
 
             if (result.Status != AsyncTaskStatus.Success)
             {
