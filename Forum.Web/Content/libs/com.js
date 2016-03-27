@@ -47,47 +47,7 @@ com = (function (com, $) {
 
 })(com, $);
 
-com = (function (com, $, toastr) {
-    function showLoading() { }
-    function closeLoading() { }
-    function errorMsg(msg) {
-        toastr.error(msg,null, {
-            closeButton: true,
-            debug: false,
-            //newestOnTop: $('#newestOnTop').prop('checked'),
-            progressBar: true,
-            positionClass: "toast-top-center",
-            hideDuration: 10000,
-            onclick: null
-        });
-    }
-    function successMsg(msg) {
-        toastr.options = {
-            closeButton: true,
-            debug: false,
-            //newestOnTop: $('#newestOnTop').prop('checked'),
-            progressBar: true,
-            positionClass: "toast-top-center",
-            //preventDuplicates: $('#preventDuplicates').prop('checked'),
-            onclick: null
-        };
-    }
-    function alertMsg(msg) {
-
-    }
-
-    /****
-    * 弹窗提示
-    */
-    com.alert = function (msg) { alertMsg(msg); }
-    /****
-    * 错误提示
-    */
-    com.error = function (msg) { errorMsg(msg); }
-    /****
-    * 成功提示
-    */
-    com.success = function (msg) { successMsg(msg); }
+com = (function (com, $) {
     /****
     * 表单提交
     */
@@ -127,8 +87,8 @@ com = (function (com, $, toastr) {
                         }
                     } catch (e) { alert(e.message); }
                 },
-                beforeSend: function (a, b, c) { showLoading(); },
-                complete: function () { closeLoading(); },
+                beforeSend: function (a, b, c) { },
+                complete: function () { },
                 success: opts.success,
                 headers: opts.headers
             };
@@ -146,5 +106,5 @@ com = (function (com, $, toastr) {
 
     return com;
 
-})(com, $, toastr);
+})(com, $);
 

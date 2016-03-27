@@ -22,6 +22,7 @@ namespace Forum.Denormalizers.Dapper
                     Name = evnt.Name,
                     CreatedOn = evnt.Timestamp,
                     UpdatedOn = evnt.Timestamp,
+                    Description = evnt.Description,
                     Version = evnt.Version
                 }, Constants.SectionTable);
             });

@@ -13,7 +13,7 @@ namespace Forum.Domain.Tests
         {
             var name = ObjectId.GenerateNewStringId();
 
-            var result = ExecuteCommand(new CreateSectionCommand(ObjectId.GenerateNewStringId(), name,""));
+            var result = ExecuteCommand(new CreateSectionCommand(ObjectId.GenerateNewStringId(), name, "版块描述"));
 
             Assert.AreEqual(CommandStatus.Success, result.Status);
             Assert.IsNotNull(result.AggregateRootId);
@@ -28,7 +28,7 @@ namespace Forum.Domain.Tests
         public void update_section_test()
         {
             var name = ObjectId.GenerateNewStringId();
-            var result = ExecuteCommand(new CreateSectionCommand(ObjectId.GenerateNewStringId(), name,"版块描述"));
+            var result = ExecuteCommand(new CreateSectionCommand(ObjectId.GenerateNewStringId(), name, "版块描述"));
             var name2 = ObjectId.GenerateNewStringId();
             var result2 = ExecuteCommand(new ChangeSectionNameCommand(result.AggregateRootId, name2, "版块描述"));
 

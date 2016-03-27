@@ -143,7 +143,6 @@
                     isValid: true,
                     headers: { "RequestVerificationToken": requestVerificationToken },
                     success: function (result) {
-                        console.log(result);
                         if (result.success) {
                             var href = '/sectionadmin/index';
                             toastr.success('添加成功!点击马上跳转!', null, {
