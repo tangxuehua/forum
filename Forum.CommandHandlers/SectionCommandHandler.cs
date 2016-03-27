@@ -14,7 +14,7 @@ namespace Forum.CommandHandlers
         }
         public void Handle(ICommandContext context, ChangeSectionNameCommand command)
         {
-            context.Get<Section>(command.AggregateRootId).ChangeNameAndDescription(command.Name, command.Description);
+            context.Get<Section>(command.AggregateRootId).ChangeSection(command.Name, command.Description);
         }
     }
 }

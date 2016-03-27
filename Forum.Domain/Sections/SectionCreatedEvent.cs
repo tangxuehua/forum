@@ -1,6 +1,4 @@
-﻿using System;
-using ENode.Eventing;
-using ENode.Infrastructure;
+﻿using ENode.Eventing;
 
 namespace Forum.Domain.Sections
 {

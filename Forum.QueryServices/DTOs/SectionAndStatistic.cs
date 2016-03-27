@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Forum.QueryServices.DTOs
+﻿namespace Forum.QueryServices.DTOs
 {
     public class SectionAndStatistic : SectionInfo
     {

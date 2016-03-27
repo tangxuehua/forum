@@ -18,7 +18,9 @@ namespace Forum.Web.Controllers
         private readonly ISectionQueryService _queryService;
         private readonly IContextService _contextService;
 
-        public SectionAdminController(ICommandService commandService, ISectionQueryService queryService, IContextService contextService)
+        public SectionAdminController(ICommandService commandService
+            , ISectionQueryService queryService
+            , IContextService contextService)
         {
             _commandService = commandService;
             _queryService = queryService;

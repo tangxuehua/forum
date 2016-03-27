@@ -37,7 +37,7 @@ CREATE TABLE [dbo].[Section](
     [Id] [nvarchar](32) NOT NULL,
     [Sequence] [bigint] IDENTITY(1,1) NOT NULL,
     [Name] [nvarchar](128) NOT NULL,
-	[Description] [nvarchar](128) ,
+	[Description] [nvarchar](256),
     [CreatedOn] [datetime] NOT NULL,
     [UpdatedOn] [datetime] NOT NULL,
     [Version] [bigint] NOT NULL,

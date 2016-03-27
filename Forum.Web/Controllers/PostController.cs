@@ -65,7 +65,6 @@ namespace Forum.Web.Controllers
                 data = _postQueryService.FindDynamic(id, option)
             }, JsonRequestBehavior.AllowGet);
         }
-
         [HttpGet]
         public ActionResult Create(string sectionId)
         {
@@ -98,7 +97,6 @@ namespace Forum.Web.Controllers
 
             return Json(new { success = true });
         }
-
         [HttpGet]
         public ActionResult Update(string id)
         {

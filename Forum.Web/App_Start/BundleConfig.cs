@@ -14,7 +14,6 @@ namespace Forum.Web
                 "~/Content/css/font-awesome.css",
                 "~/Content/css/style.css",
                 "~/Content/libs/toastr/toastr.min.css"));
-            //"~/Content/css/animate.css"
 
             bundles.Add(new ScriptBundle("~/content/js/global").Include(
              "~/content/libs/jquery/jquery-1.10.2.min.js",
@@ -38,7 +37,6 @@ namespace Forum.Web
               "~/Content/libs/validate/jquery.validate.min.js",
               "~/Content/libs/validate/messages_zh.min.js"));
 
-            //BundleTable.EnableOptimizations = true;
         }
     }
 }

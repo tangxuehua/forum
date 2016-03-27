@@ -1,6 +1,5 @@
 ﻿using System;
 using ENode.Domain;
-using ENode.Infrastructure;
 using Forum.Infrastructure;
 
 namespace Forum.Domain.Sections
@@ -18,10 +17,13 @@ namespace Forum.Domain.Sections
             {
                 throw new Exception("版块名称长度不能超过128");
             }
+            if (description.Length > 256)
+            {
+                throw new Exception("版块描述长度不能超过256");
+            }
             ApplyEvent(new SectionCreatedEvent(name, description));
         }
-      
-        public void ChangeNameAndDescription(string name, string description)
+        public void ChangeSection(string name, string description)
         {
             ApplyEvent(new SectionChangedEvent(name, description));
         }
@@ -33,6 +35,7 @@ namespace Forum.Domain.Sections
         private void Handle(SectionCreatedEvent evnt)
         {
             _name = evnt.Name;
+            _description = evnt.Description;
         }
     }
 }
