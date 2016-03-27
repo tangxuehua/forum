@@ -8,6 +8,7 @@ namespace Forum.Domain.Sections
     {
         private string _name;
         private string _description;
+
         public Section(string id, string name, string description)
             : base(id)
         {
@@ -23,10 +24,12 @@ namespace Forum.Domain.Sections
             }
             ApplyEvent(new SectionCreatedEvent(name, description));
         }
+
         public void ChangeSection(string name, string description)
         {
             ApplyEvent(new SectionChangedEvent(name, description));
         }
+
         private void Handle(SectionChangedEvent evnt)
         {
             _name = evnt.Name;

@@ -6,6 +6,7 @@ namespace Forum.Domain.Sections
     {
         public string Name { get; private set; }
         public string Description { get; private set; }
+
         private SectionChangedEvent() { }
         public SectionChangedEvent(string name, string description)
         {
