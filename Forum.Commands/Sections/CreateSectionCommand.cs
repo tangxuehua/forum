@@ -6,6 +6,7 @@ namespace Forum.Commands.Sections
     {
         public string Name { get; set; }
         public string Description { get; set; }
+
         private CreateSectionCommand() { }
         public CreateSectionCommand(string id, string name, string description)
             : base(id)
