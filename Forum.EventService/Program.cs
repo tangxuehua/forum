@@ -1,5 +1,4 @@
-﻿using System;
-using System.ServiceProcess;
+﻿using Topshelf;
 
 namespace Forum.EventService
 {
@@ -8,38 +7,19 @@ namespace Forum.EventService
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
-        static void Main()
+        static int Main()
         {
-            if (!Environment.UserInteractive)
-            {
-                ServiceBase.Run(new Service1());
-            }
-            else
-            {
-                Bootstrap.Initialize();
-                Bootstrap.Start();
+			return (int)HostFactory.Run(x =>
+			{
+				x.RunAsLocalSystem();
+				x.SetServiceName("Forum.CommandService");
+				x.SetDisplayName("Forum CommandService");
+				x.SetDescription("Forum.CommandService Samples");
 
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Initialize success...");
-                Console.ResetColor();
-                Console.WriteLine();
+				x.Service<Bootstrap>();
 
-                Console.WriteLine("Press enter to exit...");
-                var line = Console.ReadLine();
-                while (line != "exit")
-                {
-                    switch (line)
-                    {
-                        case "cls":
-                            Console.Clear();
-                            break;
-                        default:
-                            return;
-                    }
-                    line = Console.ReadLine();
-                }
-            }
-        }
+				x.EnableServiceRecovery(r => { r.RestartService(1); });
+			});
+		}
     }
 }
