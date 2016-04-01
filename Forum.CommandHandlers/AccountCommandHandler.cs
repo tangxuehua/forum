@@ -1,5 +1,4 @@
-﻿using ECommon.Components;
-using ENode.Commanding;
+﻿using ENode.Commanding;
 using ENode.Infrastructure;
 using Forum.Commands.Accounts;
 using Forum.Domain.Accounts;
@@ -22,8 +21,9 @@ namespace Forum.CommandHandlers
         {
             _lockService.ExecuteInLock(typeof(Account).Name, () =>
             {
-                _registerAccountService.RegisterAccount(command.AggregateRootId, command.Name);
-                context.Add(new Account(command.AggregateRootId, command.Name, command.Password));
+                var account = new Account(command.AggregateRootId, command.Name, command.Password);
+                _registerAccountService.RegisterAccount(account);
+                context.Add(account);
             });
         }
     }

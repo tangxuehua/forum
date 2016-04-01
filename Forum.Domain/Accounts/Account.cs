@@ -12,6 +12,15 @@ namespace Forum.Domain.Accounts
         private string _name;
         private string _password;
 
+        public string Name
+        {
+            get { return _name; }
+        }
+        public string Password
+        {
+            get { return _password; }
+        }
+
         public Account(string id, string name, string password)
             : base(id)
         {
