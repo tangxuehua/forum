@@ -14,7 +14,7 @@ namespace Forum.Web.Providers
         public CommandTopicProvider()
         {
             RegisterTopic("AccountCommandTopic", typeof(RegisterNewAccountCommand));
-            RegisterTopic("SectionCommandTopic", typeof(CreateSectionCommand), typeof(ChangeSectionNameCommand));
+            RegisterTopic("SectionCommandTopic", typeof(CreateSectionCommand), typeof(ChangeSectionCommand));
             RegisterTopic("PostCommandTopic", typeof(CreatePostCommand), typeof(UpdatePostCommand));
             RegisterTopic("ReplyCommandTopic", typeof(CreateReplyCommand), typeof(ChangeReplyBodyCommand));
         }

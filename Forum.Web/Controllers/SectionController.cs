@@ -17,8 +17,8 @@ namespace Forum.Web.Controllers
         [HttpGet]
         public ActionResult Index(string sectionId)
         {
-            var sections = _queryService.FindAll();
-            return PartialView("SectionNavbar", sections.Select(x => x.ToViewModel(sectionId)));
+            var sections = _queryService.FindAllInculdeStatistic().Select(x=>x.ToViewModel(x.Id));
+            return View(sections);
         }
         [HttpGet]
         public ActionResult GetAll()

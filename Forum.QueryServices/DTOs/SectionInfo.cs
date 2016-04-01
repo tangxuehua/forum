@@ -9,11 +9,12 @@ namespace Forum.QueryServices.DTOs
     {
         public string Id { get; set; }
         public string Name { get; set; }
-
+        public string Description { get; set; }
         public SectionInfo()
         {
             Id = string.Empty;
             Name = string.Empty;
+            Description = string.Empty;
         }
     }
 }

@@ -24,6 +24,7 @@
     <RestorePackages>true</RestorePackages>
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
     <TargetFrameworkProfile />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -181,6 +182,7 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\PostModels.cs" />
+    <Compile Include="Models\SectionAndStatisticModel.cs" />
     <Compile Include="Models\SectionModels.cs" />
     <Compile Include="Models\ReplyModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -192,35 +194,61 @@
     <Compile Include="Services\PasswordHash.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\angularjs\angular.min.js" />
-    <Content Include="Content\bootbox\bootbox.js" />
-    <Content Include="Content\bootstrap\css\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap\css\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap\css\bootstrap.css" />
-    <Content Include="Content\bootstrap\css\bootstrap.min.css" />
-    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\bootstrap\css\bootstrap-theme.css.map" />
-    <Content Include="Content\bootstrap\css\bootstrap.css.map" />
-    <Content Include="Content\angularjs\angular.min.js.map" />
     <None Include="connectionStrings.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Content\jquery\jquery-1.10.2.intellisense.js" />
-    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\bootstrap\js\bootstrap.js" />
-    <Content Include="Content\bootstrap\js\bootstrap.min.js" />
-    <Content Include="Content\controllers\login-controller.js" />
-    <Content Include="Content\controllers\section-controller.js" />
-    <Content Include="Content\controllers\register-controller.js" />
-    <Content Include="Content\controllers\post-detail-controller.js" />
-    <Content Include="Content\controllers\post-controller.js" />
+    <Content Include="Content\css\animate.css" />
+    <Content Include="Content\css\font-awesome.css" />
+    <Content Include="Content\css\style.css" />
     <Content Include="Content\css\images\logo.png" />
-    <Content Include="Content\jquery\jquery-1.10.2.min.js" />
-    <Content Include="Content\js\site.js" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\libs\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\libs\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\libs\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\libs\bootstrap\js\bootstrap.min.js" />
+    <None Include="Content\libs\jquery\jquery-1.10.2.intellisense.js" />
+    <Content Include="Content\libs\com.js" />
+    <Content Include="Content\libs\jquery\jquery-1.10.2.min.js" />
+    <Content Include="Content\libs\jquery\jquery.form.js" />
+    <Content Include="Content\libs\simditor-2.3.6\images\image.png" />
+    <Content Include="Content\libs\simditor-2.3.6\scripts\hotkeys.js" />
+    <Content Include="Content\libs\simditor-2.3.6\scripts\hotkeys.min.js" />
+    <Content Include="Content\libs\simditor-2.3.6\scripts\jquery.min.js" />
+    <Content Include="Content\libs\simditor-2.3.6\scripts\module.js" />
+    <Content Include="Content\libs\simditor-2.3.6\scripts\module.min.js" />
+    <Content Include="Content\libs\simditor-2.3.6\scripts\simditor.js" />
+    <Content Include="Content\libs\simditor-2.3.6\scripts\simditor.min.js" />
+    <Content Include="Content\libs\simditor-2.3.6\scripts\uploader.js" />
+    <Content Include="Content\libs\simditor-2.3.6\scripts\uploader.min.js" />
+    <Content Include="Content\libs\simditor-2.3.6\styles\editor.scss" />
+    <Content Include="Content\libs\simditor-2.3.6\styles\fonticon.scss" />
+    <Content Include="Content\libs\simditor-2.3.6\styles\simditor.css" />
+    <Content Include="Content\libs\simditor-2.3.6\styles\simditor.scss" />
+    <Content Include="Content\libs\toastr\toastr.min.css" />
+    <Content Include="Content\libs\toastr\toastr.min.js" />
+    <Content Include="Content\libs\validate\additional-methods.min.js" />
+    <Content Include="Content\libs\validate\jquery.validate.min.js" />
+    <Content Include="Content\libs\validate\messages_zh.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Views\Post\Create.cshtml" />
+    <Content Include="Views\Post\Detail.cshtml" />
+    <Content Include="Views\Post\Index.cshtml" />
+    <Content Include="Views\Post\Update.cshtml" />
+    <Content Include="Views\Post\_CreateOrUpdate.cshtml" />
+    <Content Include="Views\Section\Index.cshtml" />
+    <Content Include="Views\Shared\_BreadcrupbPartial.cshtml" />
+    <Content Include="Views\Shared\_CommonPartial.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -233,16 +261,12 @@
     <Content Include="Content\css\site.css" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\SectionAdmin\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Post\Index.cshtml" />
-    <Content Include="Views\Post\Detail.cshtml" />
-    <Content Include="Content\jquery\jquery-1.10.2.min.map" />
     <Content Include="Views\Shared\TimeoutError.cshtml" />
     <Content Include="Views\Shared\_SimpleLayout.cshtml" />
     <Content Include="log4net.config">
@@ -250,7 +274,12 @@
     </Content>
     <Content Include="Views\Shared\SectionNavbar.cshtml" />
     <Content Include="Views\Shared\NoPermission.cshtml" />
+    <Content Include="Content\libs\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\libs\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\libs\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\libs\jquery\jquery-1.10.2.min.map" />
     <None Include="Properties\PublishProfiles\default.pubxml" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Forum.Commands\Forum.Commands.csproj">

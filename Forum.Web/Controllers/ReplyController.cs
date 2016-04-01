@@ -37,6 +37,7 @@ namespace Forum.Web.Controllers
         [AjaxAuthorize]
         [AjaxValidateAntiForgeryToken]
         [AsyncTimeout(5000)]
+        [ValidateInput(false)]
         public async Task<ActionResult> Create(CreateReplyModel model)
         {
             var result = await _commandService.ExecuteAsync(
@@ -51,6 +52,11 @@ namespace Forum.Web.Controllers
             {
                 return Json(new { success = false, errorMsg = result.ErrorMessage });
             }
+            var commandResult = result.Data;
+            if (commandResult.Status == CommandStatus.Failed)
+            {
+                return Json(new { success = false, errorMsg = commandResult.Result });
+            }
 
             return Json(new { success = true });
         }
@@ -58,6 +64,7 @@ namespace Forum.Web.Controllers
         [AjaxAuthorize]
         [AjaxValidateAntiForgeryToken]
         [AsyncTimeout(5000)]
+        [ValidateInput(false)]
         public async Task<ActionResult> Update(EditReplyModel model)
         {
             if (model.AuthorId != _contextService.CurrentAccount.AccountId)
@@ -65,11 +72,16 @@ namespace Forum.Web.Controllers
                 return Json(new { success = false, errorMsg = "您不是回复的作者，不能编辑该回复。" });
             }
 
-            var result = await _commandService.SendAsync(new ChangeReplyBodyCommand(model.Id, model.Body));
+            var result = await _commandService.ExecuteAsync(new ChangeReplyBodyCommand(model.Id, model.Body));
 
             if (result.Status != AsyncTaskStatus.Success)
             {
                 return Json(new { success = false, errorMsg = result.ErrorMessage });
+            }
+            var commandResult = result.Data;
+            if (commandResult.Status == CommandStatus.Failed)
+            {
+                return Json(new { success = false, errorMsg = commandResult.Result });
             }
 
             return Json(new { success = true });
