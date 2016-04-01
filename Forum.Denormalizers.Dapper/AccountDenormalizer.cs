@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using ECommon.Components;
 using ECommon.Dapper;
 using ECommon.IO;
 using ENode.Infrastructure;

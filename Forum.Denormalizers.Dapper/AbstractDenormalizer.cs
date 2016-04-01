@@ -25,15 +25,22 @@ namespace Forum.Denormalizers.Dapper
                 {
                     return AsyncTaskResult.Success;
                 }
-                throw;
+                throw new IOException("Insert record failed.", ex);
             }
         }
         protected async Task<AsyncTaskResult> TryUpdateRecordAsync(Func<IDbConnection, Task<int>> action)
         {
-            using (var connection = GetConnection())
+            try
             {
-                await action(connection);
-                return AsyncTaskResult.Success;
+                using (var connection = GetConnection())
+                {
+                    await action(connection);
+                    return AsyncTaskResult.Success;
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new IOException("Update record failed.", ex);
             }
         }
         protected IDbConnection GetConnection()
