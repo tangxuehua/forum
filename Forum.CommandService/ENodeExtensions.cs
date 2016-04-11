@@ -1,18 +1,8 @@
-﻿using ECommon.Components;
-using ENode.Configurations;
+﻿using ENode.Configurations;
 using ENode.EQueue;
 using ENode.Eventing;
 using ENode.Infrastructure;
-using ENode.Infrastructure.Impl;
 using EQueue.Configurations;
-using Forum.Commands.Accounts;
-using Forum.Commands.Posts;
-using Forum.Commands.Replies;
-using Forum.Commands.Sections;
-using Forum.Domain.Accounts;
-using Forum.Domain.Posts;
-using Forum.Domain.Replies;
-using Forum.Domain.Sections;
 
 namespace Forum.CommandService
 {

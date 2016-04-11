@@ -1,7 +1,5 @@
-﻿using ECommon.Components;
-using ENode.Commanding;
+﻿using ENode.Commanding;
 using Forum.Commands.Replies;
-using Forum.Domain;
 using Forum.Domain.Replies;
 
 namespace Forum.CommandHandlers

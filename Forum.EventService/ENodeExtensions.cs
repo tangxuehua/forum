@@ -1,17 +1,7 @@
-﻿using ECommon.Components;
-using ENode.Commanding;
+﻿using ENode.Commanding;
 using ENode.Configurations;
 using ENode.EQueue;
-using ENode.Infrastructure;
-using ENode.Infrastructure.Impl;
 using EQueue.Configurations;
-using Forum.Commands.Posts;
-using Forum.Denormalizers.Dapper;
-using Forum.Domain.Accounts;
-using Forum.Domain.Posts;
-using Forum.Domain.Replies;
-using Forum.Domain.Sections;
-using Forum.ProcessManagers;
 
 namespace Forum.EventService
 {

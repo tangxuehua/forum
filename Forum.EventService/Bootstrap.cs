@@ -80,17 +80,13 @@ namespace Forum.EventService
                 Assembly.Load("Forum.ProcessManagers"),
                 Assembly.Load("Forum.EventService")
             };
-            var setting = new ConfigurationSetting
-            {
-                SqlDefaultConnectionString = ConfigSettings.ENodeConnectionString
-            };
+            var setting = new ConfigurationSetting(ConfigSettings.ENodeConnectionString);
 
             _enodeConfiguration = _ecommonConfiguration
                 .CreateENode(setting)
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
-                .UseSqlServerSequenceMessagePublishedVersionStore()
-                .UseSqlServerMessageHandleRecordStore()
+                .UseSqlServerPublishedVersionStore()
                 .UseEQueue()
                 .InitializeBusinessAssemblies(assemblies);
             _logger.Info("ENode initialized.");

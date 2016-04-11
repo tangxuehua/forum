@@ -83,10 +83,7 @@ namespace Forum.CommandService
                 Assembly.Load("Forum.CommandHandlers"),
                 Assembly.Load("Forum.CommandService")
             };
-            var setting = new ConfigurationSetting
-            {
-                SqlDefaultConnectionString = ConfigSettings.ENodeConnectionString
-            };
+            var setting = new ConfigurationSetting(ConfigSettings.ENodeConnectionString);
 
             _enodeConfiguration = _ecommonConfiguration
                 .CreateENode(setting)

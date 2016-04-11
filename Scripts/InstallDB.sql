@@ -1,9 +1,6 @@
 ﻿----------------------------------------------------------------------------------------------
 --Tables used by Forum.
 ----------------------------------------------------------------------------------------------
---drop database [Forum]
---go
-
 CREATE DATABASE [Forum]
 GO
 
@@ -89,90 +86,52 @@ GO
 ----------------------------------------------------------------------------------------------
 --Tables used by ENode.
 ----------------------------------------------------------------------------------------------
---drop database [ENode]
---go
-
 CREATE DATABASE [ENode]
 GO
-
-use [ENode]
+USE [ENode]
 GO
-
 CREATE TABLE [dbo].[Command] (
     [Sequence]                BIGINT IDENTITY (1, 1) NOT NULL,
     [CommandId]               NVARCHAR (36)          NOT NULL,
+    [CreatedOn]               DATETIME               NOT NULL,
     [AggregateRootId]         NVARCHAR (36)          NULL,
     [MessagePayload]          NVARCHAR (MAX)         NULL,
-    [MessageTypeName]         NVARCHAR (256)         NOT NULL,
-    [CreatedOn]               DATETIME               NOT NULL,
-    CONSTRAINT [PK_Command] PRIMARY KEY CLUSTERED ([CommandId] ASC)
+    [MessageTypeName]         NVARCHAR (256)         NULL,
+    CONSTRAINT [PK_Command] PRIMARY KEY CLUSTERED ([Sequence] ASC)
 )
 GO
+CREATE UNIQUE INDEX [IX_Command_CommandId] ON [dbo].[Command] ([CommandId] ASC)
+GO
+
 CREATE TABLE [dbo].[EventStream] (
-    [Sequence]                BIGINT IDENTITY (1, 1) NOT NULL,
-    [AggregateRootTypeName]   NVARCHAR (256)         NOT NULL,
-    [AggregateRootId]         NVARCHAR (36)          NOT NULL,
-    [Version]                 INT                    NOT NULL,
-    [CommandId]               NVARCHAR (36)          NOT NULL,
-    [CreatedOn]               DATETIME               NOT NULL,
-    [Events]                  NVARCHAR (MAX)         NOT NULL,
-    CONSTRAINT [PK_EventStream] PRIMARY KEY CLUSTERED ([AggregateRootId] ASC, [Version] ASC)
+    [Sequence]              BIGINT IDENTITY (1, 1) NOT NULL,
+    [AggregateRootTypeName] NVARCHAR (256)         NOT NULL,
+    [AggregateRootId]       NVARCHAR (36)          NOT NULL,
+    [Version]               INT                    NOT NULL,
+    [CommandId]             NVARCHAR (36)          NOT NULL,
+    [CreatedOn]             DATETIME               NOT NULL,
+    [Events]                NVARCHAR (MAX)         NOT NULL,
+    CONSTRAINT [PK_EventStream] PRIMARY KEY CLUSTERED ([Sequence] ASC)
 )
 GO
-CREATE UNIQUE INDEX [IX_EventStream_AggId_CommandId] ON [dbo].[EventStream] ([AggregateRootId], [CommandId])
+CREATE UNIQUE INDEX [IX_EventStream_AggId_Version]   ON [dbo].[EventStream] ([AggregateRootId] ASC, [Version] ASC)
 GO
-CREATE TABLE [dbo].[SequenceMessagePublishedVersion] (
+CREATE UNIQUE INDEX [IX_EventStream_AggId_CommandId] ON [dbo].[EventStream] ([AggregateRootId] ASC, [CommandId] ASC)
+GO
+
+CREATE TABLE [dbo].[PublishedVersion] (
     [Sequence]                BIGINT IDENTITY (1, 1) NOT NULL,
     [ProcessorName]           NVARCHAR (128)         NOT NULL,
     [AggregateRootTypeName]   NVARCHAR (256)         NOT NULL,
     [AggregateRootId]         NVARCHAR (36)          NOT NULL,
-    [PublishedVersion]        INT                    NOT NULL,
+    [Version]                 INT                    NOT NULL,
     [CreatedOn]               DATETIME               NOT NULL,
-    CONSTRAINT [PK_SequenceMessagePublishedVersion] PRIMARY KEY CLUSTERED ([ProcessorName] ASC, [AggregateRootId] ASC, [PublishedVersion] ASC)
+    CONSTRAINT [PK_PublishedVersion] PRIMARY KEY CLUSTERED ([Sequence] ASC)
 )
 GO
-CREATE TABLE [dbo].[MessageHandleRecord] (
-    [Sequence]                  BIGINT IDENTITY (1, 1) NOT NULL,
-    [MessageId]                 NVARCHAR (36)          NOT NULL,
-    [HandlerTypeName]           NVARCHAR (256)         NOT NULL,
-    [MessageTypeName]           NVARCHAR (256)         NOT NULL,
-    [AggregateRootTypeName]     NVARCHAR (256)         NOT NULL,
-    [AggregateRootId]           NVARCHAR (36)          NULL,
-    [Version]                   INT                    NULL,
-    [CreatedOn]                 DATETIME               NOT NULL,
-    CONSTRAINT [PK_MessageHandleRecord] PRIMARY KEY CLUSTERED ([MessageId] ASC, [HandlerTypeName] ASC)
-)
+CREATE UNIQUE INDEX [IX_PublishedVersion_AggId_Version]   ON [dbo].[PublishedVersion] ([ProcessorName] ASC, [AggregateRootId] ASC, [Version] ASC)
 GO
-CREATE TABLE [dbo].[TwoMessageHandleRecord] (
-    [Sequence]                  BIGINT IDENTITY (1, 1) NOT NULL,
-    [MessageId1]                NVARCHAR (36)          NOT NULL,
-    [MessageId2]                NVARCHAR (36)          NOT NULL,
-    [HandlerTypeName]           NVARCHAR (256)         NOT NULL,
-    [Message1TypeName]          NVARCHAR (256)         NOT NULL,
-    [Message2TypeName]          NVARCHAR (256)         NOT NULL,
-    [AggregateRootTypeName]     NVARCHAR (256)         NOT NULL,
-    [AggregateRootId]           NVARCHAR (36)          NULL,
-    [Version]                   INT                    NULL,
-    [CreatedOn]                 DATETIME               NOT NULL,
-    CONSTRAINT [PK_TwoMessageHandleRecord] PRIMARY KEY CLUSTERED ([MessageId1] ASC, [MessageId2] ASC, [HandlerTypeName] ASC)
-)
-GO
-CREATE TABLE [dbo].[ThreeMessageHandleRecord] (
-    [Sequence]                  BIGINT IDENTITY (1, 1) NOT NULL,
-    [MessageId1]                NVARCHAR (36)          NOT NULL,
-    [MessageId2]                NVARCHAR (36)          NOT NULL,
-    [MessageId3]                NVARCHAR (36)          NOT NULL,
-    [HandlerTypeName]           NVARCHAR (256)         NOT NULL,
-    [Message1TypeName]          NVARCHAR (256)         NOT NULL,
-    [Message2TypeName]          NVARCHAR (256)         NOT NULL,
-    [Message3TypeName]          NVARCHAR (256)         NOT NULL,
-    [AggregateRootTypeName]     NVARCHAR (256)         NOT NULL,
-    [AggregateRootId]           NVARCHAR (36)          NULL,
-    [Version]                   INT                    NULL,
-    [CreatedOn]                 DATETIME               NOT NULL,
-    CONSTRAINT [PK_ThreeMessageHandleRecord] PRIMARY KEY CLUSTERED ([MessageId1] ASC, [MessageId2] ASC, [MessageId3] ASC, [HandlerTypeName] ASC)
-)
-GO
+
 CREATE TABLE [dbo].[LockKey] (
     [Name]                   NVARCHAR (128)          NOT NULL,
     CONSTRAINT [PK_LockKey] PRIMARY KEY CLUSTERED ([Name] ASC)
