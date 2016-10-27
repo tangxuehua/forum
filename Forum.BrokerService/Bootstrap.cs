@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Configuration;
-using ECommon.Autofac;
 using ECommon.Components;
 using ECommon.Configurations;
-using ECommon.JsonNet;
-using ECommon.Log4Net;
 using ECommon.Logging;
 using EQueue.Broker;
 using EQueue.Configurations;
@@ -75,7 +72,7 @@ namespace Forum.BrokerService
         {
             _ecommonConfiguration.RegisterEQueueComponents();
             var storePath = ConfigurationManager.AppSettings["equeueStorePath"];
-            _broker = BrokerController.Create(new BrokerSetting(storePath));
+            _broker = BrokerController.Create(new BrokerSetting(chunkFileStoreRootPath: storePath));
             _logger.Info("EQueue initialized.");
         }
     }

@@ -13,11 +13,13 @@ using ENode.Eventing;
 using ENode.Infrastructure;
 using EQueue.Broker;
 using EQueue.Configurations;
+using EQueue.NameServer;
 
 namespace Forum.Tests
 {
     public static class ENodeExtensions
     {
+        private static NameServerController _nameServer;
         private static BrokerController _broker;
         private static CommandService _commandService;
         private static CommandConsumer _commandConsumer;
@@ -37,7 +39,8 @@ namespace Forum.Tests
 
             configuration.RegisterEQueueComponents();
 
-            _broker = BrokerController.Create(new BrokerSetting(brokerStorePath));
+            _nameServer = new NameServerController();
+            _broker = BrokerController.Create(new BrokerSetting(chunkFileStoreRootPath: brokerStorePath));
             _commandResultProcessor = new CommandResultProcessor(new IPEndPoint(SocketUtils.GetLocalIPV4(), 9000));
             _commandService = new CommandService(_commandResultProcessor);
             _eventPublisher = new DomainEventPublisher();
@@ -63,6 +66,7 @@ namespace Forum.Tests
         }
         public static ENodeConfiguration StartEQueue(this ENodeConfiguration enodeConfiguration)
         {
+            _nameServer.Start();
             _broker.Start();
             _eventConsumer.Start();
             _commandConsumer.Start();
