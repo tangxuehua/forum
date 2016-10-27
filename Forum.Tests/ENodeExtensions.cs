@@ -1,11 +1,12 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
 using ECommon.Components;
+using EQueue.Utils;
 using ECommon.Logging;
 using ECommon.Scheduling;
-using ECommon.Socketing;
 using ENode.Commanding;
 using ENode.Configurations;
 using ENode.EQueue;
@@ -14,6 +15,9 @@ using ENode.Infrastructure;
 using EQueue.Broker;
 using EQueue.Configurations;
 using EQueue.NameServer;
+using Forum.Infrastructure;
+using EQueue.Clients.Producers;
+using EQueue.Clients.Consumers;
 
 namespace Forum.Tests
 {
@@ -39,17 +43,42 @@ namespace Forum.Tests
 
             configuration.RegisterEQueueComponents();
 
-            _nameServer = new NameServerController();
-            _broker = BrokerController.Create(new BrokerSetting(chunkFileStoreRootPath: brokerStorePath));
-            _commandResultProcessor = new CommandResultProcessor(new IPEndPoint(SocketUtils.GetLocalIPV4(), 9000));
-            _commandService = new CommandService(_commandResultProcessor);
-            _eventPublisher = new DomainEventPublisher();
+            var nameServerEndpoint = new IPEndPoint(IPAddress.Loopback, ConfigSettings.NameServerPort);
+            var nameServerEndpoints = new List<IPEndPoint> { nameServerEndpoint };
+            var nameServerSetting = new NameServerSetting()
+            {
+                BindingAddress = nameServerEndpoint
+            };
+            _nameServer = new NameServerController(nameServerSetting);
+
+            var brokerSetting = new BrokerSetting(false, brokerStorePath);
+            brokerSetting.NameServerList = nameServerEndpoints;
+            brokerSetting.BrokerInfo.ProducerAddress = new IPEndPoint(IPAddress.Loopback, ConfigSettings.BrokerProducerPort).ToAddress();
+            brokerSetting.BrokerInfo.ConsumerAddress = new IPEndPoint(IPAddress.Loopback, ConfigSettings.BrokerConsumerPort).ToAddress();
+            brokerSetting.BrokerInfo.AdminAddress = new IPEndPoint(IPAddress.Loopback, ConfigSettings.BrokerAdminPort).ToAddress();
+            _broker = BrokerController.Create(brokerSetting);
+
+            _commandResultProcessor = new CommandResultProcessor(new IPEndPoint(IPAddress.Loopback, 9000));
+            _commandService = new CommandService(_commandResultProcessor, new ProducerSetting
+            {
+                NameServerList = nameServerEndpoints
+            });
+            _eventPublisher = new DomainEventPublisher(new ProducerSetting
+            {
+                NameServerList = nameServerEndpoints
+            });
 
             configuration.SetDefault<ICommandService, CommandService>(_commandService);
             configuration.SetDefault<IMessagePublisher<DomainEventStreamMessage>, DomainEventPublisher>(_eventPublisher);
 
-            _commandConsumer = new CommandConsumer();
-            _eventConsumer = new DomainEventConsumer();
+            _commandConsumer = new CommandConsumer(setting: new ConsumerSetting
+            {
+                NameServerList = nameServerEndpoints
+            });
+            _eventConsumer = new DomainEventConsumer(setting: new ConsumerSetting
+            {
+                NameServerList = nameServerEndpoints
+            });
 
             _commandConsumer
                 .Subscribe("AccountCommandTopic")

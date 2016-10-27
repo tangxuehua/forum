@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Net;
 using ECommon.Components;
 using ECommon.Configurations;
 using ECommon.Logging;
 using EQueue.Configurations;
 using EQueue.NameServer;
+using Forum.Infrastructure;
 using ECommonConfiguration = ECommon.Configurations.Configuration;
 
 namespace Forum.NameServerService
@@ -70,7 +72,12 @@ namespace Forum.NameServerService
         private static void InitializeEQueue()
         {
             _ecommonConfiguration.RegisterEQueueComponents();
-            _nameServer = new NameServerController();
+            ConfigSettings.Initialize();
+            var setting = new NameServerSetting()
+            {
+                BindingAddress = new IPEndPoint(IPAddress.Loopback, ConfigSettings.NameServerPort)
+            };
+            _nameServer = new NameServerController(setting);
             _logger.Info("NameServer initialized.");
         }
     }

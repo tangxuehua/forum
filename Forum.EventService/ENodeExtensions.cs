@@ -1,7 +1,12 @@
-﻿using ENode.Commanding;
+﻿using System.Collections.Generic;
+using System.Net;
+using ENode.Commanding;
 using ENode.Configurations;
 using ENode.EQueue;
+using EQueue.Clients.Consumers;
+using EQueue.Clients.Producers;
 using EQueue.Configurations;
+using Forum.Infrastructure;
 
 namespace Forum.EventService
 {
@@ -16,10 +21,21 @@ namespace Forum.EventService
 
             configuration.RegisterEQueueComponents();
 
-            _commandService = new CommandService();
+            ConfigSettings.Initialize();
+
+            var nameServerEndpoint = new IPEndPoint(IPAddress.Loopback, ConfigSettings.NameServerPort);
+            var nameServerEndpoints = new List<IPEndPoint> { nameServerEndpoint };
+
+            _commandService = new CommandService(setting: new ProducerSetting
+            {
+                NameServerList = nameServerEndpoints
+            });
             configuration.SetDefault<ICommandService, CommandService>(_commandService);
 
-            _eventConsumer = new DomainEventConsumer();
+            _eventConsumer = new DomainEventConsumer(setting: new ConsumerSetting
+            {
+                NameServerList = nameServerEndpoints
+            });
             _eventConsumer
                 .Subscribe("AccountEventTopic")
                 .Subscribe("SectionEventTopic")

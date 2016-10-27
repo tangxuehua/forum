@@ -1,8 +1,13 @@
-﻿using ENode.Configurations;
+﻿using System.Collections.Generic;
+using System.Net;
+using ENode.Configurations;
 using ENode.EQueue;
 using ENode.Eventing;
 using ENode.Infrastructure;
+using EQueue.Clients.Consumers;
+using EQueue.Clients.Producers;
 using EQueue.Configurations;
+using Forum.Infrastructure;
 
 namespace Forum.CommandService
 {
@@ -17,10 +22,19 @@ namespace Forum.CommandService
 
             configuration.RegisterEQueueComponents();
 
-            _eventPublisher = new DomainEventPublisher();
+            var nameServerEndpoint = new IPEndPoint(IPAddress.Loopback, ConfigSettings.NameServerPort);
+            var nameServerEndpoints = new List<IPEndPoint> { nameServerEndpoint };
+
+            _eventPublisher = new DomainEventPublisher(new ProducerSetting
+            {
+                NameServerList = nameServerEndpoints
+            });
             configuration.SetDefault<IMessagePublisher<DomainEventStreamMessage>, DomainEventPublisher>(_eventPublisher);
 
-            _commandConsumer = new CommandConsumer();
+            _commandConsumer = new CommandConsumer(setting: new ConsumerSetting
+            {
+                NameServerList = nameServerEndpoints
+            });
             _commandConsumer
                 .Subscribe("AccountCommandTopic")
                 .Subscribe("SectionCommandTopic")
