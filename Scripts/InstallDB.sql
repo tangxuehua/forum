@@ -1,10 +1,10 @@
 ﻿----------------------------------------------------------------------------------------------
 --Tables used by Forum.
 ----------------------------------------------------------------------------------------------
-CREATE DATABASE [Forum]
+CREATE DATABASE [Forum_Data]
 GO
 
-use [Forum]
+use [Forum_Data]
 GO
 
 CREATE TABLE [dbo].[AccountIndex] (
@@ -86,21 +86,9 @@ GO
 ----------------------------------------------------------------------------------------------
 --Tables used by ENode.
 ----------------------------------------------------------------------------------------------
-CREATE DATABASE [ENode]
+CREATE DATABASE [Forum_ENode]
 GO
-USE [ENode]
-GO
-CREATE TABLE [dbo].[Command] (
-    [Sequence]                BIGINT IDENTITY (1, 1) NOT NULL,
-    [CommandId]               NVARCHAR (36)          NOT NULL,
-    [CreatedOn]               DATETIME               NOT NULL,
-    [AggregateRootId]         NVARCHAR (36)          NULL,
-    [MessagePayload]          NVARCHAR (MAX)         NULL,
-    [MessageTypeName]         NVARCHAR (256)         NULL,
-    CONSTRAINT [PK_Command] PRIMARY KEY CLUSTERED ([Sequence] ASC)
-)
-GO
-CREATE UNIQUE INDEX [IX_Command_CommandId] ON [dbo].[Command] ([CommandId] ASC)
+USE [Forum_ENode]
 GO
 
 CREATE TABLE [dbo].[EventStream] (

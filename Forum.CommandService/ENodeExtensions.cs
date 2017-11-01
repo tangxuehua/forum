@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using System.Reflection;
 using ENode.Configurations;
 using ENode.EQueue;
 using ENode.Eventing;
@@ -16,22 +17,35 @@ namespace Forum.CommandService
         private static CommandConsumer _commandConsumer;
         private static DomainEventPublisher _eventPublisher;
 
+        public static ENodeConfiguration BuildContainer(this ENodeConfiguration enodeConfiguration)
+        {
+            enodeConfiguration.GetCommonConfiguration().BuildContainer();
+            return enodeConfiguration;
+        }
         public static ENodeConfiguration UseEQueue(this ENodeConfiguration enodeConfiguration)
         {
-            var configuration = enodeConfiguration.GetCommonConfiguration();
+            var assemblies = new[] { Assembly.GetExecutingAssembly() };
+            enodeConfiguration.RegisterTopicProviders(assemblies);
 
+            var configuration = enodeConfiguration.GetCommonConfiguration();
             configuration.RegisterEQueueComponents();
 
+            _eventPublisher = new DomainEventPublisher();
+            configuration.SetDefault<IMessagePublisher<DomainEventStreamMessage>, DomainEventPublisher>(_eventPublisher);
+
+            return enodeConfiguration;
+        }
+        public static ENodeConfiguration StartEQueue(this ENodeConfiguration enodeConfiguration)
+        {
             var nameServerEndpoint = new IPEndPoint(IPAddress.Loopback, ConfigSettings.NameServerPort);
             var nameServerEndpoints = new List<IPEndPoint> { nameServerEndpoint };
 
-            _eventPublisher = new DomainEventPublisher(new ProducerSetting
+            _eventPublisher.Initialize(new ProducerSetting
             {
                 NameServerList = nameServerEndpoints
             });
-            configuration.SetDefault<IMessagePublisher<DomainEventStreamMessage>, DomainEventPublisher>(_eventPublisher);
 
-            _commandConsumer = new CommandConsumer(setting: new ConsumerSetting
+            _commandConsumer = new CommandConsumer().Initialize(setting: new ConsumerSetting
             {
                 NameServerList = nameServerEndpoints
             });
@@ -41,12 +55,9 @@ namespace Forum.CommandService
                 .Subscribe("PostCommandTopic")
                 .Subscribe("ReplyCommandTopic");
 
-            return enodeConfiguration;
-        }
-        public static ENodeConfiguration StartEQueue(this ENodeConfiguration enodeConfiguration)
-        {
             _commandConsumer.Start();
             _eventPublisher.Start();
+
             return enodeConfiguration;
         }
         public static ENodeConfiguration ShutdownEQueue(this ENodeConfiguration enodeConfiguration)

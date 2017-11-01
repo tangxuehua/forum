@@ -1,72 +1,30 @@
-﻿using System;
-using System.Reflection;
-using ECommon.Autofac;
+﻿using System.Reflection;
 using ECommon.Components;
 using ECommon.Configurations;
-using ECommon.JsonNet;
-using ECommon.Log4Net;
 using ECommon.Logging;
 using ENode.Configurations;
+using ENode.SqlServer;
 using Forum.Infrastructure;
 
 namespace Forum.EventService
 {
     public class Bootstrap
     {
-        private static ILogger _logger;
-        private static Configuration _ecommonConfiguration;
         private static ENodeConfiguration _enodeConfiguration;
 
         public static void Initialize()
         {
-            InitializeECommon();
-            try
-            {
-                InitializeENode();
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("Initialize ENode failed.", ex);
-                throw;
-            }
+            InitializeENode();
         }
         public static void Start()
         {
-            try
-            {
-                _enodeConfiguration.StartEQueue();
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("EQueue start failed.", ex);
-                throw;
-            }
+            _enodeConfiguration.StartEQueue();
         }
         public static void Stop()
         {
-            try
-            {
-                _enodeConfiguration.ShutdownEQueue();
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("EQueue stop failed.", ex);
-                throw;
-            }
+            _enodeConfiguration.ShutdownEQueue();
         }
 
-        private static void InitializeECommon()
-        {
-            _ecommonConfiguration = Configuration
-                .Create()
-                .UseAutofac()
-                .RegisterCommonComponents()
-                .UseLog4Net()
-                .UseJsonNet()
-                .RegisterUnhandledExceptionHandler();
-            _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(Bootstrap).FullName);
-            _logger.Info("ECommon initialized.");
-        }
         private static void InitializeENode()
         {
             ConfigSettings.Initialize();
@@ -82,14 +40,23 @@ namespace Forum.EventService
             };
             var setting = new ConfigurationSetting(ConfigSettings.ENodeConnectionString);
 
-            _enodeConfiguration = _ecommonConfiguration
+            _enodeConfiguration = Configuration
+                .Create()
+                .UseAutofac()
+                .RegisterCommonComponents()
+                .UseLog4Net()
+                .UseJsonNet()
+                .RegisterUnhandledExceptionHandler()
                 .CreateENode(setting)
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
                 .UseSqlServerPublishedVersionStore()
                 .UseEQueue()
+                .BuildContainer()
+                .InitializeSqlServerPublishedVersionStore()
                 .InitializeBusinessAssemblies(assemblies);
-            _logger.Info("ENode initialized.");
+
+            ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(Program)).Info("Event service initialized.");
         }
     }
 }
