@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    @Html.Partial("_CommonPartial")
+    <style>
+        .error {
+            float: left;
+        }
+    </style>
+</head>
+
+<body class="gray-bg">  
+    @RenderBody()
+    <environment include="Development">
+        <script src="~/lib/jquery/jquery-1.10.2.min.js"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+        <script src="~/lib/jquery/jquery.form.js"></script>
+        <script src="~/lib/toastr/toastr.min.js"></script>
+        <script src="~/lib/validate/jquery.validate.min.js"></script>
+        <script src="~/lib/validate/messages_zh.min.js"></script>
+        <script src="~/lib/com.js"></script>
+    </environment>
+    <script>
+        toastr.options.positionClass = 'toast-top-center';
+    </script>
+    @RenderSection("Script", false)
+</body>
+</html>

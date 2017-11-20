@@ -1,0 +1,39 @@
+﻿<ul class="nav navbar-nav navbar-right login">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <li>
+            <span>Hi @User.Identity.Name ,</span>
+        </li>
+        if (User.Identity.Name == "admin")
+        {
+            <li>
+                @Html.ActionLink("版块管理", "index", "sectionadmin"
+                , routeValues: null
+                , htmlAttributes: null)
+            </li>
+        }
+        <li>
+            @using (Html.BeginForm("Logout", "Account"
+                , FormMethod.Post
+                , new { id = "logoutForm" }))
+            {
+                @Html.AntiForgeryToken()
+                <a href="javascript:document.getElementById('logoutForm').submit()">注销</a>
+            }
+        </li>
+    }
+    else
+    {
+        <li>
+            @Html.ActionLink("注册", "register", "account"
+            , routeValues: null
+            , htmlAttributes: new { id = "registerLink" })
+        </li>
+        <li>
+            @Html.ActionLink("登录", "login", "account"
+            , routeValues: new { returnUrl = Context.Request.Path }
+            , htmlAttributes: new { id = "loginLink" })
+        </li>
+    }
+
+</ul>

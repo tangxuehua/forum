@@ -1,35 +1,180 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    padding-top: 5px;
+    padding-bottom: 40px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+.modal-body {
+    padding: 0px;
+    padding-top: 20px !important;
 }
 
-/* Carousel */
-.carousel-caption p {
+.vertical-center {
+    vertical-align: middle !important;
+}
+
+.sidebar-nav {
+    padding: 9px 0;
+}
+
+.site-header {
+    border-bottom: solid 1px #006600;
+}
+
+.navbar {
+    border: 0px;
+    margin-bottom: 10px;
+}
+
+.pager {
+    text-align: right;
+}
+.pager a {
+    text-align: right;
+    margin-left: 5px;
+}
+.error {
+    color: #b94a48;
+}
+
+.site-brand {
+    float: left;
+    width: 45px;
+    height: 45px;
+    display: block;
+    background-image: url(images/logo.png);
+    background-repeat: no-repeat;
+}
+
+.site-name {
+    float: left;
+    padding-top: 8px;
+    font-weight: bold;
+    display: block;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-family :"Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 20px;
-    line-height: 1.4;
+    color: #366f9f;
+    line-height: 25px;
+    text-shadow: 2px 2px 4px #CCC;
+    letter-spacing: 1.4px;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+}
+.site-header a {
+    text-decoration: none;
+}
+.navbar-right {
+    margin-right: 0px !important;
+}
+.navbar li a {
+    padding-top: 10px;
+    text-decoration: none;
+    color: #777;
+}
+.navbar li form {
+    padding-top: 10px;
 }
 
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
+.row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+.content {
+    padding-left: 0px;
+    min-height: 480px;
 }
 
-/* QR code generator */
-#qrCode {
-    margin: 15px;
+.sidebar-nav {
+    padding: 0px;
+}
+.sidebar-left {
+    padding-left: 0px;
 }
 
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
-    }
+.register_wrapper {
+    width: 600px;
+    text-align: left;
+    margin-top: 70px;
+}
+.login_wrapper {
+    width: 600px;
+    text-align: left;
+    margin-top: 70px;
+}
+
+@media (min-width: 768px) {
+  .sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+    max-height: none;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
+.post_title
+{
+    display: block;
+    font-family :"微软雅黑";
+    font-size: 16px;
+    color: black;
+    line-height: 25px;
+    text-shadow: 2px 2px 4px #CCC;
+    letter-spacing: 1px;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+}
+.post-item-header {
+    border-top: 2px solid #567286;
+    display: block;
+    color: #000;
+}
+.post-item-header a {
+    text-decoration: none;
+    color: #000;
+}
+.post-item-header a:hover {
+    color: red;
+}
+.post-item-body {
+    clear: both;
+    padding-top: 5px;
+    padding-bottom: 20px;
+    color: #666;
+}
+.reply-item-header {
+    border-top: solid 1px #666;
+    display: block;
+    color: #000;
+}
+.reply-item-header a {
+    text-decoration: none;
+    color: #000;
+}
+.reply-item-header a:hover {
+    color: red;
+}
+.reply-item-body {
+    clear: both;
+    padding-top: 5px;
+    padding-bottom: 20px;
+    color: #666;
 }

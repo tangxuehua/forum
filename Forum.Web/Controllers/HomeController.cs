@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Forum.Web.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using ENode.Commanding;
 using Forum.QueryServices;
+using Forum.Web.Services;
+using ECommon.Logging;
 
 namespace Forum.Web.Controllers
 {
@@ -14,15 +10,24 @@ namespace Forum.Web.Controllers
     {
         private readonly ICommandService _commandService;
         private readonly IPostQueryService _postQueryService;
+        private readonly IContextService _contextService;
+        private readonly ILogger _logger;
 
-        public HomeController(ICommandService commandService, IPostQueryService postQueryService)
+        public HomeController(ICommandService commandService, IPostQueryService postQueryService, IContextService contextService, ILoggerFactory loggerFactory)
         {
             _commandService = commandService;
             _postQueryService = postQueryService;
+            _contextService = contextService;
+            _logger = loggerFactory.Create(GetType());
         }
 
         public IActionResult Index()
         {
+            var currentUser = _contextService.GetCurrentAccount(HttpContext);
+            if (currentUser != null)
+            {
+                _logger.InfoFormat("Current login account, accountId: {0}, accountName: {1}", currentUser.AccountId, currentUser.AccountName);
+            }
             return View();
         }
 
@@ -38,11 +43,6 @@ namespace Forum.Web.Controllers
             ViewData["Message"] = "Your contact page.";
 
             return View();
-        }
-
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

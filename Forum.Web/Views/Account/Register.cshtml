@@ -1,0 +1,83 @@
+﻿@model Forum.Web.Models.RegisterModel
+@{
+    ViewBag.Title = "ENode论坛-用户注册";
+    Layout = "/Views/Shared/_SimpleLayout.cshtml";
+}
+
+<div class="middle-box text-center loginscreen   animated fadeInDown">
+    <div>
+        <div>
+            <h1 class="logo-name">ENODE</h1>
+        </div>
+        <h3>欢迎注册 ENode</h3>
+        <p>创建一个新账户</p>
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new
+        {
+            @class = "m-t",
+            @id = "form"
+        }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.AccountName, new
+                {
+                    @class = "form-control",
+                    @placeholder = "请输入用户名",
+                    @required = "",
+                    @data_msg_required = "<i class='fa fa-times-circle'></i> 请输入用户名"
+                })
+            </div>
+            <div class="form-group">
+                @Html.PasswordFor(model => model.Password, new
+                {
+                    @class = "form-control",
+                    @placeholder = "请输入密码",
+                    @required = "",
+                    @data_msg_required = "<i class='fa fa-times-circle'></i> 请输入密码"
+                })
+            </div>
+            <div class="form-group">
+                @Html.PasswordFor(model => model.ConfirmPassword, new
+                {
+                    @class = "form-control",
+                    @placeholder = "请再次输入密码",
+                    @required = "",
+                    @data_msg_required = "<i class='fa fa-times-circle'></i> 请再次输入密码"
+                })
+            </div>
+            <button type="button" class="btn btn-primary block full-width m-b" onclick="submitForm()">注 册</button>
+            <p class="text-muted text-center">
+                <small>已经有账户了？</small>
+                @Html.ActionLink("点此登录", "Login", "Account")
+                |
+                <a href="/"><small>返回首页</small></a>
+            </p>
+        }
+    </div>
+</div>
+
+@section Script{
+    <script>
+        function submitForm() {
+            com.submitForm({
+                isValid: true,
+                $form: $("#form"),
+                headers: { "RequestVerificationToken": $("input[name='__RequestVerificationToken']").val() },
+                success: function(result) {
+                    if (result.success) {
+                        var url = '/account/login';
+                        toastr.success('注册成功!点击马上跳转!', null, {
+                            timeOut: 2000,
+                            progressBar: true,
+                            onHidden: function () { location.href = url; },
+                            onclick: function () { location.href = url; }
+                        });
+                    } else {
+                        toastr.error(result.errorMsg);
+                    }
+                },
+                error: function (result) { toastr.error(result.responseJSON.errorMsg); }
+            });
+        }
+    </script>
+}

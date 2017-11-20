@@ -1,7 +1,11 @@
-﻿using Autofac.Extensions.DependencyInjection;
+﻿using System;
+using Autofac.Extensions.DependencyInjection;
 using ECommon.Autofac;
 using ECommon.Components;
 using ENode.Configurations;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Forum.Web
@@ -15,6 +19,16 @@ namespace Forum.Web
         {
             var containerBuilder = (ObjectContainer.Current as AutofacObjectContainer).ContainerBuilder;
             services.AddMvc();
+            services.AddAntiforgery();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(options =>
+                    {
+                        options.Cookie.HttpOnly = true;
+                        options.Cookie.Path = "/";
+                        options.LoginPath = "/Account/Login";
+                        options.LogoutPath = "/Account/Logout";
+                        options.SlidingExpiration = true;
+                    });
             containerBuilder.Populate(services);
             return configuration;
         }

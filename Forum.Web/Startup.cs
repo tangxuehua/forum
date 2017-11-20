@@ -26,6 +26,8 @@ namespace Forum.Web
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             ConfigSettings.Initialize();
+            ConfigSettings.ForumConnectionString = Configuration.GetConnectionString("forum");
+            ConfigSettings.ENodeConnectionString = Configuration.GetConnectionString("enode");
             InitializeENode(services);
             return new AutofacServiceProvider(((AutofacObjectContainer)ObjectContainer.Current).Container);
         }
@@ -43,7 +45,7 @@ namespace Forum.Web
             }
 
             app.UseStaticFiles();
-
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
