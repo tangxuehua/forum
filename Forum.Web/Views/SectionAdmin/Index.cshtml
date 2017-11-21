@@ -1,0 +1,172 @@
+﻿@using Microsoft.AspNetCore.Http.Extensions;
+
+@model IEnumerable<Forum.Web.Models.SectionModel>
+@{
+    ViewBag.Title = "ENode论坛后台管理-版块列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("_BreadcrupbPartial", new List<Tuple<string, string>>()
+{
+    new Tuple<string, string>(Context.Request.GetDisplayUrl(), "版块列表")
+})
+
+<div class="ibox-content">
+    <div class="row">
+        <div class="col-sm-5 m-b-xs">
+            <button class="btn btn-info " type="button" onclick="create()">
+                <i class="fa fa-paste"></i> 新建
+            </button>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th width="20%" class="vertical-center">
+                        名称
+                    </th>
+                    <th width="70%">
+                        描述
+                    </th>
+                    <th>
+                        操作
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var currentSection in Model)
+                {
+                <tr>
+                    <td class="vertical-center">
+                        @currentSection.Name
+                    </td>
+                    <td>
+                        @currentSection.Description
+                    </td>
+                    <td>
+                        <a href="javascript:update('@currentSection.Id')" title="编辑">
+                            <i class="fa fa-paste"></i>
+                        </a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal  inmodal" id="modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+                </button>
+                <h4 class="modal-title" id="title">编辑版块</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="form">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="method" value="create" />
+                    <input type="hidden" id="SectionId" name="Id" />
+                    <div class="form-group">
+                        <label for="Name" class="col-sm-2 control-label">名称</label>
+                        <div class="col-sm-9">
+                            <input type="text" maxlength="128" name="Name" id="Name" class="form-control valid" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Description" class="col-sm-2 control-label">描述</label>
+                        <div class="col-sm-9">
+                            <textarea maxlength="128" name="Description" id="Description" class="form-control valid" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-9">
+                            <span class="error"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="save()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Script{
+    <environment include="Development">
+        <script src="~/lib/validate/jquery.validate.min.js"></script>
+        <script src="~/lib/validate/messages_zh.min.js"></script>
+    </environment>
+    <script>
+        function create() {
+            $('#title').html('新建版块');
+            $('#SectionId').val('');
+            $('#Name').val('');
+            $('#Description').val('');
+            $('#method').val('create');
+            $('#modal').modal('show');
+        }
+        function update(sectionId) {
+            if (sectionId) {
+                $.ajax({
+                    type: "GET",
+                    url: '/sectionadmin/find',
+                    data: { id: sectionId, option: 'simple', random: Math.random() },
+                    dataType: "json",
+                    error: function (xhr, textStatus, errorThrown) {
+                        alert("XHR=" + xhr + "\ntextStatus=" + textStatus + "\nerrorThrown=" + errorThrown);
+                    },
+                    success: function (result, textStatus) {
+                        if (result.success) {
+                            $('#title').html('编辑版块');
+                            $('#SectionId').val(result.data.Id);
+                            $('#Name').val(result.data.Name);
+                            $('#Description').val(result.data.Description);
+                            $('#method').val('update');
+                            $('#modal').modal('show');
+                        }
+                    }
+                });
+
+            }
+        }
+        function save() {
+            var method = $('#method').val();
+            var url;
+            if (method) {
+                switch (method) {
+                    case 'create': url = '/sectionadmin/create'; break;
+                    case 'update': url = '/sectionadmin/update'; break;
+                    default: return;
+                }
+                com.submitForm({
+                    url: url,
+                    $form: $("#form"),
+                    isValid: true,
+                    headers: { "RequestVerificationToken": $("input[name='__RequestVerificationToken']").val() },
+                    success: function (result) {
+                        if (result.success) {
+                            var href = '/sectionadmin/index';
+                            toastr.success('保存成功!点击马上跳转!', null, {
+                                timeOut: 2000,
+                                progressBar: true,
+                                onHidden: function () { location.href = href; },
+                                onclick: function () { location.href = href; }
+                            });
+                        } else {
+                            toastr.error(result.errorMsg);
+                        }
+                    },
+                    error: function (result) { toastr.error(result.responseJSON.errorMsg); }
+                });
+            } else { alert('未指定操作类型!'); }
+        }
+
+    </script>
+}

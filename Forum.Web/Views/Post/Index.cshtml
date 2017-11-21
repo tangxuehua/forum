@@ -1,0 +1,159 @@
+﻿@using Forum.Web.Models
+@model IEnumerable<PostListModel>
+@{
+    ViewBag.Title = "ENode论坛-帖子列表";
+    var sectionModel = ViewBag.Section as SectionAndStatisticModel;
+}
+@if (sectionModel.IsActive)
+{
+    @Html.Partial("_BreadcrupbPartial", new List<Tuple<string, string>>()
+    {
+        new Tuple<string, string>("/post/index?sectionId="+sectionModel.Id,sectionModel.Name)
+    })
+}
+else
+{
+    @Html.Partial("_BreadcrupbPartial", new List<Tuple<string, string>>())
+}
+
+<div class="ibox-content forum-container">
+    @if (sectionModel.IsActive)
+    {
+        <div class="forum-title">
+            <div class="row">
+                <div class="pull-right forum-desc">
+                    <samll>总帖子数： @sectionModel.PostCount</samll>
+                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a href="/post/create?sectionId=@sectionModel.Id" class="btn btn-info ">
+                        <i class="fa fa-pencil-square-o"></i> 发帖
+                    </a>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="forum-title">
+            <div class="row">
+                <a href="javascript:history.go(-1);" class="btn btn-info ">
+                    <i class="fa fa-pencil-square-o"></i> 返回
+                </a>
+            </div>
+        </div>
+    }
+
+    <div class="forum-item">
+        <div class="row">
+            <div class="col-sm-7">
+                <div>
+                    <small>标题</small>
+                </div>
+            </div>
+            <div class="col-sm-1 forum-info">
+                <div>
+                    <small>发帖人</small>
+                </div>
+            </div>
+            <div class="col-sm-1 forum-info">
+                <div>
+                    <small>发帖时间</small>
+                </div>
+            </div>
+            <div class="col-sm-1 forum-info">
+                <div>
+                    <small>更新时间</small>
+                </div>
+            </div>
+            <div class="col-sm-1 forum-info">
+                <div>
+                    <small>回复数</small>
+                </div>
+            </div>
+            <div class="col-sm-1 forum-info">
+                <div>
+                    <small>回复人</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @foreach (var post in Model)
+    {
+        <div class="forum-item">
+            <div class="row">
+                <div class="col-sm-7">
+                    <div class="forum-icon">
+                        <i class="fa fa-bookmark"></i>
+                    </div>
+                    @Html.ActionLink(post.Subject, "detail"
+                        , new { id = post.Id }, new
+                        {
+                            @class = "forum-item-title",
+                            //target = "_blank"
+                        })
+                </div>
+                <div class="col-sm-1 forum-info">
+                    <span class="views-number">
+                        @Html.ActionLink(post.AuthorName, "index", new { authorId = post.AuthorId })
+                    </span>
+                </div>
+                <div class="col-sm-1 forum-info">
+                    <span class="views-number">
+                        @post.CreatedOn
+                    </span>
+                </div>
+                <div class="col-sm-1 forum-info">
+                    <span class="views-number">
+                        @post.LastUpdateTime
+                    </span>
+                </div>
+                <div class="col-sm-1 forum-info">
+                    <span class="views-number">
+                        @post.ReplyCount
+                    </span>
+                </div>
+                <div class="col-sm-1 forum-info">
+                    <span class="views-number">
+                        @if (post.MostRecentReply != null)
+                        {
+                            @Html.ActionLink(post.MostRecentReply.AuthorName, "index", new { authorId = post.MostRecentReply.AuthorId })
+                        }
+                        else
+                        {
+                            @Html.Raw("-")
+                        }
+                    </span>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="pagination pull-right ">
+        @{
+            Forum.Web.Controls.Pager pager = ViewBag.Pager;
+            string authorId = ViewBag.AuthorId;
+            string sectionId = ViewBag.SectionId;
+
+            if (pager.HasPreviousPage)
+            {
+                <li>@Html.ActionLink("<<", "index", new { authorId = authorId, sectionId = sectionId, page = pager.FirstPageIndex })</li>
+                <li>@Html.ActionLink("<", "index", new { authorId = authorId, sectionId = sectionId, page = pager.PreviousPageIndex })</li>
+            }
+
+            foreach (int page in ViewBag.Pager)
+            {
+                <li>@Html.ActionLink(page.ToString(), "index", new { authorId = authorId, sectionId = sectionId, page = page })</li>
+            }
+
+            if (pager.HasNextPage)
+            {
+                <li>@Html.ActionLink(">", "index", new { authorId = authorId, sectionId = sectionId, page = pager.NextPageIndex })</li>
+                <li>@Html.ActionLink(">>", "index", new { authorId = authorId, sectionId = sectionId, page = pager.LastPageIndex })</li>
+            }
+        }
+    </div>
+    <div class="clearfix"></div>
+
+</div>

@@ -1,0 +1,64 @@
+﻿@using Microsoft.AspNetCore.Http.Extensions;
+
+@model Forum.Web.Models.PostDetailModel
+@{
+    ViewBag.Title = "ENode论坛-发表帖子";
+}
+<environment include="Development">
+    <link rel="stylesheet" href="~/lib/simditor-2.3.6/styles/simditor.css" />
+</environment>
+@Html.Partial("_BreadcrupbPartial", new List<Tuple<string, string>>()
+{
+    new Tuple<string, string>("/post/index?sectionId="+Model.SectionId,Model.SectionName),
+    new Tuple<string, string>(Context.Request.GetDisplayUrl(),"发帖")
+})
+
+<div class="ibox-content">
+    @using (Html.BeginForm("Create", "Post", FormMethod.Post, new
+    {
+        @class = "form-horizontal",
+        @style = "margin: 0 90px",
+        @id = "form"
+    }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Partial("_CreateOrUpdate", Model)
+        <div class="form-group">
+            <div class="">
+                <button class="btn btn-primary btn-lg" type="button" onclick="submitForm()">提交帖子</button>
+                <a class="btn btn-primary btn-lg" href="javascript:document.referrer?location.href=document.referrer:history.go(-1);">返回</a>
+            </div>
+        </div>
+    }
+</div>
+
+@section Script{
+    <environment include="Development">
+        <script src="~/lib/simditor-2.3.6/scripts/module.js"></script>
+        <script src="~/lib/simditor-2.3.6/scripts/uploader.js"></script>
+        <script src="~/lib/simditor-2.3.6/scripts/hotkeys.js"></script>
+        <script src="~/lib/simditor-2.3.6/scripts/simditor.js"></script>
+    </environment>
+    <script>
+        function submitForm() {
+            com.submitForm({
+                $form: $("#form"),
+                headers: { "RequestVerificationToken": $("input[name='__RequestVerificationToken']").val() },
+                success: function(result) {
+                    if (result.success) {
+                        var href = '/post/index?sectionId=@Model.SectionId';
+                        toastr.success('发帖成功!点击马上跳转!', null, {
+                            timeOut: 2000,
+                            progressBar: true,
+                            onHidden: function() { location.href = href; },
+                            onclick: function() { location.href = href; }
+                        });
+                    } else {
+                        toastr.error(result.errorMsg);
+                    }
+                },
+                error: function (result) { toastr.error(result.responseJSON.errorMsg); }
+            });
+        }
+    </script>
+}

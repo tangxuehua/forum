@@ -1,0 +1,286 @@
+﻿@using Microsoft.AspNetCore.Http.Extensions;
+@using Microsoft.AspNetCore.Html;
+
+@model Forum.Web.Models.PostDetailModel
+@{
+    ViewBag.Title = "ENode论坛-帖子详情";
+}
+<environment include="Development">
+    <link rel="stylesheet" href="~/lib/simditor-2.3.6/styles/simditor.css" />
+</environment>
+@Html.Partial("_BreadcrupbPartial", new List<Tuple<string, string>>()
+{
+    new Tuple<string, string>("/post/index?sectionId="+Model.SectionId,Model.SectionName),
+    new Tuple<string, string>(Context.Request.GetDisplayUrl(),Model.Subject)
+})
+
+<div class="ibox-content">
+
+    <div class="pull-left">
+        <span>#楼主</span>
+        <span style="margin-right: 5px">@Model.CreatedOn</span>
+        @if (!string.IsNullOrEmpty(Model.AuthorName))
+        {
+            @Html.ActionLink(Model.AuthorName, "index", new { authorId = Model.AuthorId })
+        }
+    </div>
+
+    <div class="pull-right">
+        @if (Model.AuthorId == ViewBag.CurrentAccountId)
+        {
+            @Html.ActionLink("编辑", "Update", "Post", new
+            {
+                id = Model.Id
+            }, new { @class = "btn btn-default btn-xs" })
+        }
+        @if (User.Identity.IsAuthenticated)
+        {
+            <button type="button" class="btn btn-primary btn-xs" onclick="reply.show('New')">回复</button>
+        }
+    </div>
+
+    <div class="article-title">
+        <h1>
+            @(new HtmlString(Model.Subject))
+        </h1>
+    </div>
+
+    @Html.Raw(Model.Body)
+
+    <hr>
+
+    @if (Model.Replies != null && Model.Replies.Any())
+    {
+        <div class="row">
+            <div class="col-lg-12">
+                @foreach (var reply in Model.Replies)
+                {
+                    <div class="social-feed-box">
+                        <div class="social-avatar ">
+                            <div class="media-body ">
+                                <div class="pull-left">
+                                    <span>#@reply.Floor@Html.Raw("楼")</span>
+                                    @if (@reply.AuthorId == Model.AuthorId)
+                                    {
+                                        <span>[楼主]</span>
+                                    }
+                                    <small class="text-muted">@reply.CreatedOn</small>
+                                    @if (!string.IsNullOrEmpty(reply.AuthorName))
+                                    {
+                                        @Html.ActionLink(reply.AuthorName, "index", new
+                                        {
+                                            authorId = reply.AuthorId
+                                        })
+                                    }
+                                </div>
+                                <div class="pull-right">
+                                    @if (reply.AuthorId == ViewBag.CurrentAccountId)
+                                    {
+                                        <button type="button"
+                                                class="btn btn-primary btn-xs"
+                                                onclick="reply.show('Edit','@reply.Id')">编辑</button>
+                                    }
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <button type="button" 
+                                                class="btn btn-primary btn-xs" 
+                                                onclick="reply.show('NewSub','@reply.Id')">回复</button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="social-body">
+                            @Html.Raw(reply.Body)
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <hr>
+    }
+
+    <div class="row" id="reply">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("Create", "Reply", FormMethod.Post, new { @id = "form", @style = "display:none" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("PostId", Model.Id)
+                @Html.Hidden("Id")
+                @Html.Hidden("ParentId")
+                @Html.Hidden("AuthorId")
+                <div class="form-group">
+                    <textarea autofocus="" cols="20"
+                              id="Body" name="Body"
+                              placeholder="这里输入内容" 
+                              rows="2" 
+                              style="height: 100px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <div class="">
+                        <button class="btn btn-primary btn-lg"
+                                type="button"
+                                onclick="reply.submit()" id="button"></button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+@section Script{
+    <environment include="Development">
+        <script src="~/lib/simditor-2.3.6/scripts/module.js"></script>
+        <script src="~/lib/simditor-2.3.6/scripts/uploader.js"></script>
+        <script src="~/lib/simditor-2.3.6/scripts/hotkeys.js"></script>
+        <script src="~/lib/simditor-2.3.6/scripts/simditor.js"></script>
+    </environment>
+
+    <script>
+
+        var reply = (function ($, com) {
+            var FormModel = function ($form) {
+                this.$form = $form;
+                this.$postId = $form.find('#PostId');
+                this.$button = $form.find('#button');
+                this.method = '';
+                this.$replyId = $form.find('#Id');;
+                this.$parentId = $form.find('#ParentId');;
+                this.$authorId = $form.find('#AuthorId');;
+                this.$body = $form.find('#Body');
+                this.editor = new Simditor({
+                    toolbarFloatOffset: 1,
+                    textarea: this.$body
+                });
+                /***
+                * 清空表单内容
+                */
+                this.clear = function () {
+                    this.$replyId.val('');
+                    this.$parentId.val('');
+                    this.$authorId.val('');
+                    this.$body.val('');
+                    if (this.editor.getValue()) {
+                        if (confirm('是否清空当前回复内容?')) {
+                            this.editor.setValue('');
+                        }
+                    }
+                }
+                /***
+                * 提交
+                */
+                this.submit = function () {
+                    if (this.method) {
+                        var url = '';
+                        var msg = '';
+                        switch (this.method) {
+                            case 'NewSub':
+                            case 'New':
+                                url = '/Reply/Create';
+                                msg = '发表回复成功!点击马上跳转!';
+                                break;
+                            case 'Edit':
+                                url = '/Reply/Update';
+                                msg = '编辑回复成功!点击马上跳转!';
+                                break;
+                        }
+                        com.submitForm({
+                            url: url,
+                            $form: $form,
+                            headers: { "RequestVerificationToken": $("input[name='__RequestVerificationToken']").val() },
+                            success: function (result) {
+                                if (result.success) {
+                                    var href = '@Context.Request.GetDisplayUrl()';
+                                    toastr.success(msg, null, {
+                                        timeOut: 2000,
+                                        progressBar: true,
+                                        onHidden: function () { location.href = href; },
+                                        onclick: function () { location.href = href; }
+                                    });
+                                } else {
+                                    toastr.error(result.errorMsg);
+                                }
+                            },
+                            error: function(result) { toastr.error(result.responseJSON.errorMsg); }
+                        });
+                    } else {
+                        alert('未指定提交地址');
+                    }
+                }
+                /***
+                * 显示
+                */
+                this.show = function (arguments) {
+                    switch (arguments[0]) {
+                        case 'NewSub':
+                            if (arguments[1]) { this.$parentId.val(arguments[1]); }
+                            this.method = 'NewSub';
+                            this.$button.text('发表回复');
+                            break;
+                        case 'New':
+                            this.method = 'New';
+                            this.$button.text('发表回复');
+                            break;
+                        case 'Edit':
+                            this.method = 'Edit';
+                            this.$button.text('修改回复');
+                            if (arguments[1]) {
+                                var $replyId = this.$replyId;
+                                var $parentId = this.$parentId;
+                                var $authorId = this.$authorId;
+                                var editor = this.editor;
+                                $.ajax({
+                                    data: { id: arguments[1], option: 'simple', random: Math.random() },
+                                    url: '/reply/find',
+                                    type: "GET",
+                                    beforeSubmit: function () { },
+                                    beforeSend: function (a, b, c) { },
+                                    complete: function () { },
+                                    success: function (result) {
+                                        if (result.success) {
+                                            $replyId.val(result.data.id);
+                                            $parentId.val(result.data.parentId);
+                                            $authorId.val(result.data.authorId);
+                                            editor.setValue(result.data.body);
+                                        } else {
+                                            toastr.error(result.errorMsg);
+                                        }
+                                    }
+                                });
+                            }
+                            break;
+                    }
+                    $form.css("display", "block");
+                }
+                /***
+                * 跳转到锚点
+                */
+                this.jump = function () {
+                    location.hash = '#' + $form[0].id;
+                    window.location = window.location;
+                }
+            }
+            var model = new FormModel($('#form'));
+
+            /***
+            * 显示回复框
+            */
+            function show() {
+                model.clear();
+                model.show(arguments);
+                model.jump();
+            }
+
+            /***
+            * 提交回复
+            */
+            function submit() { model.submit(); }
+
+            return {
+                show: show,
+                submit: submit
+            }
+        })($, com);
+
+    </script>
+}

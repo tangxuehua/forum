@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Forum.Web.Models.SectionModel>
+<div class="sidebar-nav">
+    <div class="navbar navbar-default" role="navigation">
+        <div class="navbar-collapse collapse sidebar-navbar-collapse">
+            <ul class="nav navbar-nav">
+                @foreach (var currentSection in Model)
+                {
+                    if (@currentSection.IsActive)
+                    {
+                        <li class="active">@Html.ActionLink(currentSection.Name, "index", "post", new { sectionId = currentSection.Id }, null)</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink(currentSection.Name, "index", "post", new { sectionId = currentSection.Id }, null)</li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</div>
