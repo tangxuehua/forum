@@ -4,6 +4,7 @@ using ECommon.Configurations;
 using ECommon.Logging;
 using ENode.Commanding;
 using ENode.Configurations;
+using ENode.SqlServer;
 using ENode.Infrastructure;
 using Forum.Domain.Accounts;
 using Forum.Infrastructure;
@@ -22,17 +23,24 @@ namespace Forum.Tests
 
         protected static void Initialize()
         {
-            if (_enodeConfiguration == null)
+            if (_enodeConfiguration != null)
             {
-                ConfigSettings.Initialize();
-                InitializeENode();
-                _commandService = ObjectContainer.Resolve<ICommandService>();
-                _sectionQueryService = ObjectContainer.Resolve<ISectionQueryService>();
-                _postQueryService = ObjectContainer.Resolve<IPostQueryService>();
-                _replyQueryService = ObjectContainer.Resolve<IReplyQueryService>();
-                _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(TestBase).Name);
-                ObjectContainer.Resolve<ILockService>().AddLockKey(typeof(Account).Name);
+                CleanupEnode();
             }
+
+            ConfigSettings.Initialize();
+
+            InitializeENode();
+
+            _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(TestBase));
+            _logger.Info("ENode initialized.");
+
+            _commandService = ObjectContainer.Resolve<ICommandService>();
+            _sectionQueryService = ObjectContainer.Resolve<ISectionQueryService>();
+            _postQueryService = ObjectContainer.Resolve<IPostQueryService>();
+            _replyQueryService = ObjectContainer.Resolve<IReplyQueryService>();
+
+            ObjectContainer.Resolve<ILockService>().AddLockKey(typeof(Account).Name);
         }
 
         protected CommandResult ExecuteCommand(ICommand command)
@@ -55,7 +63,6 @@ namespace Forum.Tests
                 Assembly.Load("Forum.QueryServices.Dapper"),
                 Assembly.Load("Forum.Tests")
             };
-
             var setting = new ConfigurationSetting(ConfigSettings.ENodeConnectionString);
 
             _enodeConfiguration = Configuration
@@ -67,14 +74,24 @@ namespace Forum.Tests
                 .RegisterUnhandledExceptionHandler()
                 .CreateENode(setting)
                 .RegisterENodeComponents()
-                .RegisterBusinessComponents(assemblies)
-                .UseSqlServerLockService()
-                .UseSqlServerCommandStore()
                 .UseSqlServerEventStore()
                 .UseSqlServerPublishedVersionStore()
+                .UseSqlServerLockService()
+                .RegisterBusinessComponents(assemblies)
                 .UseEQueue()
+                .BuildContainer()
+                .InitializeSqlServerEventStore()
+                .InitializeSqlServerPublishedVersionStore()
+                .InitializeSqlServerLockService()
                 .InitializeBusinessAssemblies(assemblies)
-                .StartEQueue();
+                .StartEQueue()
+                .Start();
+        }
+        private static void CleanupEnode()
+        {
+            _enodeConfiguration.ShutdownEQueue();
+            _enodeConfiguration.Stop();
+            _logger.Info("ENode shutdown.");
         }
     }
 }
