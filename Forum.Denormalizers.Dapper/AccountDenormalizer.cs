@@ -13,6 +13,7 @@ namespace Forum.Denormalizers.Dapper
         {
             return TryInsertRecordAsync(connection =>
             {
+                //throw new System.Exception("test exception.");
                 return connection.InsertAsync(new
                 {
                     Id = evnt.AggregateRootId,

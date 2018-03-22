@@ -18,11 +18,11 @@ namespace Forum.EventService
         }
         public static void Start()
         {
-            _enodeConfiguration.StartEQueue();
+            _enodeConfiguration.StartEQueue().Start();
         }
         public static void Stop()
         {
-            _enodeConfiguration.ShutdownEQueue();
+            _enodeConfiguration.ShutdownEQueue().Stop();
         }
 
         private static void InitializeENode()
@@ -38,7 +38,6 @@ namespace Forum.EventService
                 Assembly.Load("Forum.ProcessManagers"),
                 Assembly.Load("Forum.EventService")
             };
-            var setting = new ConfigurationSetting(ConfigSettings.ENodeConnectionString);
 
             _enodeConfiguration = Configuration
                 .Create()
@@ -47,13 +46,13 @@ namespace Forum.EventService
                 .UseLog4Net()
                 .UseJsonNet()
                 .RegisterUnhandledExceptionHandler()
-                .CreateENode(setting)
+                .CreateENode()
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
                 .UseSqlServerPublishedVersionStore()
                 .UseEQueue()
                 .BuildContainer()
-                .InitializeSqlServerPublishedVersionStore()
+                .InitializeSqlServerPublishedVersionStore(ConfigSettings.ENodeConnectionString)
                 .InitializeBusinessAssemblies(assemblies);
 
             ObjectContainer.Resolve<ILoggerFactory>().Create(typeof(Program)).Info("Event service initialized.");

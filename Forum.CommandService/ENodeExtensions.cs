@@ -40,12 +40,12 @@ namespace Forum.CommandService
             var nameServerEndpoint = new IPEndPoint(IPAddress.Loopback, ConfigSettings.NameServerPort);
             var nameServerEndpoints = new List<IPEndPoint> { nameServerEndpoint };
 
-            _eventPublisher.Initialize(new ProducerSetting
+            _eventPublisher.InitializeEQueue(new ProducerSetting
             {
                 NameServerList = nameServerEndpoints
             });
 
-            _commandConsumer = new CommandConsumer().Initialize(setting: new ConsumerSetting
+            _commandConsumer = new CommandConsumer().InitializeEQueue(setting: new ConsumerSetting
             {
                 NameServerList = nameServerEndpoints
             });

@@ -21,11 +21,11 @@ namespace Forum.CommandService
         }
         public static void Start()
         {
-            _enodeConfiguration.StartEQueue();
+            _enodeConfiguration.StartEQueue().Start();
         }
         public static void Stop()
         {
-            _enodeConfiguration.ShutdownEQueue();
+            _enodeConfiguration.ShutdownEQueue().Stop();
         }
 
         private static void InitializeENode()
@@ -41,7 +41,6 @@ namespace Forum.CommandService
                 Assembly.Load("Forum.CommandHandlers"),
                 Assembly.Load("Forum.CommandService")
             };
-            var setting = new ConfigurationSetting(ConfigSettings.ENodeConnectionString);
 
             _enodeConfiguration = Configuration
                 .Create()
@@ -50,15 +49,15 @@ namespace Forum.CommandService
                 .UseLog4Net()
                 .UseJsonNet()
                 .RegisterUnhandledExceptionHandler()
-                .CreateENode(setting)
+                .CreateENode()
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
                 .UseSqlServerEventStore()
                 .UseSqlServerLockService()
                 .UseEQueue()
                 .BuildContainer()
-                .InitializeSqlServerEventStore()
-                .InitializeSqlServerLockService()
+                .InitializeSqlServerEventStore(ConfigSettings.ENodeConnectionString)
+                .InitializeSqlServerLockService(ConfigSettings.ENodeConnectionString)
                 .InitializeBusinessAssemblies(assemblies);
         }
         private static void InitializeCommandService()

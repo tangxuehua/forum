@@ -13,13 +13,13 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.0" />
-    <PackageReference Include="ECommon" Version="2.5.3" />
+    <PackageReference Include="ECommon" Version="2.5.7" />
     <PackageReference Include="ecommon.autofac" Version="2.5.0" />
-    <PackageReference Include="ECommon.Dapper" Version="2.5.0" />
+    <PackageReference Include="ECommon.Dapper" Version="2.5.1" />
     <PackageReference Include="ecommon.jsonnet" Version="2.5.0" />
     <PackageReference Include="ecommon.log4net" Version="2.5.2" />
-    <PackageReference Include="enode" Version="2.8.5" />
-    <PackageReference Include="enode.equeue" Version="2.0.0" />
+    <PackageReference Include="enode" Version="2.8.8" />
+    <PackageReference Include="enode.equeue" Version="2.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Antiforgery" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />

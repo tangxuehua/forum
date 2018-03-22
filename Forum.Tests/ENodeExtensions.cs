@@ -24,16 +24,32 @@ namespace Forum.Tests
 {
     public static class ENodeExtensions
     {
-        private static NameServerController _nameServer;
+        private static NameServerController _nameServerController;
         private static BrokerController _broker;
         private static CommandService _commandService;
         private static CommandConsumer _commandConsumer;
         private static DomainEventPublisher _eventPublisher;
         private static DomainEventConsumer _eventConsumer;
+        private static bool _isEQueueInitialized;
+        private static bool _isEQueueStarted;
 
         public static ENodeConfiguration BuildContainer(this ENodeConfiguration enodeConfiguration)
         {
             enodeConfiguration.GetCommonConfiguration().BuildContainer();
+            return enodeConfiguration;
+        }
+        public static ENodeConfiguration InitializeEQueue(this ENodeConfiguration enodeConfiguration)
+        {
+            if (_isEQueueInitialized)
+            {
+                return enodeConfiguration;
+            }
+
+            _commandService = new CommandService();
+            _eventPublisher = new DomainEventPublisher();
+
+            _isEQueueInitialized = true;
+
             return enodeConfiguration;
         }
         public static ENodeConfiguration UseEQueue(this ENodeConfiguration enodeConfiguration)
@@ -44,9 +60,6 @@ namespace Forum.Tests
             var configuration = enodeConfiguration.GetCommonConfiguration();
             configuration.RegisterEQueueComponents();
 
-            _commandService = new CommandService();
-            _eventPublisher = new DomainEventPublisher();
-
             configuration.SetDefault<ICommandService, CommandService>(_commandService);
             configuration.SetDefault<IMessagePublisher<DomainEventStreamMessage>, DomainEventPublisher>(_eventPublisher);
 
@@ -54,13 +67,24 @@ namespace Forum.Tests
         }
         public static ENodeConfiguration StartEQueue(this ENodeConfiguration enodeConfiguration)
         {
+            if (_isEQueueStarted)
+            {
+                _commandService.InitializeENode();
+                _eventPublisher.InitializeENode();
+
+                _commandConsumer.InitializeENode();
+                _eventConsumer.InitializeENode();
+
+                return enodeConfiguration;
+            }
+
             var nameServerEndpoint = new IPEndPoint(IPAddress.Loopback, ConfigSettings.NameServerPort);
             var nameServerEndpoints = new List<IPEndPoint> { nameServerEndpoint };
             var nameServerSetting = new NameServerSetting()
             {
                 BindingAddress = nameServerEndpoint
             };
-            _nameServer = new NameServerController(nameServerSetting);
+            _nameServerController = new NameServerController(nameServerSetting);
 
             var brokerStorePath = @"c:\forum-equeue-store-test";
             if (Directory.Exists(brokerStorePath))
@@ -78,19 +102,19 @@ namespace Forum.Tests
             brokerSetting.BrokerInfo.AdminAddress = new IPEndPoint(IPAddress.Loopback, ConfigSettings.BrokerAdminPort).ToAddress();
             _broker = BrokerController.Create(brokerSetting);
 
-            _commandService.Initialize(new CommandResultProcessor().Initialize(new IPEndPoint(IPAddress.Loopback, 9000)), new ProducerSetting
+            _commandService.InitializeEQueue(new CommandResultProcessor().Initialize(new IPEndPoint(IPAddress.Loopback, 9000)), new ProducerSetting
             {
                 NameServerList = nameServerEndpoints
             });
-            _eventPublisher.Initialize(new ProducerSetting
+            _eventPublisher.InitializeEQueue(new ProducerSetting
             {
                 NameServerList = nameServerEndpoints
             });
-            _commandConsumer = new CommandConsumer().Initialize(setting: new ConsumerSetting
+            _commandConsumer = new CommandConsumer().InitializeEQueue(setting: new ConsumerSetting
             {
                 NameServerList = nameServerEndpoints
             });
-            _eventConsumer = new DomainEventConsumer().Initialize(setting: new ConsumerSetting
+            _eventConsumer = new DomainEventConsumer().InitializeEQueue(setting: new ConsumerSetting
             {
                 NameServerList = nameServerEndpoints
             });
@@ -106,7 +130,7 @@ namespace Forum.Tests
                 .Subscribe("PostEventTopic")
                 .Subscribe("ReplyEventTopic");
 
-            _nameServer.Start();
+            _nameServerController.Start();
             _broker.Start();
             _eventConsumer.Start();
             _commandConsumer.Start();
@@ -114,6 +138,8 @@ namespace Forum.Tests
             _commandService.Start();
 
             WaitAllConsumerLoadBalanceComplete();
+
+            _isEQueueStarted = true;
 
             return enodeConfiguration;
         }
@@ -124,7 +150,7 @@ namespace Forum.Tests
             _commandConsumer.Shutdown();
             _eventConsumer.Shutdown();
             _broker.Shutdown();
-            _nameServer.Shutdown();
+            _nameServerController.Shutdown();
             return enodeConfiguration;
         }
 

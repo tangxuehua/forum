@@ -38,7 +38,7 @@ namespace Forum.Web
             var nameServerEndpoints = new List<IPEndPoint> { nameServerEndpoint };
             var commandResultProcessor = new CommandResultProcessor().Initialize(new IPEndPoint(IPAddress.Loopback, 9000));
 
-            _commandService.Initialize(commandResultProcessor, new ProducerSetting
+            _commandService.InitializeEQueue(commandResultProcessor, new ProducerSetting
             {
                 NameServerList = nameServerEndpoints
             });

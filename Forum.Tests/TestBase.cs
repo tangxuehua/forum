@@ -63,7 +63,6 @@ namespace Forum.Tests
                 Assembly.Load("Forum.QueryServices.Dapper"),
                 Assembly.Load("Forum.Tests")
             };
-            var setting = new ConfigurationSetting(ConfigSettings.ENodeConnectionString);
 
             _enodeConfiguration = Configuration
                 .Create()
@@ -72,24 +71,24 @@ namespace Forum.Tests
                 .UseLog4Net()
                 .UseJsonNet()
                 .RegisterUnhandledExceptionHandler()
-                .CreateENode(setting)
+                .CreateENode()
                 .RegisterENodeComponents()
                 .UseSqlServerEventStore()
                 .UseSqlServerPublishedVersionStore()
                 .UseSqlServerLockService()
                 .RegisterBusinessComponents(assemblies)
+                .InitializeEQueue()
                 .UseEQueue()
                 .BuildContainer()
-                .InitializeSqlServerEventStore()
-                .InitializeSqlServerPublishedVersionStore()
-                .InitializeSqlServerLockService()
+                .InitializeSqlServerEventStore(ConfigSettings.ENodeConnectionString)
+                .InitializeSqlServerPublishedVersionStore(ConfigSettings.ENodeConnectionString)
+                .InitializeSqlServerLockService(ConfigSettings.ENodeConnectionString)
                 .InitializeBusinessAssemblies(assemblies)
                 .StartEQueue()
                 .Start();
         }
         private static void CleanupEnode()
         {
-            _enodeConfiguration.ShutdownEQueue();
             _enodeConfiguration.Stop();
             _logger.Info("ENode shutdown.");
         }

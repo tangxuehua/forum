@@ -39,12 +39,12 @@ namespace Forum.EventService
             var nameServerEndpoint = new IPEndPoint(IPAddress.Loopback, ConfigSettings.NameServerPort);
             var nameServerEndpoints = new List<IPEndPoint> { nameServerEndpoint };
 
-            _commandService.Initialize(setting: new ProducerSetting
+            _commandService.InitializeEQueue(setting: new ProducerSetting
             {
                 NameServerList = nameServerEndpoints
             });
 
-            _eventConsumer = new DomainEventConsumer().Initialize(setting: new ConsumerSetting
+            _eventConsumer = new DomainEventConsumer().InitializeEQueue(setting: new ConsumerSetting
             {
                 NameServerList = nameServerEndpoints
             });
