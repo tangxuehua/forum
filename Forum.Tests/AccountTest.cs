@@ -10,7 +10,7 @@ namespace Forum.Tests
     [TestClass]
     public class AccountTest : TestBase
     {
-        [ClassInitialize]
+        [ClassInitialize] 
         public static void ClassInitialize(TestContext context)
         {
             Initialize();

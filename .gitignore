@@ -14,3 +14,4 @@ obj
 *.vsmdi
 TestResult.xml
 /Forum.Web/logs
+/.vs/forum/v15/Server/sqlite3
