@@ -23,7 +23,7 @@ namespace Forum.Tests
             var password = ObjectId.GenerateNewStringId();
 
             var result = ExecuteCommand(new RegisterNewAccountCommand(ObjectId.GenerateNewStringId(), name, password));
-            //var a = 1;
+
             Assert.AreEqual(CommandStatus.Success, result.Status);
 
             var account = ObjectContainer.Resolve<IAccountQueryService>().Find(name);
