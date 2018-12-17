@@ -1,4 +1,5 @@
-﻿using ENode.Commanding;
+﻿using System.Threading.Tasks;
+using ENode.Commanding;
 using ENode.Infrastructure;
 using Forum.Commands.Accounts;
 using Forum.Domain.Accounts;
@@ -17,14 +18,14 @@ namespace Forum.CommandHandlers
             _registerAccountService = registerAccountService;
         }
 
-        public void Handle(ICommandContext context, RegisterNewAccountCommand command)
+        public Task HandleAsync(ICommandContext context, RegisterNewAccountCommand command)
         {
-            _lockService.ExecuteInLock(typeof(Account).Name, () =>
+            return Task.Factory.StartNew(() => _lockService.ExecuteInLock(typeof(Account).Name, () =>
             {
                 var account = new Account(command.AggregateRootId, command.Name, command.Password);
                 _registerAccountService.RegisterAccount(account);
                 context.Add(account);
-            });
+            }));
         }
     }
 }

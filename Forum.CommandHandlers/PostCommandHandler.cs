@@ -1,4 +1,5 @@
-﻿using ENode.Commanding;
+﻿using System.Threading.Tasks;
+using ENode.Commanding;
 using Forum.Commands.Posts;
 using Forum.Domain.Posts;
 using Forum.Domain.Replies;
@@ -10,17 +11,20 @@ namespace Forum.CommandHandlers
         ICommandHandler<UpdatePostCommand>,
         ICommandHandler<AcceptNewReplyCommand>
     {
-        public void Handle(ICommandContext context, CreatePostCommand command)
+        public Task HandleAsync(ICommandContext context, CreatePostCommand command)
         {
-            context.Add(new Post(command.AggregateRootId, command.Subject, command.Body, command.SectionId, command.AuthorId));
+            return context.AddAsync(new Post(command.AggregateRootId, command.Subject, command.Body, command.SectionId, command.AuthorId));
         }
-        public void Handle(ICommandContext context, UpdatePostCommand command)
+        public async Task HandleAsync(ICommandContext context, UpdatePostCommand command)
         {
-            context.Get<Post>(command.AggregateRootId).Update(command.Subject, command.Body);
+            var post = await context.GetAsync<Post>(command.AggregateRootId);
+            post.Update(command.Subject, command.Body);
         }
-        public void Handle(ICommandContext context, AcceptNewReplyCommand command)
+        public async Task HandleAsync(ICommandContext context, AcceptNewReplyCommand command)
         {
-            context.Get<Post>(command.AggregateRootId).AcceptNewReply(context.Get<Reply>(command.ReplyId));
+            var post = await context.GetAsync<Post>(command.AggregateRootId);
+            var reply = await context.GetAsync<Reply>(command.ReplyId);
+            post.AcceptNewReply(reply);
         }
     }
 }

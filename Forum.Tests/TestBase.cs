@@ -45,7 +45,7 @@ namespace Forum.Tests
 
         protected CommandResult ExecuteCommand(ICommand command)
         {
-            return _commandService.Execute(command, CommandReturnType.EventHandled, 10000);
+            return _commandService.ExecuteAsync(command, CommandReturnType.EventHandled).Result.Data;
         }
 
         private static void InitializeENode()
