@@ -1,4 +1,5 @@
-﻿using ECommon.Components;
+﻿using System.Threading.Tasks;
+using ECommon.Components;
 using Forum.Infrastructure;
 
 namespace Forum.Domain.Accounts
@@ -19,12 +20,12 @@ namespace Forum.Domain.Accounts
         /// </summary>
         /// <param name="account"></param>
         /// <returns></returns>
-        public void RegisterAccount(Account account)
+        public async Task RegisterAccount(Account account)
         {
-            var accountIndex = _accountIndexRepository.FindByAccountName(account.Name);
+            var accountIndex = await _accountIndexRepository.FindByAccountName(account.Name);
             if (accountIndex == null)
             {
-                _accountIndexRepository.Add(new AccountIndex(account.Id, account.Name));
+                await _accountIndexRepository.Add(new AccountIndex(account.Id, account.Name));
             }
             else if (accountIndex.AccountId != account.Id)
             {

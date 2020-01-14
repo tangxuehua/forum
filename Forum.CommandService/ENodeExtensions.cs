@@ -5,6 +5,7 @@ using ENode.Configurations;
 using ENode.EQueue;
 using ENode.Eventing;
 using ENode.Infrastructure;
+using ENode.Messaging;
 using EQueue.Clients.Consumers;
 using EQueue.Clients.Producers;
 using EQueue.Configurations;

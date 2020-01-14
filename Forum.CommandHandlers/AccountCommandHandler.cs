@@ -18,14 +18,14 @@ namespace Forum.CommandHandlers
             _registerAccountService = registerAccountService;
         }
 
-        public Task HandleAsync(ICommandContext context, RegisterNewAccountCommand command)
+        public async Task HandleAsync(ICommandContext context, RegisterNewAccountCommand command)
         {
-            return Task.Factory.StartNew(() => _lockService.ExecuteInLock(typeof(Account).Name, () =>
+            var account = new Account(command.AggregateRootId, command.Name, command.Password);
+            await _lockService.ExecuteInLock(typeof(Account).Name, () =>
             {
-                var account = new Account(command.AggregateRootId, command.Name, command.Password);
-                _registerAccountService.RegisterAccount(account);
-                context.Add(account);
-            }));
+                return _registerAccountService.RegisterAccount(account);
+            });
+            context.Add(account);
         }
     }
 }

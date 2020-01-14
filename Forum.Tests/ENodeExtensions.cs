@@ -13,6 +13,7 @@ using ENode.Configurations;
 using ENode.EQueue;
 using ENode.Eventing;
 using ENode.Infrastructure;
+using ENode.Messaging;
 using EQueue.Broker;
 using EQueue.Clients.Consumers;
 using EQueue.Clients.Producers;
@@ -86,7 +87,7 @@ namespace Forum.Tests
             };
             _nameServerController = new NameServerController(nameServerSetting);
 
-            var brokerStorePath = @"c:\forum-equeue-store-test";
+            var brokerStorePath = @"d:\forum-equeue-store-test";
             if (Directory.Exists(brokerStorePath))
             {
                 Directory.Delete(brokerStorePath, true);

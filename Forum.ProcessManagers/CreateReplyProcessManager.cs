@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
-using ECommon.IO;
 using ENode.Commanding;
-using ENode.Infrastructure;
+using ENode.Messaging;
 using Forum.Commands.Posts;
 using Forum.Domain.Replies;
 
@@ -16,7 +15,7 @@ namespace Forum.ProcessManagers
             _commandService = commandService;
         }
 
-        public Task<AsyncTaskResult> HandleAsync(ReplyCreatedEvent evnt)
+        public Task HandleAsync(ReplyCreatedEvent evnt)
         {
             return _commandService.SendAsync(new AcceptNewReplyCommand(evnt.PostId, evnt.AggregateRootId));
         }

@@ -12,18 +12,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.0" />
-    <PackageReference Include="ECommon" Version="2.6.0" />
-    <PackageReference Include="ecommon.autofac" Version="2.5.0" />
-    <PackageReference Include="ECommon.Dapper" Version="2.5.1" />
-    <PackageReference Include="ecommon.jsonnet" Version="2.5.0" />
-    <PackageReference Include="ecommon.log4net" Version="2.5.2" />
-    <PackageReference Include="enode" Version="2.9.2" />
-    <PackageReference Include="enode.equeue" Version="2.1.1" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="ECommon" Version="2.6.4" />
+    <PackageReference Include="ecommon.autofac" Version="2.5.1" />
+    <PackageReference Include="ECommon.Dapper" Version="2.5.2" />
+    <PackageReference Include="ecommon.jsonnet" Version="2.5.1" />
+    <PackageReference Include="ECommon.Serilog" Version="1.0.1" />
+    <PackageReference Include="enode" Version="2.9.5" />
+    <PackageReference Include="enode.equeue" Version="2.1.4" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Antiforgery" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,12 +39,6 @@
     <ProjectReference Include="..\Forum.Infrastructure\Forum.Infrastructure.csproj" />
     <ProjectReference Include="..\Forum.QueryServices.Dapper\Forum.QueryServices.Dapper.csproj" />
     <ProjectReference Include="..\Forum.QueryServices\Forum.QueryServices.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="log4net.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
 </Project>

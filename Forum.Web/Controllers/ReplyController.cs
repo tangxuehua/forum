@@ -47,14 +47,9 @@ namespace Forum.Web.Controllers
                     model.Body,
                     currentAccount.AccountId), CommandReturnType.EventHandled);
 
-            if (result.Status != AsyncTaskStatus.Success)
+            if (result.Status == CommandStatus.Failed)
             {
-                return Json(new { success = false, errorMsg = result.ErrorMessage });
-            }
-            var commandResult = result.Data;
-            if (commandResult.Status == CommandStatus.Failed)
-            {
-                return Json(new { success = false, errorMsg = commandResult.Result });
+                return Json(new { success = false, errorMsg = result.Result });
             }
 
             return Json(new { success = true });
@@ -72,14 +67,9 @@ namespace Forum.Web.Controllers
 
             var result = await _commandService.ExecuteAsync(new ChangeReplyBodyCommand(model.Id, model.Body));
 
-            if (result.Status != AsyncTaskStatus.Success)
+            if (result.Status == CommandStatus.Failed)
             {
-                return Json(new { success = false, errorMsg = result.ErrorMessage });
-            }
-            var commandResult = result.Data;
-            if (commandResult.Status == CommandStatus.Failed)
-            {
-                return Json(new { success = false, errorMsg = commandResult.Result });
+                return Json(new { success = false, errorMsg = result.Result });
             }
 
             return Json(new { success = true });

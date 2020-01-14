@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using ECommon.Dapper;
-using ECommon.IO;
-using ENode.Infrastructure;
+using ENode.Messaging;
 using Forum.Domain.Accounts;
 using Forum.Infrastructure;
 
@@ -9,11 +8,10 @@ namespace Forum.Denormalizers.Dapper
 {
     public class AccountDenormalizer : AbstractDenormalizer, IMessageHandler<NewAccountRegisteredEvent>
     {
-        public Task<AsyncTaskResult> HandleAsync(NewAccountRegisteredEvent evnt)
+        public Task HandleAsync(NewAccountRegisteredEvent evnt)
         {
             return TryInsertRecordAsync(connection =>
             {
-                //throw new System.Exception("test exception.");
                 return connection.InsertAsync(new
                 {
                     Id = evnt.AggregateRootId,

@@ -2,6 +2,7 @@
 using ECommon.Components;
 using ECommon.Configurations;
 using ECommon.Logging;
+using ECommon.Serilog;
 using ENode.Configurations;
 using ENode.Infrastructure;
 using ENode.SqlServer;
@@ -42,11 +43,16 @@ namespace Forum.CommandService
                 Assembly.Load("Forum.CommandService")
             };
 
+            var loggerFactory = new SerilogLoggerFactory()
+                .AddFileLogger("ECommon", "logs\\ecommon")
+                .AddFileLogger("EQueue", "logs\\equeue")
+                .AddFileLogger("ENode", "logs\\enode");
+
             _enodeConfiguration = Configuration
                 .Create()
                 .UseAutofac()
                 .RegisterCommonComponents()
-                .UseLog4Net()
+                .UseSerilog(loggerFactory)
                 .UseJsonNet()
                 .RegisterUnhandledExceptionHandler()
                 .CreateENode()

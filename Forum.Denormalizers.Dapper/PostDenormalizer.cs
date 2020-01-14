@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
-using ECommon.Components;
 using ECommon.Dapper;
-using ECommon.IO;
-using ENode.Infrastructure;
+using ENode.Messaging;
 using Forum.Domain.Posts;
 using Forum.Infrastructure;
 
@@ -13,7 +11,7 @@ namespace Forum.Denormalizers.Dapper
         IMessageHandler<PostUpdatedEvent>,
         IMessageHandler<PostReplyStatisticInfoChangedEvent>
     {
-        public Task<AsyncTaskResult> HandleAsync(PostCreatedEvent evnt)
+        public Task HandleAsync(PostCreatedEvent evnt)
         {
             return TryInsertRecordAsync(connection =>
             {
@@ -32,7 +30,7 @@ namespace Forum.Denormalizers.Dapper
                 }, Constants.PostTable);
             });
         }
-        public Task<AsyncTaskResult> HandleAsync(PostUpdatedEvent evnt)
+        public Task HandleAsync(PostUpdatedEvent evnt)
         {
             return TryUpdateRecordAsync(connection =>
             {
@@ -49,7 +47,7 @@ namespace Forum.Denormalizers.Dapper
                 }, Constants.PostTable);
             });
         }
-        public Task<AsyncTaskResult> HandleAsync(PostReplyStatisticInfoChangedEvent evnt)
+        public Task HandleAsync(PostReplyStatisticInfoChangedEvent evnt)
         {
             return TryUpdateRecordAsync(connection =>
             {

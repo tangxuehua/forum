@@ -5,6 +5,7 @@ using ECommon.Autofac;
 using ECommon.Components;
 using ECommon.Configurations;
 using ECommon.Logging;
+using ECommon.Serilog;
 using ENode.Configurations;
 using Forum.Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -63,12 +64,15 @@ namespace Forum.Web
                 Assembly.Load("Forum.QueryServices.Dapper"),
                 Assembly.Load("Forum.Web")
             };
-
+            var loggerFactory = new SerilogLoggerFactory()
+                .AddFileLogger("ECommon", "logs\\ecommon")
+                .AddFileLogger("EQueue", "logs\\equeue")
+                .AddFileLogger("ENode", "logs\\enode");
             ECommon.Configurations.Configuration
                 .Create()
                 .UseAutofac()
                 .RegisterCommonComponents()
-                .UseLog4Net()
+                .UseSerilog(loggerFactory)
                 .UseJsonNet()
                 .RegisterUnhandledExceptionHandler()
                 .CreateENode()

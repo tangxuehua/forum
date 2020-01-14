@@ -1,5 +1,6 @@
 ﻿using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using ECommon.Components;
 using ECommon.Dapper;
 using Forum.Domain.Accounts;
@@ -10,25 +11,25 @@ namespace Forum.Domain.Dapper
     [Component]
     public class AccountIndexRepository : IAccountIndexRepository
     {
-        public AccountIndex FindByAccountName(string accountName)
+        public async Task<AccountIndex> FindByAccountName(string accountName)
         {
             using (var connection = GetConnection())
             {
-                connection.Open();
-                var data = connection.QueryList(new { AccountName = accountName }, Constants.AccountIndexTable).SingleOrDefault();
-                if (data != null)
+                await connection.OpenAsync();
+                var data = await connection.QueryListAsync(new { AccountName = accountName }, Constants.AccountIndexTable);
+                if (data.SingleOrDefault() != null)
                 {
-                    return new AccountIndex(data.AccountId as string, accountName);
+                    return new AccountIndex(data.SingleOrDefault().AccountId as string, accountName);
                 }
                 return null;
             }
         }
-        public void Add(AccountIndex index)
+        public async Task Add(AccountIndex index)
         {
             using (var connection = GetConnection())
             {
-                connection.Open();
-                connection.Insert(new
+                await connection.OpenAsync();
+                await connection.InsertAsync(new
                 {
                     AccountId = index.AccountId,
                     AccountName = index.AccountName

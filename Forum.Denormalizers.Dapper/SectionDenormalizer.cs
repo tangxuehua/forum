@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
-using ECommon.Components;
 using ECommon.Dapper;
-using ECommon.IO;
-using ENode.Infrastructure;
+using ENode.Messaging;
 using Forum.Domain.Sections;
 using Forum.Infrastructure;
 
@@ -12,7 +10,7 @@ namespace Forum.Denormalizers.Dapper
         IMessageHandler<SectionCreatedEvent>,
         IMessageHandler<SectionChangedEvent>
     {
-        public Task<AsyncTaskResult> HandleAsync(SectionCreatedEvent evnt)
+        public Task HandleAsync(SectionCreatedEvent evnt)
         {
             return TryInsertRecordAsync(connection =>
             {
@@ -27,7 +25,7 @@ namespace Forum.Denormalizers.Dapper
                 }, Constants.SectionTable);
             });
         }
-        public Task<AsyncTaskResult> HandleAsync(SectionChangedEvent evnt)
+        public Task HandleAsync(SectionChangedEvent evnt)
         {
             return TryUpdateRecordAsync(connection =>
             {

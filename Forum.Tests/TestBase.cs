@@ -9,6 +9,7 @@ using ENode.Infrastructure;
 using Forum.Domain.Accounts;
 using Forum.Infrastructure;
 using Forum.QueryServices;
+using ECommon.Serilog;
 
 namespace Forum.Tests
 {
@@ -45,7 +46,7 @@ namespace Forum.Tests
 
         protected CommandResult ExecuteCommand(ICommand command)
         {
-            return _commandService.ExecuteAsync(command, CommandReturnType.EventHandled).Result.Data;
+            return _commandService.ExecuteAsync(command, CommandReturnType.EventHandled).Result;
         }
 
         private static void InitializeENode()
@@ -63,12 +64,15 @@ namespace Forum.Tests
                 Assembly.Load("Forum.QueryServices.Dapper"),
                 Assembly.Load("Forum.Tests")
             };
-
+            var loggerFactory = new SerilogLoggerFactory()
+                .AddFileLogger("ECommon", "logs\\ecommon")
+                .AddFileLogger("EQueue", "logs\\equeue")
+                .AddFileLogger("ENode", "logs\\enode");
             _enodeConfiguration = Configuration
                 .Create()
                 .UseAutofac()
                 .RegisterCommonComponents()
-                .UseLog4Net()
+                .UseSerilog(loggerFactory)
                 .UseJsonNet()
                 .RegisterUnhandledExceptionHandler()
                 .CreateENode()

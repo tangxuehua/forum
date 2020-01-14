@@ -2,6 +2,7 @@
 using ECommon.Components;
 using ECommon.Configurations;
 using ECommon.Logging;
+using ECommon.Serilog;
 using EQueue.Configurations;
 using EQueue.NameServer;
 using Forum.Infrastructure;
@@ -32,11 +33,16 @@ namespace Forum.NameServerService
 
         private static void InitializeEQueue()
         {
+            var loggerFactory = new SerilogLoggerFactory()
+                .AddFileLogger("ECommon", "logs\\ecommon")
+                .AddFileLogger("EQueue", "logs\\equeue")
+                .AddFileLogger("ENode", "logs\\enode");
+
             _ecommonConfiguration = ECommonConfiguration
                 .Create()
                 .UseAutofac()
                 .RegisterCommonComponents()
-                .UseLog4Net()
+                .UseSerilog(loggerFactory)
                 .UseJsonNet()
                 .RegisterUnhandledExceptionHandler()
                 .RegisterEQueueComponents()

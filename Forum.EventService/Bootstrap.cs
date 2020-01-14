@@ -2,6 +2,7 @@
 using ECommon.Components;
 using ECommon.Configurations;
 using ECommon.Logging;
+using ECommon.Serilog;
 using ENode.Configurations;
 using ENode.SqlServer;
 using Forum.Infrastructure;
@@ -39,11 +40,16 @@ namespace Forum.EventService
                 Assembly.Load("Forum.EventService")
             };
 
+            var loggerFactory = new SerilogLoggerFactory()
+                .AddFileLogger("ECommon", "logs\\ecommon")
+                .AddFileLogger("EQueue", "logs\\equeue")
+                .AddFileLogger("ENode", "logs\\enode");
+
             _enodeConfiguration = Configuration
                 .Create()
                 .UseAutofac()
                 .RegisterCommonComponents()
-                .UseLog4Net()
+                .UseSerilog(loggerFactory)
                 .UseJsonNet()
                 .RegisterUnhandledExceptionHandler()
                 .CreateENode()

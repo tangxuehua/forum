@@ -35,17 +35,17 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.30\lib\net461\Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ECommon.2.6.0\lib\netstandard2.0\ECommon.dll</HintPath>
+    <Reference Include="ECommon, Version=2.6.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ECommon.2.6.4\lib\netstandard2.0\ECommon.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon.Dapper, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ECommon.Dapper.2.5.1\lib\netstandard2.0\ECommon.Dapper.dll</HintPath>
+    <Reference Include="ECommon.Dapper, Version=2.5.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ECommon.Dapper.2.5.2\lib\netstandard2.0\ECommon.Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.9.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ENode.2.9.2\lib\netstandard2.0\ENode.dll</HintPath>
+    <Reference Include="ENode, Version=2.9.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ENode.2.9.5\lib\netstandard2.0\ENode.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />

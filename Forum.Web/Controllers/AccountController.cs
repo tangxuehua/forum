@@ -39,22 +39,17 @@ namespace Forum.Web.Controllers
         {
             string pwd = PasswordHash.PasswordHash.CreateHash(model.Password);
             var result = await _commandService.ExecuteAsync(new RegisterNewAccountCommand(ObjectId.GenerateNewStringId(), model.AccountName, pwd), CommandReturnType.EventHandled);
-            if (result.Status != AsyncTaskStatus.Success)
-            {
-                return Json(new { success = false, errorMsg = result.ErrorMessage });
-            }
 
-            var commandResult = result.Data;
-            if (commandResult.Status == CommandStatus.Failed)
+            if (result.Status == CommandStatus.Failed)
             {
-                if (commandResult.ResultType == typeof(DuplicateAccountException).Name)
+                if (result.ResultType == typeof(DuplicateAccountException).Name)
                 {
                     return Json(new { success = false, errorMsg = "该账号已被注册，请用其他账号注册。" });
                 }
-                return Json(new { success = false, errorMsg = commandResult.Result });
+                return Json(new { success = false, errorMsg = result.Result });
             }
 
-            await SignInAsync(commandResult.AggregateRootId, model.AccountName, false);
+            await SignInAsync(result.AggregateRootId, model.AccountName, false);
             return Json(new { success = true });
         }
         [HttpGet]

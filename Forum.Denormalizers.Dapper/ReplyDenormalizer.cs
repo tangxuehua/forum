@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
-using ECommon.Components;
 using ECommon.Dapper;
-using ECommon.IO;
-using ENode.Infrastructure;
+using ENode.Messaging;
 using Forum.Domain.Replies;
 using Forum.Infrastructure;
 
@@ -12,7 +10,7 @@ namespace Forum.Denormalizers.Dapper
         IMessageHandler<ReplyCreatedEvent>,
         IMessageHandler<ReplyBodyChangedEvent>
     {
-        public Task<AsyncTaskResult> HandleAsync(ReplyCreatedEvent evnt)
+        public Task HandleAsync(ReplyCreatedEvent evnt)
         {
             return TryInsertRecordAsync(connection =>
             {
@@ -29,7 +27,7 @@ namespace Forum.Denormalizers.Dapper
                 }, Constants.ReplyTable);
             });
         }
-        public Task<AsyncTaskResult> HandleAsync(ReplyBodyChangedEvent evnt)
+        public Task HandleAsync(ReplyBodyChangedEvent evnt)
         {
             return TryUpdateRecordAsync(connection =>
             {
