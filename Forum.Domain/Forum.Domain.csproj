@@ -38,8 +38,8 @@
     <Reference Include="ECommon, Version=2.6.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ECommon.2.6.4\lib\netstandard2.0\ECommon.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.9.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ENode.2.9.5\lib\netstandard2.0\ENode.dll</HintPath>
+    <Reference Include="ENode, Version=2.9.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ENode.2.9.6\lib\netstandard2.0\ENode.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />

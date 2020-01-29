@@ -60,8 +60,8 @@
     <Reference Include="ECommon.Serilog, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ECommon.Serilog.1.0.1\lib\netstandard2.0\ECommon.Serilog.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.9.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ENode.2.9.5\lib\netstandard2.0\ENode.dll</HintPath>
+    <Reference Include="ENode, Version=2.9.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ENode.2.9.6\lib\netstandard2.0\ENode.dll</HintPath>
     </Reference>
     <Reference Include="ENode.EQueue, Version=2.1.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ENode.EQueue.2.1.4\lib\netstandard2.0\ENode.EQueue.dll</HintPath>
