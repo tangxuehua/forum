@@ -18,8 +18,7 @@
     <PackageReference Include="ECommon.Dapper" Version="2.5.2" />
     <PackageReference Include="Ecommon.JsonNet" Version="2.5.1" />
     <PackageReference Include="ECommon.Serilog" Version="1.0.1" />
-    <PackageReference Include="ENode" Version="2.9.6" />
-    <PackageReference Include="ENode.EQueue" Version="2.1.4" />
+    <PackageReference Include="ENode.EQueue" Version="2.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Antiforgery" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />

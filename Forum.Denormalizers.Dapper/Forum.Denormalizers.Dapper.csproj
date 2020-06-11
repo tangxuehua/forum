@@ -44,8 +44,8 @@
     <Reference Include="ECommon.Dapper, Version=2.5.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ECommon.Dapper.2.5.2\lib\netstandard2.0\ECommon.Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="ENode, Version=2.9.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ENode.2.9.6\lib\netstandard2.0\ENode.dll</HintPath>
+    <Reference Include="ENode, Version=2.9.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ENode.2.9.8\lib\netstandard2.0\ENode.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
