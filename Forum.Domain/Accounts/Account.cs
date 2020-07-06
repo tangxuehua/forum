@@ -1,6 +1,5 @@
 ﻿using System;
 using ENode.Domain;
-using ENode.Infrastructure;
 using Forum.Infrastructure;
 
 namespace Forum.Domain.Accounts

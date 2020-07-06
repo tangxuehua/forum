@@ -7,12 +7,13 @@
 <environment include="Development">
     <link rel="stylesheet" href="~/lib/simditor-2.3.6/styles/simditor.css" />
 </environment>
-@Html.Partial("_BreadcrupbPartial", new List<Tuple<string, string>>()
+
+<partial name="_BreadcrupbPartial" model='new List<Tuple<string, string>>()
 {
     new Tuple<string, string>("/post/index?sectionId="+Model.SectionId,Model.SectionName),
     new Tuple<string, string>("/post/detail?id="+Model.Id,Model.Subject),
     new Tuple<string, string>(Context.Request.GetDisplayUrl(),"修改帖子")
-})
+}' />
 
 <div class="ibox-content">
     @using (Html.BeginForm("Update", "Post", FormMethod.Post, new
@@ -23,7 +24,7 @@
     }))
     {
         @Html.AntiForgeryToken()
-        @Html.Partial("_CreateOrUpdate", Model)
+        <partial name="_CreateOrUpdate" model=Model />
         <div class="form-group">
             <div class="">
                 <button class="btn btn-primary btn-lg" type="button" onclick="submitForm()">提交修改</button>

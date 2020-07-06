@@ -1,17 +1,17 @@
-﻿using System;
+using System;
 using System.Reflection;
-using Autofac.Extensions.DependencyInjection;
-using ECommon.Autofac;
-using ECommon.Components;
+using Autofac;
 using ECommon.Configurations;
-using ECommon.Logging;
 using ECommon.Serilog;
 using ENode.Configurations;
 using Forum.Infrastructure;
+using Forum.Web.Extensions;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Forum.Web
 {
@@ -24,38 +24,64 @@ namespace Forum.Web
 
         public IConfiguration Configuration { get; }
 
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
         {
-            ConfigSettings.Initialize();
-            ConfigSettings.ForumConnectionString = Configuration.GetConnectionString("forum");
-            ConfigSettings.ENodeConnectionString = Configuration.GetConnectionString("enode");
-            InitializeENode(services);
-            return new AutofacServiceProvider(((AutofacObjectContainer)ObjectContainer.Current).Container);
+            services.AddControllersWithViews();
+            services.AddAntiforgery();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.LoginPath = "/Account/Login";
+                options.SlidingExpiration = true;
+            });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
             app.UseStaticFiles();
+            app.UseRouting();
             app.UseAuthentication();
-            app.UseMvc(routes =>
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            ConfigSettings.ForumConnectionString = Configuration.GetConnectionString("forum");
+            ConfigSettings.ENodeConnectionString = Configuration.GetConnectionString("enode");
+            var assemblies = new[]
+            {
+                Assembly.Load("Forum.Commands"),
+                Assembly.Load("Forum.QueryServices"),
+                Assembly.Load("Forum.QueryServices.Dapper"),
+                Assembly.Load("Forum.Web")
+            };
+            ENodeConfiguration
+                .Instance
+                .InitializeBusinessAssemblies(assemblies)
+                .StartEQueue();
         }
 
-        private void InitializeENode(IServiceCollection services)
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            InitializeENode(builder);
+        }
+
+        private void InitializeENode(ContainerBuilder builder)
         {
             var assemblies = new[]
             {
@@ -67,10 +93,11 @@ namespace Forum.Web
             var loggerFactory = new SerilogLoggerFactory()
                 .AddFileLogger("ECommon", "logs\\ecommon")
                 .AddFileLogger("EQueue", "logs\\equeue")
-                .AddFileLogger("ENode", "logs\\enode");
+                .AddFileLogger("ENode", "logs\\enode", minimumLevel: Serilog.Events.LogEventLevel.Debug);
+
             ECommon.Configurations.Configuration
                 .Create()
-                .UseAutofac()
+                .UseAutofac(builder)
                 .RegisterCommonComponents()
                 .UseSerilog(loggerFactory)
                 .UseJsonNet()
@@ -78,13 +105,7 @@ namespace Forum.Web
                 .CreateENode()
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
-                .UseEQueue()
-                .RegisterMvcServices(services)
-                .BuildContainer()
-                .InitializeBusinessAssemblies(assemblies)
-                .StartEQueue();
-
-            ObjectContainer.Resolve<ILoggerFactory>().Create(GetType().FullName).Info("ENode initialized.");
+                .UseEQueue();
         }
     }
 }

@@ -6,14 +6,14 @@
 }
 @if (sectionModel.IsActive)
 {
-    @Html.Partial("_BreadcrupbPartial", new List<Tuple<string, string>>()
+    <partial name="_BreadcrupbPartial" model='new List<Tuple<string, string>>()
     {
         new Tuple<string, string>("/post/index?sectionId="+sectionModel.Id,sectionModel.Name)
-    })
+    }' />
 }
 else
 {
-    @Html.Partial("_BreadcrupbPartial", new List<Tuple<string, string>>())
+    <partial name="_BreadcrupbPartial" model='new List<Tuple<string, string>>() { }' />
 }
 
 <div class="ibox-content forum-container">

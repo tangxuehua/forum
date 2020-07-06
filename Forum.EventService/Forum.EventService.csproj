@@ -115,28 +115,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Forum.Commands\Forum.Commands.csproj">
-      <Project>{7787ec6c-9cf3-401c-803a-b4da2b0ca9ef}</Project>
-      <Name>Forum.Commands</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Forum.Denormalizers.Dapper\Forum.Denormalizers.Dapper.csproj">
-      <Project>{433dd072-0748-4440-ba1b-4a0d6e507d3b}</Project>
-      <Name>Forum.Denormalizers.Dapper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Forum.Domain\Forum.Domain.csproj">
-      <Project>{5a4055c3-89bc-4149-8a6d-06ce985080c9}</Project>
-      <Name>Forum.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Forum.Infrastructure\Forum.Infrastructure.csproj">
-      <Project>{86985782-8588-48da-81ab-ffd3b855c73c}</Project>
-      <Name>Forum.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Forum.ProcessManagers\Forum.ProcessManagers.csproj">
-      <Project>{9790a5c5-38e6-4318-97f1-a07e3b2cbd8d}</Project>
-      <Name>Forum.ProcessManagers</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

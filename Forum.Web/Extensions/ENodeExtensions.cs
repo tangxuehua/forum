@@ -14,11 +14,6 @@ namespace Forum.Web.Extensions
     {
         private static CommandService _commandService;
 
-        public static ENodeConfiguration BuildContainer(this ENodeConfiguration enodeConfiguration)
-        {
-            enodeConfiguration.GetCommonConfiguration().BuildContainer();
-            return enodeConfiguration;
-        }
         public static ENodeConfiguration UseEQueue(this ENodeConfiguration enodeConfiguration)
         {
             var assemblies = new[] { Assembly.GetExecutingAssembly() };

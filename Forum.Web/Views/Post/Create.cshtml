@@ -7,11 +7,11 @@
 <environment include="Development">
     <link rel="stylesheet" href="~/lib/simditor-2.3.6/styles/simditor.css" />
 </environment>
-@Html.Partial("_BreadcrupbPartial", new List<Tuple<string, string>>()
+<partial name="_BreadcrupbPartial" model='new List<Tuple<string, string>>()
 {
     new Tuple<string, string>("/post/index?sectionId="+Model.SectionId,Model.SectionName),
     new Tuple<string, string>(Context.Request.GetDisplayUrl(),"发帖")
-})
+}' />
 
 <div class="ibox-content">
     @using (Html.BeginForm("Create", "Post", FormMethod.Post, new
@@ -22,7 +22,7 @@
     }))
     {
         @Html.AntiForgeryToken()
-        @Html.Partial("_CreateOrUpdate", Model)
+        <partial name="_CreateOrUpdate" model=Model />
         <div class="form-group">
             <div class="">
                 <button class="btn btn-primary btn-lg" type="button" onclick="submitForm()">提交帖子</button>

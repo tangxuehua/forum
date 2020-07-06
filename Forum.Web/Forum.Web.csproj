@@ -1,36 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="logs\**" />
-    <Content Remove="logs\**" />
-    <EmbeddedResource Remove="logs\**" />
-    <None Remove="logs\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
-    <PackageReference Include="ECommon" Version="2.6.4" />
-    <PackageReference Include="Ecommon.Autofac" Version="2.5.1" />
+    <PackageReference Include="ecommon" Version="2.6.4" />
+    <PackageReference Include="ECommon.Autofac" Version="2.5.2" />
     <PackageReference Include="ECommon.Dapper" Version="2.5.2" />
-    <PackageReference Include="Ecommon.JsonNet" Version="2.5.1" />
-    <PackageReference Include="ECommon.Serilog" Version="1.0.1" />
+    <PackageReference Include="ecommon.jsonnet" Version="2.5.1" />
+    <PackageReference Include="ECommon.Serilog" Version="1.0.2" />
     <PackageReference Include="ENode.EQueue" Version="2.1.6" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Antiforgery" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\lib\jquery\jquery-1.10.2.intellisense.js" />
   </ItemGroup>
 
   <ItemGroup>

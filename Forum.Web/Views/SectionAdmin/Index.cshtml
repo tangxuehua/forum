@@ -6,10 +6,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@Html.Partial("_BreadcrupbPartial", new List<Tuple<string, string>>()
+<partial name="_BreadcrupbPartial" model='new List<Tuple<string, string>>()
 {
     new Tuple<string, string>(Context.Request.GetDisplayUrl(), "版块列表")
-})
+}' />
 
 <div class="ibox-content">
     <div class="row">
@@ -37,19 +37,19 @@
             <tbody>
                 @foreach (var currentSection in Model)
                 {
-                <tr>
-                    <td class="vertical-center">
-                        @currentSection.Name
-                    </td>
-                    <td>
-                        @currentSection.Description
-                    </td>
-                    <td>
-                        <a href="javascript:update('@currentSection.Id')" title="编辑">
-                            <i class="fa fa-paste"></i>
-                        </a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td class="vertical-center">
+                            @currentSection.Name
+                        </td>
+                        <td>
+                            @currentSection.Description
+                        </td>
+                        <td>
+                            <a href="javascript:update('@currentSection.Id')" title="编辑">
+                                <i class="fa fa-paste"></i>
+                            </a>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>

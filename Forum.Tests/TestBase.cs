@@ -10,6 +10,7 @@ using Forum.Domain.Accounts;
 using Forum.Infrastructure;
 using Forum.QueryServices;
 using ECommon.Serilog;
+using Microsoft.Extensions.Configuration;
 
 namespace Forum.Tests
 {
@@ -29,7 +30,9 @@ namespace Forum.Tests
                 CleanupEnode();
             }
 
-            ConfigSettings.Initialize();
+            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            ConfigSettings.ForumConnectionString = configuration.GetConnectionString("forum");
+            ConfigSettings.ENodeConnectionString = configuration.GetConnectionString("enode");
 
             InitializeENode();
 
