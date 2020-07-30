@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ENode" Version="2.9.8" />
+    <PackageReference Include="ENode" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>

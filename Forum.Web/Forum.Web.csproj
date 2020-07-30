@@ -10,6 +10,7 @@
     <PackageReference Include="ECommon.Dapper" Version="2.5.2" />
     <PackageReference Include="ecommon.jsonnet" Version="2.5.1" />
     <PackageReference Include="ECommon.Serilog" Version="1.0.2" />
+    <PackageReference Include="ENode" Version="3.0.0" />
     <PackageReference Include="ENode.EQueue" Version="2.1.6" />
   </ItemGroup>
 
